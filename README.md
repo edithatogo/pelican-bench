@@ -53,7 +53,7 @@ V1 is deliberately an MVP. It is useful on its own and establishes stable contra
 
 ## Conductor and agent workflow
 
-The repository vendors a workspace-local Conductor plugin at [`.agents/plugins/conductor`](.agents/plugins/conductor), mirrors its callable skills at [`.agents/skills`](.agents/skills), and stores the project context, specifications and plans under [`conductor/`](conductor/). Every programme track has a parent GitHub issue and four phase issues in the generated issue manifest.
+The repository vendors a workspace-local Conductor plugin at [`.agents/plugins/conductor`](.agents/plugins/conductor), mirrors its callable skills at [`.agents/skills`](.agents/skills), and stores the project context, specifications and plans under [`conductor/`](conductor/). Every programme track is specified as one parent GitHub issue and four phase issues in the generated issue manifest; authenticated synchronization creates and updates that hierarchy idempotently.
 
 The development contract is:
 

@@ -36,4 +36,5 @@ Status is evidence-based. `complete` means the phase exit criteria are met in th
 - Deterministic fixture run and SBOM replay: passing.
 - Conductor direct skills and workspace-plugin mirrors: synchronized.
 - Rust and Mojo lanes are configured but were skipped locally because their compilers are not installed in the execution container.
-- GitHub and Hugging Face publication status is recorded separately in remote issue state and release notes.
+- Remote publication snapshot, 2026-08-01: the GitHub repository exists, but it is not selected in the installed GitHub App and connector writes return HTTP 403; the exact verified Git bundle remains locally available for push once access is refreshed.
+- Remote publication snapshot, 2026-08-01: Hugging Face authentication resolves to `edithatogo`, but the only available write route, HF Jobs, returns HTTP 402 for insufficient prepaid credit; the target dataset and Spaces are therefore not yet created.
