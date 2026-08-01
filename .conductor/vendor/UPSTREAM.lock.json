@@ -1,0 +1,9 @@
+{
+  "commit": "99ba10e1a11130fc159f681b7ba8803489239cbf",
+  "installation": "workspace-vendored-functional-snapshot",
+  "installed_at": "2026-08-01T00:00:00Z",
+  "name": "conductor",
+  "repository": "https://github.com/gemini-cli-extensions/conductor",
+  "upstream_version": "0.3.0",
+  "verification": "scripts/sync_conductor_install.py"
+}

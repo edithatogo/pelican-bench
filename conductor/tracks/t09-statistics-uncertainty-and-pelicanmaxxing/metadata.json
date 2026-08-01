@@ -1,0 +1,30 @@
+{
+  "blocker": "The estimator is tested on factorial fixtures; real multi-model repeated runs are not yet available.",
+  "created_at": "2026-08-01T00:00:00Z",
+  "evidence": [
+    "src/pelicanbench/statistics.py",
+    "tests/test_statistics_semantic_human.py"
+  ],
+  "github": {
+    "parent_issue": null,
+    "phase_issues": {
+      "P0": null,
+      "P1": null,
+      "P2": null,
+      "P3": null
+    }
+  },
+  "phase_status": {
+    "P0": "complete",
+    "P1": "complete",
+    "P2": "partial",
+    "P3": "planned"
+  },
+  "score_compatibility": "none-until-normative-release",
+  "slug": "t09-statistics-uncertainty-and-pelicanmaxxing",
+  "status": "prototype",
+  "title": "Statistics, uncertainty and Pelicanmaxxing",
+  "track_id": "T09",
+  "type": "programme",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

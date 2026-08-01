@@ -1,0 +1,31 @@
+{
+  "blocker": "Local harness is complete; remote attestations and Entire CLI runtime evidence require the published repository/runtime.",
+  "created_at": "2026-08-01T00:00:00Z",
+  "evidence": [
+    ".github/workflows",
+    ".entire",
+    "scripts/harness.sh"
+  ],
+  "github": {
+    "parent_issue": null,
+    "phase_issues": {
+      "P0": null,
+      "P1": null,
+      "P2": null,
+      "P3": null
+    }
+  },
+  "phase_status": {
+    "P0": "complete",
+    "P1": "complete",
+    "P2": "complete",
+    "P3": "partial"
+  },
+  "score_compatibility": "none-until-normative-release",
+  "slug": "t12-ci-cd-supply-chain-and-entire-provenance",
+  "status": "validated",
+  "title": "CI/CD, supply chain and Entire provenance",
+  "track_id": "T12",
+  "type": "programme",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

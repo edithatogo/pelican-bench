@@ -1,0 +1,31 @@
+{
+  "blocker": "Hub publication is prepared but the available HF Jobs write route is blocked by account credits and no local token is mounted.",
+  "created_at": "2026-08-01T00:00:00Z",
+  "evidence": [
+    "hf",
+    "scripts/setup_huggingface.py",
+    ".github/workflows/publish-hf.yml"
+  ],
+  "github": {
+    "parent_issue": null,
+    "phase_issues": {
+      "P0": null,
+      "P1": null,
+      "P2": null,
+      "P3": null
+    }
+  },
+  "phase_status": {
+    "P0": "complete",
+    "P1": "complete",
+    "P2": "blocked",
+    "P3": "planned"
+  },
+  "score_compatibility": "none-until-normative-release",
+  "slug": "t11-hugging-face-execution-and-publication",
+  "status": "prototype",
+  "title": "Hugging Face execution and publication",
+  "track_id": "T11",
+  "type": "programme",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

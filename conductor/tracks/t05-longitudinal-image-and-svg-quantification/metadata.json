@@ -1,0 +1,31 @@
+{
+  "blocker": "Longitudinal methods run on synthetic fixtures; the rights-cleared historical artifact timeline remains outstanding.",
+  "created_at": "2026-08-01T00:00:00Z",
+  "evidence": [
+    "src/pelicanbench/image_analysis.py",
+    "src/pelicanbench/longitudinal.py",
+    "data/fixtures/historical-observations.jsonl"
+  ],
+  "github": {
+    "parent_issue": null,
+    "phase_issues": {
+      "P0": null,
+      "P1": null,
+      "P2": null,
+      "P3": null
+    }
+  },
+  "phase_status": {
+    "P0": "complete",
+    "P1": "complete",
+    "P2": "blocked",
+    "P3": "planned"
+  },
+  "score_compatibility": "none-until-normative-release",
+  "slug": "t05-longitudinal-image-and-svg-quantification",
+  "status": "prototype",
+  "title": "Longitudinal image and SVG quantification",
+  "track_id": "T05",
+  "type": "programme",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

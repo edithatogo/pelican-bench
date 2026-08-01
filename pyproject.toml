@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pelicanbench"
+version = "0.1.0a1"
+description = "A longitudinal, compositional and agentic visual-generation benchmark."
+readme = "README.md"
+requires-python = ">=3.13"
+license = {text = "Apache-2.0"}
+authors = [{name = "Dylan Mordaunt"}]
+keywords = ["benchmark", "multimodal", "svg", "agentic-drawing", "evaluation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "defusedxml>=0.7.1",
+  "jsonschema>=4.23",
+  "numpy>=2.1",
+  "pydantic>=2.10",
+  "typer>=0.15",
+]
+
+[project.optional-dependencies]
+analysis = ["pandas>=2.2", "scipy>=1.14", "statsmodels>=0.14"]
+hub = ["datasets>=3.2", "huggingface-hub>=0.27", "gradio>=5.0"]
+image = ["pillow>=11.0"]
+dev = [
+  "coverage[toml]>=7.6",
+  "hypothesis>=6.120",
+  "mypy>=1.13",
+  "pytest>=8.3",
+  "pytest-cov>=6.0",
+  "ruff>=0.9",
+]
+
+[project.scripts]
+pelicanbench = "pelicanbench.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/edithatogo/pelican-bench"
+Repository = "https://github.com/edithatogo/pelican-bench"
+Issues = "https://github.com/edithatogo/pelican-bench/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pelicanbench"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+  "integration: tests requiring external services",
+  "slow: computationally expensive tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["pelicanbench"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = [".agents/plugins/conductor"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "DTZ", "PTH", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pelicanbench"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["pelicanbench"]
+
+[tool.pyright]
+pythonVersion = "3.13"
+typeCheckingMode = "strict"
+include = ["src", "tests", "scripts"]
+exclude = [".agents/plugins/conductor"]

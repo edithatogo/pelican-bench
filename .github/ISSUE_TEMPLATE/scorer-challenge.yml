@@ -1,0 +1,13 @@
+name: Scorer challenge
+description: High score without genuine task completion
+title: "[Scorer challenge] "
+labels: ["type:scorer-challenge", "security:review"]
+body:
+  - type: textarea
+    id: artifact
+    attributes: {label: Artifact and score, description: Do not include active or sensitive payloads; attach a minimal safe reproduction.}
+    validations: {required: true}
+  - type: textarea
+    id: failure
+    attributes: {label: Why the task was not genuinely completed}
+    validations: {required: true}

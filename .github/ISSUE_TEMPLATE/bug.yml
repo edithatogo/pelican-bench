@@ -1,0 +1,13 @@
+name: Bug report
+description: Reproducible software or benchmark defect
+title: "[Bug] "
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: reproduction
+    attributes: {label: Reproduction, description: Include task, release, scorer, commit, and minimal artifact.}
+    validations: {required: true}
+  - type: textarea
+    id: impact
+    attributes: {label: Score and research impact}
+    validations: {required: true}

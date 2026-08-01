@@ -1,0 +1,31 @@
+{
+  "blocker": "Learning governance and trajectory metrics exist; empirical agent transfer studies remain outstanding.",
+  "created_at": "2026-08-01T00:00:00Z",
+  "evidence": [
+    "src/pelicanbench/trajectory.py",
+    "src/pelicanbench/self_learning.py",
+    "conductor/learning-ledger.jsonl"
+  ],
+  "github": {
+    "parent_issue": null,
+    "phase_issues": {
+      "P0": null,
+      "P1": null,
+      "P2": null,
+      "P3": null
+    }
+  },
+  "phase_status": {
+    "P0": "complete",
+    "P1": "complete",
+    "P2": "partial",
+    "P3": "planned"
+  },
+  "score_compatibility": "none-until-normative-release",
+  "slug": "t16-trajectories-self-learning-and-skill-acquisition",
+  "status": "prototype",
+  "title": "Trajectories, self-learning and skill acquisition",
+  "track_id": "T16",
+  "type": "programme",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

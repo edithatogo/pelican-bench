@@ -1,0 +1,22 @@
+{
+  "authors": [
+    {
+      "family-names": "Mordaunt",
+      "given-names": "Dylan"
+    }
+  ],
+  "cff-version": "1.2.0",
+  "date-released": "2026-08-01",
+  "keywords": [
+    "multimodal evaluation",
+    "SVG",
+    "agentic drawing",
+    "benchmark"
+  ],
+  "license": "Apache-2.0",
+  "message": "If you use PelicanBench, cite the software release and accompanying methods paper.",
+  "repository-code": "https://github.com/edithatogo/pelican-bench",
+  "title": "PelicanBench",
+  "type": "software",
+  "version": "0.1.0-alpha.1"
+}
