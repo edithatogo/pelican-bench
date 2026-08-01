@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <circle id="wheel" data-role="wheel" cx="200" cy="350" r="70" fill="none" stroke="black"/>
+  <circle id="wheel2" data-role="wheel" cx="430" cy="300" r="35" fill="none" stroke="black"/>
+  <ellipse id="bird-blob" data-role="bird animal body" cx="290" cy="120" rx="80" ry="55"/>
+  <path id="bill" data-role="bill" d="M340 100 L500 105 L350 120 Z"/>
+</svg>

@@ -1,0 +1,220 @@
+{
+  "competency_questions": [
+    {
+      "id": "aq1",
+      "question": "Which features distinguish a pelican from nearby long-billed waterbirds?"
+    },
+    {
+      "id": "aq2",
+      "question": "Which contact-capable appendages can plausibly operate a mobility system?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "animal",
+      "label": "Animal",
+      "required_features": [
+        "body"
+      ]
+    },
+    {
+      "id": "vertebrate",
+      "label": "Vertebrate",
+      "parent": "animal"
+    },
+    {
+      "id": "bird",
+      "label": "Bird",
+      "parent": "vertebrate",
+      "required_features": [
+        "head",
+        "body",
+        "wing",
+        "leg"
+      ]
+    },
+    {
+      "id": "waterbird",
+      "label": "Waterbird",
+      "parent": "bird"
+    },
+    {
+      "id": "pelican",
+      "label": "Pelican",
+      "parent": "waterbird",
+      "required_features": [
+        "elongated-bill",
+        "gular-pouch",
+        "webbed-foot"
+      ]
+    },
+    {
+      "id": "flamingo",
+      "label": "Flamingo",
+      "parent": "waterbird",
+      "required_features": [
+        "long-leg",
+        "curved-bill"
+      ]
+    },
+    {
+      "id": "heron",
+      "label": "Heron",
+      "parent": "waterbird",
+      "required_features": [
+        "long-neck",
+        "spear-bill"
+      ]
+    },
+    {
+      "id": "stork",
+      "label": "Stork",
+      "parent": "waterbird",
+      "required_features": [
+        "long-leg",
+        "straight-bill"
+      ]
+    },
+    {
+      "id": "penguin",
+      "label": "Penguin",
+      "parent": "bird",
+      "required_features": [
+        "flipper",
+        "upright-body"
+      ]
+    },
+    {
+      "id": "ostrich",
+      "label": "Ostrich",
+      "parent": "bird",
+      "required_features": [
+        "long-leg",
+        "long-neck"
+      ]
+    },
+    {
+      "id": "emu",
+      "label": "Emu",
+      "parent": "bird",
+      "required_features": [
+        "long-leg",
+        "long-neck"
+      ]
+    },
+    {
+      "id": "mammal",
+      "label": "Mammal",
+      "parent": "vertebrate",
+      "required_features": [
+        "head",
+        "body",
+        "limb"
+      ]
+    },
+    {
+      "id": "dog",
+      "label": "Dog",
+      "parent": "mammal",
+      "required_features": [
+        "muzzle",
+        "paw",
+        "tail"
+      ]
+    },
+    {
+      "id": "cat",
+      "label": "Cat",
+      "parent": "mammal",
+      "required_features": [
+        "whisker",
+        "paw",
+        "tail"
+      ]
+    },
+    {
+      "id": "capybara",
+      "label": "Capybara",
+      "parent": "mammal",
+      "required_features": [
+        "rounded-muzzle",
+        "paw"
+      ]
+    },
+    {
+      "id": "pangolin",
+      "label": "Pangolin",
+      "parent": "mammal",
+      "required_features": [
+        "scale",
+        "tail",
+        "claw"
+      ]
+    },
+    {
+      "id": "elephant",
+      "label": "Elephant",
+      "parent": "mammal",
+      "required_features": [
+        "trunk",
+        "tusk",
+        "large-ear"
+      ]
+    },
+    {
+      "id": "kangaroo",
+      "label": "Kangaroo",
+      "parent": "mammal",
+      "required_features": [
+        "large-hind-leg",
+        "tail",
+        "pouch"
+      ]
+    },
+    {
+      "id": "opossum",
+      "label": "Opossum",
+      "parent": "mammal",
+      "required_features": [
+        "pointed-snout",
+        "prehensile-tail"
+      ]
+    },
+    {
+      "id": "invertebrate",
+      "label": "Invertebrate",
+      "parent": "animal"
+    },
+    {
+      "id": "cephalopod",
+      "label": "Cephalopod",
+      "parent": "invertebrate",
+      "required_features": [
+        "mantle",
+        "tentacle"
+      ]
+    },
+    {
+      "id": "octopus",
+      "label": "Octopus",
+      "parent": "cephalopod",
+      "required_features": [
+        "eight-arm",
+        "sucker"
+      ]
+    }
+  ],
+  "id": "pb:animal",
+  "relations": [
+    {
+      "id": "has_part",
+      "label": "has part"
+    },
+    {
+      "id": "supports",
+      "label": "supports"
+    }
+  ],
+  "status": "normative-v1",
+  "version": "0.1.0"
+}

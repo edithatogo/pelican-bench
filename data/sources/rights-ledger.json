@@ -1,0 +1,23 @@
+{
+  "decisions": [
+    {
+      "artifact_class": "post text and SVG/images",
+      "decision": "link-only-until-review",
+      "rationale": "Public visibility does not itself grant redistribution rights.",
+      "source_id": "simon-tag-archive"
+    },
+    {
+      "artifact_class": "article text",
+      "decision": "author-controlled-derived-use",
+      "rationale": "Use requirements and short attributed excerpts; retain publication separation.",
+      "source_id": "rareinsights-agentic"
+    },
+    {
+      "artifact_class": "synthetic text and SVG",
+      "decision": "redistributable",
+      "rationale": "Created for PelicanBench tests.",
+      "source_id": "fixture-original"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

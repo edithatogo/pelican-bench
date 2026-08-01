@@ -1,0 +1,90 @@
+{
+  "competency_questions": [
+    {
+      "id": "bq1",
+      "question": "Are two wheels connected to one coherent frame?"
+    },
+    {
+      "id": "bq2",
+      "question": "Can the crank and pedals plausibly drive the rear wheel?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "mobile-object",
+      "label": "Mobile object",
+      "required_features": [
+        "support-structure"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "bicycle",
+      "label": "Bicycle",
+      "parent": "mobile-object",
+      "required_features": [
+        "front-wheel",
+        "rear-wheel",
+        "frame",
+        "fork",
+        "handlebar",
+        "crank",
+        "pedal",
+        "saddle"
+      ]
+    },
+    {
+      "id": "bicycle-frame",
+      "label": "Frame",
+      "parent": "bicycle"
+    },
+    {
+      "id": "front-wheel",
+      "label": "Front wheel",
+      "parent": "bicycle"
+    },
+    {
+      "id": "rear-wheel",
+      "label": "Rear wheel",
+      "parent": "bicycle"
+    },
+    {
+      "id": "fork",
+      "label": "Fork",
+      "parent": "bicycle"
+    },
+    {
+      "id": "handlebar",
+      "label": "Handlebar",
+      "parent": "bicycle"
+    },
+    {
+      "id": "crank",
+      "label": "Crank",
+      "parent": "bicycle"
+    },
+    {
+      "id": "pedal",
+      "label": "Pedal",
+      "parent": "crank"
+    },
+    {
+      "id": "saddle",
+      "label": "Saddle",
+      "parent": "bicycle"
+    }
+  ],
+  "id": "pb:bicycle",
+  "relations": [
+    {
+      "id": "connected_to",
+      "label": "connected to"
+    },
+    {
+      "id": "rotates_about",
+      "label": "rotates about"
+    }
+  ],
+  "status": "normative-v1",
+  "version": "0.1.0"
+}

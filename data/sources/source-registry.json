@@ -1,0 +1,59 @@
+{
+  "policy": "No source bytes are mirrored unless rights_status permits that exact use.",
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "creator": "Simon Willison",
+      "notes": "Commentary and artifact redistribution require separate review.",
+      "permitted_uses": [
+        "link",
+        "bibliographic metadata"
+      ],
+      "rights_status": "metadata-only",
+      "source_id": "simon-tag-archive",
+      "source_type": "web-archive",
+      "title": "Pelican riding a bicycle archive",
+      "url": "https://simonwillison.net/tags/pelican-riding-a-bicycle/"
+    },
+    {
+      "creator": "Dylan Mordaunt",
+      "notes": "Author-controlled source.",
+      "permitted_uses": [
+        "analysis",
+        "quotation-within-policy",
+        "derived requirements"
+      ],
+      "rights_status": "permission-granted",
+      "source_id": "rareinsights-agentic",
+      "source_type": "web-post",
+      "title": "What a pelican on a bike can't tell you about AI",
+      "url": "https://rareinsights.substack.com/p/what-a-pelican-on-a-bike-can-tell"
+    },
+    {
+      "creator": "Sergio Paniego",
+      "notes": "No copied post body in repository.",
+      "permitted_uses": [
+        "link",
+        "bibliographic metadata"
+      ],
+      "rights_status": "metadata-only",
+      "source_id": "sergio-hf-post",
+      "source_type": "social-post",
+      "title": "Pelican benchmark discussion",
+      "url": "https://huggingface.co/posts/sergiopaniego/217511894238749"
+    },
+    {
+      "creator": "Dylan Mordaunt",
+      "notes": "Legacy compatibility adapter.",
+      "permitted_uses": [
+        "adapter integration",
+        "version reference"
+      ],
+      "rights_status": "licensed",
+      "source_id": "krita-cli",
+      "source_type": "software",
+      "title": "Krita CLI",
+      "url": "https://github.com/edithatogo/krita-cli"
+    }
+  ]
+}

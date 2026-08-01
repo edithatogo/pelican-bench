@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "DimensionScore": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty"
+        },
+        "value": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "method"
+      ],
+      "title": "DimensionScore",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "aggregate": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Aggregate",
+      "type": "number"
+    },
+    "critical_gates": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "title": "Critical Gates",
+      "type": "object"
+    },
+    "dimensions": {
+      "items": {
+        "$ref": "#/$defs/DimensionScore"
+      },
+      "title": "Dimensions",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scorer_version": {
+      "title": "Scorer Version",
+      "type": "string"
+    },
+    "submission_id": {
+      "title": "Submission Id",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "valid": {
+      "title": "Valid",
+      "type": "boolean"
+    },
+    "warnings": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "task_id",
+    "submission_id",
+    "dimensions",
+    "critical_gates",
+    "valid",
+    "aggregate",
+    "scorer_version"
+  ],
+  "title": "ScoreCard",
+  "type": "object"
+}

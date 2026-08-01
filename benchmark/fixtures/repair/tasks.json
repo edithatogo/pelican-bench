@@ -1,0 +1,50 @@
+[
+  {
+    "after_reference": "benchmark/fixtures/repair/pelican-bicycle-after.svg",
+    "before": "benchmark/fixtures/repair/pelican-bicycle-before.svg",
+    "repair_id": "repair-pelican-bike-001",
+    "requirements": [
+      {
+        "defect_id": "detached-wheel",
+        "description": "Make both wheels equal-sized, aligned, and connected to a frame.",
+        "preserve_roles": [
+          "animal",
+          "bill"
+        ],
+        "target_roles": [
+          "rear",
+          "front",
+          "wheel",
+          "frame"
+        ]
+      },
+      {
+        "defect_id": "missing-pouch",
+        "description": "Add a recognisable gular pouch below the bill.",
+        "preserve_roles": [
+          "bill",
+          "animal"
+        ],
+        "target_roles": [
+          "gular",
+          "pouch"
+        ]
+      },
+      {
+        "defect_id": "not-riding",
+        "description": "Create explicit support, foot-pedal, and steering contacts.",
+        "preserve_roles": [
+          "bill",
+          "pouch"
+        ],
+        "target_roles": [
+          "riding",
+          "contact",
+          "pedal",
+          "grip"
+        ]
+      }
+    ],
+    "task_id": "pb:heritage-pelican-bike-v1"
+  }
+]

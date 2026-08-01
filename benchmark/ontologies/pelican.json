@@ -1,0 +1,89 @@
+{
+  "competency_questions": [
+    {
+      "id": "pq1",
+      "question": "Is the gular pouch visually associated with the lower bill?"
+    },
+    {
+      "id": "pq2",
+      "question": "Are appendages attached to a coherent body plan?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "animal",
+      "label": "Animal",
+      "required_features": [
+        "body"
+      ]
+    },
+    {
+      "id": "bird",
+      "label": "Bird",
+      "parent": "animal",
+      "required_features": [
+        "head",
+        "wing",
+        "leg"
+      ]
+    },
+    {
+      "id": "pelican",
+      "label": "Pelican",
+      "parent": "bird",
+      "required_features": [
+        "elongated-bill",
+        "gular-pouch",
+        "webbed-foot"
+      ]
+    },
+    {
+      "id": "pelican-head",
+      "label": "Pelican head",
+      "parent": "pelican"
+    },
+    {
+      "id": "pelican-bill",
+      "label": "Elongated bill",
+      "parent": "pelican-head"
+    },
+    {
+      "id": "gular-pouch",
+      "label": "Gular pouch",
+      "parent": "pelican-head"
+    },
+    {
+      "id": "pelican-body",
+      "label": "Pelican body",
+      "parent": "pelican"
+    },
+    {
+      "id": "pelican-wing",
+      "label": "Pelican wing",
+      "parent": "pelican-body"
+    },
+    {
+      "id": "pelican-leg",
+      "label": "Pelican leg",
+      "parent": "pelican-body"
+    },
+    {
+      "id": "webbed-foot",
+      "label": "Webbed foot",
+      "parent": "pelican-leg"
+    }
+  ],
+  "id": "pb:pelican",
+  "relations": [
+    {
+      "id": "part_of",
+      "label": "part of"
+    },
+    {
+      "id": "contacts",
+      "label": "contacts"
+    }
+  ],
+  "status": "normative-v1",
+  "version": "0.1.0"
+}

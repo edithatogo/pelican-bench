@@ -1,0 +1,92 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "content_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content Hash"
+    },
+    "creator": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Creator"
+    },
+    "notes": {
+      "default": "",
+      "title": "Notes",
+      "type": "string"
+    },
+    "permitted_uses": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Uses",
+      "type": "array"
+    },
+    "published_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Published At"
+    },
+    "rights_status": {
+      "enum": [
+        "unknown",
+        "link-only",
+        "metadata-only",
+        "licensed",
+        "public-domain",
+        "permission-granted",
+        "restricted"
+      ],
+      "title": "Rights Status",
+      "type": "string"
+    },
+    "source_id": {
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_type": {
+      "title": "Source Type",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "url": {
+      "title": "Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "title",
+    "url",
+    "source_type",
+    "rights_status"
+  ],
+  "title": "SourceRecord",
+  "type": "object"
+}

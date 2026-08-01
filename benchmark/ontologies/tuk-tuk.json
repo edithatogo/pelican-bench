@@ -1,0 +1,77 @@
+{
+  "competency_questions": [
+    {
+      "id": "tq1",
+      "question": "Is the driver inside the intended operator position rather than on the roof?"
+    },
+    {
+      "id": "tq2",
+      "question": "Are three wheels associated with the chassis?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "mobile-object",
+      "label": "Mobile object",
+      "required_features": [
+        "support-structure"
+      ]
+    },
+    {
+      "class": "enclosed-three-wheel",
+      "id": "tuk-tuk",
+      "label": "Tuk-tuk",
+      "parent": "mobile-object",
+      "required_features": [
+        "front-wheel",
+        "two-rear-wheel",
+        "cabin",
+        "driver-position",
+        "handlebar-or-steering",
+        "passenger-seat"
+      ]
+    },
+    {
+      "id": "tuk-tuk-cabin",
+      "label": "Cabin",
+      "parent": "tuk-tuk"
+    },
+    {
+      "id": "driver-position",
+      "label": "Driver position",
+      "parent": "tuk-tuk-cabin"
+    },
+    {
+      "id": "passenger-area",
+      "label": "Passenger area",
+      "parent": "tuk-tuk-cabin"
+    },
+    {
+      "id": "front-wheel",
+      "label": "Front wheel",
+      "parent": "tuk-tuk"
+    },
+    {
+      "id": "rear-wheel-pair",
+      "label": "Rear wheel pair",
+      "parent": "tuk-tuk"
+    }
+  ],
+  "id": "pb:tuk-tuk",
+  "relations": [
+    {
+      "id": "inside",
+      "label": "inside"
+    },
+    {
+      "id": "controls",
+      "label": "controls"
+    },
+    {
+      "id": "supports",
+      "label": "supports"
+    }
+  ],
+  "status": "normative-v1",
+  "version": "0.1.0"
+}

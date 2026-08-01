@@ -1,0 +1,122 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "annotations": {
+      "additionalProperties": true,
+      "title": "Annotations",
+      "type": "object"
+    },
+    "artifact_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Artifact Hash"
+    },
+    "artifact_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Artifact Url"
+    },
+    "commentary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Commentary"
+    },
+    "model_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Id"
+    },
+    "model_revision": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Revision"
+    },
+    "observation_id": {
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "observed_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Observed At"
+    },
+    "prompt": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prompt"
+    },
+    "rights_status": {
+      "default": "unknown",
+      "enum": [
+        "unknown",
+        "link-only",
+        "metadata-only",
+        "licensed",
+        "public-domain",
+        "permission-granted",
+        "restricted"
+      ],
+      "title": "Rights Status",
+      "type": "string"
+    },
+    "source_id": {
+      "title": "Source Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "observation_id",
+    "source_id"
+  ],
+  "title": "HistoricalObservation",
+  "type": "object"
+}

@@ -1,0 +1,164 @@
+{
+  "$defs": {
+    "EntitySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "ontology_ref": {
+          "title": "Ontology Ref",
+          "type": "string"
+        },
+        "required_features": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Features",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "ontology_ref"
+      ],
+      "title": "EntitySpec",
+      "type": "object"
+    },
+    "RelationSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "object": {
+          "title": "Object",
+          "type": "string"
+        },
+        "predicate": {
+          "title": "Predicate",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        }
+      },
+      "required": [
+        "predicate",
+        "subject",
+        "object"
+      ],
+      "title": "RelationSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "animal": {
+      "$ref": "#/$defs/EntitySpec"
+    },
+    "benchmark_release": {
+      "title": "Benchmark Release",
+      "type": "string"
+    },
+    "difficulty": {
+      "default": 1,
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Difficulty",
+      "type": "integer"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "mobile_object": {
+      "$ref": "#/$defs/EntitySpec"
+    },
+    "prompt": {
+      "title": "Prompt",
+      "type": "string"
+    },
+    "public": {
+      "default": true,
+      "title": "Public",
+      "type": "boolean"
+    },
+    "references": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "References",
+      "type": "array"
+    },
+    "relations": {
+      "items": {
+        "$ref": "#/$defs/RelationSpec"
+      },
+      "title": "Relations",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "seed": {
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "style": {
+      "default": "simple vector illustration",
+      "title": "Style",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "track": {
+      "enum": [
+        "heritage-svg",
+        "compositional-svg",
+        "direct-image",
+        "reference-grounded",
+        "repair",
+        "agentic-drawing",
+        "human-in-the-loop"
+      ],
+      "title": "Track",
+      "type": "string"
+    },
+    "viewpoint": {
+      "default": "side",
+      "title": "Viewpoint",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_id",
+    "benchmark_release",
+    "track",
+    "prompt",
+    "animal",
+    "mobile_object",
+    "relations",
+    "seed"
+  ],
+  "title": "BenchmarkTask",
+  "type": "object"
+}

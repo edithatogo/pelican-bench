@@ -1,0 +1,134 @@
+{
+  "competency_questions": [
+    {
+      "id": "iq1",
+      "question": "Is the animal in the intended role rather than merely adjacent to the object?"
+    },
+    {
+      "id": "iq2",
+      "question": "Are support, control and occupancy relations physically coherent?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "interface",
+      "label": "Animal-mobile-object interface"
+    },
+    {
+      "id": "support-interface",
+      "label": "Support interface",
+      "parent": "interface",
+      "required_features": [
+        "support-contact"
+      ]
+    },
+    {
+      "id": "control-interface",
+      "label": "Control interface",
+      "parent": "interface",
+      "required_features": [
+        "control-contact"
+      ]
+    },
+    {
+      "id": "occupancy-interface",
+      "label": "Occupancy interface",
+      "parent": "interface",
+      "required_features": [
+        "inside-or-on"
+      ]
+    }
+  ],
+  "id": "pb:animal-mobile-interface",
+  "relations": [
+    {
+      "allowed_object_classes": [
+        "cycle",
+        "standing-ride",
+        "seated-mobility"
+      ],
+      "id": "rides_on",
+      "label": "rides on",
+      "required_features": [
+        "body-supported",
+        "appendage-contact"
+      ]
+    },
+    {
+      "allowed_object_classes": [
+        "cycle",
+        "standing-ride",
+        "seated-mobility",
+        "small-watercraft"
+      ],
+      "id": "operates",
+      "label": "operates",
+      "required_features": [
+        "control-contact"
+      ]
+    },
+    {
+      "allowed_object_classes": [
+        "enclosed-three-wheel",
+        "passenger-cycle",
+        "open-seat-vehicle"
+      ],
+      "id": "drives",
+      "label": "drives",
+      "required_features": [
+        "occupies-driver-position",
+        "controls-steering"
+      ]
+    },
+    {
+      "allowed_object_classes": [
+        "aircraft",
+        "small-watercraft"
+      ],
+      "id": "pilots",
+      "label": "pilots",
+      "required_features": [
+        "occupies-control-position",
+        "controls-craft"
+      ]
+    },
+    {
+      "allowed_object_classes": [
+        "enclosed-three-wheel",
+        "passenger-cycle",
+        "open-seat-vehicle",
+        "small-watercraft",
+        "aircraft",
+        "seated-mobility"
+      ],
+      "id": "passenger_in",
+      "label": "is passenger in",
+      "required_features": [
+        "occupies-passenger-position"
+      ]
+    },
+    {
+      "id": "tows",
+      "label": "tows",
+      "required_features": [
+        "tow-linkage"
+      ]
+    },
+    {
+      "id": "pushes",
+      "label": "pushes",
+      "required_features": [
+        "force-contact"
+      ]
+    },
+    {
+      "id": "pulls",
+      "label": "pulls",
+      "required_features": [
+        "force-linkage"
+      ]
+    }
+  ],
+  "status": "normative-v1",
+  "version": "0.1.0"
+}

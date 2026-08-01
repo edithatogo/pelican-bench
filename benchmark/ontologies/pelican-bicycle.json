@@ -1,0 +1,78 @@
+{
+  "competency_questions": [
+    {
+      "id": "pbq1",
+      "question": "Is a recognisable pelican actually riding a coherent bicycle?"
+    },
+    {
+      "id": "pbq2",
+      "question": "Do feet, saddle/body and steering contacts jointly support the riding interpretation?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "scene",
+      "label": "Scene"
+    },
+    {
+      "id": "pelican-rider",
+      "label": "Pelican rider",
+      "parent": "scene",
+      "required_features": [
+        "elongated-bill",
+        "gular-pouch",
+        "wing",
+        "webbed-foot"
+      ]
+    },
+    {
+      "id": "bicycle-system",
+      "label": "Bicycle system",
+      "parent": "scene",
+      "required_features": [
+        "front-wheel",
+        "rear-wheel",
+        "frame",
+        "handlebar",
+        "pedal",
+        "saddle"
+      ]
+    },
+    {
+      "id": "riding-interface",
+      "label": "Riding interface",
+      "parent": "scene",
+      "required_features": [
+        "body-supported",
+        "foot-on-pedal",
+        "control-contact"
+      ]
+    }
+  ],
+  "id": "pb:pelican-bicycle-scene",
+  "relations": [
+    {
+      "id": "rides_on",
+      "label": "rides on",
+      "required_features": [
+        "body-supported"
+      ]
+    },
+    {
+      "id": "foot_on_pedal",
+      "label": "foot on pedal",
+      "required_features": [
+        "contact"
+      ]
+    },
+    {
+      "id": "controls_handlebar",
+      "label": "controls handlebar",
+      "required_features": [
+        "control-contact"
+      ]
+    }
+  ],
+  "status": "derived-normative-v1",
+  "version": "0.1.0"
+}

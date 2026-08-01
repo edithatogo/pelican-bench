@@ -1,0 +1,11 @@
+[package]
+name = "pelican-svg"
+version = "0.1.0-alpha.1"
+edition = "2024"
+license = "Apache-2.0"
+
+[dependencies]
+pelican-core = { path = "../pelican-core" }
+
+[lib]
+path = "src/lib.rs"

@@ -1,0 +1,42 @@
+{
+  "aggregation": "weighted arithmetic mean with conjunctive critical gates",
+  "dimensions": [
+    {
+      "critical": true,
+      "id": "submission_integrity",
+      "weight": 0.15
+    },
+    {
+      "critical": true,
+      "id": "animal_anatomy",
+      "weight": 0.17
+    },
+    {
+      "critical": true,
+      "id": "vehicle_mechanics",
+      "weight": 0.18
+    },
+    {
+      "critical": true,
+      "id": "interaction",
+      "weight": 0.2
+    },
+    {
+      "critical": false,
+      "id": "composition",
+      "weight": 0.1
+    },
+    {
+      "critical": false,
+      "id": "vector_quality",
+      "weight": 0.1
+    },
+    {
+      "critical": false,
+      "id": "instruction_coverage",
+      "weight": 0.1
+    }
+  ],
+  "schema_version": "1.0.0",
+  "score_compatibility": "weights frozen within PB-2026.08"
+}

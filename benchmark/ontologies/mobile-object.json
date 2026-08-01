@@ -1,0 +1,214 @@
+{
+  "competency_questions": [
+    {
+      "id": "mq1",
+      "question": "Are wheels connected through a load-bearing structure?"
+    },
+    {
+      "id": "mq2",
+      "question": "Does the object expose the correct operator or passenger interface?"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "non-living-object",
+      "label": "Non-living object"
+    },
+    {
+      "id": "mobile-object",
+      "label": "Mobile non-living object",
+      "parent": "non-living-object",
+      "required_features": [
+        "support-structure"
+      ]
+    },
+    {
+      "id": "wheeled-object",
+      "label": "Wheeled object",
+      "parent": "mobile-object",
+      "required_features": [
+        "wheel"
+      ]
+    },
+    {
+      "id": "cycle",
+      "label": "Cycle",
+      "parent": "wheeled-object",
+      "required_features": [
+        "frame",
+        "steering"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "bicycle",
+      "label": "Bicycle",
+      "parent": "cycle",
+      "required_features": [
+        "front-wheel",
+        "rear-wheel",
+        "frame",
+        "handlebar",
+        "crank",
+        "pedal",
+        "saddle"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "unicycle",
+      "label": "Unicycle",
+      "parent": "cycle",
+      "required_features": [
+        "wheel",
+        "frame",
+        "pedal",
+        "saddle"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "cargo-bicycle",
+      "label": "Cargo bicycle",
+      "parent": "bicycle",
+      "required_features": [
+        "cargo-area"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "tricycle",
+      "label": "Tricycle",
+      "parent": "cycle",
+      "required_features": [
+        "three-wheel",
+        "frame",
+        "pedal"
+      ]
+    },
+    {
+      "class": "standing-ride",
+      "id": "scooter",
+      "label": "Scooter",
+      "parent": "wheeled-object",
+      "required_features": [
+        "deck",
+        "handlebar",
+        "wheel"
+      ]
+    },
+    {
+      "class": "standing-ride",
+      "id": "skateboard",
+      "label": "Skateboard",
+      "parent": "wheeled-object",
+      "required_features": [
+        "deck",
+        "wheel",
+        "truck"
+      ]
+    },
+    {
+      "class": "seated-mobility",
+      "id": "wheelchair",
+      "label": "Wheelchair",
+      "parent": "wheeled-object",
+      "required_features": [
+        "seat",
+        "large-wheel",
+        "footrest"
+      ]
+    },
+    {
+      "id": "motor-vehicle",
+      "label": "Motor vehicle",
+      "parent": "wheeled-object",
+      "required_features": [
+        "chassis",
+        "control",
+        "wheel"
+      ]
+    },
+    {
+      "class": "enclosed-three-wheel",
+      "id": "tuk-tuk",
+      "label": "Tuk-tuk",
+      "parent": "motor-vehicle",
+      "required_features": [
+        "three-wheel",
+        "cabin",
+        "driver-position",
+        "handlebar-or-steering",
+        "passenger-seat"
+      ]
+    },
+    {
+      "class": "passenger-cycle",
+      "id": "cycle-rickshaw",
+      "label": "Cycle rickshaw",
+      "parent": "cycle",
+      "required_features": [
+        "three-wheel",
+        "driver-position",
+        "passenger-seat"
+      ]
+    },
+    {
+      "class": "open-seat-vehicle",
+      "id": "go-kart",
+      "label": "Go-kart",
+      "parent": "motor-vehicle",
+      "required_features": [
+        "four-wheel",
+        "seat",
+        "steering-wheel"
+      ]
+    },
+    {
+      "id": "watercraft",
+      "label": "Watercraft",
+      "parent": "mobile-object"
+    },
+    {
+      "class": "small-watercraft",
+      "id": "kayak",
+      "label": "Kayak",
+      "parent": "watercraft",
+      "required_features": [
+        "hull",
+        "cockpit",
+        "paddle"
+      ]
+    },
+    {
+      "id": "aircraft",
+      "label": "Aircraft",
+      "parent": "mobile-object"
+    },
+    {
+      "class": "aircraft",
+      "id": "small-aircraft",
+      "label": "Small aircraft",
+      "parent": "aircraft",
+      "required_features": [
+        "wing",
+        "fuselage",
+        "cockpit",
+        "landing-gear"
+      ]
+    }
+  ],
+  "id": "pb:mobile-object",
+  "relations": [
+    {
+      "id": "connected_to",
+      "label": "connected to"
+    },
+    {
+      "id": "supports",
+      "label": "supports"
+    }
+  ],
+  "status": "normative-v1",
+  "version": "0.1.0"
+}

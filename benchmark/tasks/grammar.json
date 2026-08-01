@@ -1,0 +1,551 @@
+{
+  "animals": [
+    {
+      "class": "waterbird",
+      "id": "pelican",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "pelican",
+      "ontology_ref": "pb:animal#pelican",
+      "required_features": [
+        "elongated-bill",
+        "gular-pouch",
+        "webbed-foot"
+      ]
+    },
+    {
+      "class": "waterbird",
+      "id": "flamingo",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "flamingo",
+      "ontology_ref": "pb:animal#flamingo",
+      "required_features": [
+        "long-leg",
+        "curved-bill"
+      ]
+    },
+    {
+      "class": "waterbird",
+      "id": "heron",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "heron",
+      "ontology_ref": "pb:animal#heron",
+      "required_features": [
+        "long-neck",
+        "spear-bill"
+      ]
+    },
+    {
+      "class": "waterbird",
+      "id": "stork",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "stork",
+      "ontology_ref": "pb:animal#stork",
+      "required_features": [
+        "long-leg",
+        "straight-bill"
+      ]
+    },
+    {
+      "class": "bird",
+      "id": "penguin",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "penguin",
+      "ontology_ref": "pb:animal#penguin",
+      "required_features": [
+        "flipper",
+        "upright-body"
+      ]
+    },
+    {
+      "class": "bird",
+      "id": "ostrich",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "ostrich",
+      "ontology_ref": "pb:animal#ostrich",
+      "required_features": [
+        "long-leg",
+        "long-neck"
+      ]
+    },
+    {
+      "class": "bird",
+      "id": "emu",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "emu",
+      "ontology_ref": "pb:animal#emu",
+      "required_features": [
+        "long-leg",
+        "long-neck"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "dog",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "dog",
+      "ontology_ref": "pb:animal#dog",
+      "required_features": [
+        "muzzle",
+        "paw",
+        "tail"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "cat",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "cat",
+      "ontology_ref": "pb:animal#cat",
+      "required_features": [
+        "whisker",
+        "paw",
+        "tail"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "capybara",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "capybara",
+      "ontology_ref": "pb:animal#capybara",
+      "required_features": [
+        "rounded-muzzle",
+        "paw"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "pangolin",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "pangolin",
+      "ontology_ref": "pb:animal#pangolin",
+      "required_features": [
+        "scale",
+        "tail",
+        "claw"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "elephant",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "elephant",
+      "ontology_ref": "pb:animal#elephant",
+      "required_features": [
+        "trunk",
+        "tusk",
+        "large-ear"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "kangaroo",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "kangaroo",
+      "ontology_ref": "pb:animal#kangaroo",
+      "required_features": [
+        "large-hind-leg",
+        "tail",
+        "pouch"
+      ]
+    },
+    {
+      "class": "mammal",
+      "id": "opossum",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "opossum",
+      "ontology_ref": "pb:animal#opossum",
+      "required_features": [
+        "pointed-snout",
+        "prehensile-tail"
+      ]
+    },
+    {
+      "class": "cephalopod",
+      "id": "octopus",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes",
+        "pulls",
+        "tows",
+        "drives",
+        "pilots"
+      ],
+      "label": "octopus",
+      "ontology_ref": "pb:animal#octopus",
+      "required_features": [
+        "eight-arm",
+        "sucker"
+      ]
+    }
+  ],
+  "mobile_objects": [
+    {
+      "class": "cycle",
+      "id": "bicycle",
+      "interaction_modes": [
+        "rides_on",
+        "operates"
+      ],
+      "label": "bicycle",
+      "ontology_ref": "pb:mobile-object#bicycle",
+      "required_features": [
+        "front-wheel",
+        "rear-wheel",
+        "frame",
+        "handlebar",
+        "crank",
+        "pedal",
+        "saddle"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "unicycle",
+      "interaction_modes": [
+        "rides_on",
+        "operates"
+      ],
+      "label": "unicycle",
+      "ontology_ref": "pb:mobile-object#unicycle",
+      "required_features": [
+        "wheel",
+        "frame",
+        "pedal",
+        "saddle"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "cargo-bicycle",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in"
+      ],
+      "label": "cargo bicycle",
+      "ontology_ref": "pb:mobile-object#cargo-bicycle",
+      "required_features": [
+        "cargo-area"
+      ]
+    },
+    {
+      "class": "cycle",
+      "id": "tricycle",
+      "interaction_modes": [
+        "rides_on",
+        "operates"
+      ],
+      "label": "tricycle",
+      "ontology_ref": "pb:mobile-object#tricycle",
+      "required_features": [
+        "three-wheel",
+        "frame",
+        "pedal"
+      ]
+    },
+    {
+      "class": "standing-ride",
+      "id": "electric-scooter",
+      "interaction_modes": [
+        "rides_on",
+        "operates"
+      ],
+      "label": "electric scooter",
+      "ontology_ref": "pb:mobile-object#electric-scooter",
+      "required_features": []
+    },
+    {
+      "class": "standing-ride",
+      "id": "skateboard",
+      "interaction_modes": [
+        "rides_on"
+      ],
+      "label": "skateboard",
+      "ontology_ref": "pb:mobile-object#skateboard",
+      "required_features": [
+        "deck",
+        "wheel",
+        "truck"
+      ]
+    },
+    {
+      "class": "seated-mobility",
+      "id": "wheelchair",
+      "interaction_modes": [
+        "rides_on",
+        "operates",
+        "passenger_in",
+        "pushes"
+      ],
+      "label": "wheelchair",
+      "ontology_ref": "pb:mobile-object#wheelchair",
+      "required_features": [
+        "seat",
+        "large-wheel",
+        "footrest"
+      ]
+    },
+    {
+      "class": "enclosed-three-wheel",
+      "id": "tuk-tuk",
+      "interaction_modes": [
+        "drives",
+        "passenger_in"
+      ],
+      "label": "tuk-tuk",
+      "ontology_ref": "pb:mobile-object#tuk-tuk",
+      "required_features": [
+        "three-wheel",
+        "cabin",
+        "driver-position",
+        "handlebar-or-steering",
+        "passenger-seat"
+      ]
+    },
+    {
+      "class": "passenger-cycle",
+      "id": "cycle-rickshaw",
+      "interaction_modes": [
+        "drives",
+        "passenger_in",
+        "pulls"
+      ],
+      "label": "cycle rickshaw",
+      "ontology_ref": "pb:mobile-object#cycle-rickshaw",
+      "required_features": [
+        "three-wheel",
+        "driver-position",
+        "passenger-seat"
+      ]
+    },
+    {
+      "class": "open-seat-vehicle",
+      "id": "go-kart",
+      "interaction_modes": [
+        "drives",
+        "passenger_in"
+      ],
+      "label": "go-kart",
+      "ontology_ref": "pb:mobile-object#go-kart",
+      "required_features": [
+        "four-wheel",
+        "seat",
+        "steering-wheel"
+      ]
+    },
+    {
+      "class": "small-watercraft",
+      "id": "kayak",
+      "interaction_modes": [
+        "operates",
+        "pilots",
+        "passenger_in"
+      ],
+      "label": "kayak",
+      "ontology_ref": "pb:mobile-object#kayak",
+      "required_features": [
+        "hull",
+        "cockpit",
+        "paddle"
+      ]
+    },
+    {
+      "class": "aircraft",
+      "id": "small-aircraft",
+      "interaction_modes": [
+        "pilots",
+        "passenger_in"
+      ],
+      "label": "small aircraft",
+      "ontology_ref": "pb:mobile-object#small-aircraft",
+      "required_features": [
+        "wing",
+        "fuselage",
+        "cockpit",
+        "landing-gear"
+      ]
+    }
+  ],
+  "reference_conditions": [
+    "closed-book",
+    "shared-reference-pack"
+  ],
+  "relations": [
+    {
+      "id": "rides_on",
+      "prompt_phrase": "riding"
+    },
+    {
+      "id": "operates",
+      "prompt_phrase": "operating"
+    },
+    {
+      "id": "drives",
+      "prompt_phrase": "driving"
+    },
+    {
+      "id": "pilots",
+      "prompt_phrase": "piloting"
+    },
+    {
+      "id": "passenger_in",
+      "prompt_phrase": "travelling as a passenger in"
+    },
+    {
+      "id": "tows",
+      "prompt_phrase": "towing"
+    },
+    {
+      "id": "pushes",
+      "prompt_phrase": "pushing"
+    },
+    {
+      "id": "pulls",
+      "prompt_phrase": "pulling"
+    }
+  ],
+  "release": "PB-2026.08",
+  "replicates": 3,
+  "styles": [
+    "simple vector illustration",
+    "flat icon",
+    "editorial illustration",
+    "technical line art"
+  ],
+  "version": "0.2.0",
+  "viewpoints": [
+    "side",
+    "three-quarter",
+    "front",
+    "elevated"
+  ]
+}
