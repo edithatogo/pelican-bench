@@ -1,0 +1,4 @@
+gradio>=5
+pydantic>=2.10
+defusedxml>=0.7.1
+typer>=0.15

@@ -1,0 +1,20 @@
+name: Security
+on:
+  pull_request:
+  schedule:
+    - cron: '31 16 * * 3'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with: {python-version: '3.13'}
+      - run: python -m pip install -e '.[dev]' pip-audit bandit
+      - run: pip-audit
+      - run: bandit -q -r src scripts -x tests
+      - run: python -m pytest -q tests/test_svg_scoring.py

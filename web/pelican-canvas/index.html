@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PelicanCanvas</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<main>
+<h1>PelicanCanvas</h1>
+<p>A deterministic, editable SVG environment for agentic drawing research.</p>
+<section class="layout"><div><svg id="canvas" viewBox="0 0 640 480" role="img" aria-label="Editable benchmark canvas"></svg></div><div><label for="action">Action JSON</label><textarea id="action" rows="12">{"type":"add","id":"wheel","element":{"tag":"circle","attributes":{"cx":180,"cy":350,"r":70,"fill":"none","stroke":"black","data-role":"wheel"}}}</textarea><button id="apply">Apply action</button><button id="reset">Reset</button><pre id="state" aria-live="polite"></pre></div></section>
+</main><script src="app.js"></script></body></html>

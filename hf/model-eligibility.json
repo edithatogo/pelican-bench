@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "policy": {
+    "literal_every_model": false,
+    "reason": "Only systems with compatible output capabilities, accessible immutable revisions, acceptable licences, bounded execution, and sufficient output limits are scientifically eligible.",
+    "discovery": "Scheduled metadata scan followed by a no-write canary.",
+    "deduplication": "Group base models, fine-tunes, quantisations, and endpoint aliases explicitly rather than silently double-counting."
+  },
+  "models": [
+    {
+      "model_id": "pelicanbench/fixture-svg",
+      "revision": "v1",
+      "tracks": ["heritage-svg", "compositional-svg", "repair"],
+      "access_type": "local-fixture",
+      "license_status": "open",
+      "remote_code_required": false,
+      "minimum_output_tokens": 0,
+      "status": "eligible",
+      "notes": "Deterministic conformance fixture; not a leaderboard model."
+    },
+    {
+      "model_id": "provider/model-to-be-pinned",
+      "revision": "unresolved",
+      "tracks": ["heritage-svg"],
+      "access_type": "provider-adapter",
+      "license_status": "review-required",
+      "remote_code_required": false,
+      "minimum_output_tokens": 12000,
+      "status": "blocked",
+      "notes": "Template populated only after revision, access, licence, and canary review."
+    }
+  ]
+}

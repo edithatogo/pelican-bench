@@ -1,0 +1,10 @@
+benchmark:
+  name: PelicanBench
+  dataset: edithatogo/pelican-bench
+  release: PB-2026.08
+  tracks:
+    - heritage-svg
+    - compositional-svg
+  runner: pelicanbench.cli
+  primary_metric: conjunctive_success
+  result_files: .eval_results/*.yaml
