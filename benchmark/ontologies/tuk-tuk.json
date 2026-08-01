@@ -29,6 +29,28 @@
         "driver-position",
         "handlebar-or-steering",
         "passenger-seat"
+      ],
+      "feature_requirements": [
+        {
+          "feature": "three-wheel",
+          "tier": "diagnostic"
+        },
+        {
+          "feature": "cabin",
+          "tier": "necessary"
+        },
+        {
+          "feature": "driver-position",
+          "tier": "necessary"
+        },
+        {
+          "feature": "steering-control",
+          "tier": "diagnostic"
+        },
+        {
+          "feature": "passenger-seat",
+          "tier": "common"
+        }
       ]
     },
     {
@@ -73,5 +95,5 @@
     }
   ],
   "status": "normative-v1",
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

@@ -1,0 +1,8 @@
+{
+  "commitment": "sha256:0746df31f0c7cb251e70fb0efd32dad0aae5e1cc0497b52a13aaa272b1f7fd66",
+  "prompt_count": 33,
+  "release": "PB-2026.08-v1-pilot",
+  "scenario_count": 17,
+  "schema_version": "1.0.0",
+  "task_count": 33
+}

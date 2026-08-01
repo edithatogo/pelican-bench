@@ -1,4 +1,4 @@
-"""Quantitative image and SVG feature extraction for longitudinal analysis."""
+"""Quantitative SVG and raster feature extraction for longitudinal analysis."""
 
 from __future__ import annotations
 
@@ -6,38 +6,61 @@ import io
 from statistics import mean
 from typing import Any
 
+from .render import SVGRenderError, render_svg
 from .svg import inspect_svg
 
 
 def analyse_svg(svg: str) -> dict[str, Any]:
+    """Return source and canonical-render diagnostics without semantic inference."""
+
     inspection = inspect_svg(svg)
     features = dict(inspection.features)
-    role_groups = features.get("role_groups", {})
+    declared = set(features.get("declared_role_counts", {}))
+    render_features: dict[str, Any] = {}
+    if inspection.valid:
+        try:
+            render_features = render_svg(svg, inspection=inspection).diagnostics()
+        except SVGRenderError as exc:
+            render_features = {"render_error": str(exc), "nonblank": False}
     features.update(
         {
             "valid": inspection.valid,
             "canonical_hash": inspection.canonical_hash,
             "error_count": len(inspection.errors),
             "warning_count": len(inspection.warnings),
-            "anatomy_role_count": sum(
-                bool(role_groups.get(item))
-                for item in ("animal", "pelican_bill", "pelican_pouch", "wing", "foot")
+            # These are declared source labels, useful for longitudinal artifact
+            # editability analysis but never evidence of visual correctness.
+            "declared_anatomy_label_count": len(
+                declared & {"animal", "bird", "pelican", "bill", "beak", "pouch", "wing", "foot"}
             ),
-            "mechanics_role_count": sum(
-                bool(role_groups.get(item))
-                for item in ("vehicle", "frame", "handlebar", "pedal", "saddle")
+            "declared_mechanics_label_count": len(
+                declared
+                & {
+                    "vehicle",
+                    "bicycle",
+                    "bike",
+                    "frame",
+                    "handlebar",
+                    "pedal",
+                    "saddle",
+                    "wheel",
+                }
             ),
-            "interaction_role_count": int(bool(role_groups.get("contact"))),
+            "declared_interaction_label_count": len(
+                declared & {"contact", "rider", "riding", "grip", "driver", "passenger"}
+            ),
+            "render": render_features,
         }
     )
     return features
 
 
 def analyse_raster(image_bytes: bytes) -> dict[str, Any]:
-    """Return renderer-independent low-level raster descriptors using Pillow when installed."""
+    """Return renderer-independent low-level raster descriptors using Pillow."""
+
     try:
         from PIL import Image, ImageStat
-    except ImportError as exc:  # pragma: no cover - optional dependency
+    except ImportError as exc:  # pragma: no cover - required by the image extra
         raise RuntimeError("Pillow is required for raster analysis") from exc
     with Image.open(io.BytesIO(image_bytes)) as image:
         rgb = image.convert("RGB")

@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0.0",
+  "release": "PB-2026.08-v1-pilot",
+  "seed": 20260801,
+  "include_heritage": true,
+  "replicates_per_model_condition": 3,
+  "prespecified_model_systems_target": "4-6 representative systems",
+  "human_calibration": {
+    "minimum_artifacts": 64,
+    "sampling": "stratified by interface class, model, score boundary and judge disagreement",
+    "primary_outcomes": [
+      "entity recognisability",
+      "animal anatomy",
+      "object mechanics",
+      "interaction correctness",
+      "overall preference"
+    ]
+  },
+  "interface_strata": [
+    "straddle-and-propel",
+    "stand-and-balance",
+    "sit-inside-and-control",
+    "occupy-and-propel"
+  ],
+  "scenarios": [
+    {
+      "id": "S01",
+      "stratum": "straddle-and-propel",
+      "animal": "pelican",
+      "mobile_object": "bicycle",
+      "relation": "rides_on",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S02",
+      "stratum": "straddle-and-propel",
+      "animal": "flamingo",
+      "mobile_object": "unicycle",
+      "relation": "rides_on",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S03",
+      "stratum": "straddle-and-propel",
+      "animal": "dog",
+      "mobile_object": "cargo-bicycle",
+      "relation": "operates",
+      "viewpoint": "three-quarter",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S04",
+      "stratum": "straddle-and-propel",
+      "animal": "octopus",
+      "mobile_object": "tricycle",
+      "relation": "operates",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S05",
+      "stratum": "stand-and-balance",
+      "animal": "pelican",
+      "mobile_object": "electric-scooter",
+      "relation": "operates",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S06",
+      "stratum": "stand-and-balance",
+      "animal": "flamingo",
+      "mobile_object": "skateboard",
+      "relation": "rides_on",
+      "viewpoint": "three-quarter",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S07",
+      "stratum": "stand-and-balance",
+      "animal": "dog",
+      "mobile_object": "electric-scooter",
+      "relation": "operates",
+      "viewpoint": "front",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S08",
+      "stratum": "stand-and-balance",
+      "animal": "octopus",
+      "mobile_object": "skateboard",
+      "relation": "rides_on",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S09",
+      "stratum": "sit-inside-and-control",
+      "animal": "pelican",
+      "mobile_object": "tuk-tuk",
+      "relation": "drives",
+      "viewpoint": "three-quarter",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S10",
+      "stratum": "sit-inside-and-control",
+      "animal": "flamingo",
+      "mobile_object": "go-kart",
+      "relation": "drives",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S11",
+      "stratum": "sit-inside-and-control",
+      "animal": "dog",
+      "mobile_object": "tuk-tuk",
+      "relation": "drives",
+      "viewpoint": "front",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S12",
+      "stratum": "sit-inside-and-control",
+      "animal": "octopus",
+      "mobile_object": "go-kart",
+      "relation": "drives",
+      "viewpoint": "three-quarter",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S13",
+      "stratum": "occupy-and-propel",
+      "animal": "pelican",
+      "mobile_object": "kayak",
+      "relation": "operates",
+      "viewpoint": "side",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S14",
+      "stratum": "occupy-and-propel",
+      "animal": "flamingo",
+      "mobile_object": "kayak",
+      "relation": "pilots",
+      "viewpoint": "three-quarter",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S15",
+      "stratum": "occupy-and-propel",
+      "animal": "dog",
+      "mobile_object": "kayak",
+      "relation": "operates",
+      "viewpoint": "front",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    },
+    {
+      "id": "S16",
+      "stratum": "occupy-and-propel",
+      "animal": "octopus",
+      "mobile_object": "kayak",
+      "relation": "pilots",
+      "viewpoint": "elevated",
+      "style": "simple vector illustration",
+      "prompt_templates": [
+        "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+        "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+      ]
+    }
+  ],
+  "negative_controls": [
+    "animal beside rather than operating object",
+    "animal carried by object without requested control role",
+    "correct entities with missing support/contact relation",
+    "passenger depiction submitted for a driver task"
+  ],
+  "prompt_template_library": {
+    "canonical": "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, viewed from the {viewpoint}, in a {style} style.",
+    "artifact_explicit": "Create a valid, editable SVG depicting a {animal} {relation_phrase} {mobile_object}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+  }
+}

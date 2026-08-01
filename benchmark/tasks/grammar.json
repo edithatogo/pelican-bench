@@ -1,7 +1,14 @@
 {
   "animals": [
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "waterbird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "pelican",
       "interaction_modes": [
         "rides_on",
@@ -22,7 +29,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "waterbird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "flamingo",
       "interaction_modes": [
         "rides_on",
@@ -42,7 +56,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "waterbird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "heron",
       "interaction_modes": [
         "rides_on",
@@ -62,7 +83,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "waterbird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "stork",
       "interaction_modes": [
         "rides_on",
@@ -82,7 +110,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "bird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "penguin",
       "interaction_modes": [
         "rides_on",
@@ -102,7 +137,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "bird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "ostrich",
       "interaction_modes": [
         "rides_on",
@@ -122,7 +164,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "avian-biped",
       "class": "bird",
+      "contact_capabilities": [
+        "foot",
+        "wing",
+        "bill"
+      ],
       "id": "emu",
       "interaction_modes": [
         "rides_on",
@@ -142,7 +191,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "dog",
       "interaction_modes": [
         "rides_on",
@@ -163,7 +219,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "cat",
       "interaction_modes": [
         "rides_on",
@@ -184,7 +247,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "capybara",
       "interaction_modes": [
         "rides_on",
@@ -204,7 +274,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "pangolin",
       "interaction_modes": [
         "rides_on",
@@ -225,7 +302,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "elephant",
       "interaction_modes": [
         "rides_on",
@@ -246,7 +330,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "kangaroo",
       "interaction_modes": [
         "rides_on",
@@ -267,7 +358,14 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 3,
+      "body_plan": "quadruped",
       "class": "mammal",
+      "contact_capabilities": [
+        "forelimb",
+        "hindlimb",
+        "mouth"
+      ],
       "id": "opossum",
       "interaction_modes": [
         "rides_on",
@@ -287,7 +385,13 @@
       ]
     },
     {
+      "anthropomorphic_adaptation": 2,
+      "body_plan": "radial-soft-bodied",
       "class": "cephalopod",
+      "contact_capabilities": [
+        "arm",
+        "sucker"
+      ],
       "id": "octopus",
       "interaction_modes": [
         "rides_on",
@@ -307,13 +411,75 @@
       ]
     }
   ],
+  "interface_strata": [
+    {
+      "description": "Animal is supported above the object and contacts propulsion/control components.",
+      "id": "straddle-and-propel",
+      "interface_classes": [
+        "straddle-propel"
+      ]
+    },
+    {
+      "description": "Animal stands on a support surface and balances or controls direction.",
+      "id": "stand-and-balance",
+      "interface_classes": [
+        "stand-balance"
+      ]
+    },
+    {
+      "description": "Animal occupies a driver position and contacts controls.",
+      "id": "sit-inside-and-control",
+      "interface_classes": [
+        "enclosed-driver",
+        "open-driver"
+      ]
+    },
+    {
+      "description": "Animal occupies a craft and supplies propulsion or control.",
+      "id": "occupy-and-propel",
+      "interface_classes": [
+        "watercraft-control"
+      ]
+    },
+    {
+      "description": "Animal occupies a passenger position without needing control contact.",
+      "id": "passenger-occupancy",
+      "interface_classes": [
+        "enclosed-passenger",
+        "open-passenger",
+        "watercraft-occupancy",
+        "aircraft-occupancy"
+      ]
+    }
+  ],
   "mobile_objects": [
     {
+      "affordances": {
+        "control": [
+          "handlebar"
+        ],
+        "occupancy": [
+          "above",
+          "straddling"
+        ],
+        "propulsion": [
+          "crank",
+          "pedal"
+        ],
+        "support": [
+          "saddle",
+          "pedal"
+        ]
+      },
       "class": "cycle",
       "id": "bicycle",
       "interaction_modes": [
         "rides_on",
         "operates"
+      ],
+      "interface_class": "straddle-propel",
+      "interface_classes": [
+        "straddle-propel"
       ],
       "label": "bicycle",
       "ontology_ref": "pb:mobile-object#bicycle",
@@ -328,11 +494,31 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "balance"
+        ],
+        "occupancy": [
+          "above",
+          "straddling"
+        ],
+        "propulsion": [
+          "pedal"
+        ],
+        "support": [
+          "saddle",
+          "pedal"
+        ]
+      },
       "class": "cycle",
       "id": "unicycle",
       "interaction_modes": [
         "rides_on",
         "operates"
+      ],
+      "interface_class": "straddle-propel",
+      "interface_classes": [
+        "straddle-propel"
       ],
       "label": "unicycle",
       "ontology_ref": "pb:mobile-object#unicycle",
@@ -344,12 +530,34 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "handlebar"
+        ],
+        "occupancy": [
+          "straddling",
+          "cargo-area"
+        ],
+        "propulsion": [
+          "crank",
+          "pedal"
+        ],
+        "support": [
+          "saddle",
+          "cargo-area"
+        ]
+      },
       "class": "cycle",
       "id": "cargo-bicycle",
       "interaction_modes": [
         "rides_on",
         "operates",
         "passenger_in"
+      ],
+      "interface_class": "straddle-propel",
+      "interface_classes": [
+        "straddle-propel",
+        "open-passenger"
       ],
       "label": "cargo bicycle",
       "ontology_ref": "pb:mobile-object#cargo-bicycle",
@@ -358,11 +566,31 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "handlebar"
+        ],
+        "occupancy": [
+          "above",
+          "straddling"
+        ],
+        "propulsion": [
+          "pedal"
+        ],
+        "support": [
+          "saddle",
+          "pedal"
+        ]
+      },
       "class": "cycle",
       "id": "tricycle",
       "interaction_modes": [
         "rides_on",
         "operates"
+      ],
+      "interface_class": "straddle-propel",
+      "interface_classes": [
+        "straddle-propel"
       ],
       "label": "tricycle",
       "ontology_ref": "pb:mobile-object#tricycle",
@@ -373,21 +601,58 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "handlebar"
+        ],
+        "occupancy": [
+          "standing-on"
+        ],
+        "propulsion": [
+          "motor",
+          "throttle"
+        ],
+        "support": [
+          "deck"
+        ]
+      },
       "class": "standing-ride",
       "id": "electric-scooter",
       "interaction_modes": [
         "rides_on",
         "operates"
       ],
+      "interface_class": "stand-balance",
+      "interface_classes": [
+        "stand-balance"
+      ],
       "label": "electric scooter",
       "ontology_ref": "pb:mobile-object#electric-scooter",
       "required_features": []
     },
     {
+      "affordances": {
+        "control": [
+          "balance"
+        ],
+        "occupancy": [
+          "standing-on"
+        ],
+        "propulsion": [
+          "push-off"
+        ],
+        "support": [
+          "deck"
+        ]
+      },
       "class": "standing-ride",
       "id": "skateboard",
       "interaction_modes": [
         "rides_on"
+      ],
+      "interface_class": "stand-balance",
+      "interface_classes": [
+        "stand-balance"
       ],
       "label": "skateboard",
       "ontology_ref": "pb:mobile-object#skateboard",
@@ -398,6 +663,23 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "push-rim",
+          "handle"
+        ],
+        "occupancy": [
+          "seated-on"
+        ],
+        "propulsion": [
+          "wheel",
+          "external-push"
+        ],
+        "support": [
+          "seat",
+          "footrest"
+        ]
+      },
       "class": "seated-mobility",
       "id": "wheelchair",
       "interaction_modes": [
@@ -405,6 +687,12 @@
         "operates",
         "passenger_in",
         "pushes"
+      ],
+      "interface_class": "seated-open-control",
+      "interface_classes": [
+        "seated-open-control",
+        "open-passenger",
+        "pushed-mobility"
       ],
       "label": "wheelchair",
       "ontology_ref": "pb:mobile-object#wheelchair",
@@ -415,11 +703,31 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "handlebar-or-steering"
+        ],
+        "occupancy": [
+          "inside-cabin"
+        ],
+        "propulsion": [
+          "engine"
+        ],
+        "support": [
+          "driver-seat",
+          "passenger-seat"
+        ]
+      },
       "class": "enclosed-three-wheel",
       "id": "tuk-tuk",
       "interaction_modes": [
         "drives",
         "passenger_in"
+      ],
+      "interface_class": "enclosed-driver",
+      "interface_classes": [
+        "enclosed-driver",
+        "enclosed-passenger"
       ],
       "label": "tuk-tuk",
       "ontology_ref": "pb:mobile-object#tuk-tuk",
@@ -432,12 +740,34 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "handlebar"
+        ],
+        "occupancy": [
+          "driver-position",
+          "passenger-area"
+        ],
+        "propulsion": [
+          "pedal"
+        ],
+        "support": [
+          "driver-seat",
+          "passenger-seat"
+        ]
+      },
       "class": "passenger-cycle",
       "id": "cycle-rickshaw",
       "interaction_modes": [
         "drives",
         "passenger_in",
         "pulls"
+      ],
+      "interface_class": "open-driver",
+      "interface_classes": [
+        "open-driver",
+        "open-passenger",
+        "pulled-mobility"
       ],
       "label": "cycle rickshaw",
       "ontology_ref": "pb:mobile-object#cycle-rickshaw",
@@ -448,11 +778,30 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "steering-wheel"
+        ],
+        "occupancy": [
+          "seated-inside-frame"
+        ],
+        "propulsion": [
+          "engine"
+        ],
+        "support": [
+          "seat"
+        ]
+      },
       "class": "open-seat-vehicle",
       "id": "go-kart",
       "interaction_modes": [
         "drives",
         "passenger_in"
+      ],
+      "interface_class": "open-driver",
+      "interface_classes": [
+        "open-driver",
+        "open-passenger"
       ],
       "label": "go-kart",
       "ontology_ref": "pb:mobile-object#go-kart",
@@ -463,12 +812,32 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "paddle"
+        ],
+        "occupancy": [
+          "inside-cockpit"
+        ],
+        "propulsion": [
+          "paddle"
+        ],
+        "support": [
+          "cockpit",
+          "seat"
+        ]
+      },
       "class": "small-watercraft",
       "id": "kayak",
       "interaction_modes": [
         "operates",
         "pilots",
         "passenger_in"
+      ],
+      "interface_class": "watercraft-control",
+      "interface_classes": [
+        "watercraft-control",
+        "watercraft-occupancy"
       ],
       "label": "kayak",
       "ontology_ref": "pb:mobile-object#kayak",
@@ -479,11 +848,31 @@
       ]
     },
     {
+      "affordances": {
+        "control": [
+          "flight-controls"
+        ],
+        "occupancy": [
+          "inside-cabin-or-cockpit"
+        ],
+        "propulsion": [
+          "engine"
+        ],
+        "support": [
+          "pilot-seat",
+          "passenger-seat"
+        ]
+      },
       "class": "aircraft",
       "id": "small-aircraft",
       "interaction_modes": [
         "pilots",
         "passenger_in"
+      ],
+      "interface_class": "aircraft-control",
+      "interface_classes": [
+        "aircraft-control",
+        "aircraft-occupancy"
       ],
       "label": "small aircraft",
       "ontology_ref": "pb:mobile-object#small-aircraft",
@@ -501,36 +890,101 @@
   ],
   "relations": [
     {
+      "allowed_interface_classes": [
+        "seated-open-control",
+        "stand-balance",
+        "straddle-propel"
+      ],
       "id": "rides_on",
-      "prompt_phrase": "riding"
+      "prompt_phrase": "riding",
+      "required_contacts": [
+        "support-contact",
+        "appendage-contact"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "seated-open-control",
+        "stand-balance",
+        "straddle-propel",
+        "watercraft-control"
+      ],
       "id": "operates",
-      "prompt_phrase": "operating"
+      "prompt_phrase": "operating",
+      "required_contacts": [
+        "control-contact"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "enclosed-driver",
+        "open-driver"
+      ],
       "id": "drives",
-      "prompt_phrase": "driving"
+      "prompt_phrase": "driving",
+      "required_contacts": [
+        "occupies-driver-position",
+        "control-contact"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "aircraft-control",
+        "watercraft-control"
+      ],
       "id": "pilots",
-      "prompt_phrase": "piloting"
+      "prompt_phrase": "piloting",
+      "required_contacts": [
+        "occupies-control-position",
+        "control-contact"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "aircraft-occupancy",
+        "enclosed-passenger",
+        "open-passenger",
+        "watercraft-occupancy"
+      ],
       "id": "passenger_in",
-      "prompt_phrase": "travelling as a passenger in"
+      "prompt_phrase": "travelling as a passenger in",
+      "required_contacts": [
+        "occupancy-contact"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "open-passenger",
+        "pulled-mobility"
+      ],
       "id": "tows",
-      "prompt_phrase": "towing"
+      "prompt_phrase": "towing",
+      "required_contacts": [
+        "tow-linkage"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "pushed-mobility",
+        "seated-open-control",
+        "stand-balance"
+      ],
       "id": "pushes",
-      "prompt_phrase": "pushing"
+      "prompt_phrase": "pushing",
+      "required_contacts": [
+        "force-contact"
+      ]
     },
     {
+      "allowed_interface_classes": [
+        "open-passenger",
+        "pulled-mobility"
+      ],
       "id": "pulls",
-      "prompt_phrase": "pulling"
+      "prompt_phrase": "pulling",
+      "required_contacts": [
+        "force-linkage"
+      ]
     }
   ],
   "release": "PB-2026.08",
@@ -541,7 +995,7 @@
     "editorial illustration",
     "technical line art"
   ],
-  "version": "0.2.0",
+  "version": "0.3.0",
   "viewpoints": [
     "side",
     "three-quarter",

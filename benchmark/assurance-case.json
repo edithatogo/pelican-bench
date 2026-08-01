@@ -1,0 +1,226 @@
+{
+  "benchmark": "PelicanBench",
+  "claims": [
+    {
+      "claim": "Animal, object, interaction and instruction dimensions do not use SVG identifiers, classes, comments, metadata or invisible elements as evidence.",
+      "defeaters": [
+        "A visual judge could still be manipulated by rendered prompt injection.",
+        "Human alignment has not yet been established.",
+        "The bridge study currently covers fixture renderings rather than the full prospective corpus."
+      ],
+      "evidence": [
+        "src/pelicanbench/scoring.py",
+        "src/pelicanbench/semantic.py",
+        "src/pelicanbench/render.py",
+        "src/pelicanbench/metamorphic.py",
+        "src/pelicanbench/render_bridge.py",
+        "tests/test_svg_scoring.py",
+        "tests/test_metamorphic.py",
+        "tests/test_assurance_render_bridge.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-SEM-01",
+      "linked_blockers": [
+        "RB-01",
+        "RB-03"
+      ],
+      "status": "partial",
+      "title": "Semantic scores are source-independent"
+    },
+    {
+      "claim": "Repeated stochastic generations of the same semantic task remain identifiable as replicates rather than independent benchmark items.",
+      "defeaters": [
+        "Provider-side unreported sampling state can remain unknown."
+      ],
+      "evidence": [
+        "src/pelicanbench/models.py",
+        "src/pelicanbench/taskgen.py",
+        "src/pelicanbench/runner.py",
+        "tests/test_ontology_taskgen.py",
+        "tests/test_runner_manifest.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-ID-01",
+      "linked_blockers": [
+        "RB-02"
+      ],
+      "status": "implemented",
+      "title": "Scenario, prompt, condition, trial and evaluation identities are distinct"
+    },
+    {
+      "claim": "V1 pilot scenarios are stratified by support, containment, control and propulsion interfaces rather than sampled as an arbitrary animal-object cross-product.",
+      "defeaters": [
+        "Empirical item difficulty and coverage have not yet been measured."
+      ],
+      "evidence": [
+        "benchmark/tasks/grammar.json",
+        "benchmark/tasks/v1-pilot-design.json",
+        "benchmark/tasks/v1-pilot.jsonl",
+        "benchmark/tasks/v1-pilot-commitment.json"
+      ],
+      "evidence_level": "E2",
+      "id": "C-TASK-01",
+      "linked_blockers": [
+        "RB-02"
+      ],
+      "status": "implemented",
+      "title": "The prospective task set tests distinct mobility affordances"
+    },
+    {
+      "claim": "A run records tasks, trials, artifacts, canonical renders, evaluations, provenance and reproduction instructions using stable hashes.",
+      "defeaters": [
+        "No independent remote reproduction has yet occurred."
+      ],
+      "evidence": [
+        "src/pelicanbench/runner.py",
+        "src/pelicanbench/manifest.py",
+        "src/pelicanbench/provenance.py",
+        "tests/test_runner_manifest.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-RUN-01",
+      "linked_blockers": [
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Runs are content-addressed and research-object ready"
+    },
+    {
+      "claim": "The analysis separates model, animal, object, relation and replicate effects and reports uncertainty rather than only point ranks.",
+      "defeaters": [
+        "The estimator has not yet been fitted to a real prospective benchmark run."
+      ],
+      "evidence": [
+        "src/pelicanbench/statistics.py",
+        "tests/test_statistics_semantic_human.py",
+        "docs/v1-pilot-analysis-plan.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-STAT-01",
+      "linked_blockers": [
+        "RB-02",
+        "RB-03"
+      ],
+      "status": "partial",
+      "title": "Uncertainty respects task and replicate structure"
+    },
+    {
+      "claim": "Automatic recognition, anatomy, mechanics and interaction scores are calibrated against blinded human assessment.",
+      "defeaters": [
+        "No participant data have been collected."
+      ],
+      "evidence": [
+        "docs/human-evaluation-protocol.md",
+        "src/pelicanbench/human_eval.py"
+      ],
+      "evidence_level": "E1",
+      "id": "C-HUM-01",
+      "linked_blockers": [
+        "RB-03"
+      ],
+      "status": "planned",
+      "title": "Automatic scores align with blinded human judgements"
+    },
+    {
+      "claim": "The benchmark records permissions and limits distribution of third-party text, images and annotations to permitted uses.",
+      "defeaters": [
+        "Historical permissions and participant governance remain unresolved."
+      ],
+      "evidence": [
+        "data/sources/rights-ledger.json",
+        "docs/rights-and-ethics.md",
+        "docs/simon-corpus-method.md"
+      ],
+      "evidence_level": "E1",
+      "id": "C-GOV-01",
+      "linked_blockers": [
+        "RB-05"
+      ],
+      "status": "partial",
+      "title": "Historical and participant data are rights-aware"
+    },
+    {
+      "claim": "The parser rejects active content, external resources and known complexity hazards before rendering or scoring.",
+      "defeaters": [
+        "Coverage-guided fuzzing and independent security review have not yet occurred."
+      ],
+      "evidence": [
+        "src/pelicanbench/svg.py",
+        "benchmark/fixtures/malicious",
+        "benchmark/fixtures/adversarial",
+        "tests/test_svg_scoring.py",
+        "tests/test_metamorphic.py",
+        "src/pelicanbench/fuzzing.py",
+        "tests/test_fuzzing.py",
+        ".github/workflows/security.yml"
+      ],
+      "evidence_level": "E2",
+      "id": "C-SEC-01",
+      "linked_blockers": [
+        "RB-01",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Untrusted SVG source is bounded and adversarially tested"
+    },
+    {
+      "claim": "Calibration artifacts are selected reproducibly across interface, model, score-boundary and judge-disagreement strata, then presented in blinded within-task cross-model pairs.",
+      "defeaters": [
+        "The design has not yet been used to recruit participants or collect ratings."
+      ],
+      "evidence": [
+        "src/pelicanbench/calibration.py",
+        "tests/test_calibration.py",
+        "docs/human-evaluation-protocol.md",
+        "benchmark/tasks/v1-pilot-design.json"
+      ],
+      "evidence_level": "E2",
+      "id": "C-CAL-DESIGN-01",
+      "linked_blockers": [
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Human calibration selection and presentation are prespecified"
+    }
+  ],
+  "evidence_levels": {
+    "E0": "Defined",
+    "E1": "Implemented",
+    "E2": "Fixture-verified",
+    "E3": "Empirically calibrated",
+    "E4": "Independently reproduced",
+    "E5": "Operationally hardened"
+  },
+  "release_profiles": {
+    "v0.2-alpha": {
+      "description": "A locally fixture-verified measurement-validity alpha. It makes no empirical human-validity or production-hardening claim.",
+      "minimum_evidence_level": "E2",
+      "required_claims": [
+        "C-SEM-01",
+        "C-ID-01",
+        "C-TASK-01",
+        "C-RUN-01",
+        "C-STAT-01",
+        "C-SEC-01",
+        "C-CAL-DESIGN-01"
+      ]
+    },
+    "v1.0": {
+      "description": "The first empirically calibrated and reproducible public benchmark release.",
+      "minimum_evidence_level": "E3",
+      "required_claims": [
+        "C-SEM-01",
+        "C-ID-01",
+        "C-TASK-01",
+        "C-RUN-01",
+        "C-STAT-01",
+        "C-HUM-01",
+        "C-GOV-01",
+        "C-SEC-01",
+        "C-CAL-DESIGN-01"
+      ]
+    }
+  },
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

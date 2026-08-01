@@ -53,6 +53,14 @@
       "title": "Benchmark Release",
       "type": "string"
     },
+    "condition_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Condition Ids",
+      "type": "array"
+    },
     "configuration": {
       "additionalProperties": true,
       "title": "Configuration",
@@ -73,6 +81,14 @@
       "title": "Environment Digest",
       "type": "string"
     },
+    "evaluation_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Evaluation Ids",
+      "type": "array"
+    },
     "model_id": {
       "title": "Model Id",
       "type": "string"
@@ -88,6 +104,14 @@
       "title": "Prompt Hashes",
       "type": "object"
     },
+    "prompt_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Prompt Ids",
+      "type": "array"
+    },
     "result_hash": {
       "title": "Result Hash",
       "type": "string"
@@ -96,8 +120,16 @@
       "title": "Run Id",
       "type": "string"
     },
+    "scenario_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Scenario Ids",
+      "type": "array"
+    },
     "schema_version": {
-      "default": "1.0.0",
+      "default": "2.0.0",
       "title": "Schema Version",
       "type": "string"
     },
@@ -110,6 +142,14 @@
         "type": "string"
       },
       "title": "Task Ids",
+      "type": "array"
+    },
+    "trial_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Trial Ids",
       "type": "array"
     }
   },

@@ -52,7 +52,8 @@ def test_media_sequence():
 def test_image_analysis(valid_svg: str):
     features = analyse_svg(valid_svg)
     assert features["valid"]
-    assert features["anatomy_role_count"] >= 4
+    assert features["declared_anatomy_label_count"] >= 4
+    assert features["render"]["nonblank"] is True
 
 
 def test_raster_analysis():

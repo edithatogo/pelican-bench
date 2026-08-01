@@ -1,13 +1,12 @@
-"""Diagnosis, targeted SVG repair, and edit-locality metrics."""
+"""Diagnosis, targeted SVG repair and edit-locality metrics."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Iterable
 
-from .scoring import score_svg
-from .svg import inspect_svg
 from .models import BenchmarkTask
+from .svg import inspect_svg
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,10 +25,24 @@ class RepairScore:
     repaired_fraction: float
     preservation_fraction: float
     new_defects: tuple[str, ...]
+    method: str = "declared-artifact-repair-v2"
 
 
-def _roles(svg: str) -> set[str]:
-    return set(inspect_svg(svg).features.get("role_counts", {}))
+def _declared_roles(svg: str) -> set[str]:
+    return set(inspect_svg(svg).features.get("declared_role_counts", {}))
+
+
+def _objective_score(roles: set[str], requirements: list[RepairRequirement]) -> float:
+    if not requirements:
+        return 1.0
+    values: list[float] = []
+    for requirement in requirements:
+        target = set(requirement.target_roles)
+        target_score = len(target & roles) / max(1, len(target))
+        preserve = set(requirement.preserve_roles)
+        preserve_score = len(preserve & roles) / max(1, len(preserve)) if preserve else 1.0
+        values.append(0.7 * target_score + 0.3 * preserve_score)
+    return sum(values) / len(values)
 
 
 def score_repair(
@@ -38,9 +51,17 @@ def score_repair(
     after_svg: str,
     requirements: Iterable[RepairRequirement],
 ) -> RepairScore:
+    """Score known artifact edits without pretending source labels prove visual quality.
+
+    ``task`` is retained for API symmetry and future source-independent semantic repair
+    assessments.  The current objective measures explicit declared edit targets and
+    preservation only; it is reported separately from the visual benchmark score.
+    """
+
+    del task
     requirement_values = list(requirements)
-    before_roles = _roles(before_svg)
-    after_roles = _roles(after_svg)
+    before_roles = _declared_roles(before_svg)
+    after_roles = _declared_roles(after_svg)
     repaired = 0
     preserved = 0
     preserve_total = 0
@@ -55,8 +76,8 @@ def score_repair(
                 preserved += 1
             elif role in before_roles and role not in after_roles:
                 new_defects.append(f"lost:{role}")
-    before = score_svg(task, before_svg, submission_id="repair-before").aggregate
-    after = score_svg(task, after_svg, submission_id="repair-after").aggregate
+    before = _objective_score(before_roles, requirement_values)
+    after = _objective_score(after_roles, requirement_values)
     return RepairScore(
         before_score=before,
         after_score=after,

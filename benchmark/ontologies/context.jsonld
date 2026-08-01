@@ -1,0 +1,12 @@
+{
+  "@context": {
+    "pb": "https://w3id.org/pelicanbench/ontology#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "Concept": "pb:Concept",
+    "Relation": "pb:Relation",
+    "feature": "pb:feature",
+    "tier": "pb:tier",
+    "requiredFeature": "pb:requiredFeature"
+  }
+}

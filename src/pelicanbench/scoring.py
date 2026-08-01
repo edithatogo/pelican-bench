@@ -1,12 +1,14 @@
-"""Transparent multidimensional structural scorecards."""
+"""Transparent scorecards that separate source, render and semantic evidence."""
 
 from __future__ import annotations
 
 import math
 from typing import Iterable
 
-from .models import BenchmarkTask, DimensionScore, ScoreCard
-from .svg import inspect_svg
+from .models import BenchmarkTask, DimensionScore, ScoreCard, SemanticAssessment
+from .render import RenderedSVG, SVGRenderError, render_svg
+from .semantic import validate_semantic_assessment
+from .svg import SVGInspection, inspect_svg
 
 DEFAULT_WEIGHTS = {
     "submission_integrity": 0.15,
@@ -24,36 +26,6 @@ def _mean(values: Iterable[float]) -> float:
     return sum(items) / len(items) if items else 0.0
 
 
-def _normalise_feature(value: str) -> set[str]:
-    lowered = value.lower().replace("_", "-")
-    tokens = {lowered, lowered.replace("-", "")}
-    for item in lowered.split("-"):
-        if item:
-            tokens.add(item)
-    aliases = {
-        "gular-pouch": {"gular", "pouch"},
-        "webbed-foot": {"webbed", "foot", "feet"},
-        "front-wheel": {"front", "wheel"},
-        "rear-wheel": {"rear", "wheel"},
-        "handlebar": {"handlebar", "handlebars", "steering"},
-        "pedal": {"pedal", "pedals", "crank"},
-    }
-    tokens.update(aliases.get(lowered, set()))
-    return tokens
-
-
-def _feature_fraction(required: Iterable[str], present: set[str]) -> float:
-    required_values = list(required)
-    if not required_values:
-        return 1.0
-    matched = 0
-    for feature in required_values:
-        aliases = _normalise_feature(feature)
-        if aliases & present:
-            matched += 1
-    return matched / len(required_values)
-
-
 def _dimension(name: str, value: float, method: str, *evidence: str) -> DimensionScore:
     return DimensionScore(
         name=name,
@@ -63,101 +35,228 @@ def _dimension(name: str, value: float, method: str, *evidence: str) -> Dimensio
     )
 
 
+def _range_score(value: float, *, low: float, ideal_low: float, ideal_high: float, high: float) -> float:
+    if value <= low or value >= high:
+        return 0.0
+    if ideal_low <= value <= ideal_high:
+        return 1.0
+    if value < ideal_low:
+        return (value - low) / max(1e-12, ideal_low - low)
+    return (high - value) / max(1e-12, high - ideal_high)
+
+
+def _semantic_values(assessment: SemanticAssessment | None) -> dict[str, float]:
+    return assessment.probabilities() if assessment is not None else {}
+
+
+def _entity_score(
+    probabilities: dict[str, float],
+    *,
+    present_id: str,
+    feature_prefix: str,
+    required_features: Iterable[str],
+) -> float:
+    present = probabilities.get(present_id, 0.0)
+    feature_ids = [f"{feature_prefix}:{feature}" for feature in required_features]
+    feature_score = _mean(probabilities.get(item, 0.0) for item in feature_ids) if feature_ids else 1.0
+    # Presence is conjunctive: a list of plausible parts cannot compensate for the
+    # absence of a recognisable entity.
+    return present * (0.5 + 0.5 * feature_score)
+
+
 def score_svg(
     task: BenchmarkTask,
     svg: str,
     *,
     submission_id: str,
-    scorer_version: str = "svg-structural/0.1.0",
+    semantic_assessment: SemanticAssessment | None = None,
+    inspection: SVGInspection | None = None,
+    rendered: RenderedSVG | None = None,
+    scorer_version: str = "svg-multilayer/0.2.0",
 ) -> ScoreCard:
-    inspection = inspect_svg(svg)
-    features = inspection.features
-    roles = set(features.get("role_counts", {}))
-    groups = features.get("role_groups", {})
+    """Score SVG source, canonical render and optional source-independent semantics.
 
-    integrity = 1.0 if inspection.valid else 0.0
-    animal_required = task.animal.required_features
-    object_required = task.mobile_object.required_features
-    animal = _feature_fraction(animal_required, roles)
-    vehicle = _feature_fraction(object_required, roles)
+    SVG labels, IDs, classes, comments and metadata never contribute to animal,
+    vehicle, interaction or instruction scores.  Without a matching semantic
+    assessment those dimensions remain unassessed and critical gates fail.
+    """
 
-    cycle_types = {"bicycle", "unicycle", "cargo-bicycle", "tricycle"}
-    if task.mobile_object.id in cycle_types:
-        expected_wheels = 1 if task.mobile_object.id == "unicycle" else 3 if task.mobile_object.id == "tricycle" else 2
-        observed = int(features.get("wheel_candidate_count", 0))
-        wheel_presence = min(1.0, observed / expected_wheels)
-        pair_score = (
-            float(features.get("wheel_pair_score", 0.0))
-            if expected_wheels >= 2
-            else wheel_presence
+    checked = inspection or inspect_svg(svg)
+    warnings = list(checked.warnings)
+    rendered_value = rendered
+    if checked.valid and rendered_value is None:
+        try:
+            rendered_value = render_svg(svg, inspection=checked)
+        except SVGRenderError as exc:
+            warnings.append(str(exc))
+
+    assessment = semantic_assessment
+    assessment_errors: tuple[str, ...] = ()
+    if assessment is not None and rendered_value is not None:
+        assessment_errors = validate_semantic_assessment(task, rendered_value, assessment)
+        if assessment_errors:
+            warnings.extend(assessment_errors)
+            assessment = None
+    elif assessment is not None:
+        assessment_errors = ("semantic assessment cannot be matched because rendering failed",)
+        warnings.extend(assessment_errors)
+        assessment = None
+
+    probabilities = _semantic_values(assessment)
+    animal = _entity_score(
+        probabilities,
+        present_id="animal-present",
+        feature_prefix="animal-feature",
+        required_features=task.animal.required_features,
+    )
+    vehicle = _entity_score(
+        probabilities,
+        present_id="object-present",
+        feature_prefix="object-feature",
+        required_features=task.mobile_object.required_features,
+    )
+    relation_ids = [
+        f"relation:{relation.predicate}" for relation in task.relations if relation.required
+    ]
+    relation_score = _mean(probabilities.get(item, 0.0) for item in relation_ids)
+    interaction = relation_score * min(
+        probabilities.get("animal-present", 0.0),
+        probabilities.get("object-present", 0.0),
+    )
+
+    render_composition = 0.0
+    if rendered_value is not None and rendered_value.nonblank:
+        foreground = _range_score(
+            rendered_value.foreground_fraction,
+            low=0.0001,
+            ideal_low=0.02,
+            ideal_high=0.80,
+            high=0.995,
         )
-        vehicle = _mean((vehicle, wheel_presence, pair_score, float(bool(groups.get("frame")))))
+        occupied = _range_score(
+            rendered_value.bounding_box_fraction,
+            low=0.001,
+            ideal_low=0.08,
+            ideal_high=0.95,
+            high=1.0001,
+        )
+        render_composition = _mean((foreground, occupied))
+    composition = _mean(
+        (
+            render_composition,
+            probabilities.get("scene-coherent", 0.0),
+        )
+    ) if assessment is not None else render_composition * 0.5
 
-    required_predicates = {relation.predicate for relation in task.relations if relation.required}
-    relation_role_tokens = {
-        "rides_on": {"rider", "riding", "contact", "saddle", "pedal"},
-        "operates": {"operates", "control", "steering", "grip"},
-        "drives": {"driver", "driving", "steering", "cabin"},
-        "pilots": {"pilot", "cockpit", "control"},
-        "passenger_in": {"passenger", "cabin", "inside"},
-        "tows": {"tow", "hitch", "rope"},
-        "pushes": {"push", "contact"},
-        "pulls": {"pull", "harness", "rope"},
-    }
-    relation_scores: list[float] = []
-    for predicate in required_predicates:
-        tokens = relation_role_tokens.get(predicate, {predicate})
-        relation_scores.append(min(1.0, len(tokens & roles) / max(1, min(2, len(tokens)))))
-    interaction = _mean(relation_scores)
-    if groups.get("contact"):
-        interaction = max(interaction, 0.65)
-    if groups.get("foot") and groups.get("pedal"):
-        interaction = max(interaction, 0.8)
-
+    features = checked.features
+    visible_shapes = int(features.get("visible_shape_count", 0))
+    hidden_shapes = int(features.get("hidden_shape_count", 0))
+    visible_ratio = visible_shapes / max(1, visible_shapes + hidden_shapes)
     element_count = int(features.get("element_count", 0))
-    composition = 0.0
-    if inspection.valid:
-        composition = 1.0 if 8 <= element_count <= 500 else 0.65 if 3 <= element_count <= 1500 else 0.35
+    complexity_score = 1.0 if 3 <= element_count <= 1_500 else 0.5 if element_count <= 5_000 else 0.0
+    path_score = 1.0 if int(features.get("path_characters", 0)) < 100_000 else 0.5
+    grouping_score = min(1.0, int(features.get("group_count", 0)) / max(1, visible_shapes / 8))
     vector_quality = _mean(
         (
-            1.0 if inspection.valid else 0.0,
-            min(1.0, float(features.get("labelled_element_fraction", 0.0)) * 4),
-            1.0 if int(features.get("external_reference_count", 0)) == 0 else 0.0,
-            1.0 if int(features.get("path_characters", 0)) < 100_000 else 0.5,
+            1.0 if checked.valid else 0.0,
+            visible_ratio,
+            complexity_score,
+            path_score,
+            grouping_score,
         )
     )
-    instruction_coverage = _mean((animal, vehicle, interaction))
 
+    semantic_question_ids = [
+        "animal-present",
+        "object-present",
+        *[f"animal-feature:{item}" for item in task.animal.required_features],
+        *[f"object-feature:{item}" for item in task.mobile_object.required_features],
+        *relation_ids,
+    ]
+    instruction_coverage = _mean(probabilities.get(item, 0.0) for item in semantic_question_ids)
+
+    integrity = 1.0 if checked.valid else 0.0
     dimensions = (
-        _dimension("submission_integrity", integrity, "bounded XML and source-security gate", *inspection.errors),
-        _dimension("animal_anatomy", animal, "ontology feature-role coverage", *animal_required),
-        _dimension("vehicle_mechanics", vehicle, "ontology and geometry feature coverage", *object_required),
-        _dimension("interaction", interaction, "required relation-role coverage", *sorted(required_predicates)),
-        _dimension("composition", composition, "bounded structural composition heuristic", f"elements={element_count}"),
-        _dimension("vector_quality", vector_quality, "editability and source-hygiene heuristic"),
-        _dimension("instruction_coverage", instruction_coverage, "mean critical concept coverage"),
+        _dimension(
+            "submission_integrity",
+            integrity,
+            "bounded XML and source-security gate",
+            *checked.errors,
+        ),
+        _dimension(
+            "animal_anatomy",
+            animal,
+            "source-independent atomic visual questions",
+            *task.animal.required_features,
+        ),
+        _dimension(
+            "vehicle_mechanics",
+            vehicle,
+            "source-independent atomic visual questions",
+            *task.mobile_object.required_features,
+        ),
+        _dimension(
+            "interaction",
+            interaction,
+            "source-independent required-relation questions",
+            *relation_ids,
+        ),
+        _dimension(
+            "composition",
+            composition,
+            "canonical-render occupancy plus source-independent scene question",
+            f"render_composition={render_composition:.6f}",
+        ),
+        _dimension(
+            "vector_quality",
+            vector_quality,
+            "source hygiene, visible structure and bounded editability diagnostics",
+            f"visible_shapes={visible_shapes}",
+            f"hidden_shapes={hidden_shapes}",
+        ),
+        _dimension(
+            "instruction_coverage",
+            instruction_coverage,
+            "mean source-independent required concept coverage",
+            *semantic_question_ids,
+        ),
     )
     dimension_values = {item.name: item.value for item in dimensions}
     aggregate = sum(DEFAULT_WEIGHTS[name] * dimension_values[name] for name in DEFAULT_WEIGHTS)
+
+    semantic_complete = assessment is not None and not assessment_errors
     gates = {
-        "safe_and_parseable": inspection.valid,
+        "safe_and_parseable": checked.valid,
+        "nonblank_render": bool(rendered_value and rendered_value.nonblank),
+        "source_independent_semantics": bool(assessment and assessment.source_independent),
+        "semantic_assessment_complete": semantic_complete,
         "animal_minimum": animal >= 0.25,
         "vehicle_minimum": vehicle >= 0.25,
         "interaction_minimum": interaction >= 0.25,
     }
-    warnings = list(inspection.warnings)
+    if semantic_assessment is None:
+        warnings.append(
+            "semantic dimensions are unassessed; SVG source labels are deliberately ignored"
+        )
     if features.get("text_character_count", 0):
-        warnings.append("visible text may create a semantic shortcut")
+        warnings.append("visible text may create a visual semantic shortcut")
+    if hidden_shapes:
+        warnings.append("hidden or non-rendered shapes are excluded from visual evidence")
     if not math.isfinite(aggregate):
         aggregate = 0.0
         warnings.append("non-finite aggregate replaced with zero")
+
+    evidence_level = "E3" if assessment and assessment.calibration_version not in {None, "fixture-only"} else "E2"
     return ScoreCard(
         task_id=task.task_id,
         submission_id=submission_id,
+        render_hash=rendered_value.render_hash if rendered_value else None,
+        semantic_assessment_id=assessment.assessment_id if assessment else None,
         dimensions=dimensions,
         critical_gates=gates,
         valid=all(gates.values()),
         aggregate=round(aggregate, 6),
         scorer_version=scorer_version,
+        evidence_level=evidence_level,
         warnings=tuple(dict.fromkeys(warnings)),
     )

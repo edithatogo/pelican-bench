@@ -1,0 +1,21 @@
+@prefix pb: <https://w3id.org/pelicanbench/ontology#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+pb:ConceptShape a sh:NodeShape ;
+  sh:targetClass pb:Concept ;
+  sh:property [ sh:path pb:identifier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path pb:featureRequirement ; sh:node pb:FeatureRequirementShape ] .
+
+pb:FeatureRequirementShape a sh:NodeShape ;
+  sh:property [ sh:path pb:feature ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [
+    sh:path pb:tier ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ("necessary" "diagnostic" "common" "optional" "style-dependent" "prohibited")
+  ] .
+
+pb:RelationShape a sh:NodeShape ;
+  sh:targetClass pb:Relation ;
+  sh:property [ sh:path pb:identifier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .

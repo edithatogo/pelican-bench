@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "cases": [
+    {
+      "id": "bike-rider-valid",
+      "animal": "pelican",
+      "mobile_object": "bicycle",
+      "relation": "rides_on",
+      "expected_compatible": true,
+      "questions": ["entity-presence", "support-contact", "control-contact", "propulsion-contact"]
+    },
+    {
+      "id": "bike-passenger-invalid",
+      "animal": "pelican",
+      "mobile_object": "bicycle",
+      "relation": "passenger_in",
+      "expected_compatible": false,
+      "questions": ["operator-versus-passenger"]
+    },
+    {
+      "id": "tuktuk-driver-valid",
+      "animal": "pelican",
+      "mobile_object": "tuk-tuk",
+      "relation": "drives",
+      "expected_compatible": true,
+      "questions": ["inside", "driver-position", "control-contact"]
+    },
+    {
+      "id": "tuktuk-rider-invalid",
+      "animal": "pelican",
+      "mobile_object": "tuk-tuk",
+      "relation": "rides_on",
+      "expected_compatible": false,
+      "questions": ["inside-versus-on-top"]
+    }
+  ]
+}

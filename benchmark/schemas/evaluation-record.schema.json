@@ -1,0 +1,71 @@
+{
+  "additionalProperties": false,
+  "description": "One scorer application to one trial artifact.",
+  "properties": {
+    "artifact_id": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "evaluation_id": {
+      "title": "Evaluation Id",
+      "type": "string"
+    },
+    "render_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Render Hash"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scorecard_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Scorecard Hash",
+      "type": "string"
+    },
+    "scorer_version": {
+      "title": "Scorer Version",
+      "type": "string"
+    },
+    "semantic_assessment_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Semantic Assessment Id"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "trial_id": {
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "evaluation_id",
+    "trial_id",
+    "task_id",
+    "artifact_id",
+    "scorer_version",
+    "scorecard_hash"
+  ],
+  "title": "EvaluationRecord",
+  "type": "object"
+}

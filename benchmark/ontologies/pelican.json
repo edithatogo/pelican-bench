@@ -35,6 +35,28 @@
         "elongated-bill",
         "gular-pouch",
         "webbed-foot"
+      ],
+      "feature_requirements": [
+        {
+          "feature": "elongated-bill",
+          "tier": "diagnostic"
+        },
+        {
+          "feature": "gular-pouch",
+          "tier": "diagnostic"
+        },
+        {
+          "feature": "wing",
+          "tier": "necessary"
+        },
+        {
+          "feature": "leg",
+          "tier": "common"
+        },
+        {
+          "feature": "webbed-foot",
+          "tier": "diagnostic"
+        }
       ]
     },
     {
@@ -85,5 +107,5 @@
     }
   ],
   "status": "normative-v1",
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

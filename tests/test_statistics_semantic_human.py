@@ -3,15 +3,30 @@ from __future__ import annotations
 import pytest
 
 from pelicanbench.human_eval import PairwiseVote, fit_bradley_terry, probability_superior
-from pelicanbench.semantic import JudgeAnswer, aggregate_judges, calibration_error, questions_for_task
-from pelicanbench.statistics import Observation, estimate_interaction, rank_with_uncertainty
+from pelicanbench.render import render_svg
+from pelicanbench.semantic import (
+    EnsembleSemanticAssessor,
+    JudgeAnswer,
+    aggregate_judges,
+    calibration_error,
+    questions_for_task,
+    validate_semantic_assessment,
+)
+from pelicanbench.statistics import (
+    Observation,
+    estimate_interaction,
+    hierarchical_shrink_interactions,
+    rank_with_uncertainty,
+    replicate_reliability,
+    superiority_probabilities,
+)
 
 
 def test_atomic_questions(heritage):
     questions = questions_for_task(heritage)
     assert questions[0].critical
     assert any(question.question_id == "relation:rides_on" for question in questions)
-    assert len(questions) == 2 + len(heritage.animal.required_features) + len(heritage.mobile_object.required_features) + 1
+    assert len(questions) == 2 + len(heritage.animal.required_features) + len(heritage.mobile_object.required_features) + len(heritage.relations) + 1
 
 
 def test_judge_aggregation_and_calibration():
@@ -66,3 +81,59 @@ def test_pelicanmaxxing_interaction():
 def test_observation_validation():
     with pytest.raises(ValueError):
         Observation("m", "a", "o", 2)
+
+
+class _Judge:
+    def __init__(self, judge_id: str, value: float):
+        self.judge_id = judge_id
+        self.judge_revision = "1"
+        self.value = value
+
+    def answer(self, *, image: bytes, question):
+        assert image.startswith(b"\x89PNG")
+        return JudgeAnswer(
+            question.question_id,
+            self.value,
+            "blind render assessment",
+            self.judge_id,
+            self.judge_revision,
+        )
+
+
+def test_source_independent_ensemble(heritage, valid_svg: str):
+    rendered = render_svg(valid_svg)
+    assessor = EnsembleSemanticAssessor(
+        (_Judge("family-a", 0.8), _Judge("family-b", 0.4)),
+        family_weights={"family-a": 3, "family-b": 1},
+        calibration_version="cal-v0",
+    )
+    assessment = assessor.assess(heritage, rendered)
+    assert not validate_semantic_assessment(heritage, rendered, assessment)
+    assert all(value == pytest.approx(0.7) for value in assessment.probabilities().values())
+    assert assessment.calibration_version == "cal-v0"
+
+
+def test_interaction_shrinkage_reliability_and_superiority():
+    rows = []
+    for replicate in range(1, 4):
+        for row in fixture_observations():
+            rows.append(
+                Observation(
+                    row.model_id,
+                    row.animal,
+                    row.mobile_object,
+                    min(1.0, max(0.0, row.score + (replicate - 2) * 0.01)),
+                    relation=row.relation,
+                    replicate=replicate,
+                )
+            )
+    estimates = estimate_interaction(rows, bootstrap_samples=100, seed=2)
+    shrunk = hierarchical_shrink_interactions(estimates)
+    assert {item.model_id for item in shrunk} == {"m1", "m2"}
+    assert all(0 <= item.shrinkage_weight <= 1 for item in shrunk)
+    reliability = replicate_reliability(rows)
+    assert reliability.mean_replicates == pytest.approx(3)
+    assert 0 <= reliability.reliability <= 1
+    probabilities = superiority_probabilities(estimates)
+    assert probabilities[("m1", "m2")] > 0.5
+    assert probabilities[("m2", "m1")] < 0.5

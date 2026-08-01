@@ -7,6 +7,7 @@ import pytest
 
 from pelicanbench.ontology import (
     Ontology,
+    evaluate_competency_cases,
     abstract_specialised_ontology,
     compose_scene,
     merge_ontologies,
@@ -14,9 +15,11 @@ from pelicanbench.ontology import (
 from pelicanbench.taskgen import (
     HERITAGE_PROMPT,
     full_factorial,
+    generate_design_tasks,
     generate_tasks,
     heritage_task,
     split_public_sealed,
+    task_set_commitment,
     validate_grammar,
 )
 
@@ -24,7 +27,8 @@ from pelicanbench.taskgen import (
 def test_all_ontologies_load(root: Path):
     loaded = [Ontology.load(path) for path in sorted((root / "benchmark/ontologies").glob("*.json"))]
     assert len(loaded) == 7
-    assert all(item.version == "0.1.0" for item in loaded)
+    assert all(item.version in {"0.1.0", "0.2.0"} for item in loaded)
+    assert all(item.to_jsonld()["@type"] == "pb:Ontology" for item in loaded)
 
 
 def test_animal_inheritance_and_features(root: Path):
@@ -138,5 +142,51 @@ def test_bad_grammar():
 def test_heritage_task():
     task = heritage_task(seed=5)
     assert task.seed == 5
+    assert heritage_task(seed=99).task_id == task.task_id
+    assert heritage_task(seed=99).scenario_id == task.scenario_id
     assert task.metadata["exact_prompt"] is True
     assert task.track == "heritage-svg"
+
+
+def test_task_identity_is_independent_of_design_seed(grammar):
+    first = generate_tasks(grammar, count=8, seed=11)
+    repeated = generate_tasks(grammar, count=8, seed=11)
+    assert [item.task_id for item in first] == [item.task_id for item in repeated]
+    heritage_a = heritage_task(seed=1)
+    heritage_b = heritage_task(seed=999)
+    assert heritage_a.task_id == heritage_b.task_id
+    assert heritage_a.scenario_id == heritage_b.scenario_id
+    assert heritage_a.prompt_id == heritage_b.prompt_id
+    assert heritage_a.condition_id == heritage_b.condition_id
+    assert heritage_a.seed != heritage_b.seed
+
+
+def test_prespecified_pilot_and_commitment(root: Path, grammar):
+    design = json.loads((root / "benchmark/tasks/v1-pilot-design.json").read_text())
+    tasks = generate_design_tasks(grammar, design, seed=design["seed"])
+    commitment = json.loads(
+        (root / "benchmark/tasks/v1-pilot-commitment.json").read_text()
+    )
+    assert len(tasks) == 33
+    assert len({task.scenario_id for task in tasks}) == 17
+    assert task_set_commitment(tasks) == commitment["commitment"]
+    assert {task.metadata.get("interface_stratum") for task in tasks if task.track != "heritage-svg"} == {
+        "straddle-and-propel",
+        "stand-and-balance",
+        "sit-inside-and-control",
+        "occupy-and-propel",
+    }
+
+
+def test_ontology_competency_cases(root: Path):
+    cases = json.loads(
+        (root / "benchmark/ontology-tests/competency-cases.json").read_text()
+    )["cases"]
+    results = evaluate_competency_cases(
+        Ontology.load(root / "benchmark/ontologies/animal.json"),
+        Ontology.load(root / "benchmark/ontologies/mobile-object.json"),
+        Ontology.load(root / "benchmark/ontologies/interface.json"),
+        cases,
+    )
+    assert results
+    assert all(item.passed for item in results)

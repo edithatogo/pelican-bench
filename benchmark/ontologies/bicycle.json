@@ -31,6 +31,40 @@
         "crank",
         "pedal",
         "saddle"
+      ],
+      "feature_requirements": [
+        {
+          "feature": "front-wheel",
+          "tier": "necessary"
+        },
+        {
+          "feature": "rear-wheel",
+          "tier": "necessary"
+        },
+        {
+          "feature": "frame",
+          "tier": "necessary"
+        },
+        {
+          "feature": "fork",
+          "tier": "diagnostic"
+        },
+        {
+          "feature": "handlebar",
+          "tier": "necessary"
+        },
+        {
+          "feature": "crank",
+          "tier": "diagnostic"
+        },
+        {
+          "feature": "pedal",
+          "tier": "necessary"
+        },
+        {
+          "feature": "saddle",
+          "tier": "common"
+        }
       ]
     },
     {
@@ -86,5 +120,5 @@
     }
   ],
   "status": "normative-v1",
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

@@ -1,0 +1,122 @@
+{
+  "$defs": {
+    "QuestionAssessment": {
+      "additionalProperties": false,
+      "description": "Source-independent answer to one atomic visual question.",
+      "properties": {
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "judge_id": {
+          "title": "Judge Id",
+          "type": "string"
+        },
+        "judge_revision": {
+          "title": "Judge Revision",
+          "type": "string"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "probability_yes": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Probability Yes",
+          "type": "number"
+        },
+        "question_id": {
+          "title": "Question Id",
+          "type": "string"
+        },
+        "uncertainty": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty"
+        }
+      },
+      "required": [
+        "question_id",
+        "dimension",
+        "probability_yes",
+        "method",
+        "judge_id",
+        "judge_revision"
+      ],
+      "title": "QuestionAssessment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Frozen semantic assessment of a canonical render.\n\nA normative assessment must be derived only from the render (and task question), not\nfrom SVG IDs, classes, comments, metadata or source labels.",
+  "properties": {
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "calibration_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calibration Version"
+    },
+    "questions": {
+      "items": {
+        "$ref": "#/$defs/QuestionAssessment"
+      },
+      "title": "Questions",
+      "type": "array"
+    },
+    "render_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Render Hash",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_independent": {
+      "title": "Source Independent",
+      "type": "boolean"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "task_id",
+    "render_hash",
+    "source_independent",
+    "questions"
+  ],
+  "title": "SemanticAssessment",
+  "type": "object"
+}

@@ -41,6 +41,22 @@ def read_jsonl(path: str | Path) -> list[Any]:
     return output
 
 
+def atomic_write_bytes(path: str | Path, payload: bytes) -> None:
+    """Atomically replace a binary file."""
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=target.parent)
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_name, target)
+    finally:
+        if os.path.exists(temporary_name):
+            os.unlink(temporary_name)
+
+
 def atomic_write_text(path: str | Path, text: str) -> None:
     """Atomically replace a UTF-8 text file."""
     target = Path(path)

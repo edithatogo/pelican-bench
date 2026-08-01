@@ -1,0 +1,307 @@
+{
+  "blockers": [
+    {
+      "blocks_profiles": [
+        "v1.0"
+      ],
+      "closure_criteria": [
+        {
+          "evidence": [
+            "src/pelicanbench/scoring.py",
+            "src/pelicanbench/semantic.py",
+            "tests/test_svg_scoring.py"
+          ],
+          "id": "RB-01-C1",
+          "status": "complete",
+          "text": "All semantic dimensions are derived from the canonical render or blinded human assessment."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/metamorphic.py",
+            "src/pelicanbench/render_bridge.py",
+            "tests/test_metamorphic.py",
+            "tests/test_assurance_render_bridge.py"
+          ],
+          "id": "RB-01-C2",
+          "status": "complete",
+          "text": "The normative metamorphic suite passes, and the canonical fixture has no material CairoSVG-to-Inkscape rendering difference."
+        },
+        {
+          "evidence": [
+            "docs/human-evaluation-protocol.md",
+            "src/pelicanbench/calibration.py"
+          ],
+          "id": "RB-01-C3",
+          "status": "planned",
+          "text": "Automatic semantic dimensions are calibrated against blinded human judgements."
+        },
+        {
+          "evidence": [
+            "docs/scorer-challenge.md"
+          ],
+          "id": "RB-01-C4",
+          "status": "planned",
+          "text": "An independent scorer challenge finds no known critical exploit."
+        }
+      ],
+      "evidence": [
+        "src/pelicanbench/scoring.py",
+        "src/pelicanbench/render.py",
+        "src/pelicanbench/semantic.py",
+        "src/pelicanbench/metamorphic.py",
+        "src/pelicanbench/render_bridge.py",
+        "tests/test_svg_scoring.py",
+        "tests/test_metamorphic.py",
+        "tests/test_assurance_render_bridge.py",
+        "benchmark/fixtures/adversarial/semantic-label-injection.svg"
+      ],
+      "evidence_level": "E2",
+      "id": "RB-01",
+      "linked_tracks": [
+        "T06",
+        "T07",
+        "T17"
+      ],
+      "status": "partial",
+      "summary": "Prevent source metadata, invisible geometry and implementation choices from masquerading as rendered semantic quality.",
+      "title": "Measurement validity"
+    },
+    {
+      "blocks_profiles": [
+        "v1.0"
+      ],
+      "closure_criteria": [
+        {
+          "evidence": [
+            "benchmark/tasks/v1-pilot-design.json"
+          ],
+          "id": "RB-02-C1",
+          "status": "planned",
+          "text": "Run four to six prespecified model systems with at least three retained replicates per condition."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/runner.py"
+          ],
+          "id": "RB-02-C2",
+          "status": "planned",
+          "text": "Publish all eligible outputs, failures, trial metadata and costs."
+        },
+        {
+          "evidence": [
+            "docs/v1-pilot-analysis-plan.md",
+            "benchmark/tasks/v1-pilot-commitment.json"
+          ],
+          "id": "RB-02-C3",
+          "status": "complete",
+          "text": "Freeze the analysis plan before the principal comparative run."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/statistics.py",
+            "tests/test_statistics_semantic_human.py"
+          ],
+          "id": "RB-02-C4",
+          "status": "partial",
+          "text": "Report uncertainty, replicate reliability and sensitivity analyses."
+        }
+      ],
+      "evidence": [
+        "benchmark/tasks/v1-pilot-design.json",
+        "benchmark/tasks/v1-pilot.jsonl",
+        "benchmark/tasks/v1-pilot-commitment.json",
+        "docs/v1-pilot-analysis-plan.md"
+      ],
+      "evidence_level": "E2",
+      "id": "RB-02",
+      "linked_tracks": [
+        "T08",
+        "T09",
+        "T10"
+      ],
+      "status": "partial",
+      "summary": "Complete the prespecified multi-model, repeated-generation pilot rather than relying on synthetic fixtures.",
+      "title": "Prospective V1 pilot"
+    },
+    {
+      "blocks_profiles": [
+        "v1.0"
+      ],
+      "closure_criteria": [
+        {
+          "evidence": [
+            "docs/human-evaluation-protocol.md"
+          ],
+          "id": "RB-03-C1",
+          "status": "planned",
+          "text": "Complete governance and consent review appropriate to the recruited sample."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/calibration.py",
+            "tests/test_calibration.py"
+          ],
+          "id": "RB-03-C2",
+          "status": "partial",
+          "text": "Collect the prespecified stratified calibration sample."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/human_eval.py",
+            "src/pelicanbench/statistics.py"
+          ],
+          "id": "RB-03-C3",
+          "status": "partial",
+          "text": "Estimate rater, judge-family and task effects with uncertainty."
+        },
+        {
+          "evidence": [
+            "docs/v1-pilot-analysis-plan.md"
+          ],
+          "id": "RB-03-C4",
+          "status": "planned",
+          "text": "Publish calibration, disagreement and sensitivity results."
+        }
+      ],
+      "evidence": [
+        "docs/human-evaluation-protocol.md",
+        "docs/v1-pilot-analysis-plan.md",
+        "src/pelicanbench/calibration.py",
+        "tests/test_calibration.py"
+      ],
+      "evidence_level": "E2",
+      "id": "RB-03",
+      "linked_tracks": [
+        "T07",
+        "T09",
+        "T18"
+      ],
+      "status": "partial",
+      "summary": "Establish how automatic visual scores relate to blinded human recognition and preference judgements.",
+      "title": "Human and judge calibration"
+    },
+    {
+      "blocks_profiles": [
+        "v1.0"
+      ],
+      "closure_criteria": [
+        {
+          "evidence": [
+            ".github/workflows/release.yml"
+          ],
+          "id": "RB-04-C1",
+          "status": "planned",
+          "text": "Publish the repository and immutable benchmark release."
+        },
+        {
+          "evidence": [
+            ".github/workflows/ci.yml",
+            ".github/workflows/release.yml"
+          ],
+          "id": "RB-04-C2",
+          "status": "planned",
+          "text": "Run all required remote CI and supply-chain attestation jobs."
+        },
+        {
+          "evidence": [
+            ".github/workflows/publish-hf.yml",
+            "scripts/setup_huggingface.py"
+          ],
+          "id": "RB-04-C3",
+          "status": "planned",
+          "text": "Publish the authoritative Hugging Face dataset and explorer."
+        },
+        {
+          "evidence": [
+            "scripts/harness.sh",
+            "scripts/verify_clean_clone.sh",
+            "src/pelicanbench/provenance.py"
+          ],
+          "id": "RB-04-C4",
+          "status": "partial",
+          "text": "Complete a second-environment clean-clone reproduction."
+        }
+      ],
+      "evidence": [
+        "src/pelicanbench/provenance.py",
+        ".github/workflows/ci.yml",
+        ".github/workflows/release.yml",
+        "scripts/harness.sh",
+        "scripts/verify_clean_clone.sh"
+      ],
+      "evidence_level": "E2",
+      "id": "RB-04",
+      "linked_tracks": [
+        "T10",
+        "T11",
+        "T12",
+        "T20"
+      ],
+      "status": "partial",
+      "summary": "Run CI, attestations and a clean-clone reproduction from the published GitHub and Hugging Face artifacts.",
+      "title": "Independent reproducibility and remote publication"
+    },
+    {
+      "blocks_profiles": [
+        "v1.0"
+      ],
+      "closure_criteria": [
+        {
+          "evidence": [
+            "data/sources/rights-ledger.json"
+          ],
+          "id": "RB-05-C1",
+          "status": "planned",
+          "text": "Settle permission and redistribution status for every mirrored historical artifact."
+        },
+        {
+          "evidence": [
+            "docs/rights-and-ethics.md",
+            "data/sources/source-registry.json"
+          ],
+          "id": "RB-05-C2",
+          "status": "complete",
+          "text": "Keep link-only and metadata-only records separate from distributable content."
+        },
+        {
+          "evidence": [
+            "docs/human-evaluation-protocol.md"
+          ],
+          "id": "RB-05-C3",
+          "status": "planned",
+          "text": "Complete human-participant governance before recruitment."
+        },
+        {
+          "evidence": [
+            "docs/data-card.md",
+            "docs/benchmark-card.md",
+            "docs/scorer-card.md"
+          ],
+          "id": "RB-05-C4",
+          "status": "complete",
+          "text": "Publish data, benchmark and scorer-card limitations statements."
+        }
+      ],
+      "evidence": [
+        "data/sources/rights-ledger.json",
+        "docs/rights-and-ethics.md",
+        "docs/simon-corpus-method.md",
+        "docs/human-evaluation-protocol.md"
+      ],
+      "evidence_level": "E1",
+      "id": "RB-05",
+      "linked_tracks": [
+        "T01",
+        "T04",
+        "T05",
+        "T18",
+        "T19"
+      ],
+      "status": "partial",
+      "summary": "Resolve third-party corpus permissions and document governance before distributing historical artifacts or recruiting participants.",
+      "title": "Rights and research governance"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-01T00:00:00Z"
+}

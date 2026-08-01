@@ -70,14 +70,51 @@
       "title": "Dimensions",
       "type": "array"
     },
+    "evidence_level": {
+      "default": "E2",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "title": "Evidence Level",
+      "type": "string"
+    },
+    "render_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Render Hash"
+    },
     "schema_version": {
-      "default": "1.0.0",
+      "default": "2.0.0",
       "title": "Schema Version",
       "type": "string"
     },
     "scorer_version": {
       "title": "Scorer Version",
       "type": "string"
+    },
+    "semantic_assessment_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Semantic Assessment Id"
     },
     "submission_id": {
       "title": "Submission Id",

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <circle cx="180" cy="340" r="65" fill="none" stroke="black" stroke-width="6"/>
+  <circle cx="430" cy="340" r="65" fill="none" stroke="black" stroke-width="6"/>
+  <path d="M180 340 L280 220 L430 340 Z" fill="none" stroke="black" stroke-width="6"/>
+  <rect opacity="0" x="0" y="0" width="1" height="1"
+        id="pelican-bill-pouch-wing-webbed-foot-bicycle-frame-handlebar-pedal-saddle-rider-contact"/>
+</svg>

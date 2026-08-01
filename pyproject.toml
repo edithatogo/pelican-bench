@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pelicanbench"
-version = "0.1.0a1"
+version = "0.2.0a1"
 description = "A longitudinal, compositional and agentic visual-generation benchmark."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -19,9 +19,11 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
+  "cairosvg>=2.7",
   "defusedxml>=0.7.1",
   "jsonschema>=4.23",
   "numpy>=2.1",
+  "pillow>=11.0",
   "pydantic>=2.10",
   "typer>=0.15",
 ]
@@ -29,10 +31,9 @@ dependencies = [
 [project.optional-dependencies]
 analysis = ["pandas>=2.2", "scipy>=1.14", "statsmodels>=0.14"]
 hub = ["datasets>=3.2", "huggingface-hub>=0.27", "gradio>=5.0"]
-image = ["pillow>=11.0"]
+image = []
 dev = [
   "coverage[toml]>=7.6",
-  "hypothesis>=6.120",
   "mypy>=1.13",
   "pytest>=8.3",
   "pytest-cov>=6.0",
