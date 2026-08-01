@@ -1,13 +1,20 @@
 {
-  "blocker": "Drafts exist but results sections cannot be completed before prospective benchmark runs.",
+  "blocker": "Content-addressed publication and approval-gated social-distribution hand-offs are E2 fixture-verified; external tool execution, empirical results sections, authorship review and actual publication remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "publications/substack",
     "publications/arxiv",
-    "CITATION.cff"
+    "CITATION.cff",
+    "src/pelicanbench/publication.py",
+    "scripts/build_publication_bundle.py",
+    "docs/publication-roadmap.md",
+    "tests/test_ecosystem_publication_verification.py",
+    "publications/arxiv/metadata.json",
+    "publications/arxiv/references.bib",
+    "benchmark/integrations/ecosystem-registry.json"
   ],
-  "evidence_definition": "implemented",
-  "evidence_level": "E1",
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -20,7 +27,7 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "planned",
+    "P2": "partial",
     "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",

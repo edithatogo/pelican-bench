@@ -1,0 +1,186 @@
+{
+  "$defs": {
+    "PilotExecutionCell": {
+      "additionalProperties": false,
+      "properties": {
+        "cell_id": {
+          "pattern": "^cell:[0-9a-f]{64}$",
+          "title": "Cell Id",
+          "type": "string"
+        },
+        "condition_id": {
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_revision": {
+          "title": "Model Revision",
+          "type": "string"
+        },
+        "prompt_id": {
+          "title": "Prompt Id",
+          "type": "string"
+        },
+        "qualification_blockers": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Qualification Blockers",
+          "type": "array"
+        },
+        "replicate": {
+          "minimum": 1,
+          "title": "Replicate",
+          "type": "integer"
+        },
+        "runtime_profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Runtime Profile"
+        },
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "seed": {
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "qualification-required"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cell_id",
+        "task_id",
+        "scenario_id",
+        "prompt_id",
+        "condition_id",
+        "model_id",
+        "model_revision",
+        "replicate",
+        "seed",
+        "status"
+      ],
+      "title": "PilotExecutionCell",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cell_count": {
+      "minimum": 0,
+      "title": "Cell Count",
+      "type": "integer"
+    },
+    "cells": {
+      "items": {
+        "$ref": "#/$defs/PilotExecutionCell"
+      },
+      "title": "Cells",
+      "type": "array"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "model_count": {
+      "minimum": 0,
+      "title": "Model Count",
+      "type": "integer"
+    },
+    "model_registry_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Model Registry Hash",
+      "type": "string"
+    },
+    "model_status": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Model Status",
+      "type": "object"
+    },
+    "qualification_required_cell_count": {
+      "minimum": 0,
+      "title": "Qualification Required Cell Count",
+      "type": "integer"
+    },
+    "ready_cell_count": {
+      "minimum": 0,
+      "title": "Ready Cell Count",
+      "type": "integer"
+    },
+    "replicates": {
+      "minimum": 1,
+      "title": "Replicates",
+      "type": "integer"
+    },
+    "scenario_count": {
+      "minimum": 0,
+      "title": "Scenario Count",
+      "type": "integer"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Status Counts",
+      "type": "object"
+    },
+    "task_count": {
+      "minimum": 0,
+      "title": "Task Count",
+      "type": "integer"
+    },
+    "task_set_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Task Set Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "generated_at",
+    "task_set_hash",
+    "model_registry_hash",
+    "replicates",
+    "task_count",
+    "scenario_count",
+    "model_count",
+    "cell_count",
+    "ready_cell_count",
+    "qualification_required_cell_count",
+    "status_counts",
+    "model_status",
+    "cells"
+  ],
+  "title": "PilotExecutionPlan",
+  "type": "object"
+}

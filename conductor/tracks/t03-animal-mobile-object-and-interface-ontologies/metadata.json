@@ -1,12 +1,16 @@
 {
-  "blocker": "JSON-LD export and competency fixtures exist, but SHACL validation and expert ontology review remain outstanding.",
+  "blocker": "Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "benchmark/ontologies",
     "src/pelicanbench/ontology.py",
     "benchmark/ontologies/context.jsonld",
     "benchmark/ontologies/shapes.ttl",
-    "benchmark/ontology-tests/competency-cases.json"
+    "benchmark/ontology-tests/competency-cases.json",
+    "benchmark/ontologies/interoperability-profile.json",
+    "src/pelicanbench/interoperability.py",
+    "docs/ontology-roadmap.md",
+    "tests/test_ecosystem_publication_verification.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

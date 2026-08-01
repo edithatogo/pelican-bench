@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--profile", default="v0.2-alpha")
+    parser.add_argument("--profile", default="v0.3-alpha")
     parser.add_argument("--tag")
     parser.add_argument("--artifact", action="append", default=[])
     args = parser.parse_args()

@@ -1,0 +1,68 @@
+{
+  "$defs": {
+    "PublicationBundleFile": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes"
+      ],
+      "title": "PublicationBundleFile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "bundle_hash": {
+      "title": "Bundle Hash",
+      "type": "string"
+    },
+    "external_writes_executed": {
+      "default": false,
+      "title": "External Writes Executed",
+      "type": "boolean"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/PublicationBundleFile"
+      },
+      "title": "Files",
+      "type": "array"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "project": {
+      "title": "Project",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "generated_at",
+    "project",
+    "bundle_hash",
+    "files"
+  ],
+  "title": "PublicationBundleManifest",
+  "type": "object"
+}

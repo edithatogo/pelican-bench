@@ -4,7 +4,7 @@
 
 It turns a memorable model demonstration into a reproducible research programme. The benchmark evaluates not only the selected final picture, but also source integrity, anatomy, mechanics, interaction geometry, editability, repair, tool use, trajectories, calibration, cost, stability and learning. The public pelican-on-a-bike prompt remains the heritage anchor; the scientific benchmark uses dynamic animals, mobile non-living objects and interaction relations to resist prompt-specific optimisation.
 
-> **Status:** `v0.2.0-alpha.1` is the measurement-validity alpha. It separates source, render and semantic evidence; removes author-controlled SVG labels from normative semantic scoring; introduces stable scenario, prompt, condition, trial and evaluation identities; prespecifies a 33-task affordance-stratified pilot; and emits interoperable research-object provenance. It is E2 fixture-verified, not yet human-calibrated or independently reproduced.
+> **Status:** `v0.3.0-alpha.1` is the ecosystem and publication-integration alpha. It retains the `v0.2` measurement-validity repair and adds an executable first-party integration registry, qualification-gated local-model profiles, deterministic pilot planning, privacy-minimised human-rating exchange, repository-standard verification receipts, and content-addressed publication and release packaging. It is E2 fixture-verified, not yet human-calibrated, prospectively benchmarked, remotely published or independently reproduced.
 
 ## Why this exists
 
@@ -43,7 +43,10 @@ Run the deterministic fixture benchmark after installing the package and develop
 python -m pip install -e '.[dev,analysis]'
 pelicanbench validate-repo
 pelicanbench generate-v1-pilot
-pelicanbench release-readiness --profile v0.2-alpha
+pelicanbench release-readiness --profile v0.3-alpha
+pelicanbench ecosystem-audit --output artifacts/ecosystem-audit.json
+pelicanbench model-registry-status
+pelicanbench plan-pilot --output artifacts/v1-pilot-execution-plan.json
 pelicanbench scorer-challenges \
   --source benchmark/fixtures/svg/pelican-bicycle-valid.svg \
   --output artifacts/scorer-challenge-report.json
@@ -85,7 +88,13 @@ Entire is configured from the first repository revision through [`.entire/settin
 
 ## Ecosystem
 
-PelicanBench is designed to interoperate with Dylan Mordaunt’s repositories rather than duplicate them. Integration boundaries are documented for `krita-cli`, `sourceright`, `authentext`, `open_social_data`, `osf-cli-go`, `entireio-cli`, `arxiv-paper-template` and related archival/research tooling. Optional adapters degrade cleanly when sibling repositories are absent.
+PelicanBench is designed to interoperate with Dylan Mordaunt’s repositories rather than duplicate them. The typed registry currently records 40 GitHub and Hugging Face assets, including direct contracts for repository standards, Conductor, Entire, SourceRight, Authentext, human-rating exchange, OSF, Substack, scholarly publication, local-model runtimes and Hugging Face publication. It also records formal ontology patterns from UOGTO, agent-engineering patterns from Codev and Ralph-Codex, archival patterns from FYI tooling, a planned w3id namespace and an approval-gated Postiz dissemination hand-off. Pattern-only, candidate, watch and excluded assets are explicit, so “not imported” is distinguishable from “not considered”.
+
+Dylan’s two Qwen3 Hermes adapters are included as first-party **candidates**, not presumed eligible systems. The pilot planner retains their cells as `qualification-required` until immutable revisions, licence review, runtime conditions and valid-SVG canaries are recorded. See [`docs/ecosystem-integration.md`](docs/ecosystem-integration.md).
+
+## Publication and release hand-offs
+
+`pelicanbench publication-bundle` creates a deterministic, rights-aware hand-off for SourceRight, Authentext, scholarly review, Substack, Postiz, OSF and the arXiv template without performing an authenticated write. The Postiz payload is a placeholder-bearing template and cannot be executed without explicit account, time, link, media-rights and content approval. `scripts/package_release.py` produces source and full-history archives, a Git bundle, SBOM, release manifest, verification receipt, publication archive, QA receipt and top-level checksums after a clean tagged verification.
 
 ## Governance and citation
 

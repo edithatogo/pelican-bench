@@ -1,0 +1,55 @@
+{
+  "competency_question_surface": "benchmark/ontology-tests/competency-cases.json",
+  "namespace": "https://w3id.org/pelicanbench/ontology#",
+  "namespace_status": "registration-planned",
+  "registration_evidence": null,
+  "registration_target": "github:edithatogo/w3id.org",
+  "representations": [
+    "json",
+    "json-ld",
+    "shacl"
+  ],
+  "schema_version": "1.0.0",
+  "semantic_import_policy": "External ontologies are design and validation references unless an explicit versioned mapping, licence review, competency test, and semantic-import decision are committed. No external class is imported merely because a repository is owned by the maintainer.",
+  "sources": [
+    {
+      "adopted_patterns": [
+        "modular ontology files",
+        "JSON-LD contexts",
+        "SHACL validation shapes",
+        "competency questions",
+        "versioned modelling decisions"
+      ],
+      "asset_id": "github:edithatogo/UOGTO",
+      "rationale": "UOGTO provides the maintainer's most mature formal ontology-engineering pattern, but its game-theory semantics are not animal or mobility semantics.",
+      "role": "design-pattern",
+      "semantic_import": false
+    },
+    {
+      "adopted_patterns": [
+        "stable identifiers",
+        "release-aware ontology governance",
+        "machine-readable term definitions"
+      ],
+      "asset_id": "github:edithatogo/human-phenotype-ontology",
+      "rationale": "HPO is useful as a mature ontology-governance reference; clinical phenotype classes are outside PelicanBench and are not imported.",
+      "role": "validation-reference",
+      "semantic_import": false
+    },
+    {
+      "adopted_patterns": [
+        "persistent HTTPS namespace redirection",
+        "owner-controlled namespace registration"
+      ],
+      "asset_id": "github:edithatogo/w3id.org",
+      "rationale": "The repository is the intended persistent-identifier registration route. The namespace is not represented as published until registration evidence exists.",
+      "role": "namespace-host",
+      "semantic_import": false
+    }
+  ],
+  "validation_surfaces": [
+    "benchmark/ontologies/context.jsonld",
+    "benchmark/ontologies/shapes.ttl",
+    "benchmark/ontology-tests/competency-cases.json"
+  ]
+}

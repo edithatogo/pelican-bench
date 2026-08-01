@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "PackagedArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "role"
+      ],
+      "title": "PackagedArtifact",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/PackagedArtifact"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "assurance_ready": {
+      "title": "Assurance Ready",
+      "type": "boolean"
+    },
+    "clean_clone_result": {
+      "title": "Clean Clone Result",
+      "type": "string"
+    },
+    "commit": {
+      "pattern": "^[0-9a-f]{40}$",
+      "title": "Commit",
+      "type": "string"
+    },
+    "ecosystem_audit_passed": {
+      "title": "Ecosystem Audit Passed",
+      "type": "boolean"
+    },
+    "external_writes_executed": {
+      "default": false,
+      "title": "External Writes Executed",
+      "type": "boolean"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "git_clean": {
+      "title": "Git Clean",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "package_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Package Hash",
+      "type": "string"
+    },
+    "pilot_cells": {
+      "minimum": 0,
+      "title": "Pilot Cells",
+      "type": "integer"
+    },
+    "pilot_qualification_required_cells": {
+      "minimum": 0,
+      "title": "Pilot Qualification Required Cells",
+      "type": "integer"
+    },
+    "pilot_ready_cells": {
+      "minimum": 0,
+      "title": "Pilot Ready Cells",
+      "type": "integer"
+    },
+    "profile": {
+      "title": "Profile",
+      "type": "string"
+    },
+    "project": {
+      "default": "PelicanBench",
+      "title": "Project",
+      "type": "string"
+    },
+    "publication_bundle_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Publication Bundle Hash",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "tag": {
+      "title": "Tag",
+      "type": "string"
+    },
+    "tag_points_at_head": {
+      "title": "Tag Points At Head",
+      "type": "boolean"
+    },
+    "tree": {
+      "pattern": "^[0-9a-f]{40}$",
+      "title": "Tree",
+      "type": "string"
+    },
+    "verification_result": {
+      "title": "Verification Result",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "generated_at",
+    "version",
+    "profile",
+    "tag",
+    "commit",
+    "tree",
+    "git_clean",
+    "tag_points_at_head",
+    "assurance_ready",
+    "ecosystem_audit_passed",
+    "verification_result",
+    "clean_clone_result",
+    "pilot_cells",
+    "pilot_ready_cells",
+    "pilot_qualification_required_cells",
+    "publication_bundle_hash",
+    "artifacts",
+    "package_hash",
+    "limitations"
+  ],
+  "title": "ReleasePackageReceipt",
+  "type": "object"
+}

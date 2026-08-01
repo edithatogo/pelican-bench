@@ -12,6 +12,11 @@ from pydantic import ValidationError
 
 from .assurance import EVIDENCE_ORDER, evaluate_release_readiness
 from .conductor_docs import generated_documents
+from .ecosystem import EcosystemRegistry, audit_ecosystem, load_ecosystem_registry
+from .interoperability import (
+    OntologyInteroperabilityProfile,
+    load_ontology_interoperability_profile,
+)
 from .models import (
     BenchmarkTask,
     EvaluationRecord,
@@ -23,6 +28,10 @@ from .models import (
     TrialRecord,
 )
 from .ontology import Ontology, evaluate_competency_cases
+from .pilot import PilotExecutionPlan
+from .publication import PublicationBundleManifest, PublicationPlan, default_publication_plan
+from .release_records import ReleasePackageReceipt
+from .registry import RuntimeProfileRegistry, load_registry, load_runtime_profiles, runtime_profile_for_model
 from .taskgen import load_grammar, task_set_commitment
 from .workgraph import build_issue_manifest
 
@@ -53,6 +62,9 @@ REQUIRED_PATHS = (
     "scripts/generate_issue_manifest.py",
     "scripts/generate_conductor_docs.py",
     "scripts/generate_release_manifest.py",
+    "scripts/generate_verification_receipt.py",
+    "scripts/build_publication_bundle.py",
+    "scripts/package_release.py",
     "scripts/verify_clean_clone.sh",
     "src/pelicanbench/release_manifest.py",
     "src/pelicanbench/conductor_docs.py",
@@ -60,7 +72,19 @@ REQUIRED_PATHS = (
     "src/pelicanbench/metamorphic.py",
     "src/pelicanbench/fuzzing.py",
     "src/pelicanbench/calibration.py",
+    "src/pelicanbench/ecosystem.py",
+    "src/pelicanbench/verification.py",
+    "src/pelicanbench/publication.py",
+    "src/pelicanbench/release_packaging.py",
+    "src/pelicanbench/release_records.py",
+    "src/pelicanbench/pilot.py",
+    "src/pelicanbench/interoperability.py",
     "benchmark/assurance-case.json",
+    "benchmark/integrations/ecosystem-registry.json",
+    "benchmark/ontologies/interoperability-profile.json",
+    "benchmark/schemas/repository-verification-receipt.schema.json",
+    "benchmark/schemas/release-package-receipt.schema.json",
+    "hf/runtime-profiles.json",
     "benchmark/scorer-challenges/known-exploits.json",
     "benchmark/tasks/grammar.json",
     "benchmark/tasks/public-anchor.jsonl",
@@ -82,6 +106,13 @@ SCHEMA_MODELS = {
     "evaluation-record.schema.json": EvaluationRecord,
     "source-record.schema.json": SourceRecord,
     "historical-observation.schema.json": HistoricalObservation,
+    "ecosystem-registry.schema.json": EcosystemRegistry,
+    "runtime-profile-registry.schema.json": RuntimeProfileRegistry,
+    "pilot-execution-plan.schema.json": PilotExecutionPlan,
+    "publication-plan.schema.json": PublicationPlan,
+    "publication-bundle-manifest.schema.json": PublicationBundleManifest,
+    "release-package-receipt.schema.json": ReleasePackageReceipt,
+    "ontology-interoperability-profile.schema.json": OntologyInteroperabilityProfile,
 }
 ALLOWED_PHASE_STATUS = {"complete", "partial", "blocked", "planned", "reopened"}
 ALLOWED_BLOCKER_STATUS = ALLOWED_PHASE_STATUS
@@ -551,27 +582,28 @@ def _validate_assurance(project: Path) -> list[ValidationFinding]:
                     )
                 )
 
-    try:
-        alpha = evaluate_release_readiness(project, profile="v0.2-alpha")
-    except (KeyError, TypeError, ValueError) as exc:
-        findings.append(
-            ValidationFinding(
-                "error",
-                "invalid-assurance-profile",
-                str(exc),
-                _relative(project, assurance_path),
-            )
-        )
-    else:
-        if not alpha.ready:
+    for profile in ("v0.2-alpha", "v0.3-alpha"):
+        try:
+            alpha = evaluate_release_readiness(project, profile=profile)
+        except (KeyError, TypeError, ValueError) as exc:
             findings.append(
                 ValidationFinding(
                     "error",
-                    "alpha-assurance-not-ready",
-                    json.dumps(alpha.as_dict(), sort_keys=True),
+                    "invalid-assurance-profile",
+                    str(exc),
                     _relative(project, assurance_path),
                 )
             )
+        else:
+            if not alpha.ready:
+                findings.append(
+                    ValidationFinding(
+                        "error",
+                        "alpha-assurance-not-ready",
+                        json.dumps(alpha.as_dict(), sort_keys=True),
+                        _relative(project, assurance_path),
+                    )
+                )
     return findings
 
 
@@ -753,6 +785,267 @@ def _validate_workflow_action_pins(root: Path) -> list[ValidationFinding]:
                 )
     return findings
 
+
+def _validate_ecosystem_contract(project: Path) -> list[ValidationFinding]:
+    findings: list[ValidationFinding] = []
+    registry_path = project / "benchmark/integrations/ecosystem-registry.json"
+    if not registry_path.exists():
+        return findings
+    try:
+        registry = load_ecosystem_registry(registry_path)
+        report = audit_ecosystem(project, registry)
+    except (TypeError, ValueError, ValidationError) as exc:
+        return [
+            ValidationFinding(
+                "error",
+                "invalid-ecosystem-registry",
+                str(exc),
+                _relative(project, registry_path),
+            )
+        ]
+    for item in report.findings:
+        if item.severity != "error":
+            continue
+        findings.append(
+            ValidationFinding(
+                "error",
+                item.code,
+                item.message,
+                item.path or _relative(project, registry_path),
+            )
+        )
+    direct_names = {item.name for item in registry.assets if item.relevance == "direct"}
+    required = {
+        "edithatogo/repository-standards",
+        "edithatogo/sourceright",
+        "edithatogo/authentext",
+        "edithatogo/osf-cli-go",
+        "edithatogo/substack-cli-ts",
+        "edithatogo/arxiv-paper-template",
+        "edithatogo/hermes-training",
+        "edithatogo/krita-cli",
+        "edithatogo/pelican-bench",
+        "edithatogo/pelican-bench-explorer",
+        "edithatogo/pelican-bench-openenv",
+    }
+    missing = sorted(required - direct_names)
+    if missing:
+        findings.append(
+            ValidationFinding(
+                "error",
+                "missing-direct-ecosystem-assets",
+                ", ".join(missing),
+                _relative(project, registry_path),
+            )
+        )
+    all_names = {item.name for item in registry.assets}
+    required_dispositions = {
+        "edithatogo/UOGTO",
+        "edithatogo/codev",
+        "edithatogo/ralph-codex",
+        "edithatogo/fyi-cli",
+        "edithatogo/fyi-archive",
+        "edithatogo/postiz-agent",
+        "edithatogo/w3id.org",
+        "edithatogo/mcp-registry",
+    }
+    missing_dispositions = sorted(required_dispositions - all_names)
+    if missing_dispositions:
+        findings.append(
+            ValidationFinding(
+                "error",
+                "missing-ecosystem-dispositions",
+                ", ".join(missing_dispositions),
+                _relative(project, registry_path),
+            )
+        )
+    return findings
+
+
+def _validate_runtime_registry(project: Path) -> list[ValidationFinding]:
+    findings: list[ValidationFinding] = []
+    model_path = project / "hf/model-eligibility.json"
+    profile_path = project / "hf/runtime-profiles.json"
+    if not model_path.exists() or not profile_path.exists():
+        return findings
+    try:
+        models = load_registry(model_path)
+        profiles = load_runtime_profiles(profile_path)
+    except (TypeError, ValueError, ValidationError) as exc:
+        return [
+            ValidationFinding(
+                "error",
+                "invalid-model-runtime-registry",
+                str(exc),
+                _relative(project, profile_path),
+            )
+        ]
+    profile_ids = {item.profile_id for item in profiles.profiles}
+    for model in models:
+        if model.runtime_profile and model.runtime_profile not in profile_ids:
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "unknown-runtime-profile",
+                    f"{model.model_id} references {model.runtime_profile}",
+                    _relative(project, model_path),
+                )
+            )
+        try:
+            matched = runtime_profile_for_model(profiles, model.model_id)
+        except ValueError as exc:
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "ambiguous-runtime-profile",
+                    str(exc),
+                    _relative(project, profile_path),
+                )
+            )
+            continue
+        if model.runtime_profile and (matched is None or matched.profile_id != model.runtime_profile):
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "runtime-profile-model-mismatch",
+                    f"{model.model_id} is not listed by {model.runtime_profile}",
+                    _relative(project, profile_path),
+                )
+            )
+    return findings
+
+
+def _validate_publication_contract(project: Path) -> list[ValidationFinding]:
+    findings: list[ValidationFinding] = []
+    plan = default_publication_plan()
+    identifiers = [item.action_id for item in plan.actions]
+    if len(identifiers) != len(set(identifiers)):
+        findings.append(
+            ValidationFinding(
+                "error",
+                "duplicate-publication-action",
+                "publication action identifiers must be unique",
+                "src/pelicanbench/publication.py",
+            )
+        )
+    for action in plan.actions:
+        if action.writes_external and (
+            action.mode != "manual-write" or not action.approval_required
+        ):
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "unsafe-publication-action",
+                    f"{action.action_id} writes externally without manual approval",
+                    "src/pelicanbench/publication.py",
+                )
+            )
+    return findings
+
+
+def _validate_repository_standards_schema(project: Path) -> list[ValidationFinding]:
+    path = project / "benchmark/schemas/repository-verification-receipt.schema.json"
+    if not path.exists():
+        return []
+    value = _load_object(path)
+    expected_id = "https://github.com/edithatogo/repository-standards/schemas/verification-receipt.schema.json"
+    findings: list[ValidationFinding] = []
+    if value.get("$id") != expected_id or value.get("properties", {}).get("schema_version", {}).get("const") != 1:
+        findings.append(
+            ValidationFinding(
+                "error",
+                "invalid-repository-standards-schema",
+                "verification receipt contract must remain pinned to repository-standards v1",
+                _relative(project, path),
+            )
+        )
+    return findings
+
+
+def _validate_ontology_interoperability(project: Path) -> list[ValidationFinding]:
+    """Validate ontology exchange surfaces without claiming external publication.
+
+    The profile records UOGTO/HPO as design or validation references and w3id as a
+    future namespace host.  These checks deliberately fail if the repository's
+    JSON-LD context, SHACL namespace, or competency-question path drifts from the
+    declared local contract.
+    """
+
+    profile_path = project / "benchmark/ontologies/interoperability-profile.json"
+    if not profile_path.exists():
+        return []
+    try:
+        profile = load_ontology_interoperability_profile(profile_path)
+    except (TypeError, ValueError, ValidationError) as exc:
+        return [
+            ValidationFinding(
+                "error",
+                "invalid-ontology-interoperability-profile",
+                str(exc),
+                _relative(project, profile_path),
+            )
+        ]
+
+    findings: list[ValidationFinding] = []
+    for relative in profile.validation_surfaces:
+        if not (project / relative).exists():
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "missing-ontology-validation-surface",
+                    relative,
+                    _relative(project, profile_path),
+                )
+            )
+
+    context_path = project / "benchmark/ontologies/context.jsonld"
+    if context_path.exists():
+        context = _load_object(context_path).get("@context", {})
+        if not isinstance(context, dict) or context.get("pb") != profile.namespace:
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "ontology-namespace-context-drift",
+                    f"context pb namespace must equal {profile.namespace}",
+                    _relative(project, context_path),
+                )
+            )
+
+    shapes_path = project / "benchmark/ontologies/shapes.ttl"
+    if shapes_path.exists() and f"<{profile.namespace}>" not in shapes_path.read_text(
+        encoding="utf-8"
+    ):
+        findings.append(
+            ValidationFinding(
+                "error",
+                "ontology-namespace-shacl-drift",
+                f"SHACL prefix must use {profile.namespace}",
+                _relative(project, shapes_path),
+            )
+        )
+
+    competency_path = project / profile.competency_question_surface
+    if not competency_path.exists():
+        findings.append(
+            ValidationFinding(
+                "error",
+                "missing-ontology-competency-surface",
+                profile.competency_question_surface,
+                _relative(project, profile_path),
+            )
+        )
+
+    if profile.namespace_status != "published" and profile.registration_evidence:
+        findings.append(
+            ValidationFinding(
+                "error",
+                "premature-ontology-registration-evidence",
+                "registration evidence is only valid after the namespace is published",
+                _relative(project, profile_path),
+            )
+        )
+    return findings
+
 def validate_repository(root: str | Path) -> list[ValidationFinding]:
     project = Path(root)
     findings: list[ValidationFinding] = []
@@ -791,6 +1084,8 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
 
     ontology_root = project / "benchmark/ontologies"
     for path in ontology_root.glob("*.json") if ontology_root.exists() else ():
+        if path.name == "interoperability-profile.json":
+            continue
         try:
             Ontology.load(path)
         except (KeyError, TypeError, ValueError) as exc:
@@ -808,6 +1103,11 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
     findings.extend(_validate_ontology_cases(project))
     findings.extend(_validate_known_exploits(project))
     findings.extend(_validate_workflow_action_pins(project))
+    findings.extend(_validate_ecosystem_contract(project))
+    findings.extend(_validate_runtime_registry(project))
+    findings.extend(_validate_publication_contract(project))
+    findings.extend(_validate_repository_standards_schema(project))
+    findings.extend(_validate_ontology_interoperability(project))
 
     status_path = project / "conductor/status.md"
     if status_path.exists():

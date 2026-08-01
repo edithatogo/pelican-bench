@@ -1,5 +1,5 @@
 {
-  "blocker": "Source-independent assessment and deterministic calibration-sampling contracts are fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
+  "blocker": "Source-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/semantic.py",
@@ -8,7 +8,8 @@
     "docs/source-render-semantic-contract.md",
     "benchmark/assurance-case.json",
     "src/pelicanbench/calibration.py",
-    "tests/test_calibration.py"
+    "tests/test_calibration.py",
+    "tests/test_human_eval_exchange.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

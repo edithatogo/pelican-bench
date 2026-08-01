@@ -22,4 +22,4 @@ Primary outputs are dimension scorecards, critical-gate success, uncertainty, co
 
 ## Limitations
 
-The historical corpus is observational, exposed to selection and documentation bias, and cannot be interpreted as a controlled comparison. Structural SVG checks are proxy measures rather than full semantic truth. Human calibration is not complete in v0.1.0-alpha.1.
+The historical corpus is observational, exposed to selection and documentation bias, and cannot be interpreted as a controlled comparison. Structural SVG checks are proxy measures rather than full semantic truth. Human calibration is not complete in v0.3.0-alpha.1.

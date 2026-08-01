@@ -25,7 +25,11 @@ from pelicanbench.taskgen import (
 
 
 def test_all_ontologies_load(root: Path):
-    loaded = [Ontology.load(path) for path in sorted((root / "benchmark/ontologies").glob("*.json"))]
+    loaded = [
+        Ontology.load(path)
+        for path in sorted((root / "benchmark/ontologies").glob("*.json"))
+        if path.name != "interoperability-profile.json"
+    ]
     assert len(loaded) == 7
     assert all(item.version in {"0.1.0", "0.2.0"} for item in loaded)
     assert all(item.to_jsonld()["@type"] == "pb:Ontology" for item in loaded)

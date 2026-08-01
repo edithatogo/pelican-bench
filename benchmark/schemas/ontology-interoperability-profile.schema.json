@@ -1,0 +1,140 @@
+{
+  "$defs": {
+    "OntologyPatternSource": {
+      "additionalProperties": false,
+      "properties": {
+        "adopted_patterns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Adopted Patterns",
+          "type": "array"
+        },
+        "asset_id": {
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "design-pattern",
+            "semantic-import",
+            "namespace-host",
+            "validation-reference"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "semantic_import": {
+          "default": false,
+          "title": "Semantic Import",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "asset_id",
+        "role",
+        "rationale"
+      ],
+      "title": "OntologyPatternSource",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "competency_question_surface": {
+      "title": "Competency Question Surface",
+      "type": "string"
+    },
+    "namespace": {
+      "pattern": "^https://",
+      "title": "Namespace",
+      "type": "string"
+    },
+    "namespace_status": {
+      "enum": [
+        "local-reservation",
+        "registration-planned",
+        "published"
+      ],
+      "title": "Namespace Status",
+      "type": "string"
+    },
+    "registration_evidence": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Registration Evidence"
+    },
+    "registration_target": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Registration Target"
+    },
+    "representations": {
+      "items": {
+        "enum": [
+          "json",
+          "json-ld",
+          "rdf",
+          "owl",
+          "shacl"
+        ],
+        "type": "string"
+      },
+      "title": "Representations",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_import_policy": {
+      "title": "Semantic Import Policy",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/OntologyPatternSource"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "validation_surfaces": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Validation Surfaces",
+      "type": "array"
+    }
+  },
+  "required": [
+    "namespace",
+    "namespace_status",
+    "representations",
+    "validation_surfaces",
+    "competency_question_surface",
+    "semantic_import_policy",
+    "sources"
+  ],
+  "title": "OntologyInteroperabilityProfile",
+  "type": "object"
+}

@@ -1,3 +1,11 @@
+---
+title: "The joke that became a benchmark"
+subtitle: "Why a pelican riding a bicycle is a surprisingly useful test of visual AI"
+tags: [artificial-intelligence, benchmarks, visual-generation, pelicanbench]
+audience: everyone
+comments: enabled
+---
+
 # The joke that became a benchmark
 
 A pelican riding a bicycle is funny because it is immediately understandable and mechanically absurd. That makes failure legible. It also makes the prompt unusually useful: an image can contain a convincing pelican and a convincing bicycle while still failing to show the first riding the second.

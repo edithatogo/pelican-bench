@@ -8,7 +8,13 @@
     "src/pelicanbench/release_manifest.py",
     "scripts/generate_release_manifest.py",
     "scripts/generate_sbom.py",
-    "tests/test_workgraph_release.py"
+    "tests/test_workgraph_release.py",
+    "src/pelicanbench/verification.py",
+    "src/pelicanbench/release_records.py",
+    "benchmark/schemas/repository-verification-receipt.schema.json",
+    "benchmark/schemas/release-package-receipt.schema.json",
+    "tests/test_ecosystem_publication_verification.py",
+    "tests/test_release_packaging.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

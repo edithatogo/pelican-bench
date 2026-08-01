@@ -9,7 +9,11 @@ PelicanBench distinguishes four environment records because no single file is su
 
 ## Current alpha limitation
 
-The development environment used to build `v0.2.0-alpha.1` could not resolve all declared packages through its configured package mirror. A synthetic or incomplete `uv.lock` would create false reproducibility confidence, so none is committed. The reference-environment snapshot is explicitly an evidence artifact, not a universal resolver lock.
+The development environment used to build the `v0.2.0-alpha.1` and `v0.3.0-alpha.1`
+lines could not resolve all declared packages through its configured package mirror. A
+synthetic or incomplete `uv.lock` would create false reproducibility confidence, so none
+is committed. The reference-environment snapshot is explicitly an evidence artifact, not
+a universal resolver lock.
 
 The stable release gate therefore remains open until all of the following exist:
 

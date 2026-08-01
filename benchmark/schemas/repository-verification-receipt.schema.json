@@ -1,0 +1,154 @@
+{
+  "$id": "https://github.com/edithatogo/repository-standards/schemas/verification-receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "checks": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "duration_seconds": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "result": {
+            "enum": [
+              "pass",
+              "fail",
+              "skip"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "result"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "quality_metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "benchmark_regressions": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "branch_coverage_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "contract_tests": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deterministic_simulation_scenarios": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "line_coverage_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "metamorphic_relations": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mutation_score_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "oldest_quarantine_days": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "patch_coverage_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "property_examples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "quarantined_tests": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "repository": {
+      "pattern": "^[^/]+/[^/]+$",
+      "type": "string"
+    },
+    "result": {
+      "enum": [
+        "pass",
+        "fail",
+        "partial"
+      ]
+    },
+    "revision": {
+      "minLength": 7,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "seed": {
+      "type": [
+        "integer",
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "repository",
+    "revision",
+    "generated_at",
+    "result",
+    "checks"
+  ],
+  "title": "Repository verification receipt",
+  "type": "object"
+}

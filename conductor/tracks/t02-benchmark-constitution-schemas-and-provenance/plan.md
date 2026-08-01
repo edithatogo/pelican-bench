@@ -25,6 +25,8 @@
 - [x] Task: Add independent, adversarial or property-oriented validation.
 - [x] Task: Measure uncertainty, repeatability and known limitations.
 - [x] Task: Reproduce through the project harness and update evidence.
+- [x] Task: Emit a `repository-standards` v1 verification receipt and validate it against the pinned external schema.
+- [x] Task: Define a portable complete-release QA receipt and generated JSON Schema.
 - [x] Task: Phase verification and validated checkpoint. Evidence: `src/pelicanbench/models.py`, `benchmark/schemas`, `src/pelicanbench/manifest.py`.
 
 ## P3 Hardened

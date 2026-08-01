@@ -15,10 +15,13 @@ human alignment, rights-aware governance and bounded treatment of untrusted arti
 
 ## Current assurance position
 
-The v0.2 alpha profile targets **E2, fixture-verified** evidence. It is intended to show that
-the benchmark contracts, exploit regressions, task identities and run packages behave as
-specified. It does not claim that automatic scores are aligned with people or that model
-rankings are empirically valid.
+The v0.2 alpha profile targets **E2, fixture-verified** measurement evidence. The current
+v0.3 alpha profile retains those claims and adds auditable first-party ecosystem
+boundaries, ordinary qualification gates for first-party models, deterministic
+publication hand-offs, formal but bounded ontology interoperability and privacy-minimised
+human-rating exchange. Neither profile claims
+that automatic scores are aligned with people or that model rankings are empirically
+valid.
 
 The v1.0 profile requires **E3, empirically calibrated** evidence for all primary claims,
 plus closure of the five release blockers:
@@ -42,6 +45,7 @@ Run:
 
 ```bash
 pelicanbench release-readiness --profile v0.2-alpha
+pelicanbench release-readiness --profile v0.3-alpha
 pelicanbench release-readiness --profile v1.0
 ```
 

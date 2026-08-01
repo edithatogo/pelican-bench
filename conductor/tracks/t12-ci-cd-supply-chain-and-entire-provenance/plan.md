@@ -27,6 +27,8 @@
 - [x] Task: Add evidence-aware release-readiness and assurance-case checks.
 - [x] Task: Generate and verify the 115-issue Conductor/GitHub work graph deterministically.
 - [x] Task: Generate a dependency-aware SPDX SBOM and content-addressed release manifest.
+- [x] Task: Generate a repository-standards verification receipt with explicit pass, fail and skipped checks.
+- [x] Task: Generate deterministic source/full-history archives, Git bundle, publication archive, QA receipt and top-level checksums.
 - [ ] Task: Run remote GitHub CI, release attestations and Entire CLI provenance.
 - [ ] Task: Verify the published release from an independent clean clone.
 

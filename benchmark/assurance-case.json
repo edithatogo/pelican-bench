@@ -181,6 +181,118 @@
       ],
       "status": "implemented",
       "title": "Human calibration selection and presentation are prespecified"
+    },
+    {
+      "claim": "Animal, mobile-object, and interface ontologies expose JSON-LD, SHACL, and competency-test surfaces while external ontologies remain explicit references or reviewed mappings and the w3id namespace is not represented as published without resolver evidence.",
+      "defeaters": [
+        "The w3id resolver has not yet been registered or independently verified.",
+        "The current SHACL and competency suite is an evaluation-ontology prototype rather than a mature community ontology.",
+        "No external semantic mapping has yet completed licence, version, and competency review."
+      ],
+      "evidence": [
+        "benchmark/ontologies/interoperability-profile.json",
+        "benchmark/ontologies/context.jsonld",
+        "benchmark/ontologies/shapes.ttl",
+        "benchmark/ontology-tests/competency-cases.json",
+        "src/pelicanbench/interoperability.py",
+        "tests/test_ecosystem_publication_verification.py",
+        "docs/ontology-roadmap.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-ONTO-01",
+      "linked_blockers": [
+        "RB-01",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Ontology interoperability is formal, bounded, and namespace-honest"
+    },
+    {
+      "claim": "Direct, pattern-only, candidate, watch and excluded first-party assets are recorded with versioned contracts and checked evidence paths.",
+      "defeaters": [
+        "The audit cannot prove optional sibling clones or external commands work when they are absent.",
+        "The owner ecosystem can change after the dated inventory snapshot."
+      ],
+      "evidence": [
+        "benchmark/integrations/ecosystem-registry.json",
+        "src/pelicanbench/ecosystem.py",
+        "tests/test_ecosystem_publication_verification.py",
+        "docs/ecosystem-integration.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-ECO-01",
+      "linked_blockers": [
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "First-party ecosystem integration is explicit and auditable"
+    },
+    {
+      "claim": "Dylan Mordaunt's Hugging Face adapters are represented by immutable-revision, licence, runtime-profile and canary gates rather than presumed eligible.",
+      "defeaters": [
+        "The first-party adapters have not yet completed an SVG canary or prospective run.",
+        "Hosted-provider behaviour is unavailable for adapters without deployed inference."
+      ],
+      "evidence": [
+        "hf/model-eligibility.json",
+        "hf/runtime-profiles.json",
+        "src/pelicanbench/registry.py",
+        "src/pelicanbench/adapters.py",
+        "src/pelicanbench/pilot.py",
+        "tests/test_runner_manifest.py",
+        "tests/test_ecosystem_publication_verification.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-MODEL-01",
+      "linked_blockers": [
+        "RB-02",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "First-party models use the ordinary qualification gates"
+    },
+    {
+      "claim": "The project can generate a deterministic content-addressed bundle for SourceRight, Authentext, scholarly review, Substack, approval-gated Postiz distribution, OSF and arXiv without performing authenticated external writes.",
+      "defeaters": [
+        "The hand-offs have not yet executed against every external tool in a clean integration environment.",
+        "Publication claims still require human evidence review."
+      ],
+      "evidence": [
+        "src/pelicanbench/publication.py",
+        "scripts/build_publication_bundle.py",
+        "publications/substack/post-01-draft.md",
+        "publications/arxiv/main.tex",
+        "tests/test_ecosystem_publication_verification.py",
+        "docs/publication-roadmap.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-PUB-01",
+      "linked_blockers": [
+        "RB-04",
+        "RB-05"
+      ],
+      "status": "implemented",
+      "title": "Publication hand-offs are rights-aware and non-autonomous"
+    },
+    {
+      "claim": "The V1 exchange exports blinded categorical assignments, rejects direct-identifier columns and records a data dictionary and manifest.",
+      "defeaters": [
+        "Collection platforms can still gather identifiers outside the released PelicanBench table.",
+        "Governance and consent have not yet been approved or tested with participants."
+      ],
+      "evidence": [
+        "src/pelicanbench/human_eval.py",
+        "tests/test_human_eval_exchange.py",
+        "docs/human-evaluation-protocol.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-HUM-X-01",
+      "linked_blockers": [
+        "RB-03",
+        "RB-05"
+      ],
+      "status": "implemented",
+      "title": "Human-rating exchange minimises participant data"
     }
   ],
   "evidence_levels": {
@@ -205,6 +317,24 @@
         "C-CAL-DESIGN-01"
       ]
     },
+    "v0.3-alpha": {
+      "description": "A fixture-verified ecosystem, model-qualification and publication-integration alpha. It adds no empirical model or human-validity claim.",
+      "minimum_evidence_level": "E2",
+      "required_claims": [
+        "C-SEM-01",
+        "C-ID-01",
+        "C-TASK-01",
+        "C-RUN-01",
+        "C-STAT-01",
+        "C-SEC-01",
+        "C-CAL-DESIGN-01",
+        "C-ECO-01",
+        "C-MODEL-01",
+        "C-PUB-01",
+        "C-HUM-X-01",
+        "C-ONTO-01"
+      ]
+    },
     "v1.0": {
       "description": "The first empirically calibrated and reproducible public benchmark release.",
       "minimum_evidence_level": "E3",
@@ -217,7 +347,8 @@
         "C-HUM-01",
         "C-GOV-01",
         "C-SEC-01",
-        "C-CAL-DESIGN-01"
+        "C-CAL-DESIGN-01",
+        "C-ONTO-01"
       ]
     }
   },

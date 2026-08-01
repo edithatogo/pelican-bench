@@ -21,13 +21,17 @@
 ## P2 Validated
 
 **Phase state:** `blocked`
+**Evidence level:** `E2` fixture-verified for local contracts
 
 - [x] Task: Add independent, adversarial or property-oriented validation.
+- [x] Task: Inventory the current first-party model namespace and record explicit inclusion or exclusion decisions.
+- [x] Task: Add qualification-gated MLX and PEFT Qwen3 Hermes entries plus a versioned runtime prompt profile.
+- [x] Task: Keep the strict-tool-call dataset as provenance only and firewall it from benchmark task/scorer data.
 - [ ] Task: Measure uncertainty, repeatability and known limitations.
 - [ ] Task: Reproduce through the project harness and update evidence.
 - [ ] Task: Phase verification and validated checkpoint.
 
-**Current limitation:** Hub publication is prepared but the available HF Jobs write route is blocked by account credits and no local token is mounted.
+**Current limitation:** Hub publication is prepared but the target dataset and Spaces are not remotely created through this environment. The first-party candidate adapters also require immutable revisions and valid-SVG canaries before pilot eligibility.
 
 ## P3 Hardened
 

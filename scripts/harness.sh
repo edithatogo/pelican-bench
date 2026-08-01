@@ -25,7 +25,13 @@ python scripts/generate_issue_manifest.py --check
 python scripts/generate_conductor_docs.py --check
 python scripts/sync_conductor_install.py --check
 python scripts/check_rights.py
-python -m pelicanbench.cli release-readiness --profile v0.2-alpha
+python -m pelicanbench.cli release-readiness --profile v0.3-alpha
+
+printf '%s\n' '== First-party ecosystem and model qualification audit =='
+python -m pelicanbench.cli ecosystem-audit \
+  --registry benchmark/integrations/ecosystem-registry.json \
+  --output artifacts/ecosystem-audit.json >/dev/null
+python -m pelicanbench.cli model-registry-status > artifacts/model-registry-status.json
 
 printf '%s\n' '== GitHub work graph dry run =='
 python scripts/sync_github_issues.py --summary-only
@@ -35,6 +41,14 @@ printf '%s\n' '== Prespecified task-set reproducibility =='
 python -m pelicanbench.cli generate-v1-pilot --output "${PB_TMPDIR}/v1-pilot.jsonl" >/dev/null
 diff -u benchmark/tasks/v1-pilot.jsonl "${PB_TMPDIR}/v1-pilot.jsonl"
 diff -u benchmark/tasks/v1-pilot-commitment.json "${PB_TMPDIR}/v1-pilot-commitment.json"
+
+printf '%s\n' '== Deterministic prospective execution plan =='
+python -m pelicanbench.cli plan-pilot \
+  --output "${PB_TMPDIR}/pilot-a.json" >/dev/null
+python -m pelicanbench.cli plan-pilot \
+  --output "${PB_TMPDIR}/pilot-b.json" >/dev/null
+diff -u "${PB_TMPDIR}/pilot-a.json" "${PB_TMPDIR}/pilot-b.json"
+diff -u "${PB_TMPDIR}/pilot-a-cells.jsonl" "${PB_TMPDIR}/pilot-b-cells.jsonl"
 
 printf '%s\n' '== Normative scorer metamorphic challenge =='
 mkdir -p artifacts
@@ -95,8 +109,30 @@ python scripts/generate_sbom.py --output artifacts/sbom-b.spdx.json >/dev/null
 diff -u artifacts/sbom-a.spdx.json artifacts/sbom-b.spdx.json
 python scripts/generate_release_manifest.py \
   --output artifacts/release-manifest.json \
-  --profile v0.2-alpha \
+  --profile v0.3-alpha \
   --artifact artifacts/sbom-a.spdx.json >/dev/null
+
+printf '%s\n' '== Deterministic publication hand-off =='
+python -m pelicanbench.cli publication-bundle \
+  --output "${PB_TMPDIR}/publication-a" \
+  --artifact artifacts/scorer-challenge-report.json \
+  --artifact artifacts/svg-fuzz-report.json >/dev/null
+python -m pelicanbench.cli publication-bundle \
+  --output "${PB_TMPDIR}/publication-b" \
+  --artifact artifacts/scorer-challenge-report.json \
+  --artifact artifacts/svg-fuzz-report.json >/dev/null
+diff -ru "${PB_TMPDIR}/publication-a" "${PB_TMPDIR}/publication-b"
+
+printf '%s\n' '== repository-standards verification receipt =='
+python -m pelicanbench.cli verification-receipt \
+  --profile v0.3-alpha \
+  --output artifacts/repository-verification-receipt.json \
+  --coverage coverage.xml \
+  --artifact artifacts/ecosystem-audit.json \
+  --artifact artifacts/model-registry-status.json \
+  --artifact artifacts/release-manifest.json \
+  --artifact artifacts/scorer-challenge-report.json \
+  --artifact artifacts/svg-fuzz-report.json >/dev/null
 
 if command -v ruff >/dev/null 2>&1; then
   printf '%s\n' '== Ruff =='

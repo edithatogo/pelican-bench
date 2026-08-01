@@ -6,6 +6,8 @@ import json
 import os
 import subprocess
 import time
+import urllib.error
+import urllib.request
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
@@ -159,6 +161,152 @@ class CommandAdapter(ModelAdapter):
             "image/svg+xml",
             completed.stdout,
             {"seed": seed, "stderr": completed.stderr[-2000:]},
+        )
+
+
+class OpenAICompatibleAdapter(ModelAdapter):
+    """Call a bounded OpenAI-compatible chat-completions endpoint.
+
+    The adapter works with local Ollama, llama.cpp, MLX servers, Hermes gateways, and
+    compatible hosted endpoints. Credentials are read only from the explicitly named
+    environment variable and are never included in result metadata or raw responses.
+    """
+
+    def __init__(
+        self,
+        base_url: str,
+        *,
+        adapter_id: str,
+        model_id: str,
+        model_revision: str,
+        timeout_seconds: int = 180,
+        api_key_environment: str | None = None,
+        system_prompt: str = (
+            "Return one complete, self-contained SVG document and no explanatory prose. "
+            "Do not embed raster images, scripts, external resources, or hidden text."
+        ),
+        first_user_prefix: str = "",
+        assistant_prefill: str = "",
+        temperature: float = 0.0,
+        max_tokens: int = 12000,
+        extra_body: Mapping[str, Any] | None = None,
+    ) -> None:
+        if not base_url.startswith(("http://", "https://")):
+            raise ValueError("base_url must use http or https")
+        if timeout_seconds <= 0:
+            raise ValueError("timeout_seconds must be positive")
+        if max_tokens <= 0:
+            raise ValueError("max_tokens must be positive")
+        if temperature < 0:
+            raise ValueError("temperature cannot be negative")
+        self.base_url = base_url.rstrip("/")
+        self.adapter_id = adapter_id
+        self.model_id = model_id
+        self.model_revision = model_revision
+        self.timeout_seconds = timeout_seconds
+        self.api_key_environment = api_key_environment
+        self.system_prompt = system_prompt
+        self.first_user_prefix = first_user_prefix
+        self.assistant_prefill = assistant_prefill
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+        self.extra_body = dict(extra_body or {})
+
+    @property
+    def endpoint(self) -> str:
+        if self.base_url.endswith("/v1"):
+            return f"{self.base_url}/chat/completions"
+        if self.base_url.endswith("/chat/completions"):
+            return self.base_url
+        return f"{self.base_url}/v1/chat/completions"
+
+    @staticmethod
+    def _message_content(value: Any) -> str:
+        if isinstance(value, str):
+            return value
+        if isinstance(value, list):
+            parts: list[str] = []
+            for item in value:
+                if isinstance(item, dict) and isinstance(item.get("text"), str):
+                    parts.append(item["text"])
+            if parts:
+                return "".join(parts)
+        raise RuntimeError("OpenAI-compatible response did not contain textual content")
+
+    @staticmethod
+    def _extract_svg(value: str) -> str:
+        start = value.find("<svg")
+        end = value.rfind("</svg>")
+        if start < 0 or end < start:
+            raise RuntimeError("model response did not contain a complete SVG document")
+        return value[start : end + len("</svg>")]
+
+    def _payload(self, task: BenchmarkTask, *, seed: int) -> dict[str, Any]:
+        user_content = f"{self.first_user_prefix}{task.prompt}"
+        messages: list[dict[str, str]] = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": user_content},
+        ]
+        if self.assistant_prefill:
+            messages.append({"role": "assistant", "content": self.assistant_prefill})
+        payload: dict[str, Any] = {
+            "model": self.model_id,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "seed": seed,
+            "stream": False,
+        }
+        payload.update(self.extra_body)
+        return payload
+
+    def generate(self, task: BenchmarkTask, *, seed: int) -> GenerationResult:
+        payload = self._payload(task, seed=seed)
+        headers = {"Content-Type": "application/json", "Accept": "application/json"}
+        if self.api_key_environment:
+            token = os.getenv(self.api_key_environment)
+            if token:
+                headers["Authorization"] = f"Bearer {token}"
+        request = urllib.request.Request(
+            self.endpoint,
+            data=json.dumps(payload, separators=(",", ":")).encode("utf-8"),
+            headers=headers,
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:
+                raw = response.read().decode("utf-8")
+                status = int(getattr(response, "status", 200))
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")[-2000:]
+            raise RuntimeError(f"OpenAI-compatible endpoint returned HTTP {exc.code}: {body}") from exc
+        except urllib.error.URLError as exc:
+            raise RuntimeError(f"OpenAI-compatible endpoint unavailable: {exc.reason}") from exc
+        try:
+            value = json.loads(raw)
+            choice = value["choices"][0]
+            content = self._message_content(choice["message"]["content"])
+        except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
+            raise RuntimeError("invalid OpenAI-compatible response structure") from exc
+        output = self._extract_svg(content)
+        usage = value.get("usage", {}) if isinstance(value, dict) else {}
+        finish_reason = choice.get("finish_reason") if isinstance(choice, dict) else None
+        return GenerationResult(
+            task_id=task.task_id,
+            output=output,
+            media_type="image/svg+xml",
+            raw_response=content,
+            metadata={
+                "seed": seed,
+                "endpoint": self.endpoint,
+                "http_status": status,
+                "usage": usage if isinstance(usage, dict) else {},
+                "finish_reason": finish_reason,
+                "prompt_profile": {
+                    "first_user_prefix": self.first_user_prefix,
+                    "assistant_prefill": self.assistant_prefill,
+                },
+            },
         )
 
 

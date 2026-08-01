@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "title": "PelicanBench: A Longitudinal, Compositional, and Agentic Visual Evaluation Suite",
+  "authors": [
+    {
+      "name": "Dylan A. Mordaunt",
+      "orcid": "0000-0002-9775-0603"
+    }
+  ],
+  "abstract_status": "methods-and-software-alpha",
+  "primary_category": "cs.CV",
+  "secondary_categories": ["cs.AI", "cs.HC"],
+  "license_decision": "review-required-before-submission",
+  "submission_status": "not-submitted",
+  "limitations": [
+    "No prospective multi-model benchmark results are reported in the alpha manuscript.",
+    "No human-participant calibration data have been collected.",
+    "Historical source bodies and third-party images are excluded pending rights review."
+  ]
+}

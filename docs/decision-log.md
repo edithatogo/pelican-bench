@@ -123,3 +123,77 @@ validity, independent reproduction or operational maturity.
 **Decision:** retain `constraints/reference-environment.txt` as development evidence, document its limitations, and require a complete `uv.lock`, OCI digest and release SBOM before the stable benchmark release.
 
 **Rationale:** an incomplete lockfile looks authoritative while omitting packages that the configured mirror could not resolve. Explicitly weaker evidence is safer and more reproducible than false precision.
+
+## D021 — Integrate the first-party ecosystem through an executable registry
+
+**Options:** import every repository; document only a short informal list; maintain a typed
+registry with direct, pattern, candidate, watch and excluded dispositions.
+
+**Decision:** maintain `benchmark/integrations/ecosystem-registry.json`, validate every
+declared evidence path, and publish an audit report. Treat absence of irrelevant assets as
+an explicit decision rather than an integration failure.
+
+**Rationale:** repository count is not a quality measure. Thin contracts preserve Dylan's
+existing capabilities without turning PelicanBench into a tightly coupled umbrella repo.
+
+## D022 — First-party models do not bypass qualification
+
+**Options:** automatically include Dylan's Hub models; exclude them until V1; include them
+as candidates under the ordinary eligibility rules.
+
+**Decision:** include the MLX and PEFT Qwen3 Hermes adapters as qualification-gated pilot
+candidates with an explicit runtime profile. Record other first-party model repositories as
+considered and not required where their current capability does not match text-to-SVG.
+
+**Rationale:** evaluating first-party models is scientifically useful, but ownership is not
+evidence of immutable identity, valid SVG output, licence compatibility or stable runtime
+behaviour.
+
+## D023 — Publication is a content-addressed hand-off, not an autonomous write
+
+**Options:** publish directly from the benchmark CLI; maintain disconnected prose drafts;
+create a frozen bundle consumed by SourceRight, Authentext, Substack, OSF and arXiv tools.
+
+**Decision:** generate a rights-aware bundle and machine-readable action plan. Every
+authenticated external write remains a separate, explicit, approval-gated operation.
+
+**Rationale:** the repository should automate reproducibility and preflight while retaining
+human control over authorship, claims, licensing, registration and publication.
+
+## D024 — Human-rating exchange is privacy-minimised by construction
+
+**Options:** export a generic survey table; permit free-text and platform identifiers;
+release only stable task/artifact IDs and categorical responses with pseudonymous raters.
+
+**Decision:** prohibit direct-identifier columns and unstructured participant notes in the
+V1 calibration table. Export a data dictionary and manifest alongside the assignments.
+
+**Rationale:** the benchmark needs preference and criterion evidence, not an unnecessary
+participant-identification dataset.
+
+## D025 — Formal ontology interoperability without false semantic or resolver claims
+
+**Options:** keep ad hoc JSON only; import first-party ontology classes automatically; define
+an explicit interoperability profile with reviewed mappings and namespace evidence.
+
+**Decision:** adopt UOGTO's modular JSON-LD, SHACL, competency-question and modelling-decision
+patterns through `benchmark/ontologies/interoperability-profile.json`. Treat UOGTO and HPO as
+pattern and validation references rather than semantic imports. Reserve the PelicanBench w3id
+namespace locally and mark it `registration-planned` until resolver evidence exists.
+
+**Rationale:** common ownership does not make game-theory or clinical phenotype semantics part
+of a visual benchmark. Formal validation is useful, while unreviewed imports and an unresolved
+w3id claim would create semantic and publication debt.
+
+## D026 — Social dissemination remains an approval-gated publication hand-off
+
+**Options:** omit social distribution; autonomously schedule release posts; export a template
+for the existing Postiz agent tooling.
+
+**Decision:** include a placeholder-bearing Postiz JSON template and a `manual-write` action in
+the content-addressed publication bundle. Require explicit approval of every target account,
+time, article URL, message and uploaded media asset.
+
+**Rationale:** publication automation can reduce clerical work but cannot decide representation,
+timing, rights or public claims. Distribution is downstream of a frozen release and is not a
+benchmark-validity requirement.

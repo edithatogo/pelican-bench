@@ -63,5 +63,7 @@ V1 does not claim:
 - equivalence between one-shot generators and tool-using agents; or
 - mature evidence for persistent learning, accessibility, video or 3D.
 
-The `v0.2-alpha` profile is an E2 fixture-verified precursor. Run
+The `v0.3-alpha` profile is the current E2 fixture-verified precursor. It adds
+ecosystem, model-qualification, publication and human-rating exchange evidence to the
+`v0.2` measurement-validity foundation. Run
 `pelicanbench release-readiness --profile v1.0` to inspect the current gap.

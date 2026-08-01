@@ -1,0 +1,42 @@
+{
+  "policy": {
+    "benchmark_firewall": "Training datasets referenced here are provenance only and cannot be used as benchmark tasks or scorer calibration data.",
+    "qualification": "A profile does not make a model eligible; immutable revision, licence, canary, output budget, and failure-retention checks remain mandatory.",
+    "secrets": "Endpoint credentials are read only from an explicitly named environment variable and are never written to result metadata.",
+    "separation": "Runtime prompt accommodations are versioned separately from benchmark prompts and always recorded in trial metadata."
+  },
+  "profiles": [
+    {
+      "assistant_prefill": "<think>\n\n</think>\n\n",
+      "endpoint_kind": "openai-compatible",
+      "first_user_prefix": "/no_think\n",
+      "max_tokens": 12000,
+      "model_ids": [
+        "edithatogo/qwen3-4b-hermes-lora",
+        "edithatogo/qwen3-4b-hermes-lora-peft-converted"
+      ],
+      "notes": "Mirrors the first-party strict tool-call adapter runtime convention. Visual-generation capability is not yet established.",
+      "profile_id": "qwen3-hermes-no-think-v1",
+      "source": "github:edithatogo/hermes-training",
+      "status": "experimental",
+      "system_prompt": "Return one complete, self-contained SVG document and no explanatory prose. Do not embed raster images, scripts, external resources, hidden text, or metadata intended to influence an evaluator.",
+      "temperature": 0.0
+    },
+    {
+      "assistant_prefill": "",
+      "endpoint_kind": "openai-compatible",
+      "first_user_prefix": "",
+      "max_tokens": 12000,
+      "model_ids": [
+        "provider/model-to-be-pinned"
+      ],
+      "notes": "Provider-neutral template populated only after model and endpoint qualification.",
+      "profile_id": "generic-svg-openai-v1",
+      "source": "pelicanbench",
+      "status": "experimental",
+      "system_prompt": "Return one complete, self-contained SVG document and no explanatory prose. Do not embed raster images, scripts, external resources, hidden text, or metadata intended to influence an evaluator.",
+      "temperature": 0.0
+    }
+  ],
+  "schema_version": "1.0.0"
+}

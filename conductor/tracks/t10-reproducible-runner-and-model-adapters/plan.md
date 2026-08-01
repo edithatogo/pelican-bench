@@ -28,6 +28,9 @@
 - [x] Task: Reproduce deterministic fixture runs through the local harness.
 - [x] Task: Retain failed invocations as denominator trials and export `failures.jsonl`.
 - [x] Task: Add bounded retry and checkpoint adapters, with child-process secret minimisation.
+- [x] Task: Add a generic OpenAI-compatible adapter for Ollama, llama.cpp, MLX and compatible gateways.
+- [x] Task: Version model-specific runtime prompts independently from model eligibility.
+- [x] Task: Generate a deterministic 297-cell pilot plan while retaining qualification-required cells.
 - [ ] Task: Validate the policies against real provider failures and a second-environment clean-clone rerun.
 
 **Current limitation:** Retry, resume and failure-retention contracts are E2 fixture-verified; provider and independent reproduction evidence remain open.

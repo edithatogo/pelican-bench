@@ -1,10 +1,14 @@
 {
-  "blocker": "Drift and release contracts exist; multiple production releases are needed for operational validation.",
+  "blocker": "Drift, release and complete local packaging contracts are E2 fixture-verified; multiple remote production releases, attestations and independent reproductions are needed for operational validation.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/drift.py",
     "docs/maturity-model.md",
-    "docs/release-policy.md"
+    "docs/release-policy.md",
+    "src/pelicanbench/release_packaging.py",
+    "src/pelicanbench/release_records.py",
+    "scripts/package_release.py",
+    "tests/test_release_packaging.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

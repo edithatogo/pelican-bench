@@ -24,6 +24,7 @@
 
 - [x] Task: Add independent, adversarial or property-oriented validation.
 - [x] Task: Measure uncertainty, repeatability and known limitations.
+- [x] Task: Add complete deterministic local release packaging and an aggregate QA receipt.
 - [ ] Task: Reproduce through the project harness and update evidence.
 - [ ] Task: Phase verification and validated checkpoint.
 

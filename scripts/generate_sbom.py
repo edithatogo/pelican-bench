@@ -185,7 +185,7 @@ def build_sbom() -> dict[str, Any]:
         ),
         "creationInfo": {
             "created": utc_now_iso(),
-            "creators": ["Tool: pelicanbench-generate-sbom/0.2.0"],
+            "creators": ["Tool: pelicanbench-generate-sbom/0.3.0"],
             "comment": (
                 "Dependency versions describe constraints/reference-environment.txt; "
                 "the file explicitly records packages absent from the generating environment."

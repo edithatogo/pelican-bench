@@ -1,9 +1,11 @@
 {
-  "blocker": "No participant accessibility claim will be made before co-design, approval, recruitment, and evaluation.",
+  "blocker": "Privacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "docs/accessibility-protocol.md",
-    "src/pelicanbench/human_eval.py"
+    "src/pelicanbench/human_eval.py",
+    "tests/test_human_eval_exchange.py",
+    "docs/human-evaluation-protocol.md"
   ],
   "evidence_definition": "implemented",
   "evidence_level": "E1",

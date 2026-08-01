@@ -75,7 +75,7 @@
   "schema_version": "1.2.0",
   "tracks": [
     {
-      "blocker": null,
+      "blocker": "Local Conductor, evidence governance and first-party ecosystem contracts are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T00 — Foundation, governance and Conductor\n**Specification:** [`conductor/tracks/t00-foundation-governance-and-conductor/spec.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/spec.md)\n**Plan:** [`conductor/tracks/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -110,7 +110,7 @@
           "title": "[T00/P2] Validated: Foundation, governance and Conductor"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLocal Conductor, evidence governance and first-party ecosystem contracts are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "partial",
@@ -216,7 +216,7 @@
       "track_id": "T02"
     },
     {
-      "blocker": "JSON-LD export and competency fixtures exist, but SHACL validation and expert ontology review remain outstanding.",
+      "blocker": "Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T03 — Animal, mobile-object and interface ontologies\n**Specification:** [`conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/spec.md`](../blob/main/conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/spec.md)\n**Plan:** [`conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md`](../blob/main/conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -244,14 +244,14 @@
           "title": "[T03/P1] Prototype: Animal, mobile-object and interface ontologies"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T03 — Animal, mobile-object and interface ontologies\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md`](../blob/main/conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nJSON-LD export and competency fixtures exist, but SHACL validation and expert ontology review remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T03 — Animal, mobile-object and interface ontologies\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md`](../blob/main/conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFormal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T03/P2] Validated: Animal, mobile-object and interface ontologies"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T03 — Animal, mobile-object and interface ontologies\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md`](../blob/main/conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nJSON-LD export and competency fixtures exist, but SHACL validation and expert ontology review remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T03 — Animal, mobile-object and interface ontologies\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md`](../blob/main/conductor/tracks/t03-animal-mobile-object-and-interface-ontologies/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFormal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -404,7 +404,7 @@
       "track_id": "T06"
     },
     {
-      "blocker": "Source-independent assessment and deterministic calibration-sampling contracts are fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
+      "blocker": "Source-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T07 — Semantic judges and human calibration\n**Specification:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md)\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -432,14 +432,14 @@
           "title": "[T07/P1] Prototype: Semantic judges and human calibration"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment and deterministic calibration-sampling contracts are fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T07/P2] Validated: Semantic judges and human calibration"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment and deterministic calibration-sampling contracts are fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -545,7 +545,7 @@
       "track_id": "T09"
     },
     {
-      "blocker": "Failure retention, bounded retries, secret-minimised commands, checkpoint resumption and research-object outputs are fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
+      "blocker": "Failure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T10 — Reproducible runner and model adapters\n**Specification:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/spec.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/spec.md)\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -573,14 +573,14 @@
           "title": "[T10/P1] Prototype: Reproducible runner and model adapters"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, bounded retries, secret-minimised commands, checkpoint resumption and research-object outputs are fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T10/P2] Validated: Reproducible runner and model adapters"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, bounded retries, secret-minimised commands, checkpoint resumption and research-object outputs are fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -592,9 +592,9 @@
       "track_id": "T10"
     },
     {
-      "blocker": "Hub publication is prepared but the available HF Jobs write route is blocked by account credits and no local token is mounted.",
-      "evidence_level": "E1",
-      "parent_body": "## Conductor track\n\n**Track:** T11 — Hugging Face execution and publication\n**Specification:** [`conductor/tracks/t11-hugging-face-execution-and-publication/spec.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/spec.md)\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Evidence level:** `E1`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
+      "blocker": "Hub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.",
+      "evidence_level": "E2",
+      "parent_body": "## Conductor track\n\n**Track:** T11 — Hugging Face execution and publication\n**Specification:** [`conductor/tracks/t11-hugging-face-execution-and-publication/spec.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/spec.md)\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
       "parent_title": "[T11] Hugging Face execution and publication",
       "path": "conductor/tracks/t11-hugging-face-execution-and-publication",
@@ -606,28 +606,28 @@
       },
       "phases": [
         {
-          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": null,
           "phase": "P0",
           "status": "complete",
           "title": "[T11/P0] Contract: Hugging Face execution and publication"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": null,
           "phase": "P1",
           "status": "complete",
           "title": "[T11/P1] Prototype: Hugging Face execution and publication"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub publication is prepared but the available HF Jobs write route is blocked by account credits and no local token is mounted.\n",
+          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "blocked",
           "title": "[T11/P2] Validated: Hugging Face execution and publication"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub publication is prepared but the available HF Jobs write route is blocked by account credits and no local token is mounted.\n",
+          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -921,7 +921,7 @@
       "track_id": "T17"
     },
     {
-      "blocker": "No participant accessibility claim will be made before co-design, approval, recruitment, and evaluation.",
+      "blocker": "Privacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.",
       "evidence_level": "E1",
       "parent_body": "## Conductor track\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Specification:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/spec.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/spec.md)\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n**Evidence level:** `E1`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -949,14 +949,14 @@
           "title": "[T18/P1] Prototype: Accessibility and human-in-the-loop creation"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nNo participant accessibility claim will be made before co-design, approval, recruitment, and evaluation.\n",
+          "body": "## Conductor phase\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPrivacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "blocked",
           "title": "[T18/P2] Validated: Accessibility and human-in-the-loop creation"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nNo participant accessibility claim will be made before co-design, approval, recruitment, and evaluation.\n",
+          "body": "## Conductor phase\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPrivacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -968,42 +968,42 @@
       "track_id": "T18"
     },
     {
-      "blocker": "Drafts exist but results sections cannot be completed before prospective benchmark runs.",
-      "evidence_level": "E1",
-      "parent_body": "## Conductor track\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Specification:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/spec.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/spec.md)\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n**Evidence level:** `E1`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
+      "blocker": "Content-addressed publication and approval-gated social-distribution hand-offs are E2 fixture-verified; external tool execution, empirical results sections, authorship review and actual publication remain outstanding.",
+      "evidence_level": "E2",
+      "parent_body": "## Conductor track\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Specification:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/spec.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/spec.md)\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
       "parent_title": "[T19] Substack, arXiv and scholarly publication",
       "path": "conductor/tracks/t19-substack-arxiv-and-scholarly-publication",
       "phase_status": {
         "P0": "complete",
         "P1": "complete",
-        "P2": "planned",
+        "P2": "partial",
         "P3": "planned"
       },
       "phases": [
         {
-          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": null,
           "phase": "P0",
           "status": "complete",
           "title": "[T19/P0] Contract: Substack, arXiv and scholarly publication"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": null,
           "phase": "P1",
           "status": "complete",
           "title": "[T19/P1] Prototype: Substack, arXiv and scholarly publication"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P2\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nDrafts exist but results sections cannot be completed before prospective benchmark runs.\n",
+          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nContent-addressed publication and approval-gated social-distribution hand-offs are E2 fixture-verified; external tool execution, empirical results sections, authorship review and actual publication remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
-          "status": "planned",
+          "status": "partial",
           "title": "[T19/P2] Validated: Substack, arXiv and scholarly publication"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nDrafts exist but results sections cannot be completed before prospective benchmark runs.\n",
+          "body": "## Conductor phase\n\n**Track:** T19 — Substack, arXiv and scholarly publication\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md`](../blob/main/conductor/tracks/t19-substack-arxiv-and-scholarly-publication/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nContent-addressed publication and approval-gated social-distribution hand-offs are E2 fixture-verified; external tool execution, empirical results sections, authorship review and actual publication remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -1015,7 +1015,7 @@
       "track_id": "T19"
     },
     {
-      "blocker": "Drift and release contracts exist; multiple production releases are needed for operational validation.",
+      "blocker": "Drift, release and complete local packaging contracts are E2 fixture-verified; multiple remote production releases, attestations and independent reproductions are needed for operational validation.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T20 — Maturity, drift, releases and maintenance\n**Specification:** [`conductor/tracks/t20-maturity-drift-releases-and-maintenance/spec.md`](../blob/main/conductor/tracks/t20-maturity-drift-releases-and-maintenance/spec.md)\n**Plan:** [`conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md`](../blob/main/conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -1043,14 +1043,14 @@
           "title": "[T20/P1] Prototype: Maturity, drift, releases and maintenance"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T20 — Maturity, drift, releases and maintenance\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md`](../blob/main/conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nDrift and release contracts exist; multiple production releases are needed for operational validation.\n",
+          "body": "## Conductor phase\n\n**Track:** T20 — Maturity, drift, releases and maintenance\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md`](../blob/main/conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nDrift, release and complete local packaging contracts are E2 fixture-verified; multiple remote production releases, attestations and independent reproductions are needed for operational validation.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T20/P2] Validated: Maturity, drift, releases and maintenance"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T20 — Maturity, drift, releases and maintenance\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md`](../blob/main/conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nDrift and release contracts exist; multiple production releases are needed for operational validation.\n",
+          "body": "## Conductor phase\n\n**Track:** T20 — Maturity, drift, releases and maintenance\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md`](../blob/main/conductor/tracks/t20-maturity-drift-releases-and-maintenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nDrift, release and complete local packaging contracts are E2 fixture-verified; multiple remote production releases, attestations and independent reproductions are needed for operational validation.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",

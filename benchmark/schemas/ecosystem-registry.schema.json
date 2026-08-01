@@ -1,0 +1,229 @@
+{
+  "$defs": {
+    "EcosystemAsset": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "pattern": "^(github|hf-model|hf-dataset|hf-space):[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$",
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "asset_kind": {
+          "enum": [
+            "github-repository",
+            "huggingface-model",
+            "huggingface-dataset",
+            "huggingface-space"
+          ],
+          "title": "Asset Kind",
+          "type": "string"
+        },
+        "capability": {
+          "title": "Capability",
+          "type": "string"
+        },
+        "command_names": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Command Names",
+          "type": "array"
+        },
+        "contract": {
+          "title": "Contract",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "import",
+            "export",
+            "bidirectional",
+            "adapter",
+            "pattern-only",
+            "publication-target",
+            "none"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "integration_class": {
+          "enum": [
+            "governance",
+            "provenance",
+            "source-rights",
+            "corpus-nlp",
+            "ontology",
+            "human-evaluation",
+            "model-runtime",
+            "agentic-drawing",
+            "publication",
+            "platform-publication",
+            "research-methods"
+          ],
+          "title": "Integration Class",
+          "type": "string"
+        },
+        "interfaces": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Interfaces",
+          "type": "array"
+        },
+        "local_names": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Local Names",
+          "type": "array"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "relevance": {
+          "enum": [
+            "direct",
+            "pattern-source",
+            "candidate",
+            "watch",
+            "excluded"
+          ],
+          "title": "Relevance",
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "source_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Revision"
+        },
+        "status": {
+          "enum": [
+            "implemented",
+            "contracted",
+            "pattern-adopted",
+            "planned",
+            "blocked",
+            "not-required"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "asset_id",
+        "name",
+        "asset_kind",
+        "integration_class",
+        "relevance",
+        "status",
+        "direction",
+        "capability",
+        "contract",
+        "rationale"
+      ],
+      "title": "EcosystemAsset",
+      "type": "object"
+    },
+    "ExcludedFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "examples": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Examples",
+          "type": "array"
+        },
+        "family": {
+          "title": "Family",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "family",
+        "examples",
+        "rationale"
+      ],
+      "title": "ExcludedFamily",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assets": {
+      "items": {
+        "$ref": "#/$defs/EcosystemAsset"
+      },
+      "title": "Assets",
+      "type": "array"
+    },
+    "excluded_families": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ExcludedFamily"
+      },
+      "title": "Excluded Families",
+      "type": "array"
+    },
+    "owner": {
+      "title": "Owner",
+      "type": "string"
+    },
+    "policy": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Policy",
+      "type": "object"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "owner",
+    "policy",
+    "assets"
+  ],
+  "title": "EcosystemRegistry",
+  "type": "object"
+}

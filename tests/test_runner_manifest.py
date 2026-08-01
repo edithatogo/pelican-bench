@@ -204,3 +204,90 @@ def test_runner_retains_generation_failures(tmp_path: Path, heritage):
     assert (tmp_path / "failed-run/failures.jsonl").read_text(encoding="utf-8").strip()
     provenance = read_json(tmp_path / "failed-run/prov.jsonld")
     assert any(item.get("pb:status") == "generation-failed" for item in provenance["@graph"])
+
+
+def test_openai_compatible_adapter_local_server(heritage, monkeypatch):
+    import json
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    from pelicanbench.adapters import OpenAICompatibleAdapter
+
+    observed: dict[str, object] = {}
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_POST(self):
+            length = int(self.headers["Content-Length"])
+            payload = json.loads(self.rfile.read(length))
+            observed["path"] = self.path
+            observed["authorization"] = self.headers.get("Authorization")
+            observed["payload"] = payload
+            body = json.dumps(
+                {
+                    "choices": [
+                        {
+                            "message": {
+                                "content": "prefix```svg\n<svg xmlns='http://www.w3.org/2000/svg'></svg>\n```"
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {"prompt_tokens": 12, "completion_tokens": 8},
+                }
+            ).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *_args):
+            return
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    monkeypatch.setenv("PB_TEST_ENDPOINT_TOKEN", "super-secret")
+    try:
+        adapter = OpenAICompatibleAdapter(
+            f"http://127.0.0.1:{server.server_port}",
+            adapter_id="openai-local",
+            model_id="m",
+            model_revision="r",
+            api_key_environment="PB_TEST_ENDPOINT_TOKEN",
+            first_user_prefix="/no_think\n",
+            assistant_prefill="<think>\n\n</think>\n\n",
+        )
+        result = adapter.generate(heritage, seed=5)
+    finally:
+        server.shutdown()
+        thread.join(timeout=2)
+        server.server_close()
+    assert result.output.startswith("<svg")
+    assert observed["path"] == "/v1/chat/completions"
+    assert observed["authorization"] == "Bearer super-secret"
+    assert "super-secret" not in json.dumps(result.metadata)
+    payload = observed["payload"]
+    assert payload["messages"][1]["content"].startswith("/no_think")
+    assert payload["messages"][2]["content"].startswith("<think>")
+
+
+def test_openai_compatible_adapter_validation(heritage):
+    from pelicanbench.adapters import OpenAICompatibleAdapter
+
+    with pytest.raises(ValueError):
+        OpenAICompatibleAdapter(
+            "file:///tmp/server",
+            adapter_id="x",
+            model_id="m",
+            model_revision="r",
+        )
+    adapter = OpenAICompatibleAdapter(
+        "http://localhost:1234/v1",
+        adapter_id="x",
+        model_id="m",
+        model_revision="r",
+    )
+    assert adapter.endpoint.endswith("/v1/chat/completions")
+    with pytest.raises(RuntimeError):
+        adapter._extract_svg("not an svg")

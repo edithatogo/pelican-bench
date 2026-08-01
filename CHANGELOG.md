@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0-alpha.1 - 2026-08-01
+
+- Added an executable 40-asset GitHub and Hugging Face ecosystem registry with direct, pattern, candidate, watch and excluded dispositions.
+- Added `repository-standards` compatible verification receipts and a release-package receipt schema.
+- Added deterministic, content-addressed SourceRight, Authentext, scholarly-review, Substack, approval-gated Postiz, OSF and arXiv publication bundles.
+- Added formal UOGTO/HPO/w3id ontology interoperability and namespace-governance contracts without automatic semantic imports or false resolver claims.
+- Added privacy-minimised human-evaluation batch export, direct-identifier rejection, agreement analysis and criterion-specific Bradley-Terry results.
+- Added a generic secret-minimised OpenAI-compatible adapter for Ollama, llama.cpp, MLX and compatible local gateways.
+- Added first-party Qwen3 Hermes runtime profiles and qualification-gated Hugging Face model candidates.
+- Added a deterministic 297-cell pilot execution plan retaining 198 qualification-required first-party model cells.
+- Added deterministic source, full-history and publication archives, portable Git bundles, QA receipts and top-level checksum packaging.
+- Added five assurance claims and the `v0.3-alpha` E2 release profile.
+- Expanded the harness to audit ecosystem coverage, model qualification, pilot planning, publication reproducibility and verification receipts.
+
 ## 0.2.0-alpha.1 - 2026-08-01
 
 - Replaced source-label semantic scoring with a source, render and semantic evidence firewall.

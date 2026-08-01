@@ -1,0 +1,1081 @@
+{
+  "assets": [
+    {
+      "asset_id": "github:edithatogo/repository-standards",
+      "asset_kind": "github-repository",
+      "capability": "Estate-level solo-maintainer governance, release controls, and verification receipts.",
+      "command_names": [],
+      "contract": "Repository verification receipt v1 plus evidence-gated solo-maintainer controls.",
+      "direction": "import",
+      "evidence": [
+        "benchmark/schemas/repository-verification-receipt.schema.json",
+        "src/pelicanbench/verification.py",
+        "scripts/generate_verification_receipt.py"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "verification-receipt-v1",
+        "repository-profile"
+      ],
+      "local_names": [
+        "repository-standards"
+      ],
+      "name": "edithatogo/repository-standards",
+      "rationale": "PelicanBench should conform to the user's estate-wide standards rather than inventing a parallel repository-governance dialect.",
+      "relevance": "direct",
+      "required": true,
+      "source_revision": "730561b4ffd2ab8790905f76b648eefcfc8c328f",
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/template-solo-data",
+      "asset_kind": "github-repository",
+      "capability": "Python 3.14 data-pipeline, provenance, logging, CI, coverage, release, and sole-maintainer patterns.",
+      "command_names": [],
+      "contract": "Pattern adoption only; PelicanBench remains its own repository and benchmark package.",
+      "direction": "pattern-only",
+      "evidence": [
+        "pyproject.toml",
+        "scripts/harness.sh",
+        "docs/reproducible-environments.md"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "python-data-repository-profile"
+      ],
+      "local_names": [
+        "template-solo-data"
+      ],
+      "name": "edithatogo/template-solo-data",
+      "rationale": "The template supplies estate-consistent defaults without becoming a runtime dependency.",
+      "relevance": "pattern-source",
+      "required": false,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/.github",
+      "asset_kind": "github-repository",
+      "capability": "Owner-level community health and inherited repository configuration.",
+      "command_names": [],
+      "contract": "Inherit centrally managed material where available; retain benchmark-specific files locally.",
+      "direction": "import",
+      "evidence": [
+        "CONTRIBUTING.md",
+        "SECURITY.md",
+        "GOVERNANCE.md"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "owner-community-health"
+      ],
+      "local_names": [
+        ".github"
+      ],
+      "name": "edithatogo/.github",
+      "rationale": "Central owner policy should be preferred over divergent local boilerplate.",
+      "relevance": "direct",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/conductor-upstream-canonical",
+      "asset_kind": "github-repository",
+      "capability": "Pinned canonical Conductor lifecycle skills and protocol evidence.",
+      "command_names": [],
+      "contract": "Pinned repository-local skill snapshot with sync and drift checks.",
+      "direction": "import",
+      "evidence": [
+        ".conductor/vendor/UPSTREAM.lock.json",
+        ".agents/plugins/conductor/UPSTREAM.md",
+        "scripts/sync_conductor_install.py"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "agent-skill",
+        "conductor-track"
+      ],
+      "local_names": [
+        "conductor-upstream-canonical"
+      ],
+      "name": "edithatogo/conductor-upstream-canonical",
+      "rationale": "A canonical upstream mirror reduces ambiguity while preserving the installed project-local skill.",
+      "relevance": "direct",
+      "required": true,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/conductor-next",
+      "asset_kind": "github-repository",
+      "capability": "Experimental Ralph loops, context hygiene, worktree, and self-improvement patterns.",
+      "command_names": [],
+      "contract": "Adopt only bounded features through decision records; do not replace the pinned Conductor protocol automatically.",
+      "direction": "pattern-only",
+      "evidence": [
+        "conductor/learning-policy.md",
+        "conductor/workflow.md",
+        "docs/decision-log.md"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "experimental-harness-patterns"
+      ],
+      "local_names": [
+        "conductor-next"
+      ],
+      "name": "edithatogo/conductor-next",
+      "rationale": "Experimental techniques are useful but must not silently alter normative benchmark or workflow contracts.",
+      "relevance": "pattern-source",
+      "required": false,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/entireio-cli",
+      "asset_kind": "github-repository",
+      "capability": "Git-native capture of agent sessions, prompts, tool calls, files, and checkpoints.",
+      "command_names": [
+        "entire"
+      ],
+      "contract": "Project settings and bootstrap contract; runtime evidence is recorded only when the CLI is actually installed.",
+      "direction": "adapter",
+      "evidence": [
+        ".entire/settings.json",
+        "docs/entire-provenance.md",
+        "scripts/bootstrap_entire.sh"
+      ],
+      "integration_class": "provenance",
+      "interfaces": [
+        "entire-settings",
+        "checkpoint-remote"
+      ],
+      "local_names": [
+        "entireio-cli",
+        "cli"
+      ],
+      "name": "edithatogo/entireio-cli",
+      "notes": "The current execution container does not provide the Entire CLI.",
+      "rationale": "Development provenance complements, but does not replace, benchmark run provenance.",
+      "relevance": "direct",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/sourceright",
+      "asset_kind": "github-repository",
+      "capability": "Canonical CSL, citation verification, provider evidence, review queues, and claim/source provenance.",
+      "command_names": [
+        "sourceright"
+      ],
+      "contract": "CSL JSON and source-evidence sidecars in publication bundles; no duplicated citation engine.",
+      "direction": "bidirectional",
+      "evidence": [
+        "data/sources/source-registry.json",
+        "data/sources/rights-ledger.json",
+        "src/pelicanbench/publication.py"
+      ],
+      "integration_class": "source-rights",
+      "interfaces": [
+        "csl-json",
+        "verification-sidecar",
+        "review-queue"
+      ],
+      "local_names": [
+        "sourceright"
+      ],
+      "name": "edithatogo/sourceright",
+      "rationale": "PelicanBench should export to the user's citation-verification infrastructure instead of implementing provider resolution itself.",
+      "relevance": "direct",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/authentext",
+      "asset_kind": "github-repository",
+      "capability": "Portable Agent Skill for non-generic, evidence-aware professional writing review.",
+      "command_names": [],
+      "contract": "Publication drafts are reviewed through SKILL.md plus references; Authentext is not imported as a Python runtime package.",
+      "direction": "export",
+      "evidence": [
+        "docs/publication-roadmap.md",
+        "src/pelicanbench/publication.py",
+        "publications/substack/post-01-draft.md"
+      ],
+      "integration_class": "publication",
+      "interfaces": [
+        "agent-skill-review"
+      ],
+      "local_names": [
+        "authentext"
+      ],
+      "name": "edithatogo/authentext",
+      "rationale": "The upstream repository explicitly defines a skill surface rather than consumer-specific adapter packages.",
+      "relevance": "direct",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/nlp-policy-nz",
+      "asset_kind": "github-repository",
+      "capability": "NER, relation extraction, Parquet/Hugging Face publication, ontology export, and graph-analysis patterns.",
+      "command_names": [],
+      "contract": "Share record shapes and eventually extract a generic core; do not introduce New Zealand policy-domain leakage.",
+      "direction": "pattern-only",
+      "evidence": [
+        "src/pelicanbench/corpus.py",
+        "docs/simon-corpus-method.md",
+        "docs/ontology-roadmap.md"
+      ],
+      "integration_class": "corpus-nlp",
+      "interfaces": [
+        "corpus-record",
+        "entity-relation-annotation",
+        "ontology-candidate"
+      ],
+      "local_names": [
+        "nlp-policy-nz"
+      ],
+      "name": "edithatogo/nlp-policy-nz",
+      "rationale": "Simon-post analysis needs the generic NLP patterns but not the domain-specific legislation stack.",
+      "relevance": "direct",
+      "required": false,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/open_social_data",
+      "asset_kind": "github-repository",
+      "capability": "Open social-data documentation, source provenance, quality-report, tabular exchange, and accessible-guide conventions.",
+      "command_names": [],
+      "contract": "Privacy-minimised human-rating tables with stable identifiers, a data dictionary, provenance metadata, and an explicit rights boundary.",
+      "direction": "bidirectional",
+      "evidence": [
+        "src/pelicanbench/calibration.py",
+        "src/pelicanbench/human_eval.py",
+        "docs/human-evaluation-protocol.md"
+      ],
+      "integration_class": "human-evaluation",
+      "interfaces": [
+        "human-rating-table",
+        "data-dictionary",
+        "source-provenance"
+      ],
+      "local_names": [
+        "open_social_data"
+      ],
+      "name": "edithatogo/open_social_data",
+      "rationale": "Human calibration outputs should follow the user's broader open-data documentation and provenance conventions without claiming that open_social_data already provides a preference-panel runtime.",
+      "relevance": "direct",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/osf-cli-go",
+      "asset_kind": "github-repository",
+      "capability": "OSF project validation, registration, export, and safe file publication.",
+      "command_names": [
+        "osf"
+      ],
+      "contract": "Publication bundle plus dry-run/read-only command plan; authenticated writes remain explicit operator actions.",
+      "direction": "export",
+      "evidence": [
+        "src/pelicanbench/publication.py",
+        "docs/publication-roadmap.md",
+        "scripts/build_publication_bundle.py"
+      ],
+      "integration_class": "publication",
+      "interfaces": [
+        "osf-research-output-profile",
+        "osf-registration",
+        "osf-storage-upload"
+      ],
+      "local_names": [
+        "osf-cli-go"
+      ],
+      "name": "edithatogo/osf-cli-go",
+      "rationale": "OSF is the appropriate preregistration and research-object surface, and the user's CLI already supplies the bounded primitives.",
+      "relevance": "direct",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/osf-mcp-server",
+      "asset_kind": "github-repository",
+      "capability": "Alternative agent-facing OSF connectivity.",
+      "command_names": [],
+      "contract": "No current dependency; osf-cli-go is the canonical write-capable boundary.",
+      "direction": "none",
+      "evidence": [],
+      "integration_class": "publication",
+      "interfaces": [],
+      "local_names": [
+        "osf-mcp-server"
+      ],
+      "name": "edithatogo/osf-mcp-server",
+      "rationale": "Maintaining two OSF control paths would add ambiguity without current benefit.",
+      "relevance": "watch",
+      "required": false,
+      "status": "not-required"
+    },
+    {
+      "asset_id": "github:edithatogo/substack-cli-ts",
+      "asset_kind": "github-repository",
+      "capability": "Markdown preflight, ProseMirror conversion, traceable draft creation, scheduling, and publication.",
+      "command_names": [
+        "substack-cli"
+      ],
+      "contract": "Generate publication-ready Markdown and a preflight/dry-run command plan; publishing always requires explicit confirmation.",
+      "direction": "export",
+      "evidence": [
+        "publications/substack",
+        "src/pelicanbench/publication.py",
+        "scripts/build_publication_bundle.py"
+      ],
+      "integration_class": "publication",
+      "interfaces": [
+        "markdown-frontmatter",
+        "substack-preflight",
+        "substack-dry-run"
+      ],
+      "local_names": [
+        "substack-cli-ts"
+      ],
+      "name": "edithatogo/substack-cli-ts",
+      "rationale": "This preserves a reproducible source draft and delegates platform-specific transport to the user's existing CLI.",
+      "relevance": "direct",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/arxiv-paper-template",
+      "asset_kind": "github-repository",
+      "capability": "Reproducible, source-audited arXiv LaTeX build and readiness packaging.",
+      "command_names": [],
+      "contract": "Export the manuscript into the template contract rather than vendoring the template into benchmark runtime.",
+      "direction": "export",
+      "evidence": [
+        "publications/arxiv/main.tex",
+        "src/pelicanbench/publication.py",
+        "docs/publication-roadmap.md"
+      ],
+      "integration_class": "publication",
+      "interfaces": [
+        "latex-paper-source",
+        "arxiv-source-archive",
+        "readiness-record"
+      ],
+      "local_names": [
+        "arxiv-paper-template"
+      ],
+      "name": "edithatogo/arxiv-paper-template",
+      "rationale": "The dedicated template already handles arXiv-specific reproducibility and source-package checks.",
+      "relevance": "direct",
+      "required": false,
+      "source_revision": "d8194b41d1d3bb72853e249560cf9d6191f14c99",
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/scholarly-publishing-agents",
+      "asset_kind": "github-repository",
+      "capability": "Agent workflows for manuscript preparation and submission review.",
+      "command_names": [],
+      "contract": "Use as an optional review layer over frozen publication evidence; no runtime coupling.",
+      "direction": "export",
+      "evidence": [
+        "docs/publication-roadmap.md",
+        "publications/arxiv/main.tex"
+      ],
+      "integration_class": "publication",
+      "interfaces": [
+        "manuscript-review-skill"
+      ],
+      "local_names": [
+        "scholarly-publishing-agents"
+      ],
+      "name": "edithatogo/scholarly-publishing-agents",
+      "rationale": "Publication-agent capabilities belong after the empirical evidence bundle has been frozen.",
+      "relevance": "direct",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/academic-research-skills",
+      "asset_kind": "github-repository",
+      "capability": "Literature review, evidence synthesis, and academic research skills.",
+      "command_names": [],
+      "contract": "Apply to the paper and prior-art tracks with frozen source/evidence manifests.",
+      "direction": "export",
+      "evidence": [
+        "docs/history-and-prior-art.md",
+        "docs/publication-roadmap.md",
+        "data/sources/source-registry.json"
+      ],
+      "integration_class": "research-methods",
+      "interfaces": [
+        "research-agent-skill"
+      ],
+      "local_names": [
+        "academic-research-skills"
+      ],
+      "name": "edithatogo/academic-research-skills",
+      "rationale": "The benchmark should reuse the user's research workflow rather than create another literature-agent bundle.",
+      "relevance": "direct",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/citeweft",
+      "asset_kind": "github-repository",
+      "capability": "Future citation and claim-evidence graph interoperability.",
+      "command_names": [],
+      "contract": "Candidate bridge after Citeweft's stable public contract is identified.",
+      "direction": "bidirectional",
+      "evidence": [],
+      "integration_class": "source-rights",
+      "interfaces": [
+        "claim-citation-graph"
+      ],
+      "local_names": [
+        "citeweft"
+      ],
+      "name": "edithatogo/citeweft",
+      "rationale": "Potentially useful for the methods paper, but premature as a normative V1 dependency.",
+      "relevance": "candidate",
+      "required": false,
+      "status": "planned"
+    },
+    {
+      "asset_id": "github:edithatogo/krita-cli",
+      "asset_kind": "github-repository",
+      "capability": "Legacy Krita MCP/CLI/client, command history, replay, rollback, and pelican drawing trajectory.",
+      "command_names": [
+        "krita"
+      ],
+      "contract": "Versioned legacy application adapter and historical continuity; no copied implementation.",
+      "direction": "adapter",
+      "evidence": [
+        "docs/agentic-drawing.md",
+        "adapters/krita/README.md",
+        "src/pelicanbench/environments.py"
+      ],
+      "integration_class": "agentic-drawing",
+      "interfaces": [
+        "krita-cli",
+        "krita-mcp",
+        "trajectory-log"
+      ],
+      "local_names": [
+        "krita-cli"
+      ],
+      "name": "edithatogo/krita-cli",
+      "rationale": "It preserves the original agentic drawing experiment while PelicanCanvas and future open design-tool adapters become the canonical path.",
+      "relevance": "direct",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/mcp-libre",
+      "asset_kind": "github-repository",
+      "capability": "Open application/MCP orchestration patterns for future graphical tools.",
+      "command_names": [],
+      "contract": "Candidate adapter-host boundary after application selection and capability conformance tests.",
+      "direction": "adapter",
+      "evidence": [],
+      "integration_class": "agentic-drawing",
+      "interfaces": [
+        "mcp-application-host"
+      ],
+      "local_names": [
+        "mcp-libre"
+      ],
+      "name": "edithatogo/mcp-libre",
+      "rationale": "It may reduce per-application glue later, but must not obscure environment-specific actions during V1.",
+      "relevance": "candidate",
+      "required": false,
+      "status": "planned"
+    },
+    {
+      "asset_id": "github:edithatogo/hermes-training",
+      "asset_kind": "github-repository",
+      "capability": "First-party model qualification, MLX/GGUF/PEFT runtime lanes, benchmark gates, and Hugging Face publication.",
+      "command_names": [],
+      "contract": "PelicanBench consumes immutable runtime profiles and can export visual-generation evaluation records back to the model lab.",
+      "direction": "bidirectional",
+      "evidence": [
+        "hf/model-eligibility.json",
+        "hf/runtime-profiles.json",
+        "src/pelicanbench/adapters.py"
+      ],
+      "integration_class": "model-runtime",
+      "interfaces": [
+        "model-candidate-registry",
+        "openai-compatible-endpoint",
+        "runtime-prompt-profile"
+      ],
+      "local_names": [
+        "hermes-training"
+      ],
+      "name": "edithatogo/hermes-training",
+      "rationale": "This is the natural first-party lane for evaluating Dylan's adapted models without coupling PelicanBench to one inference engine.",
+      "relevance": "direct",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "github:edithatogo/ollama",
+      "asset_kind": "github-repository",
+      "capability": "Local OpenAI-compatible model serving.",
+      "command_names": [
+        "ollama"
+      ],
+      "contract": "Generic OpenAI-compatible HTTP adapter; no source-code dependency.",
+      "direction": "adapter",
+      "evidence": [
+        "src/pelicanbench/adapters.py",
+        "hf/runtime-profiles.json",
+        "docs/model-adapter-spec.md"
+      ],
+      "integration_class": "model-runtime",
+      "interfaces": [
+        "openai-chat-completions"
+      ],
+      "local_names": [
+        "ollama"
+      ],
+      "name": "edithatogo/ollama",
+      "rationale": "A protocol boundary supports local models while keeping server implementation outside the benchmark.",
+      "relevance": "pattern-source",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/llama.cpp",
+      "asset_kind": "github-repository",
+      "capability": "Portable local GGUF inference with an OpenAI-compatible server.",
+      "command_names": [
+        "llama-server"
+      ],
+      "contract": "Generic OpenAI-compatible HTTP adapter; no vendoring or fork-specific assumptions.",
+      "direction": "adapter",
+      "evidence": [
+        "src/pelicanbench/adapters.py",
+        "hf/runtime-profiles.json",
+        "docs/model-adapter-spec.md"
+      ],
+      "integration_class": "model-runtime",
+      "interfaces": [
+        "openai-chat-completions"
+      ],
+      "local_names": [
+        "llama.cpp"
+      ],
+      "name": "edithatogo/llama.cpp",
+      "rationale": "The same provider-neutral adapter should cover llama.cpp, Ollama, MLX servers, and compatible gateways.",
+      "relevance": "pattern-source",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/voiage",
+      "asset_kind": "github-repository",
+      "capability": "Evaluation, uncertainty, and value-of-information method patterns.",
+      "command_names": [],
+      "contract": "Reuse statistical design principles through explicit methods; no package dependency until a stable generic interface exists.",
+      "direction": "pattern-only",
+      "evidence": [
+        "src/pelicanbench/statistics.py",
+        "docs/v1-pilot-analysis-plan.md"
+      ],
+      "integration_class": "research-methods",
+      "interfaces": [
+        "uncertainty-analysis"
+      ],
+      "local_names": [
+        "voiage"
+      ],
+      "name": "edithatogo/voiage",
+      "rationale": "The benchmark benefits from uncertainty-aware decisions, but visual scoring should not be forced into a health-economics-specific API.",
+      "relevance": "pattern-source",
+      "required": false,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/human-phenotype-ontology",
+      "asset_kind": "github-repository",
+      "capability": "Mature ontology engineering, identifiers, mappings, competency questions, and validation patterns.",
+      "command_names": [],
+      "contract": "Adopt ontology-governance techniques only; medical concepts are excluded from PelicanBench.",
+      "direction": "pattern-only",
+      "evidence": [
+        "benchmark/ontologies",
+        "benchmark/ontology-tests/competency-cases.json",
+        "docs/ontology-roadmap.md"
+      ],
+      "integration_class": "ontology",
+      "interfaces": [
+        "ontology-governance-pattern"
+      ],
+      "local_names": [
+        "human-phenotype-ontology"
+      ],
+      "name": "edithatogo/human-phenotype-ontology",
+      "rationale": "The engineering lessons are relevant even though the domain concepts are not.",
+      "relevance": "pattern-source",
+      "required": false,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/UOGTO",
+      "asset_kind": "github-repository",
+      "capability": "Formal ontology engineering with OWL/TTL, JSON-LD, SHACL, competency questions, and persistent identifier governance.",
+      "command_names": [],
+      "contract": "Adopt modular ontology, validation-shape, competency-question, and modelling-decision patterns without importing game-theory semantics.",
+      "direction": "pattern-only",
+      "evidence": [
+        "benchmark/ontologies/interoperability-profile.json",
+        "benchmark/ontologies/context.jsonld",
+        "benchmark/ontologies/shapes.ttl",
+        "benchmark/ontology-tests/competency-cases.json",
+        "src/pelicanbench/interoperability.py"
+      ],
+      "integration_class": "ontology",
+      "interfaces": [
+        "ontology-interoperability-profile-v1",
+        "json-ld-context",
+        "shacl-shapes",
+        "competency-cases"
+      ],
+      "local_names": [
+        "UOGTO",
+        "uogto"
+      ],
+      "name": "edithatogo/UOGTO",
+      "notes": "No semantic import is enabled; mappings require a separate versioned decision and competency evidence.",
+      "rationale": "UOGTO is the maintainer's strongest formal ontology-engineering reference, but PelicanBench requires animal, mobile-object, and interface semantics rather than game-theory classes.",
+      "relevance": "pattern-source",
+      "required": false,
+      "source_revision": "adca2658e6d106cbb03af90958894f0568c27462",
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/codev",
+      "asset_kind": "github-repository",
+      "capability": "Spec-plan-implement-review agent engineering and learning feedback loops.",
+      "command_names": [],
+      "contract": "Use review-to-learning and evidence-before-completion patterns while retaining Conductor as PelicanBench's authoritative work graph.",
+      "direction": "pattern-only",
+      "evidence": [
+        "conductor/workflow.md",
+        "conductor/learning-policy.md",
+        "scripts/harness.sh"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "spec-plan-implement-review",
+        "review-learning-loop"
+      ],
+      "local_names": [
+        "codev"
+      ],
+      "name": "edithatogo/codev",
+      "notes": "Pattern source only; no Codev runtime or generated workspace is required.",
+      "rationale": "Codev contributes useful human-agent workflow patterns, but running a second authoritative planning system would create conflicting state with Conductor.",
+      "relevance": "pattern-source",
+      "required": false,
+      "source_revision": null,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/ralph-codex",
+      "asset_kind": "github-repository",
+      "capability": "Immutable specifications, fresh-context execution, git rollback, append-only learning, and test-governed completion.",
+      "command_names": [],
+      "contract": "Adopt bounded self-learning, rollback, immutable normative contracts, and test-decided completion without adding an unattended controller dependency.",
+      "direction": "pattern-only",
+      "evidence": [
+        "conductor/learning-policy.md",
+        "conductor/learning-ledger.jsonl",
+        "src/pelicanbench/self_learning.py",
+        "scripts/harness.sh"
+      ],
+      "integration_class": "governance",
+      "interfaces": [
+        "append-only-learning",
+        "test-governed-completion",
+        "git-rollback"
+      ],
+      "local_names": [
+        "ralph-codex"
+      ],
+      "name": "edithatogo/ralph-codex",
+      "notes": "The benchmark's sealed tasks and normative scorers remain outside self-learning mutation.",
+      "rationale": "Ralph-Codex's safety invariants improve agentic engineering, but PelicanBench should not depend on a controller that assumes a different PRD and verification surface.",
+      "relevance": "pattern-source",
+      "required": false,
+      "source_revision": "278b64b0582a859230ab3d07022a29f854562b1a",
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/fyi-cli",
+      "asset_kind": "github-repository",
+      "capability": "Faithful WARC/WACZ capture, content-addressed archival diffs, and provenance-aware source enumeration.",
+      "command_names": [],
+      "contract": "Adopt faithful-capture and provenance patterns for the future Simon Chronicle; do not treat an Alaveteli-specific capture surface as a generic blog crawler.",
+      "direction": "pattern-only",
+      "evidence": [
+        "docs/simon-corpus-method.md",
+        "docs/rights-and-ethics.md",
+        "data/sources/source-registry.json"
+      ],
+      "integration_class": "source-rights",
+      "interfaces": [
+        "warc-wacz-pattern",
+        "content-addressed-capture",
+        "archive-health"
+      ],
+      "local_names": [
+        "fyi-cli"
+      ],
+      "name": "edithatogo/fyi-cli",
+      "notes": "A generic, permission-aware web-capture adapter remains a separate future implementation.",
+      "rationale": "The archival design is directly useful, while the current network implementation is scoped to public-information platforms rather than Simon Willison's site.",
+      "relevance": "pattern-source",
+      "required": false,
+      "source_revision": null,
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/fyi-archive",
+      "asset_kind": "github-repository",
+      "capability": "Multi-mirror dataset publication, mirror verification, Croissant/Frictionless metadata, and citable snapshot patterns.",
+      "command_names": [],
+      "contract": "Adopt thin-orchestrator, manifest, mirror-verification, and multi-surface publication patterns without importing FOI archive domain logic.",
+      "direction": "pattern-only",
+      "evidence": [
+        "docs/hugging-face-architecture.md",
+        "docs/publication-roadmap.md",
+        "docs/reproducible-environments.md",
+        "src/pelicanbench/release_packaging.py"
+      ],
+      "integration_class": "platform-publication",
+      "interfaces": [
+        "multi-mirror-publication-pattern",
+        "mirror-verification",
+        "dataset-metadata-pattern"
+      ],
+      "local_names": [
+        "fyi-archive"
+      ],
+      "name": "edithatogo/fyi-archive",
+      "notes": "Pattern-only until remote PelicanBench surfaces exist and mirror evidence can be generated.",
+      "rationale": "PelicanBench needs similar verified GitHub, Hugging Face, OSF, and archival hand-offs, but not the source-specific FOI orchestration code.",
+      "relevance": "pattern-source",
+      "required": false,
+      "source_revision": "9afd72e55eca773b7fa06cc2fe6c81541e36cdfa",
+      "status": "pattern-adopted"
+    },
+    {
+      "asset_id": "github:edithatogo/postiz-agent",
+      "asset_kind": "github-repository",
+      "capability": "Agent-compatible, JSON-based social distribution and analytics across multiple platforms.",
+      "command_names": [
+        "postiz"
+      ],
+      "contract": "Export a template-only distribution payload; every upload, draft, schedule, and publish operation remains an explicit manual write.",
+      "direction": "export",
+      "evidence": [
+        "src/pelicanbench/publication.py",
+        "docs/publication-roadmap.md",
+        "tests/test_ecosystem_publication_verification.py"
+      ],
+      "integration_class": "publication",
+      "interfaces": [
+        "postiz-post-template-v1",
+        "manual-social-distribution"
+      ],
+      "local_names": [
+        "postiz-agent"
+      ],
+      "name": "edithatogo/postiz-agent",
+      "notes": "The bundle contains placeholders rather than account identifiers, dates, or live media URLs.",
+      "rationale": "Social distribution can extend the Substack/arXiv publication programme, but it is not required for benchmark validity and must never publish autonomously.",
+      "relevance": "candidate",
+      "required": false,
+      "source_revision": null,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "github:edithatogo/w3id.org",
+      "asset_kind": "github-repository",
+      "capability": "Persistent HTTPS namespace registration and redirection for ontology identifiers.",
+      "command_names": [],
+      "contract": "Register the reserved PelicanBench namespace only after target URLs, licences, version policy, and resolver evidence are reviewed.",
+      "direction": "publication-target",
+      "evidence": [
+        "benchmark/ontologies/interoperability-profile.json",
+        "docs/ontology-roadmap.md"
+      ],
+      "integration_class": "ontology",
+      "interfaces": [
+        "persistent-namespace-registration"
+      ],
+      "local_names": [
+        "w3id.org"
+      ],
+      "name": "edithatogo/w3id.org",
+      "notes": "Current namespace status is registration-planned, not published.",
+      "rationale": "The ontology already uses a w3id-shaped namespace, but the project must not claim that it resolves until a reviewed registration exists.",
+      "relevance": "candidate",
+      "required": false,
+      "source_revision": null,
+      "status": "planned"
+    },
+    {
+      "asset_id": "github:edithatogo/mcp-registry",
+      "asset_kind": "github-repository",
+      "capability": "MCP catalogue publication patterns and container provenance expectations.",
+      "command_names": [],
+      "contract": "Watch only; PelicanBench is a benchmark suite rather than an MCP server distribution in V1.",
+      "direction": "none",
+      "evidence": [],
+      "integration_class": "platform-publication",
+      "interfaces": [],
+      "local_names": [
+        "mcp-registry"
+      ],
+      "name": "edithatogo/mcp-registry",
+      "notes": "No registry listing is claimed.",
+      "rationale": "Registry requirements may become relevant when agentic drawing environments expose a stable MCP service, but no V1 runtime registration is warranted.",
+      "relevance": "watch",
+      "required": false,
+      "source_revision": "c9b8c128444305c7203f98cacee3c53909f5e0e3",
+      "status": "not-required"
+    },
+    {
+      "asset_id": "hf-model:edithatogo/qwen3-4b-hermes-lora",
+      "asset_kind": "huggingface-model",
+      "capability": "First-party experimental Qwen3 LoRA candidate for local SVG-generation qualification.",
+      "command_names": [],
+      "contract": "Immutable revision plus runtime prompt profile; not automatically leaderboard-eligible.",
+      "direction": "import",
+      "evidence": [
+        "hf/model-eligibility.json",
+        "hf/runtime-profiles.json"
+      ],
+      "integration_class": "model-runtime",
+      "interfaces": [
+        "model-registry",
+        "runtime-prompt-profile"
+      ],
+      "local_names": [],
+      "name": "edithatogo/qwen3-4b-hermes-lora",
+      "rationale": "Including Dylan's own adapter creates a first-party evaluation lane while preserving the same eligibility and canary rules as other systems.",
+      "relevance": "candidate",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "hf-model:edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "asset_kind": "huggingface-model",
+      "capability": "PEFT-converted first-party adapter suitable for CUDA/Hugging Face tooling.",
+      "command_names": [],
+      "contract": "Local PEFT runtime profile with explicit prompt/prefill requirements and no assumption of hosted inference.",
+      "direction": "import",
+      "evidence": [
+        "hf/model-eligibility.json",
+        "hf/runtime-profiles.json"
+      ],
+      "integration_class": "model-runtime",
+      "interfaces": [
+        "model-registry",
+        "runtime-prompt-profile",
+        "peft-adapter"
+      ],
+      "local_names": [],
+      "name": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "rationale": "This provides a portable alternative to the MLX/local adapter lane for controlled pilot experiments.",
+      "relevance": "candidate",
+      "required": false,
+      "status": "implemented"
+    },
+    {
+      "asset_id": "hf-dataset:edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4",
+      "asset_kind": "huggingface-dataset",
+      "capability": "First-party synthetic strict tool-call dataset used to document adapter provenance and capability scope.",
+      "command_names": [],
+      "contract": "Provenance reference only; it is not PelicanBench training data and cannot enter benchmark tasks or scorer calibration.",
+      "direction": "import",
+      "evidence": [
+        "hf/runtime-profiles.json",
+        "docs/ecosystem-integration.md"
+      ],
+      "integration_class": "model-runtime",
+      "interfaces": [
+        "training-provenance-reference"
+      ],
+      "local_names": [],
+      "name": "edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4",
+      "rationale": "Recording training provenance helps interpret the model candidate while maintaining a firewall between tool-call training and visual benchmark evaluation.",
+      "relevance": "candidate",
+      "required": false,
+      "status": "contracted"
+    },
+    {
+      "asset_id": "hf-model:edithatogo/lfm2.5-1.2b-intel-lora",
+      "asset_kind": "huggingface-model",
+      "capability": "First-party experimental LFM2.5 adapter listed as a feature-extraction artifact.",
+      "command_names": [],
+      "contract": "No PelicanBench runtime entry until generative SVG capability, immutable revision, license, and prompt contract are qualified.",
+      "direction": "none",
+      "evidence": [],
+      "integration_class": "model-runtime",
+      "interfaces": [],
+      "local_names": [],
+      "name": "edithatogo/lfm2.5-1.2b-intel-lora",
+      "notes": "Considered in the 2026-08-01 owner-profile inventory; not a current text-to-SVG candidate.",
+      "rationale": "A feature-extraction or otherwise unqualified adapter is not relevant to the V1 one-shot SVG generation track.",
+      "relevance": "excluded",
+      "required": false,
+      "status": "not-required"
+    },
+    {
+      "asset_id": "hf-model:edithatogo/ollama-colbert-local-artifacts",
+      "asset_kind": "huggingface-model",
+      "capability": "Documentation-only ColBERT and local-runtime artifact planning repository.",
+      "command_names": [],
+      "contract": "No benchmark dependency; retain only as an estate-level retrieval/runtime reference if future evidence-search work requires it.",
+      "direction": "none",
+      "evidence": [],
+      "integration_class": "model-runtime",
+      "interfaces": [],
+      "local_names": [],
+      "name": "edithatogo/ollama-colbert-local-artifacts",
+      "notes": "Considered in the 2026-08-01 owner-profile inventory; contains no PelicanBench-generative model contract.",
+      "rationale": "Retrieval artifact notes do not contribute to visual generation, scoring, or agentic drawing in V1.",
+      "relevance": "excluded",
+      "required": false,
+      "status": "not-required"
+    },
+    {
+      "asset_id": "hf-dataset:edithatogo/pelican-bench",
+      "asset_kind": "huggingface-dataset",
+      "capability": "Versioned tasks, results, human annotations, scorer metadata, and benchmark card.",
+      "command_names": [],
+      "contract": "Immutable release dataset generated from rights-cleared artifacts and signed manifests.",
+      "direction": "publication-target",
+      "evidence": [
+        "hf/dataset",
+        "scripts/setup_huggingface.py",
+        ".github/workflows/publish-hf.yml"
+      ],
+      "integration_class": "platform-publication",
+      "interfaces": [
+        "hf-dataset",
+        "eval-results"
+      ],
+      "local_names": [],
+      "name": "edithatogo/pelican-bench",
+      "notes": "The repository has not yet been created through the available connector.",
+      "rationale": "The Hub dataset is the primary public benchmark record once credentials and publication gates are satisfied.",
+      "relevance": "direct",
+      "required": false,
+      "status": "blocked"
+    },
+    {
+      "asset_id": "hf-space:edithatogo/pelican-bench-explorer",
+      "asset_kind": "huggingface-space",
+      "capability": "Public result explorer, score explanations, blind comparisons, and trajectory views.",
+      "command_names": [],
+      "contract": "Read-only explorer over versioned dataset revisions; no hidden benchmark material.",
+      "direction": "publication-target",
+      "evidence": [
+        "hf/space",
+        "docs/hugging-face-architecture.md"
+      ],
+      "integration_class": "platform-publication",
+      "interfaces": [
+        "gradio-space"
+      ],
+      "local_names": [],
+      "name": "edithatogo/pelican-bench-explorer",
+      "notes": "The Space has not yet been created through the available connector.",
+      "rationale": "The explorer makes the benchmark legible without turning an unstable scalar into the sole public result.",
+      "relevance": "direct",
+      "required": false,
+      "status": "blocked"
+    },
+    {
+      "asset_id": "hf-space:edithatogo/pelican-bench-openenv",
+      "asset_kind": "huggingface-space",
+      "capability": "Hosted agentic environment surface for PelicanCanvas and later real-application adapters.",
+      "command_names": [],
+      "contract": "Versioned reset/step/state environment separated from the public explorer.",
+      "direction": "publication-target",
+      "evidence": [
+        "hf/openenv",
+        "envs",
+        "docs/hugging-face-architecture.md"
+      ],
+      "integration_class": "platform-publication",
+      "interfaces": [
+        "openenv-space"
+      ],
+      "local_names": [],
+      "name": "edithatogo/pelican-bench-openenv",
+      "notes": "The Space has not yet been created through the available connector.",
+      "rationale": "Separating execution from presentation limits coupling and allows the environment to evolve independently.",
+      "relevance": "direct",
+      "required": false,
+      "status": "blocked"
+    }
+  ],
+  "excluded_families": [
+    {
+      "examples": [
+        "legislation",
+        "corpus-nz-hansard",
+        "reimbursement-atlas",
+        "global-family-justice-data"
+      ],
+      "family": "domain-data-and-policy-corpora",
+      "rationale": "Their data domains do not contribute to visual-composition measurement and importing them would create irrelevant coupling."
+    },
+    {
+      "examples": [
+        "growth-chart-app",
+        "cardiac-risk-app",
+        "mchs"
+      ],
+      "family": "clinical-and-medical-applications",
+      "rationale": "Clinical functionality and data are outside PelicanBench's benchmark, ontology, and publication scope."
+    },
+    {
+      "examples": [
+        "ollama-old",
+        "staged-recipes",
+        "conan-center-index"
+      ],
+      "family": "upstream-forks-without-a-distinct-contract",
+      "rationale": "A generic protocol or estate standard is preferred over coupling to every fork or packaging repository."
+    },
+    {
+      "examples": [
+        "nz-hansard-corpus",
+        "fyi-archive-nz",
+        "hathitrust-nz-htrc-extracted-features",
+        "foi-process-event-logs",
+        "Michelin Star Per-Capita Dashboard",
+        "GTPCNZ Interactive Model Lab"
+      ],
+      "family": "first-party-hf-domain-data-and-unrelated-spaces",
+      "rationale": "These are valuable first-party data and application assets, but their domains and interfaces do not contribute to V1 visual-composition measurement. They remain discoverable through the owner namespace rather than becoming PelicanBench dependencies."
+    }
+  ],
+  "owner": "edithatogo",
+  "policy": {
+    "benchmark_firewall": "Training datasets, hidden tasks, scorer feedback, and human calibration data remain separate unless a prespecified study permits transfer.",
+    "coupling": "Prefer versioned files, CLIs, Agent Skills, schemas, and HTTP protocols over copied implementations or source-level imports.",
+    "evidence": "Implemented, contracted, and pattern-adopted records require repository evidence; external operational availability is reported separately.",
+    "exclusion": "Domain-adjacent repositories are not dependencies merely because they share an owner or technology stack.",
+    "hf_inventory": "The 2026-08-01 owner profile was reviewed at the model, dataset-family, and Space-family level. Directly relevant model and training-provenance assets are explicit; unrelated domain datasets and Spaces are dispositioned by family.",
+    "selection": "Integrate first-party assets only when they supply a distinct benchmark capability, a reusable estate standard, or a publication/runtime boundary."
+  },
+  "schema_version": "1.0.0"
+}

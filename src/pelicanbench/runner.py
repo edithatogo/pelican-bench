@@ -281,7 +281,7 @@ def run_benchmark(
         environment_digest=environment_digest,
         seed=seed,
         configuration={
-            "runner_version": "0.2.0",
+            "runner_version": "0.3.0",
             "task_count": len(task_values),
             "success_count": len(scorecards),
             "failure_count": len(failures),
@@ -305,7 +305,7 @@ def run_benchmark(
         environment_digest=environment_digest,
         seed=seed,
         configuration={
-            "runner_version": "0.2.0",
+            "runner_version": "0.3.0",
             "task_count": len(task_values),
             "success_count": len(scorecards),
             "failure_count": len(failures),

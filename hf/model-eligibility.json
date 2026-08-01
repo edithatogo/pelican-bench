@@ -1,33 +1,97 @@
 {
-  "schema_version": "1.0.0",
-  "policy": {
-    "literal_every_model": false,
-    "reason": "Only systems with compatible output capabilities, accessible immutable revisions, acceptable licences, bounded execution, and sufficient output limits are scientifically eligible.",
-    "discovery": "Scheduled metadata scan followed by a no-write canary.",
-    "deduplication": "Group base models, fine-tunes, quantisations, and endpoint aliases explicitly rather than silently double-counting."
-  },
   "models": [
     {
-      "model_id": "pelicanbench/fixture-svg",
-      "revision": "v1",
-      "tracks": ["heritage-svg", "compositional-svg", "repair"],
       "access_type": "local-fixture",
+      "base_model": null,
+      "evaluation_role": "fixture",
+      "first_party": true,
+      "inference_provider_status": "local-only",
       "license_status": "open",
-      "remote_code_required": false,
       "minimum_output_tokens": 0,
+      "model_id": "pelicanbench/fixture-svg",
+      "notes": "Deterministic conformance fixture; not a leaderboard model.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "v1",
+      "runtime_profile": null,
       "status": "eligible",
-      "notes": "Deterministic conformance fixture; not a leaderboard model."
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg",
+        "repair"
+      ]
     },
     {
-      "model_id": "provider/model-to-be-pinned",
-      "revision": "unresolved",
-      "tracks": ["heritage-svg"],
       "access_type": "provider-adapter",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "unknown",
       "license_status": "review-required",
-      "remote_code_required": false,
       "minimum_output_tokens": 12000,
+      "model_id": "provider/model-to-be-pinned",
+      "notes": "Template populated only after revision, access, licence, and canary review.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "unresolved",
+      "runtime_profile": null,
       "status": "blocked",
-      "notes": "Template populated only after revision, access, licence, and canary review."
+      "tracks": [
+        "heritage-svg"
+      ]
+    },
+    {
+      "access_type": "local-openai-compatible",
+      "base_model": "Qwen/Qwen3-4B",
+      "evaluation_role": "candidate",
+      "first_party": true,
+      "inference_provider_status": "local-only",
+      "license_status": "open",
+      "minimum_output_tokens": 12000,
+      "model_id": "edithatogo/qwen3-4b-hermes-lora",
+      "notes": "First-party experimental adapter. Must pass SVG canary, revision pinning, and output-budget checks before pilot inclusion.",
+      "provenance_sources": [
+        "github:edithatogo/hermes-training",
+        "hf-dataset:edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4"
+      ],
+      "remote_code_required": false,
+      "revision": "unresolved-pin-required",
+      "runtime_profile": "qwen3-hermes-no-think-v1",
+      "status": "candidate",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "local-peft-openai-compatible",
+      "base_model": "Qwen/Qwen3-4B",
+      "evaluation_role": "candidate",
+      "first_party": true,
+      "inference_provider_status": "not-deployed",
+      "license_status": "open",
+      "minimum_output_tokens": 12000,
+      "model_id": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "notes": "First-party PEFT conversion for CUDA/Hugging Face tooling. Hosted inference is not assumed.",
+      "provenance_sources": [
+        "github:edithatogo/hermes-training",
+        "hf-dataset:edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4"
+      ],
+      "remote_code_required": false,
+      "revision": "unresolved-pin-required",
+      "runtime_profile": "qwen3-hermes-no-think-v1",
+      "status": "candidate",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
     }
-  ]
+  ],
+  "policy": {
+    "deduplication": "Group base models, fine-tunes, quantisations, and endpoint aliases explicitly rather than silently double-counting.",
+    "discovery": "Scheduled metadata scan followed by a no-write canary.",
+    "literal_every_model": false,
+    "reason": "Only systems with compatible output capabilities, accessible immutable revisions, acceptable licences, bounded execution, and sufficient output limits are scientifically eligible."
+  },
+  "schema_version": "1.1.0"
 }

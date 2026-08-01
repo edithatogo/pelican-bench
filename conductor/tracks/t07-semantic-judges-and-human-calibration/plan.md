@@ -26,6 +26,8 @@
 - [x] Task: Define source-independent atomic visual questions and render-bound assessment records.
 - [x] Task: Add fixture assessor, judge aggregation and calibration-error tests.
 - [x] Task: Implement deterministic stratified calibration sampling and within-task blinded pair generation.
+- [x] Task: Export a privacy-minimised, data-dictionary-backed rating package and reject direct-identifier columns.
+- [x] Task: Add criterion-specific Bradley-Terry and inter-rater agreement analysis commands.
 - [ ] Task: Complete participant governance, recruit and evaluate the prespecified sample.
 - [ ] Task: Estimate judge-family, rater and task effects with uncertainty.
 
