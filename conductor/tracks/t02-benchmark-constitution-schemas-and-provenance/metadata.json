@@ -4,8 +4,14 @@
   "evidence": [
     "src/pelicanbench/models.py",
     "benchmark/schemas",
-    "src/pelicanbench/manifest.py"
+    "src/pelicanbench/manifest.py",
+    "src/pelicanbench/release_manifest.py",
+    "scripts/generate_release_manifest.py",
+    "scripts/generate_sbom.py",
+    "tests/test_workgraph_release.py"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {

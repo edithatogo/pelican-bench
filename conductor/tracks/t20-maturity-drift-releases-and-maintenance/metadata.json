@@ -6,6 +6,8 @@
     "docs/maturity-model.md",
     "docs/release-policy.md"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {

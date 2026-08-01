@@ -1,75 +1,75 @@
 # Long-term roadmap
 
-## Generation model
+PelicanBench advances in two dimensions: **capability generation** and **release evidence**. Conductor phases organise the work; evidence levels determine what can be claimed.
 
-Every capability advances through the same generations:
+## Capability generations
 
-| Generation | Meaning | Evidence |
+| Generation | Meaning | Minimum evidence |
 |---|---|---|
-| G0 Concept | Problem and options are explicit | ADR, risks, requirements |
-| G1 Contract | Stable schemas and fixtures exist | Validation and failing tests |
-| G2 Prototype | One end-to-end slice works | Reproducible demo |
-| G3 Validated | Behaviour aligns with human or external evidence | Calibration and bridge study |
-| G4 Hardened | Security, drift, scale and operations are controlled | Adversarial and reproducibility audits |
-| G5 Mature | Governance, maintenance and independent use are sustainable | External reproductions and stable releases |
+| G0 Concept | Problem, intended inference and options are explicit | ADR, requirements, risks |
+| G1 Contract | Stable schemas, fixtures and failure semantics exist | E0–E1 |
+| G2 Prototype | One deterministic end-to-end slice works | E2 fixture verification |
+| G3 Validated | Behaviour aligns with external or human evidence | E3 empirical calibration |
+| G4 Reproduced | A second environment or team reproduces the result | E4 independent reproduction |
+| G5 Mature | Security, drift, releases and stewardship are operational | E5 hardened operation |
+
+No release number automatically implies an evidence level. The benchmark assurance case and release blockers control the claim.
 
 ## Product releases
 
 ### v0.1 Foundation
 
-Repository operating system, public anchor, seed ontology, task generator,
-source registry, deterministic SVG checks, scorecard, run manifests and local
-explorer.
+Repository operating system, Conductor installation, public heritage anchor, seed ontologies, task grammar, bounded SVG inspection, initial scorecard, run manifests, local explorer and publication scaffolds.
 
-### v0.2 Longitudinal corpus
+### v0.2 Measurement-validity alpha
 
-Rights-cleared ingestion, NLP/NER and relation extraction over Simon's posts,
-structured commentary taxonomy, SVG/image feature extraction, time-series and
-model-family analysis.
+Current generation. It:
 
-### v0.3 Dynamic compositional benchmark
+- separates source security, artifact quality, canonical render and semantic evidence;
+- removes author-controlled labels, comments and invisible elements from normative semantic credit;
+- binds semantic assessments to canonical render hashes;
+- adds five executable metamorphic scorer challenges and a cross-renderer bridge;
+- separates scenario, prompt, condition, trial, artifact, evaluation and run identities;
+- commits a 33-task affordance-stratified prospective pilot;
+- adds E0–E5 assurance claims, five release blockers and a deterministic 115-issue work graph; and
+- emits W3C PROV and RO-Crate research-object provenance.
 
-Rotating animal × mobile-object × role grammar, difficulty calibration,
-near-neighbour errors, paraphrase robustness and the Pelicanmaxxing interaction
-analysis.
+### v0.3 Prospective pilot
 
-### v0.4 Human-calibrated evaluation
+Run four to six prespecified model systems on the committed one-shot SVG pilot, retain every eligible replicate and failure, estimate item difficulty and prompt sensitivity, validate provider adapters and publish immutable raw artifacts and manifests.
 
-Atomic scene questions, blind captions, diverse judge families, pairwise human
-ratings, expert anatomy/mechanics panels, judge-bias analysis and uncertainty.
+### v0.4 Human-calibrated beta
 
-### v0.5 Repair and editing
+Complete participant governance, blinded general and expert calibration, judge-family bias analysis, hierarchical uncertainty, rank intervals, sensitivity analyses and a bridge from automatic dimensions to human recognition and preference.
 
-Known-defect diagnosis, edit locality, preservation, regression and multi-turn
-constraint accumulation.
+### v1.0 Narrow MVP benchmark
 
-### v0.6 Agentic drawing
+Freeze and cite the empirically validated **one-shot SVG benchmark**. V1 requires closure of RB-01 through RB-05, independent reproduction, remote CI and attestations, GitHub and Hugging Face publication, rights-cleared boundaries and complete benchmark/data/scorer cards. The public heritage prompt is reported separately from the primary generalisation result.
 
-PelicanCanvas trajectory benchmark, Penpot adapter, legacy Krita import,
-application friction, controlled failures, recovery and cost-quality curves.
+### v1.1 Repair and editing
 
-### v0.7 Governed learning
+Known-defect diagnosis, local correction, preservation of correct regions, regression detection, multi-turn constraints and operational editability tests.
 
-Within-session adaptation, persistent memory, skill-file proposals, held-out
-transfer, heuristic expiry and comparison of execution versus skill acquisition.
+### v1.2 Agentic drawing
 
-### v0.8 Adversarial and accessibility
+PelicanCanvas trajectory benchmark, tldraw and Penpot experiments, legacy Krita continuity, Inkscape editing, controlled friction, recovery, intervention and cost-quality curves.
 
-Scorer challenge programme, malicious artifacts, prompt injection, proxy gaming,
-and co-designed language-driven creation studies.
+### v1.3 Governed learning and transfer
 
-### v1.0 MVP benchmark
+Within-session adaptation, persistent skill proposals, contamination firewalls, held-out animal-family and interface-family transfer, heuristic expiry and rollback.
 
-A frozen, citable vertical slice that is reproducible, rights-aware, explainable
-and useful, even though frontier tracks continue afterward.
+### v1.4 Chronicle and longitudinal analysis
+
+Rights-cleared Simon Willison corpus, NLP/NER and relation extraction, source-to-requirement coverage, image/SVG feature timelines, model-family analysis and prospective bridge runs. The Chronicle remains observational and separate from the controlled benchmark.
+
+### v1.5 Adversarial and accessibility
+
+Independent scorer challenge, continuous parser and transform fuzzing, rendered prompt injection, proxy optimisation studies and co-designed language-driven creation research.
 
 ### v2+
 
-Cross-application transfer, animation, temporal identity, editable rigs, 3D
-scenes, physical plausibility and richer human-agent collaboration.
+Cross-application transfer, animation, temporal identity, editable rigs, video, 3D scenes, physical plausibility and richer human-agent collaboration.
 
 ## Continuous maturity tracks
 
-Security, rights, drift, supply chain, model eligibility, cost controls,
-provenance, human alignment and documentation are not one-off milestones. Each
-has scheduled review triggers and cannot be declared permanently complete.
+Security, rights, drift, supply chain, model eligibility, cost controls, provenance, human alignment and documentation are continuous controls rather than one-off milestones. Every score-affecting change requires a bridge study and explicit compatibility decision.

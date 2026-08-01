@@ -9,12 +9,15 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
-        with: {python-version: '3.13'}
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with: {python-version: '3.14'}
       - run: python -m pip install -e '.[dev]' pip-audit bandit
       - run: pip-audit
       - run: bandit -q -r src scripts -x tests
-      - run: python -m pytest -q tests/test_svg_scoring.py
+      - name: SVG and scorer adversarial suite
+        run: python -m pytest -q tests/test_svg_scoring.py tests/test_metamorphic.py tests/test_fuzzing.py
+      - name: Bounded mutation fuzz campaign
+        run: python -m pelicanbench.cli fuzz-svg --cases 520 --budget-ms 1000 --output artifacts/security-fuzz-report.json

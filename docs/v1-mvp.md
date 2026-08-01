@@ -1,51 +1,67 @@
 # V1 MVP contract
 
-PelicanBench V1 is a **minimum viable benchmark**, not the endpoint. It must be
-small enough to publish and strong enough that its outputs remain interpretable.
+PelicanBench V1 is a minimum viable **empirical benchmark**, not the full long-term suite.
+The software can mature through alpha releases before V1, but V1 itself must support the
+inferences made in its benchmark card.
 
-## Must have
+## Normative V1 scope
 
-- Stable exact-prompt public anchor with a versioned prompt and run contract.
-- Typed task schema and deterministic generator spanning multiple animals,
-  bicycles and at least one driven vehicle such as a tuk-tuk.
-- Seed animal, pelican, mobile-object, bicycle and interface ontologies.
-- Secure SVG source inspection with bounded parsing and explicit failure reasons.
-- Multidimensional scorecard and critical conjunctive gates.
-- Reproducible local runner and content-addressed run manifest.
-- Metadata-only registry for Simon Willison's archive, Dylan Mordaunt's article,
-  Sergio Paniego's work, model outputs and reference assets.
-- Fixture-scale NLP/NER pipeline and image/SVG longitudinal feature schema.
-- Conductor project context, full track graph, native GitHub sub-issue bootstrap,
-  phase evidence gates and learning ledger.
-- SHA-pinned CI, rights audit, repository validator, tests and offline demo.
-- Hugging Face benchmark, Space, Jobs and OpenEnv publication scaffolding.
+V1 covers one-shot SVG generation only:
 
-## Should have
+- the exact Simon Willison heritage prompt, reported separately;
+- 16 prospective semantic scenarios with two prompt formulations each;
+- four mobility-interface strata;
+- four to six prespecified model systems;
+- at least three retained replicates per model-task condition;
+- secure source inspection and canonical rendering;
+- source-independent atomic semantic assessment;
+- blinded human calibration on a stratified subset;
+- multidimensional scores, conjunctive success and uncertainty; and
+- immutable, reproducible run packages.
 
-- Blind-caption semantic adapter contract and atomic scene questions.
-- Historical annotation import format.
-- Human pairwise-comparison schema.
-- Agentic PelicanCanvas prototype and trajectory schema.
-- Dry-run provider/model registry and eligibility filter.
-- Publication skeleton for a Substack launch series and methods preprint.
+Repair, direct raster generation, agentic drawing, accessibility, video and 3D remain
+separate experimental V1.x or later tracks. Their scaffolds may ship earlier, but they do
+not enlarge the V1 claim.
 
-## Could have
+## Required engineering contracts
 
-- Rust conformance implementation, Inspect AI task package, live HF Jobs,
-  Penpot adapter prototype, Krita replay importer, and a small expert calibration
-  exercise.
+- Stable scenario, prompt, condition, trial, artifact and evaluation identities.
+- Typed schemas and an affordance-aware animal, object and interface grammar.
+- Bounded SVG parsing with explicit failure reasons.
+- Canonical pixel-derived render hashes.
+- A source, render and semantic evidence firewall.
+- Complete trial and failure retention.
+- Content-addressed manifests, W3C PROV JSON-LD, RO-Crate metadata and reproduction script.
+- Evidence-aware Conductor phases and cross-track release blockers.
+- SHA-pinned CI, rights audit, repository validator and deterministic fixture demo.
+- GitHub and Hugging Face publication with immutable revisions.
 
-## Will not be required for V1
+## V1 release gates
 
-- Complete redistribution of Simon's images or commentary without permission.
-- Evaluation of every Hugging Face model.
-- A definitive single-number leaderboard.
-- A sealed remote test service, large human panel, video/3D tasks, or persistent
-  agent training.
+V1 requires:
 
-## Release gate
+1. No known critical scorer exploit.
+2. Prespecified scorer invariance and metamorphic tests.
+3. Completion of the prospective multi-model pilot.
+4. Human calibration of principal automatic dimensions.
+5. Uncertainty and sensitivity analyses.
+6. Clean-clone reproduction in a second environment.
+7. Successful remote CI, release and provenance attestations.
+8. Rights-cleared publication boundaries and participant governance.
+9. An immutable release with benchmark, data, scorer and limitations cards.
+10. Closure of `RB-01` through `RB-05` in
+    [`conductor/release-blockers.json`](../conductor/release-blockers.json).
 
-V1 may be tagged when the public fixtures reproduce from a clean clone; all
-contracts validate; security and rights checks pass; score-affecting versions are
-frozen; the issue graph can be created idempotently; and the known limitations
-are prominent in the benchmark card and paper.
+## Explicit exclusions
+
+V1 does not claim:
+
+- evaluation of every model on Hugging Face;
+- absence of training contamination;
+- a definitive universal ranking of visual systems;
+- redistribution rights over third-party historical artifacts;
+- equivalence between one-shot generators and tool-using agents; or
+- mature evidence for persistent learning, accessibility, video or 3D.
+
+The `v0.2-alpha` profile is an E2 fixture-verified precursor. Run
+`pelicanbench release-readiness --profile v1.0` to inspect the current gap.

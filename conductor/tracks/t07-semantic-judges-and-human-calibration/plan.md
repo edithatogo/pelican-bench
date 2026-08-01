@@ -20,14 +20,16 @@
 
 ## P2 Validated
 
-**Phase state:** `planned`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [ ] Task: Add independent, adversarial or property-oriented validation.
-- [ ] Task: Measure uncertainty, repeatability and known limitations.
-- [ ] Task: Reproduce through the project harness and update evidence.
-- [ ] Task: Phase verification and validated checkpoint.
+- [x] Task: Define source-independent atomic visual questions and render-bound assessment records.
+- [x] Task: Add fixture assessor, judge aggregation and calibration-error tests.
+- [x] Task: Implement deterministic stratified calibration sampling and within-task blinded pair generation.
+- [ ] Task: Complete participant governance, recruit and evaluate the prespecified sample.
+- [ ] Task: Estimate judge-family, rater and task effects with uncertainty.
 
-**Current limitation:** Empirical human recruitment, ethics/consent review, and judge calibration remain future work.
+**Current limitation:** Calibration design is E2 fixture-verified; no empirical human-validity claim is made before governance, recruitment and analysis.
 
 ## P3 Hardened
 

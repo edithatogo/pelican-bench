@@ -1,10 +1,14 @@
 {
-  "blocker": "The estimator is tested on factorial fixtures; real multi-model repeated runs are not yet available.",
+  "blocker": "Cluster-aware estimators are fixture-tested; the prespecified prospective model and human data are not yet available.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/statistics.py",
-    "tests/test_statistics_semantic_human.py"
+    "tests/test_statistics_semantic_human.py",
+    "docs/v1-pilot-analysis-plan.md",
+    "benchmark/assurance-case.json"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {

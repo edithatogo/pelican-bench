@@ -1,21 +1,61 @@
 # Scorer card
 
-## Structural scorer
+## Version
 
-`svg-structural/0.1.0` parses SVG with bounded, non-executing XML handling; rejects active and external content; extracts source, role, and geometric features; and produces seven transparent dimensions. The scorer is deterministic for fixed source and version.
+The current implementation is `svg-multilayer/0.2.0`. It replaces the original
+`svg-structural/0.1.0`, which is retained only as historical context because its semantic
+dimensions could be manipulated through SVG identifiers and invisible labelled elements.
+
+## Evidence architecture
+
+The scorer has three independent channels:
+
+1. **Source security and artifact diagnostics:** bounded XML parsing, active-content and
+   external-resource rejection, complexity limits, grouping and editability descriptors.
+2. **Canonical render diagnostics:** pixel-derived render identity, non-blankness, visible
+   bounds, connected components and low-level composition features.
+3. **Source-independent semantics:** atomic visual questions answered from the canonical
+   render and bound to its hash.
+
+SVG IDs, classes, comments, metadata, element order and declared roles cannot contribute to
+animal anatomy, object mechanics, interaction or instruction-coverage scores. They may be
+reported as non-normative artifact diagnostics.
 
 ## Critical gates
 
-Artifact integrity, minimum animal evidence, minimum mobile-object evidence, and minimum interaction evidence are conjunctive. A high composition score cannot compensate for a missing rider or vehicle.
+- source is safe to parse and render;
+- canonical render is non-blank;
+- semantic assessment is source-independent and matches the task and render hash;
+- critical animal, object and interaction questions are supplied; and
+- their probabilities exceed the versioned thresholds.
+
+A high composition or vector-quality score cannot compensate for a missing animal, object
+or relation.
 
 ## Semantic and human layers
 
-Semantic judges answer versioned atomic questions. Judge family, model revision, prompt, image render, and calibration data are recorded. Human pairwise ratings are the calibration reference, not an optional decorative score.
+A semantic judge answers versioned atomic questions against an image only. Judge identity,
+revision, method, uncertainty and calibration version are recorded. The static assessor in
+tests is explicitly `fixture-only` and cannot establish empirical validity.
 
-## Failure modes
+Blinded human judgements remain the calibration reference. The V1 pilot oversamples
+boundary cases and judge disagreement so calibration effort is concentrated where it is
+most informative.
 
-Role labels can be gamed, coarse geometry can reward blobs, and semantic judges can exhibit family and presentation bias. The security track therefore contains shortcut fixtures, scorer challenges, blind renders, source/render disagreement checks, and periodic bridge studies.
+## Known failure modes
 
-## Score compatibility
+- rendered text can influence a multimodal judge even when source metadata is removed;
+- canonical renderers can disagree on filters, fonts and unsupported SVG features;
+- coarse geometry cannot by itself establish species or interaction semantics;
+- multimodal judges can show family, presentation and confidence biases; and
+- human raters can disagree or infer intent from style.
 
-Weight, gate, parser, ontology, or question changes are explicitly classified as score-compatible or score-breaking. Breaking changes require a new benchmark release and a bridge set.
+These limitations are managed through metamorphic tests, bridge renderers, family-diverse
+judges, blinded human calibration, sensitivity analysis and the scorer challenge programme.
+
+## Compatibility
+
+Changes to security rules, canonical rendering, atomic questions, thresholds, ontology
+requirements, dimension definitions or aggregate weights are score-affecting. A breaking
+change requires a new scorer version, release note, retained regression fixture and bridge
+analysis before historical scores are compared.

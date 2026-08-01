@@ -20,12 +20,15 @@
 
 ## P2 Validated
 
-**Phase state:** `complete`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `src/pelicanbench/repair.py`, `benchmark/fixtures/repair`.
+- [x] Task: Separate declared edit-target and preservation metrics from visual benchmark semantics.
+- [x] Task: Retain deterministic repair fixtures and regression tests.
+- [ ] Task: Add render-based defect and preservation assessments.
+- [ ] Task: Calibrate edit locality and introduced-defect measures against human judgement.
+
+**Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
 
 ## P3 Hardened
 

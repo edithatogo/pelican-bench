@@ -20,12 +20,15 @@
 
 ## P2 Validated
 
-**Phase state:** `complete`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `benchmark/ontologies`, `src/pelicanbench/ontology.py`.
+- [x] Task: Export stable JSON-LD identifiers and feature requirement tiers.
+- [x] Task: Add SHACL shape definitions and executable competency-case fixtures.
+- [ ] Task: Run SHACL validation and complete expert review of necessary, diagnostic and optional feature tiers.
+- [ ] Task: Complete empirical inter-annotator validation of ontology-driven questions.
+
+**Current limitation:** JSON-LD, SHACL definitions and competency fixtures are E2; normative SHACL execution and expert validation remain open.
 
 ## P3 Hardened
 

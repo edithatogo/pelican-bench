@@ -5,6 +5,8 @@
     "docs/future-media-protocol.md",
     "src/pelicanbench/media_contracts.py"
   ],
+  "evidence_definition": "implemented",
+  "evidence_level": "E1",
   "github": {
     "parent_issue": null,
     "phase_issues": {

@@ -6,6 +6,8 @@
     "data/fixtures/corpus.jsonl",
     "docs/source-to-requirement-map.md"
   ],
+  "evidence_definition": "implemented",
+  "evidence_level": "E1",
   "github": {
     "parent_issue": null,
     "phase_issues": {

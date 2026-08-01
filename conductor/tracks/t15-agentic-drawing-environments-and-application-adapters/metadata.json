@@ -6,6 +6,8 @@
     "src/pelicanbench/environments.py",
     "adapters"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {

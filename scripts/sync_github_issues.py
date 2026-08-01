@@ -24,6 +24,7 @@ BASE_LABELS: dict[str, tuple[str, str]] = {
     "conductor": ("5319e7", "Managed by the repository Conductor work graph"),
     "track": ("1d76db", "Top-level Conductor capability track"),
     "phase": ("8250df", "Conductor maturity phase"),
+    "release-blocker": ("b60205", "Cross-track benchmark release blocker"),
     "phase:P0": ("bfdadc", "Contract phase"),
     "phase:P1": ("9be9a8", "Prototype phase"),
     "phase:P2": ("fbca04", "Validated phase"),
@@ -32,6 +33,13 @@ BASE_LABELS: dict[str, tuple[str, str]] = {
     "status:partial": ("fbca04", "Some phase exit criteria are evidenced"),
     "status:blocked": ("b60205", "External dependency or governance constraint blocks completion"),
     "status:planned": ("d4c5f9", "Planned work with no completion claim"),
+    "status:reopened": ("d93f0b", "Previously claimed evidence has been reopened"),
+    "evidence:E0": ("d4c5f9", "Defined"),
+    "evidence:E1": ("c5def5", "Implemented"),
+    "evidence:E2": ("fbca04", "Fixture-verified"),
+    "evidence:E3": ("9be9a8", "Empirically calibrated"),
+    "evidence:E4": ("bfdadc", "Independently reproduced"),
+    "evidence:E5": ("0e8a16", "Operationally hardened"),
 }
 
 
@@ -169,12 +177,14 @@ def main() -> int:
     args = parser.parse_args()
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     tracks = manifest["tracks"]
+    release_blockers = manifest.get("release_blockers", [])
     summary = {
         "repository": args.repo,
         "mode": "apply" if args.apply else "dry-run",
         "parent_issues": len(tracks),
         "phase_issues": sum(len(track["phases"]) for track in tracks),
-        "total_issues": len(tracks) + sum(len(track["phases"]) for track in tracks),
+        "release_blocker_issues": len(release_blockers),
+        "total_issues": len(tracks) + sum(len(track["phases"]) for track in tracks) + len(release_blockers),
     }
     print(json.dumps(summary, indent=2, sort_keys=True))
     if not args.apply:
@@ -183,12 +193,14 @@ def main() -> int:
                 print(track["parent_title"])
                 for phase in track["phases"]:
                     print(f"  {phase['title']}")
+            for blocker in release_blockers:
+                print(blocker["title"])
         return 0
     if shutil.which("gh") is None:
         raise SystemExit("gh CLI is required for --apply")
     run_json(["gh", "auth", "status", "--json", "hosts"])
     ensure_labels(args.repo, tracks)
-    state: dict[str, Any] = {"repository": args.repo, "tracks": {}}
+    state: dict[str, Any] = {"repository": args.repo, "tracks": {}, "release_blockers": {}}
     for track in tracks:
         code = str(track["code"])
         phase_records = []
@@ -237,6 +249,23 @@ def main() -> int:
                 for phase in track["phases"]
             },
         }
+    for blocker in release_blockers:
+        status = str(blocker.get("status", "planned"))
+        issue = ensure_issue(
+            args.repo,
+            title=blocker["title"],
+            body=blocker["body"],
+            status=status,
+            labels=[
+                "conductor",
+                "release-blocker",
+                f"status:{status}",
+                f"evidence:{blocker.get('evidence_level', 'E0')}",
+                *(f"track:{track}" for track in blocker.get("linked_tracks", [])),
+            ],
+        )
+        blocker["issue_number"] = int(issue["number"])
+        state["release_blockers"][blocker["id"]] = int(issue["number"])
     MANIFEST.write_text(
         json.dumps(manifest, sort_keys=True, indent=2) + "\n",
         encoding="utf-8",

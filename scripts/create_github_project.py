@@ -28,9 +28,17 @@ def main() -> int:
     issue_numbers = [
         number
         for track in manifest["tracks"]
-        for number in [track.get("parent_issue"), *(phase.get("issue_number") for phase in track["phases"])]
+        for number in [
+            track.get("parent_issue"),
+            *(phase.get("issue_number") for phase in track["phases"]),
+        ]
         if number
     ]
+    issue_numbers.extend(
+        blocker["issue_number"]
+        for blocker in manifest.get("release_blockers", [])
+        if blocker.get("issue_number")
+    )
     print(json.dumps({"title": args.title, "items_ready": len(issue_numbers), "mode": "apply" if args.apply else "dry-run"}, indent=2))
     if not args.apply:
         return 0

@@ -1,11 +1,21 @@
 {
-  "blocker": null,
+  "blocker": "The label-injection exploit, five normative metamorphic challenges and bounded mutation-fuzz smoke campaign are fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies and independent submissions remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/svg.py",
     "benchmark/fixtures/malicious",
-    "docs/threat-model.md"
+    "docs/threat-model.md",
+    "benchmark/fixtures/adversarial",
+    "benchmark/scorer-challenges/known-exploits.json",
+    "docs/scorer-challenge.md",
+    "src/pelicanbench/metamorphic.py",
+    "tests/test_metamorphic.py",
+    "tests/test_svg_scoring.py",
+    "src/pelicanbench/fuzzing.py",
+    "tests/test_fuzzing.py"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -18,12 +28,14 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "complete",
-    "P3": "partial"
+    "P2": "partial",
+    "P3": "planned"
   },
+  "reopened_at": "2026-08-01T00:00:00Z",
+  "reopened_reason": "A critical source-label semantic scoring exploit invalidated the prior broad validation claim; the fix is E2 fixture-verified pending E3 calibration.",
   "score_compatibility": "none-until-normative-release",
   "slug": "t17-security-adversarial-testing-and-scorer-challenge",
-  "status": "validated",
+  "status": "prototype",
   "title": "Security, adversarial testing and scorer challenge",
   "track_id": "T17",
   "type": "programme",

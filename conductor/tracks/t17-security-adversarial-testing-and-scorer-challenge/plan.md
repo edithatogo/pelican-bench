@@ -20,18 +20,23 @@
 
 ## P2 Validated
 
-**Phase state:** `complete`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `src/pelicanbench/svg.py`, `benchmark/fixtures/malicious`, `docs/threat-model.md`.
+- [x] Task: Register the source-label injection exploit and retain a malicious fixture.
+- [x] Task: Add metamorphic regression tests and render/source disagreement checks.
+- [x] Task: Execute five normative scorer challenges against metadata and invisible-element attacks.
+- [x] Task: Add a bounded deterministic parser/renderer mutation-fuzz campaign to local and security CI.
+- [ ] Task: Add continuous coverage-guided parser and transform fuzzing with sustained resource budgets.
+- [ ] Task: Run rendered prompt-injection studies and an independent scorer challenge.
+
+**Current limitation:** Known exploit protection and bounded fuzz smoke are E2; coverage-guided and independent adversarial validation remain open.
 
 ## P3 Hardened
 
-**Phase state:** `partial`
+**Phase state:** `planned`
 
-- [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
-- [x] Task: Complete bridge, migration and deprecation policy.
+- [ ] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
+- [ ] Task: Complete bridge, migration and deprecation policy.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.

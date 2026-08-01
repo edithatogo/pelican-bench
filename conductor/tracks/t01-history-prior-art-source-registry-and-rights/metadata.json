@@ -6,6 +6,8 @@
     "data/sources/source-registry.json",
     "data/sources/rights-ledger.json"
   ],
+  "evidence_definition": "implemented",
+  "evidence_level": "E1",
   "github": {
     "parent_issue": null,
     "phase_issues": {

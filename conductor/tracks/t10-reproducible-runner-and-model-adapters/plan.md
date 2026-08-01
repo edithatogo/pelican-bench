@@ -20,18 +20,23 @@
 
 ## P2 Validated
 
-**Phase state:** `complete`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `src/pelicanbench/runner.py`, `src/pelicanbench/adapters.py`, `src/pelicanbench/manifest.py`.
+- [x] Task: Emit stable trial and evaluation records separate from benchmark task identity.
+- [x] Task: Emit canonical renders, semantic assessments, W3C PROV, RO-Crate and reproduction script.
+- [x] Task: Reproduce deterministic fixture runs through the local harness.
+- [x] Task: Retain failed invocations as denominator trials and export `failures.jsonl`.
+- [x] Task: Add bounded retry and checkpoint adapters, with child-process secret minimisation.
+- [ ] Task: Validate the policies against real provider failures and a second-environment clean-clone rerun.
+
+**Current limitation:** Retry, resume and failure-retention contracts are E2 fixture-verified; provider and independent reproduction evidence remain open.
 
 ## P3 Hardened
 
-**Phase state:** `partial`
+**Phase state:** `planned`
 
-- [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
-- [x] Task: Complete bridge, migration and deprecation policy.
+- [ ] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
+- [ ] Task: Complete bridge, migration and deprecation policy.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.

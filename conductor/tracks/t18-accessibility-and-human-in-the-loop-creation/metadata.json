@@ -5,6 +5,8 @@
     "docs/accessibility-protocol.md",
     "src/pelicanbench/human_eval.py"
   ],
+  "evidence_definition": "implemented",
+  "evidence_level": "E1",
   "github": {
     "parent_issue": null,
     "phase_issues": {

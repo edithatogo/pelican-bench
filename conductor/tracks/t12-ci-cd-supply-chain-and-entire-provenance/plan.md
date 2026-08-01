@@ -20,20 +20,23 @@
 
 ## P2 Validated
 
-**Phase state:** `complete`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `.github/workflows`, `.entire`, `scripts/harness.sh`.
+- [x] Task: Run the local unit, coverage, rights, reproducibility and deterministic SBOM harness.
+- [x] Task: Add evidence-aware release-readiness and assurance-case checks.
+- [x] Task: Generate and verify the 115-issue Conductor/GitHub work graph deterministically.
+- [x] Task: Generate a dependency-aware SPDX SBOM and content-addressed release manifest.
+- [ ] Task: Run remote GitHub CI, release attestations and Entire CLI provenance.
+- [ ] Task: Verify the published release from an independent clean clone.
 
-**Current limitation:** Local harness is complete; remote attestations and Entire CLI runtime evidence require the published repository/runtime.
+**Current limitation:** Configured remote workflows are not counted as executed evidence.
 
 ## P3 Hardened
 
-**Phase state:** `partial`
+**Phase state:** `planned`
 
-- [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
-- [x] Task: Complete bridge, migration and deprecation policy.
+- [ ] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
+- [ ] Task: Complete bridge, migration and deprecation policy.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.

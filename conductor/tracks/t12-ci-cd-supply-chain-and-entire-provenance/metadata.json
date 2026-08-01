@@ -1,11 +1,22 @@
 {
-  "blocker": "Local harness is complete; remote attestations and Entire CLI runtime evidence require the published repository/runtime.",
+  "blocker": "The local harness, deterministic work graph, dependency-aware SBOM, release manifest and provenance contracts are fixture-verified; remote CI, attestations and Entire runtime evidence have not run.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     ".github/workflows",
     ".entire",
-    "scripts/harness.sh"
+    "scripts/harness.sh",
+    "benchmark/assurance-case.json",
+    "conductor/release-blockers.json",
+    "src/pelicanbench/workgraph.py",
+    "scripts/generate_issue_manifest.py",
+    ".github/issues/manifest.json",
+    "src/pelicanbench/release_manifest.py",
+    "scripts/generate_release_manifest.py",
+    "scripts/generate_sbom.py",
+    "tests/test_workgraph_release.py"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -18,12 +29,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "complete",
-    "P3": "partial"
+    "P2": "partial",
+    "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t12-ci-cd-supply-chain-and-entire-provenance",
-  "status": "validated",
+  "status": "prototype",
   "title": "CI/CD, supply chain and Entire provenance",
   "track_id": "T12",
   "type": "programme",

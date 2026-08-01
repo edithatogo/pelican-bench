@@ -21,13 +21,14 @@
 ## P2 Validated
 
 **Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [ ] Task: Reproduce through the project harness and update evidence.
-- [ ] Task: Phase verification and validated checkpoint.
+- [x] Task: Implement relation-adjusted interaction estimates and stratified bootstrap uncertainty.
+- [x] Task: Implement partial pooling, replicate reliability and superiority probabilities.
+- [x] Task: Prespecify the V1 pilot analysis and sensitivity analyses.
+- [ ] Task: Fit and validate the models on prospective multi-model and human data.
 
-**Current limitation:** The estimator is tested on factorial fixtures; real multi-model repeated runs are not yet available.
+**Current limitation:** Statistical software is E2; substantive empirical estimates do not yet exist.
 
 ## P3 Hardened
 

@@ -1,11 +1,17 @@
 {
-  "blocker": null,
+  "blocker": "The 33-task affordance-stratified pilot is committed, but empirical item difficulty and multi-model execution remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/taskgen.py",
     "benchmark/tasks/grammar.json",
-    "benchmark/tasks/public-anchor.jsonl"
+    "benchmark/tasks/public-anchor.jsonl",
+    "benchmark/tasks/v1-pilot-design.json",
+    "benchmark/tasks/v1-pilot.jsonl",
+    "benchmark/tasks/v1-pilot-commitment.json",
+    "docs/v1-pilot-analysis-plan.md"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -18,12 +24,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "complete",
-    "P3": "partial"
+    "P2": "partial",
+    "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t08-dynamic-animal-and-mobile-object-task-grammar",
-  "status": "validated",
+  "status": "prototype",
   "title": "Dynamic animal and mobile-object task grammar",
   "track_id": "T08",
   "type": "programme",

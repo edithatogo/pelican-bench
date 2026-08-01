@@ -1,11 +1,22 @@
 {
-  "blocker": null,
+  "blocker": "The source-label exploit and renderer bridge are fixture-verified; empirical human calibration and an independent scorer challenge remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/svg.py",
     "src/pelicanbench/scoring.py",
-    "benchmark/fixtures/svg"
+    "benchmark/fixtures/svg",
+    "src/pelicanbench/render.py",
+    "docs/source-render-semantic-contract.md",
+    "benchmark/fixtures/adversarial/semantic-label-injection.svg",
+    "benchmark/scorer-challenges/known-exploits.json",
+    "tests/test_svg_scoring.py",
+    "src/pelicanbench/metamorphic.py",
+    "src/pelicanbench/render_bridge.py",
+    "tests/test_metamorphic.py",
+    "tests/test_assurance_render_bridge.py"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -18,12 +29,14 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "complete",
-    "P3": "partial"
+    "P2": "partial",
+    "P3": "planned"
   },
+  "reopened_at": "2026-08-01T00:00:00Z",
+  "reopened_reason": "A critical source-label semantic scoring exploit invalidated the prior broad validation claim; the fix is E2 fixture-verified pending E3 calibration.",
   "score_compatibility": "none-until-normative-release",
   "slug": "t06-deterministic-svg-integrity-and-structural-scoring",
-  "status": "validated",
+  "status": "prototype",
   "title": "Deterministic SVG integrity and structural scoring",
   "track_id": "T06",
   "type": "programme",

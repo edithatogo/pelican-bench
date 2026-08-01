@@ -5,6 +5,8 @@
     "hf/space/app.py",
     "web/pelican-canvas"
   ],
+  "evidence_definition": "implemented",
+  "evidence_level": "E1",
   "github": {
     "parent_issue": null,
     "phase_issues": {

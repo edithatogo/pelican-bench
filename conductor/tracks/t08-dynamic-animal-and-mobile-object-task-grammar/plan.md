@@ -20,18 +20,21 @@
 
 ## P2 Validated
 
-**Phase state:** `complete`
+**Phase state:** `partial`
+**Evidence level:** `E2` fixture-verified
 
-- [x] Task: Add independent, adversarial or property-oriented validation.
-- [x] Task: Measure uncertainty, repeatability and known limitations.
-- [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `src/pelicanbench/taskgen.py`, `benchmark/tasks/grammar.json`, `benchmark/tasks/public-anchor.jsonl`.
+- [x] Task: Separate scenario, prompt, condition, trial and evaluation identities.
+- [x] Task: Implement affordance-aware compatibility and four interface strata.
+- [x] Task: Commit the 33-task prospective V1 pilot and task-set hash.
+- [ ] Task: Run the pilot and estimate empirical coverage, difficulty and prompt sensitivity.
+
+**Current limitation:** The task system is E2 fixture-verified; prospective item calibration remains open.
 
 ## P3 Hardened
 
-**Phase state:** `partial`
+**Phase state:** `planned`
 
-- [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
-- [x] Task: Complete bridge, migration and deprecation policy.
+- [ ] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
+- [ ] Task: Complete bridge, migration and deprecation policy.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.

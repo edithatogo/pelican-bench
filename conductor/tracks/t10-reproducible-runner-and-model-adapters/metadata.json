@@ -1,11 +1,16 @@
 {
-  "blocker": null,
+  "blocker": "Failure retention, bounded retries, secret-minimised commands, checkpoint resumption and research-object outputs are fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/runner.py",
     "src/pelicanbench/adapters.py",
-    "src/pelicanbench/manifest.py"
+    "src/pelicanbench/manifest.py",
+    "src/pelicanbench/provenance.py",
+    "tests/test_runner_manifest.py",
+    "benchmark/schemas/trial-record.schema.json"
   ],
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -18,12 +23,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "complete",
-    "P3": "partial"
+    "P2": "partial",
+    "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t10-reproducible-runner-and-model-adapters",
-  "status": "validated",
+  "status": "prototype",
   "title": "Reproducible runner and model adapters",
   "track_id": "T10",
   "type": "programme",
