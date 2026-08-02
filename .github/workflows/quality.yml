@@ -1,0 +1,57 @@
+name: Static quality and prose
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  checks: write
+  contents: read
+  pull-requests: read
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  python-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.14'
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[dev,analysis]'
+      - name: Dependency-free static audit
+        run: python scripts/static_audit.py --output artifacts/static-audit.json
+      - name: Dependency-free prose audit
+        run: python scripts/prose_audit.py --output artifacts/prose-audit.json
+      - name: Toolchain evidence
+        run: python scripts/toolchain_preflight.py --output artifacts/toolchain-preflight.json
+      - name: Ruff lint
+        run: ruff check src tests scripts hf
+      - name: Ruff formatting
+        run: ruff format --check src tests scripts hf
+      - name: mypy strict typing
+        run: mypy src/pelicanbench
+      - name: Pyright strict typing
+        run: pyright src
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: static-quality-evidence
+          path: artifacts/
+  prose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: vale-cli/vale-action@85f9f7f2c5f449ac0ae5b66662961bae3f77ca6a # official Node 24 action
+        with:
+          version: 3.14.2
+          files: '["README.md","docs","conductor"]'
+          fail_on_error: true
+          level: warning
+          filter_mode: nofilter
+          reporter: github-check

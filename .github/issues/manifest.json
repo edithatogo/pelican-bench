@@ -263,9 +263,9 @@
       "track_id": "T03"
     },
     {
-      "blocker": "The full Simon Willison corpus is deliberately not mirrored until rights and ingestion decisions are settled.",
-      "evidence_level": "E1",
-      "parent_body": "## Conductor track\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Specification:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/spec.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/spec.md)\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Evidence level:** `E1`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
+      "blocker": "Rights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.",
+      "evidence_level": "E2",
+      "parent_body": "## Conductor track\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Specification:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/spec.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/spec.md)\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
       "parent_title": "[T04] Simon corpus NLP, NER and idea coverage",
       "path": "conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage",
@@ -277,28 +277,28 @@
       },
       "phases": [
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": null,
           "phase": "P0",
           "status": "complete",
           "title": "[T04/P0] Contract: Simon corpus NLP, NER and idea coverage"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": null,
           "phase": "P1",
           "status": "complete",
           "title": "[T04/P1] Prototype: Simon corpus NLP, NER and idea coverage"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe full Simon Willison corpus is deliberately not mirrored until rights and ingestion decisions are settled.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nRights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "blocked",
           "title": "[T04/P2] Validated: Simon corpus NLP, NER and idea coverage"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe full Simon Willison corpus is deliberately not mirrored until rights and ingestion decisions are settled.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nRights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -404,7 +404,7 @@
       "track_id": "T06"
     },
     {
-      "blocker": "Source-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
+      "blocker": "Source-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T07 — Semantic judges and human calibration\n**Specification:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md)\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -432,14 +432,14 @@
           "title": "[T07/P1] Prototype: Semantic judges and human calibration"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T07/P2] Validated: Semantic judges and human calibration"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -451,7 +451,7 @@
       "track_id": "T07"
     },
     {
-      "blocker": "The 33-task affordance-stratified pilot is committed, but empirical item difficulty and multi-model execution remain outstanding.",
+      "blocker": "The 113-prompt, 81-scenario candidate and nine-task qualification canary are content-committed and E2 fixture-verified; empirical item difficulty and prospective multi-model execution remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T08 — Dynamic animal and mobile-object task grammar\n**Specification:** [`conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/spec.md`](../blob/main/conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/spec.md)\n**Plan:** [`conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md`](../blob/main/conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -479,14 +479,14 @@
           "title": "[T08/P1] Prototype: Dynamic animal and mobile-object task grammar"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T08 — Dynamic animal and mobile-object task grammar\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md`](../blob/main/conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe 33-task affordance-stratified pilot is committed, but empirical item difficulty and multi-model execution remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T08 — Dynamic animal and mobile-object task grammar\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md`](../blob/main/conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe 113-prompt, 81-scenario candidate and nine-task qualification canary are content-committed and E2 fixture-verified; empirical item difficulty and prospective multi-model execution remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T08/P2] Validated: Dynamic animal and mobile-object task grammar"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T08 — Dynamic animal and mobile-object task grammar\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md`](../blob/main/conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe 33-task affordance-stratified pilot is committed, but empirical item difficulty and multi-model execution remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T08 — Dynamic animal and mobile-object task grammar\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md`](../blob/main/conductor/tracks/t08-dynamic-animal-and-mobile-object-task-grammar/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe 113-prompt, 81-scenario candidate and nine-task qualification canary are content-committed and E2 fixture-verified; empirical item difficulty and prospective multi-model execution remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -545,7 +545,7 @@
       "track_id": "T09"
     },
     {
-      "blocker": "Failure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
+      "blocker": "Failure retention, model and judge qualification, deterministic 2,178-cell prospective planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T10 — Reproducible runner and model adapters\n**Specification:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/spec.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/spec.md)\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -573,14 +573,14 @@
           "title": "[T10/P1] Prototype: Reproducible runner and model adapters"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, model and judge qualification, deterministic 2,178-cell prospective planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T10/P2] Validated: Reproducible runner and model adapters"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T10 — Reproducible runner and model adapters\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md`](../blob/main/conductor/tracks/t10-reproducible-runner-and-model-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nFailure retention, model and judge qualification, deterministic 2,178-cell prospective planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -639,7 +639,7 @@
       "track_id": "T11"
     },
     {
-      "blocker": "The local harness, deterministic work graph, dependency-aware SBOM, release manifest and provenance contracts are fixture-verified; remote CI, attestations and Entire runtime evidence have not run.",
+      "blocker": "The dependency-resilient local harness, eleven-lane test taxonomy, greater-than-90-percent branch-aware coverage, mutation sentinels, Codecov, Renovate, Vale configuration, SBOM, release manifest and provenance contracts are E2 fixture-verified; remote CI, full third-party analyzers, attestations and Entire runtime evidence have not run.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T12 — CI/CD, supply chain and Entire provenance\n**Specification:** [`conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/spec.md`](../blob/main/conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/spec.md)\n**Plan:** [`conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md`](../blob/main/conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -667,14 +667,14 @@
           "title": "[T12/P1] Prototype: CI/CD, supply chain and Entire provenance"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T12 — CI/CD, supply chain and Entire provenance\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md`](../blob/main/conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe local harness, deterministic work graph, dependency-aware SBOM, release manifest and provenance contracts are fixture-verified; remote CI, attestations and Entire runtime evidence have not run.\n",
+          "body": "## Conductor phase\n\n**Track:** T12 — CI/CD, supply chain and Entire provenance\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md`](../blob/main/conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe dependency-resilient local harness, eleven-lane test taxonomy, greater-than-90-percent branch-aware coverage, mutation sentinels, Codecov, Renovate, Vale configuration, SBOM, release manifest and provenance contracts are E2 fixture-verified; remote CI, full third-party analyzers, attestations and Entire runtime evidence have not run.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T12/P2] Validated: CI/CD, supply chain and Entire provenance"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T12 — CI/CD, supply chain and Entire provenance\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md`](../blob/main/conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe local harness, deterministic work graph, dependency-aware SBOM, release manifest and provenance contracts are fixture-verified; remote CI, attestations and Entire runtime evidence have not run.\n",
+          "body": "## Conductor phase\n\n**Track:** T12 — CI/CD, supply chain and Entire provenance\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md`](../blob/main/conductor/tracks/t12-ci-cd-supply-chain-and-entire-provenance/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe dependency-resilient local harness, eleven-lane test taxonomy, greater-than-90-percent branch-aware coverage, mutation sentinels, Codecov, Renovate, Vale configuration, SBOM, release manifest and provenance contracts are E2 fixture-verified; remote CI, full third-party analyzers, attestations and Entire runtime evidence have not run.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -780,7 +780,7 @@
       "track_id": "T14"
     },
     {
-      "blocker": "PelicanCanvas is implemented; Penpot and other real-application adapters remain unvalidated.",
+      "blocker": "PelicanCanvas, deterministic simulation, consumer contracts and a bounded autonomous reference agent are E2 fixture-verified; Penpot and other real-application adapters remain unvalidated.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T15 — Agentic drawing environments and application adapters\n**Specification:** [`conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/spec.md`](../blob/main/conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/spec.md)\n**Plan:** [`conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md`](../blob/main/conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -808,14 +808,14 @@
           "title": "[T15/P1] Prototype: Agentic drawing environments and application adapters"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T15 — Agentic drawing environments and application adapters\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md`](../blob/main/conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPelicanCanvas is implemented; Penpot and other real-application adapters remain unvalidated.\n",
+          "body": "## Conductor phase\n\n**Track:** T15 — Agentic drawing environments and application adapters\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md`](../blob/main/conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPelicanCanvas, deterministic simulation, consumer contracts and a bounded autonomous reference agent are E2 fixture-verified; Penpot and other real-application adapters remain unvalidated.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T15/P2] Validated: Agentic drawing environments and application adapters"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T15 — Agentic drawing environments and application adapters\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md`](../blob/main/conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPelicanCanvas is implemented; Penpot and other real-application adapters remain unvalidated.\n",
+          "body": "## Conductor phase\n\n**Track:** T15 — Agentic drawing environments and application adapters\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md`](../blob/main/conductor/tracks/t15-agentic-drawing-environments-and-application-adapters/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPelicanCanvas, deterministic simulation, consumer contracts and a bounded autonomous reference agent are E2 fixture-verified; Penpot and other real-application adapters remain unvalidated.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -827,7 +827,7 @@
       "track_id": "T15"
     },
     {
-      "blocker": "Learning governance and trajectory metrics exist; empirical agent transfer studies remain outstanding.",
+      "blocker": "Learning governance, trajectory metrics, deterministic fault injection and bounded autonomous recovery are E2 fixture-verified; empirical cross-task agent transfer studies remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T16 — Trajectories, self-learning and skill acquisition\n**Specification:** [`conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/spec.md`](../blob/main/conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/spec.md)\n**Plan:** [`conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md`](../blob/main/conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -855,14 +855,14 @@
           "title": "[T16/P1] Prototype: Trajectories, self-learning and skill acquisition"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T16 — Trajectories, self-learning and skill acquisition\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md`](../blob/main/conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLearning governance and trajectory metrics exist; empirical agent transfer studies remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T16 — Trajectories, self-learning and skill acquisition\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md`](../blob/main/conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLearning governance, trajectory metrics, deterministic fault injection and bounded autonomous recovery are E2 fixture-verified; empirical cross-task agent transfer studies remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T16/P2] Validated: Trajectories, self-learning and skill acquisition"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T16 — Trajectories, self-learning and skill acquisition\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md`](../blob/main/conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLearning governance and trajectory metrics exist; empirical agent transfer studies remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T16 — Trajectories, self-learning and skill acquisition\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md`](../blob/main/conductor/tracks/t16-trajectories-self-learning-and-skill-acquisition/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLearning governance, trajectory metrics, deterministic fault injection and bounded autonomous recovery are E2 fixture-verified; empirical cross-task agent transfer studies remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",
@@ -874,7 +874,7 @@
       "track_id": "T16"
     },
     {
-      "blocker": "The label-injection exploit, five normative metamorphic challenges and bounded mutation-fuzz smoke campaign are fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies and independent submissions remain outstanding.",
+      "blocker": "The label-injection exploit, normative metamorphic challenges, bounded SVG fuzzing and mandatory mutation sentinels are E2 fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies, full mutmut execution and independent submissions remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T17 — Security, adversarial testing and scorer challenge\n**Specification:** [`conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/spec.md`](../blob/main/conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/spec.md)\n**Plan:** [`conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md`](../blob/main/conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md)\n**Evidence level:** `E2`\n\nThe parent remains open until P3 is complete. Phase issues are the executable maturity graph.\n",
       "parent_issue": null,
@@ -902,14 +902,14 @@
           "title": "[T17/P1] Prototype: Security, adversarial testing and scorer challenge"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T17 — Security, adversarial testing and scorer challenge\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md`](../blob/main/conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe label-injection exploit, five normative metamorphic challenges and bounded mutation-fuzz smoke campaign are fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies and independent submissions remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T17 — Security, adversarial testing and scorer challenge\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md`](../blob/main/conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe label-injection exploit, normative metamorphic challenges, bounded SVG fuzzing and mandatory mutation sentinels are E2 fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies, full mutmut execution and independent submissions remain outstanding.\n",
           "issue_number": null,
           "phase": "P2",
           "status": "partial",
           "title": "[T17/P2] Validated: Security, adversarial testing and scorer challenge"
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T17 — Security, adversarial testing and scorer challenge\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md`](../blob/main/conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe label-injection exploit, five normative metamorphic challenges and bounded mutation-fuzz smoke campaign are fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies and independent submissions remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T17 — Security, adversarial testing and scorer challenge\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md`](../blob/main/conductor/tracks/t17-security-adversarial-testing-and-scorer-challenge/plan.md)\n\n### Exit criterion\n\nComplete the phase tasks with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nThe label-injection exploit, normative metamorphic challenges, bounded SVG fuzzing and mandatory mutation sentinels are E2 fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies, full mutmut execution and independent submissions remain outstanding.\n",
           "issue_number": null,
           "phase": "P3",
           "status": "planned",

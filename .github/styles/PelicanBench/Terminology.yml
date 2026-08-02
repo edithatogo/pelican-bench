@@ -1,0 +1,12 @@
+extends: substitution
+message: "Use '%s' rather than '%s'."
+level: warning
+ignorecase: false
+swap:
+  Github: GitHub
+  Git Hub: GitHub
+  HuggingFace: Hugging Face
+  Huggingface: Hugging Face
+  Openenv: OpenEnv
+  Pelican Bench: PelicanBench
+  codecov: Codecov

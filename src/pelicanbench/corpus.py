@@ -45,7 +45,12 @@ def annotate_document(record: dict[str, Any]) -> dict[str, Any]:
                 entities.append({"label": label, "text": text[start:end], "start": start, "end": end})
     relations = [name for name, pattern in RELATION_PATTERNS.items() if pattern.search(text)]
     categories = [name for name, pattern in CATEGORY_PATTERNS.items() if pattern.search(text)]
-    idea_id = "idea:" + content_hash({"source": record["source_id"], "categories": categories, "relations": relations})[7:19]
+    payload = {
+        "source": record["source_id"],
+        "categories": categories,
+        "relations": relations,
+    }
+    idea_id = "idea:" + content_hash(payload)[7:19]
     return {
         "annotation_id": f"ann:{record['source_id']}", "source_id": record["source_id"],
         "idea_id": idea_id, "category": categories[0] if categories else "other",

@@ -1,0 +1,8 @@
+extends: existence
+message: "Avoid placeholder or drafting language in reviewed prose: '%s'."
+level: warning
+ignorecase: true
+tokens:
+  - TODO[:][ ]placeholder
+  - FIXME[:]
+  - lorem ipsum

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pelicanbench"
-version = "0.3.0a1"
+version = "0.4.0a1"
 description = "A longitudinal, compositional and agentic visual-generation benchmark."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -34,10 +34,18 @@ hub = ["datasets>=3.2", "huggingface-hub>=0.27", "gradio>=5.0"]
 image = []
 dev = [
   "coverage[toml]>=7.6",
+  "hypothesis>=6.125",
   "mypy>=1.13",
+  "pyright>=1.1.395",
   "pytest>=8.3",
   "pytest-cov>=6.0",
+  "pytest-randomly>=3.16",
+  "pytest-timeout>=2.3",
+  "pytest-xdist>=3.6",
   "ruff>=0.9",
+]
+mutation = [
+  "mutmut>=3.2",
 ]
 
 [project.scripts]
@@ -52,21 +60,47 @@ Issues = "https://github.com/edithatogo/pelican-bench/issues"
 packages = ["src/pelicanbench"]
 
 [tool.pytest.ini_options]
-addopts = "-ra --strict-config --strict-markers"
+addopts = "-ra --strict-config --strict-markers --showlocals"
 testpaths = ["tests"]
 pythonpath = ["src"]
+xfail_strict = true
+filterwarnings = ["error"]
 markers = [
-  "integration: tests requiring external services",
+  "unit: isolated deterministic component tests",
+  "integration: cross-component tests without live production dependencies",
+  "e2e: complete benchmark or study workflow tests",
+  "property: generative or exhaustive invariant tests",
+  "mutation: mutation-killing sentinel tests",
+  "edge: boundary, malformed-input, and resource-limit tests",
+  "dst: deterministic simulation testing",
+  "contract: consumer-driven provider contract tests",
+  "metamorphic: tests over semantics-preserving transformations",
+  "agent: tests of tool-using drawing agents and trajectories",
+  "autonomous: tests of bounded autonomous planning and recovery",
+  "network: tests requiring explicitly enabled network access",
   "slow: computationally expensive tests",
 ]
 
 [tool.coverage.run]
 branch = true
 source = ["pelicanbench"]
+parallel = true
+relative_files = true
+
+[tool.coverage.paths]
+source = ["src/pelicanbench", "*/site-packages/pelicanbench"]
 
 [tool.coverage.report]
 show_missing = true
+skip_covered = false
+precision = 2
 fail_under = 90
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+]
 
 [tool.ruff]
 target-version = "py313"
@@ -84,9 +118,67 @@ known-first-party = ["pelicanbench"]
 python_version = "3.13"
 strict = true
 packages = ["pelicanbench"]
+warn_unreachable = true
+show_error_codes = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = ["cairosvg", "defusedxml", "defusedxml.*", "jsonschema", "jsonschema.*"]
+ignore_missing_imports = true
 
 [tool.pyright]
 pythonVersion = "3.13"
 typeCheckingMode = "strict"
-include = ["src", "tests", "scripts"]
-exclude = [".agents/plugins/conductor"]
+include = ["src"]
+exclude = [".agents/plugins/conductor", "artifacts", "dist"]
+reportMissingTypeStubs = "warning"
+reportUnknownMemberType = "error"
+reportUnknownArgumentType = "error"
+reportUnknownVariableType = "error"
+
+[tool.mutmut]
+source_paths = ["src/pelicanbench"]
+only_mutate = [
+  "src/pelicanbench/adapters.py",
+  "src/pelicanbench/autonomous.py",
+  "src/pelicanbench/canvas.py",
+  "src/pelicanbench/contracts.py",
+  "src/pelicanbench/candidate.py",
+  "src/pelicanbench/empirical_nlp.py",
+  "src/pelicanbench/human_study.py",
+  "src/pelicanbench/pilot.py",
+  "src/pelicanbench/prospective.py",
+  "src/pelicanbench/qualification.py",
+  "src/pelicanbench/simon_corpus.py",
+  "src/pelicanbench/scoring.py",
+  "src/pelicanbench/simulation.py",
+  "src/pelicanbench/svg.py",
+]
+pytest_add_cli_args_test_selection = [
+  "tests/unit",
+  "tests/integration",
+  "tests/e2e",
+  "tests/property",
+  "tests/mutation",
+  "tests/edge",
+  "tests/dst",
+  "tests/agent",
+  "tests/autonomous",
+  "tests/test_metamorphic.py",
+  "tests/test_svg_scoring.py",
+  "tests/test_runner_manifest.py",
+]
+also_copy = [
+  "benchmark/contracts",
+  "benchmark/fixtures",
+  "benchmark/tasks",
+  "benchmark/evidence",
+  "benchmark/human-calibration",
+  "benchmark/judges",
+  "benchmark/models",
+  "data/derived",
+  "data/fixtures",
+]
+mutate_only_covered_lines = true
+max_stack_depth = 12
+pytest_add_cli_args = ["-o", "addopts=-q"]

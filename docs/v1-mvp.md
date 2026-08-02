@@ -9,9 +9,10 @@ inferences made in its benchmark card.
 V1 covers one-shot SVG generation only:
 
 - the exact Simon Willison heritage prompt, reported separately;
-- 16 prospective semantic scenarios with two prompt formulations each;
-- four mobility-interface strata;
-- four to six prespecified model systems;
+- an exact 48-scenario empirical replication bridge;
+- 32 prospectively balanced confirmatory scenarios with two prompt formulations each;
+- four mobility-interface strata and four animal body plans;
+- six primary model families, with a seventh system retained for exact bridge replication;
 - at least three retained replicates per model-task condition;
 - secure source inspection and canonical rendering;
 - source-independent atomic semantic assessment;
@@ -63,7 +64,8 @@ V1 does not claim:
 - equivalence between one-shot generators and tool-using agents; or
 - mature evidence for persistent learning, accessibility, video or 3D.
 
-The `v0.3-alpha` profile is the current E2 fixture-verified precursor. It adds
-ecosystem, model-qualification, publication and human-rating exchange evidence to the
-`v0.2` measurement-validity foundation. Run
+The `v0.4-alpha` profile is the current E2 fixture-verified precursor. It adds the
+committed candidate benchmark, empirical prompt bridge, deterministic prospective execution
+plan, staged human calibration and dependency-resilient quality evidence to the `v0.3`
+ecosystem and publication foundation. Run
 `pelicanbench release-readiness --profile v1.0` to inspect the current gap.

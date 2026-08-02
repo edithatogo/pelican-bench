@@ -1,10 +1,18 @@
 {
-  "blocker": "PelicanCanvas is implemented; Penpot and other real-application adapters remain unvalidated.",
+  "blocker": "PelicanCanvas, deterministic simulation, consumer contracts and a bounded autonomous reference agent are E2 fixture-verified; Penpot and other real-application adapters remain unvalidated.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/canvas.py",
     "src/pelicanbench/environments.py",
-    "adapters"
+    "src/pelicanbench/simulation.py",
+    "src/pelicanbench/contracts.py",
+    "src/pelicanbench/autonomous.py",
+    "benchmark/contracts/pelican-canvas-openenv.json",
+    "adapters",
+    "tests/dst",
+    "tests/agent",
+    "tests/autonomous",
+    "tests/integration/test_consumer_contracts.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -29,5 +37,5 @@
   "title": "Agentic drawing environments and application adapters",
   "track_id": "T15",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

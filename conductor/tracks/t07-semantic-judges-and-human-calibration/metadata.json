@@ -1,15 +1,23 @@
 {
-  "blocker": "Source-independent assessment, deterministic calibration sampling and privacy-minimised exchange are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
+  "blocker": "Source-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/semantic.py",
     "src/pelicanbench/human_eval.py",
+    "src/pelicanbench/human_study.py",
+    "src/pelicanbench/calibration.py",
+    "src/pelicanbench/qualification.py",
+    "benchmark/human-calibration/study-spec.json",
+    "benchmark/judges/prospective-panel.json",
+    "benchmark/evidence/snapshots/judge-qualification-plan.json",
+    "benchmark/evidence/snapshots/human-calibration-analysis-fixture.json",
     "docs/human-evaluation-protocol.md",
     "docs/source-render-semantic-contract.md",
     "benchmark/assurance-case.json",
-    "src/pelicanbench/calibration.py",
     "tests/test_calibration.py",
-    "tests/test_human_eval_exchange.py"
+    "tests/test_human_eval_exchange.py",
+    "tests/integration/test_human_study.py",
+    "tests/integration/test_qualification.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -34,5 +42,5 @@
   "title": "Semantic judges and human calibration",
   "track_id": "T07",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

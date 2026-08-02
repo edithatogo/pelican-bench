@@ -15,6 +15,7 @@ Bridge-required and breaking changes publish old and new paired results on a fro
 
 - `v0.2-alpha` requires E2 fixture-verified evidence for the measurement-validity claims listed in `benchmark/assurance-case.json`.
 - `v0.3-alpha` additionally requires E2 evidence for the first-party ecosystem registry, model qualification gates, publication hand-offs and privacy-minimised human-rating exchange.
+- `v0.4-alpha` additionally requires E2 evidence for the committed candidate benchmark, empirical prompt bridge, deterministic model and judge qualification plans, staged human-calibration state machine and repository-native quality gates.
 - `v1.0` requires E3 empirical calibration, closure of all five release blockers and an independent reproduction.
 - E4 and E5 are reserved for independent reproduction and sustained operational hardening. They are not inferred from CI configuration alone.
 

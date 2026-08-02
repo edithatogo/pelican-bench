@@ -1,0 +1,77 @@
+{
+  "duplicate_fraction": 0.1,
+  "panels": [
+    {
+      "eligible_animal_ids": [],
+      "eligible_interface_strata": [],
+      "panel_id": "public",
+      "ratings_per_artifact": 3,
+      "stages": [
+        "blind-recognition",
+        "prompt-aware-criteria",
+        "pairwise-preference"
+      ]
+    },
+    {
+      "eligible_animal_ids": [],
+      "eligible_interface_strata": [],
+      "panel_id": "illustration",
+      "ratings_per_artifact": 2,
+      "stages": [
+        "prompt-aware-criteria"
+      ]
+    },
+    {
+      "eligible_animal_ids": [
+        "pelican",
+        "heron",
+        "flamingo"
+      ],
+      "eligible_interface_strata": [],
+      "panel_id": "ornithology",
+      "ratings_per_artifact": 2,
+      "sampling": "avian tasks and high-disagreement non-avian controls",
+      "stages": [
+        "blind-recognition",
+        "prompt-aware-criteria"
+      ]
+    },
+    {
+      "eligible_animal_ids": [],
+      "eligible_interface_strata": [],
+      "panel_id": "vehicle-mechanics",
+      "ratings_per_artifact": 2,
+      "sampling": "balanced across interface strata",
+      "stages": [
+        "prompt-aware-criteria"
+      ]
+    }
+  ],
+  "precision_basis": {
+    "binary_recognition_margin": 0.1,
+    "confidence": 0.95,
+    "design_target_n": 96,
+    "note": "The balanced 96-artifact target is six core models by four interface strata by four artifacts. Uncertainty is reported rather than treating 96 as a magic threshold.",
+    "wald_required_n": 97,
+    "worst_case_proportion": 0.5
+  },
+  "primary_calibration_outcomes": [
+    "blind exact-or-adjudicated animal recognition",
+    "blind exact-or-adjudicated mobile-object recognition",
+    "blind interaction recognition",
+    "automatic-question Brier score",
+    "expected calibration error",
+    "Krippendorff nominal alpha",
+    "duplicate-item intra-rater consistency",
+    "criterion-level human-judge agreement",
+    "pairwise Bradley-Terry estimates"
+  ],
+  "schema_version": "1.1.0",
+  "seed": 20260802,
+  "stage_order": [
+    "blind-recognition",
+    "prompt-aware-criteria",
+    "pairwise-preference"
+  ],
+  "target_artifacts": 96
+}

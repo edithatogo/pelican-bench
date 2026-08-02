@@ -140,7 +140,14 @@ def test_bad_grammar():
     with pytest.raises(ValueError):
         validate_grammar({})
     with pytest.raises(ValueError):
-        validate_grammar({"version": "1", "animals": [{"id": "x"}, {"id": "x"}], "mobile_objects": [{"id": "o"}], "relations": [{"id": "r"}]})
+        validate_grammar(
+            {
+                "version": "1",
+                "animals": [{"id": "x"}, {"id": "x"}],
+                "mobile_objects": [{"id": "o"}],
+                "relations": [{"id": "r"}],
+            }
+        )
 
 
 def test_heritage_task():

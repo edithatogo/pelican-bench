@@ -1,0 +1,55 @@
+{
+  "benchmark_relations_from_prompt_nlp": [
+    "aboard",
+    "rides_on"
+  ],
+  "benchmark_tasks": 48,
+  "evidence_status": "source-derived-exact-prompt-bridge-E2",
+  "exact_prompt_coverage": 1.0,
+  "exact_prompt_matches": 48,
+  "missing_animals": [],
+  "missing_mobile_objects": [],
+  "missing_relations": [],
+  "represented_animals": [
+    "antelope",
+    "cat",
+    "flamingo",
+    "heron",
+    "otter",
+    "pelican",
+    "raccoon",
+    "whale"
+  ],
+  "represented_mobile_objects": [
+    "bicycle",
+    "boat",
+    "electric-scooter",
+    "plane",
+    "skateboard",
+    "unicycle"
+  ],
+  "schema_version": "1.0.0",
+  "source_animals": [
+    "antelope",
+    "cat",
+    "flamingo",
+    "heron",
+    "otter",
+    "pelican",
+    "raccoon",
+    "whale"
+  ],
+  "source_mobile_objects": [
+    "bicycle",
+    "boat",
+    "electric-scooter",
+    "plane",
+    "skateboard",
+    "unicycle"
+  ],
+  "source_records": 48,
+  "source_relations": [
+    "aboard",
+    "rides_on"
+  ]
+}

@@ -1,14 +1,18 @@
 {
-  "blocker": "The 33-task affordance-stratified pilot is committed, but empirical item difficulty and multi-model execution remain outstanding.",
+  "blocker": "The 113-prompt, 81-scenario candidate and nine-task qualification canary are content-committed and E2 fixture-verified; empirical item difficulty and prospective multi-model execution remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/taskgen.py",
+    "src/pelicanbench/candidate.py",
     "benchmark/tasks/grammar.json",
     "benchmark/tasks/public-anchor.jsonl",
-    "benchmark/tasks/v1-pilot-design.json",
-    "benchmark/tasks/v1-pilot.jsonl",
-    "benchmark/tasks/v1-pilot-commitment.json",
-    "docs/v1-pilot-analysis-plan.md"
+    "benchmark/tasks/v1-candidate-design.json",
+    "benchmark/tasks/v1-candidate.jsonl",
+    "benchmark/tasks/v1-candidate-canary.jsonl",
+    "benchmark/tasks/v1-candidate-commitment.json",
+    "docs/v1-pilot-amendment-001.md",
+    "docs/v1-pilot-analysis-plan.md",
+    "tests/integration/test_candidate_validation.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -33,5 +37,5 @@
   "title": "Dynamic animal and mobile-object task grammar",
   "track_id": "T08",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import gzip
 import hashlib
-import json
 import os
 import shutil
 import stat
@@ -175,7 +174,7 @@ def build_release_package(
     *,
     version: str,
     tag: str,
-    profile: str = "v0.3-alpha",
+    profile: str = "v0.4-alpha",
     clean_clone_receipt: str | Path = "artifacts/clean-clone-receipt.json",
     overwrite: bool = False,
 ) -> ReleasePackageReceipt:
@@ -208,7 +207,13 @@ def build_release_package(
     history_tar = create_deterministic_tar_gz(project, output / f"{prefix}-with-git.tar.gz", history, prefix=prefix)
     bundle = output / f"{prefix}.bundle"
     subprocess.run(["git", "bundle", "create", str(bundle), "--all"], cwd=project, check=True)
-    subprocess.run(["git", "bundle", "verify", str(bundle)], cwd=project, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.run(
+        ["git", "bundle", "verify", str(bundle)],
+        cwd=project,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
 
     ecosystem_path = output / "ecosystem-audit.json"
     ecosystem = audit_ecosystem(
@@ -355,7 +360,10 @@ def build_release_package(
         limitations=(
             "No GitHub or Hugging Face remote write is implied by local packaging.",
             "The clean-clone verification used the same execution environment and remains E2 evidence.",
-            "First-party candidate models remain qualification-required and no prospective benchmark result is included.",
+            (
+                "First-party candidate models remain qualification-required "
+                "and no prospective benchmark result is included."
+            ),
             "No human participant data have been collected.",
         ),
     )

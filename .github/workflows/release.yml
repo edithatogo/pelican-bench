@@ -21,7 +21,7 @@ jobs:
       - name: Enforce release profile
         shell: bash
         run: |
-          profile='v0.3-alpha'
+          profile='v0.4-alpha'
           if [[ "$GITHUB_REF_NAME" == v1.* ]]; then
             profile='v1.0'
           fi
@@ -39,13 +39,13 @@ jobs:
           done
           python scripts/generate_release_manifest.py \
             --output dist/pelican-bench.release-manifest.json \
-            --profile "$( [[ "$GITHUB_REF_NAME" == v1.* ]] && echo v1.0 || echo v0.3-alpha )" \
+            --profile "$( [[ "$GITHUB_REF_NAME" == v1.* ]] && echo v1.0 || echo v0.4-alpha )" \
             --tag "$GITHUB_REF_NAME" \
             "${artifacts[@]}"
       - name: Build complete source, history, evidence, and publication package
         shell: bash
         run: |
-          profile='v0.3-alpha'
+          profile='v0.4-alpha'
           if [[ "$GITHUB_REF_NAME" == v1.* ]]; then
             profile='v1.0'
           fi

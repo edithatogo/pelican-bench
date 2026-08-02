@@ -26,7 +26,14 @@ def test_atomic_questions(heritage):
     questions = questions_for_task(heritage)
     assert questions[0].critical
     assert any(question.question_id == "relation:rides_on" for question in questions)
-    assert len(questions) == 2 + len(heritage.animal.required_features) + len(heritage.mobile_object.required_features) + len(heritage.relations) + 1
+    expected = (
+        2
+        + len(heritage.animal.required_features)
+        + len(heritage.mobile_object.required_features)
+        + len(heritage.relations)
+        + 1
+    )
+    assert len(questions) == expected
 
 
 def test_judge_aggregation_and_calibration():

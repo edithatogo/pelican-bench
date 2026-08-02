@@ -25,7 +25,8 @@ def test_human_evaluation_batch_and_vote_roundtrip(tmp_path: Path, monkeypatch):
     batch = export_pairwise_evaluation_batch(_pairs(), tmp_path)
     assert batch.assignments == 2
     path = tmp_path / "assignments.csv"
-    rows = list(csv.DictReader(path.open()))
+    with path.open("r", newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
     for index, row in enumerate(rows):
         row["winner"] = "A" if index == 0 else "tie"
         row["rater_hash"] = f"{index + 1:016x}"

@@ -1,10 +1,15 @@
 {
-  "blocker": "Learning governance and trajectory metrics exist; empirical agent transfer studies remain outstanding.",
+  "blocker": "Learning governance, trajectory metrics, deterministic fault injection and bounded autonomous recovery are E2 fixture-verified; empirical cross-task agent transfer studies remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/trajectory.py",
     "src/pelicanbench/self_learning.py",
-    "conductor/learning-ledger.jsonl"
+    "src/pelicanbench/simulation.py",
+    "src/pelicanbench/autonomous.py",
+    "conductor/learning-ledger.jsonl",
+    "tests/dst",
+    "tests/agent",
+    "tests/autonomous"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -29,5 +34,5 @@
   "title": "Trajectories, self-learning and skill acquisition",
   "track_id": "T16",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

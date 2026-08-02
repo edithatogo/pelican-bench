@@ -1,0 +1,21 @@
+{
+  "blockers": [],
+  "canary_count": 5,
+  "canary_hash": "sha256:ed2cd62d9f7eacffdab7d3b2cba937dd1ee433977734fcda517766725e4b0fcf",
+  "cell_count": 40,
+  "diversity_gates_satisfied": true,
+  "family_count": 3,
+  "family_counts_by_role": {
+    "blind-open-set": 2,
+    "pairwise-quality": 3,
+    "prompt-aware-atomic": 3
+  },
+  "judge_count": 4,
+  "panel_hash": "sha256:bb3fb4a717f5b40bbab32ac8830493a774077e22a9ecb26d4cfc352410cc40ee",
+  "role_counts": {
+    "blind-open-set": 10,
+    "pairwise-quality": 15,
+    "prompt-aware-atomic": 15
+  },
+  "schema_version": "1.0.0"
+}

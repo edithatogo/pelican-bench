@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,7 +35,12 @@ def main() -> int:
         if repo_type == "space":
             kwargs["space_sdk"] = "gradio"
         api.create_repo(**kwargs)
-        api.upload_folder(repo_id=repo_id, repo_type=repo_type, folder_path=folder, commit_message="chore: publish PelicanBench scaffold")
+        api.upload_folder(
+            repo_id=repo_id,
+            repo_type=repo_type,
+            folder_path=folder,
+            commit_message="chore: publish PelicanBench scaffold",
+        )
     print("Hugging Face repositories synchronized.")
     return 0
 

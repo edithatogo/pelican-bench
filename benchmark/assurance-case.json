@@ -293,6 +293,119 @@
       ],
       "status": "implemented",
       "title": "Human-rating exchange minimises participant data"
+    },
+    {
+      "claim": "The 113-prompt candidate, its 81 semantic scenarios, three panels, nine canaries, empirical bridge and commitment are regenerated and validated fail-closed.",
+      "defeaters": [
+        "The candidate has not yet been run against the prospective model panel."
+      ],
+      "evidence": [
+        "benchmark/tasks/v1-candidate-design.json",
+        "benchmark/tasks/v1-candidate.jsonl",
+        "benchmark/tasks/v1-candidate-canary.jsonl",
+        "benchmark/tasks/v1-candidate-commitment.json",
+        "src/pelicanbench/candidate.py",
+        "tests/integration/test_candidate_validation.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-CAND-01",
+      "linked_blockers": [
+        "RB-02"
+      ],
+      "status": "implemented",
+      "title": "The prospective candidate is content-addressed and factorially checked"
+    },
+    {
+      "claim": "A deterministic rule-based annotation layer exactly reconstructs the 48 source prompts and verifies animal, mobile-object and relation coverage without presenting itself as a validated general NER model.",
+      "defeaters": [
+        "The complete Simon archive still requires rights clearance and a manually annotated gold corpus."
+      ],
+      "evidence": [
+        "data/derived/castillo-2026-prompt-corpus.jsonl",
+        "src/pelicanbench/empirical_nlp.py",
+        "benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json",
+        "benchmark/evidence/snapshots/castillo-2026-design-coverage.json",
+        "tests/integration/test_empirical_nlp_bridge.py",
+        "docs/empirical-basis.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-NLP-01",
+      "linked_blockers": [
+        "RB-02",
+        "RB-05"
+      ],
+      "status": "implemented",
+      "title": "The empirical prompt bridge is auditable and source-derived"
+    },
+    {
+      "claim": "Model and judge canary plans are deterministic; missing or failed cells remain in denominators; judge technical qualification cannot be promoted to E3 without human agreement evidence.",
+      "defeaters": [
+        "No live model or judge endpoint has completed qualification."
+      ],
+      "evidence": [
+        "benchmark/models/prospective-panel.json",
+        "benchmark/judges/prospective-panel.json",
+        "benchmark/judges/canary-manifest.json",
+        "src/pelicanbench/qualification.py",
+        "tests/integration/test_qualification.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-QUAL-02",
+      "linked_blockers": [
+        "RB-02",
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Model and judge qualification retain failures and separate technical from empirical gates"
+    },
+    {
+      "claim": "Blind recognition is locked before prompt disclosure; direct identifiers are rejected; responses receive content-addressed chained receipts; transparent calibration summaries are executable.",
+      "defeaters": [
+        "The reference interface is not an approved participant platform and no participants have been recruited."
+      ],
+      "evidence": [
+        "benchmark/human-calibration/study-spec.json",
+        "src/pelicanbench/human_study.py",
+        "src/pelicanbench/human_eval.py",
+        "hf/human-calibration/app.py",
+        "tests/integration/test_human_study.py",
+        "docs/human-evaluation-protocol.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-HUM-STAGE-02",
+      "linked_blockers": [
+        "RB-03",
+        "RB-05"
+      ],
+      "status": "implemented",
+      "title": "Human calibration is stage-gated and privacy-minimised"
+    },
+    {
+      "claim": "Repository-native syntax, AST, configuration, prose, contract, taxonomy, mutation-smoke and deterministic simulation gates run locally while unavailable external tools are explicitly deferred to fail-closed CI jobs.",
+      "defeaters": [
+        "Ruff, mypy, Pyright, Vale, Hypothesis and full mutmut still require execution in an environment where they are installed."
+      ],
+      "evidence": [
+        "scripts/static_audit.py",
+        "scripts/prose_audit.py",
+        "scripts/toolchain_preflight.py",
+        "scripts/run_test_matrix.py",
+        "scripts/mutation_smoke.py",
+        "scripts/quality_gate.py",
+        ".github/workflows/quality.yml",
+        ".github/workflows/test-taxonomy.yml",
+        ".github/workflows/mutation.yml",
+        "codecov.yml",
+        "renovate.json",
+        "tests/e2e/test_quality_pipeline.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-QUALITY-01",
+      "linked_blockers": [
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Quality gates remain executable when optional static-analysis tools are absent"
     }
   ],
   "evidence_levels": {
@@ -335,6 +448,29 @@
         "C-ONTO-01"
       ]
     },
+    "v0.4-alpha": {
+      "description": "A fixture-verified prospective-pilot and dependency-resilient quality alpha. It does not claim live model, judge, or participant calibration.",
+      "minimum_evidence_level": "E2",
+      "required_claims": [
+        "C-SEM-01",
+        "C-ID-01",
+        "C-TASK-01",
+        "C-RUN-01",
+        "C-STAT-01",
+        "C-SEC-01",
+        "C-CAL-DESIGN-01",
+        "C-ECO-01",
+        "C-MODEL-01",
+        "C-PUB-01",
+        "C-HUM-X-01",
+        "C-ONTO-01",
+        "C-CAND-01",
+        "C-NLP-01",
+        "C-QUAL-02",
+        "C-HUM-STAGE-02",
+        "C-QUALITY-01"
+      ]
+    },
     "v1.0": {
       "description": "The first empirically calibrated and reproducible public benchmark release.",
       "minimum_evidence_level": "E3",
@@ -353,5 +489,5 @@
     }
   },
   "schema_version": "1.0.0",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

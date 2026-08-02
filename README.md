@@ -4,7 +4,7 @@
 
 It turns a memorable model demonstration into a reproducible research programme. The benchmark evaluates not only the selected final picture, but also source integrity, anatomy, mechanics, interaction geometry, editability, repair, tool use, trajectories, calibration, cost, stability and learning. The public pelican-on-a-bike prompt remains the heritage anchor; the scientific benchmark uses dynamic animals, mobile non-living objects and interaction relations to resist prompt-specific optimisation.
 
-> **Status:** `v0.3.0-alpha.1` is the ecosystem and publication-integration alpha. It retains the `v0.2` measurement-validity repair and adds an executable first-party integration registry, qualification-gated local-model profiles, deterministic pilot planning, privacy-minimised human-rating exchange, repository-standard verification receipts, and content-addressed publication and release packaging. It is E2 fixture-verified, not yet human-calibrated, prospectively benchmarked, remotely published or independently reproduced.
+> **Status:** `v0.4.0-alpha.1` is the prospective-pilot and quality-engineering alpha. It retains the measurement-validity repair and ecosystem contracts, then adds a committed 113-prompt candidate benchmark, an exact 48-prompt empirical replication bridge, deterministic 2,178-cell multi-model planning, staged human calibration, rights-aware corpus ingestion, eleven independent test classes, branch-aware coverage above 90%, mutation sentinels, Codecov, Renovate, Vale, and strict linting and typing gates. It is E2 fixture-verified, not yet prospectively executed, human-calibrated, remotely published or independently reproduced.
 
 ## Why this exists
 
@@ -42,11 +42,13 @@ Run the deterministic fixture benchmark after installing the package and develop
 ```bash
 python -m pip install -e '.[dev,analysis]'
 pelicanbench validate-repo
-pelicanbench generate-v1-pilot
-pelicanbench release-readiness --profile v0.3-alpha
+pelicanbench validate-v1-candidate
+pelicanbench release-readiness --profile v0.4-alpha
 pelicanbench ecosystem-audit --output artifacts/ecosystem-audit.json
 pelicanbench model-registry-status
-pelicanbench plan-pilot --output artifacts/v1-pilot-execution-plan.json
+pelicanbench plan-model-qualification --output artifacts/model-qualification-plan.json
+pelicanbench plan-judge-qualification --output artifacts/judge-qualification-plan.json
+pelicanbench plan-prospective-pilot --output artifacts/prospective-pilot-plan.json
 pelicanbench scorer-challenges \
   --source benchmark/fixtures/svg/pelican-bicycle-valid.svg \
   --output artifacts/scorer-challenge-report.json
@@ -55,6 +57,8 @@ bash scripts/harness.sh
 ```
 
 `uv` remains the intended environment manager. The alpha deliberately does not include a fabricated or incomplete lockfile; see [`docs/reproducible-environments.md`](docs/reproducible-environments.md).
+
+The complete local and CI quality contract is documented in [`docs/quality-engineering.md`](docs/quality-engineering.md). Missing local analyzers are recorded as deferred evidence rather than treated as passing.
 
 
 ## Measurement validity

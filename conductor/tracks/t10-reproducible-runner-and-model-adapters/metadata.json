@@ -1,19 +1,27 @@
 {
-  "blocker": "Failure retention, OpenAI-compatible local runtime profiles, qualification-gated pilot planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
+  "blocker": "Failure retention, model and judge qualification, deterministic 2,178-cell prospective planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/runner.py",
     "src/pelicanbench/adapters.py",
     "src/pelicanbench/manifest.py",
     "src/pelicanbench/provenance.py",
-    "tests/test_runner_manifest.py",
-    "benchmark/schemas/trial-record.schema.json",
     "src/pelicanbench/registry.py",
     "src/pelicanbench/pilot.py",
+    "src/pelicanbench/prospective.py",
+    "src/pelicanbench/qualification.py",
+    "benchmark/models/prospective-panel.json",
+    "benchmark/judges/prospective-panel.json",
+    "benchmark/evidence/snapshots/model-qualification-plan.json",
+    "benchmark/evidence/snapshots/prospective-pilot-plan.json",
     "hf/model-eligibility.json",
     "hf/runtime-profiles.json",
+    "benchmark/schemas/trial-record.schema.json",
     "benchmark/schemas/pilot-execution-plan.schema.json",
-    "tests/test_ecosystem_publication_verification.py"
+    "tests/test_runner_manifest.py",
+    "tests/integration/test_prospective_plan.py",
+    "tests/integration/test_qualification.py",
+    "tests/e2e/test_pilot_quality_cli.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -38,5 +46,5 @@
   "title": "Reproducible runner and model adapters",
   "track_id": "T10",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

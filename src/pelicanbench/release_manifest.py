@@ -113,7 +113,11 @@ def build_release_manifest(
             "track_count": len(issue_manifest.get("tracks", [])),
             "phase_count": phase_count,
             "release_blocker_count": len(issue_manifest.get("release_blockers", [])),
-            "work_item_count": len(issue_manifest.get("tracks", [])) + phase_count + len(issue_manifest.get("release_blockers", [])),
+            "work_item_count": (
+                len(issue_manifest.get("tracks", []))
+                + phase_count
+                + len(issue_manifest.get("release_blockers", []))
+            ),
         },
         "assurance": readiness.as_dict(),
         "environment": {

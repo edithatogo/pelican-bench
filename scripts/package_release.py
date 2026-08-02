@@ -16,7 +16,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--version", required=True)
     parser.add_argument("--tag", required=True)
-    parser.add_argument("--profile", default="v0.3-alpha")
+    parser.add_argument("--profile", default="v0.4-alpha")
     parser.add_argument(
         "--clean-clone-receipt",
         type=Path,

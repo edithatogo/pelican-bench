@@ -1,0 +1,45 @@
+name: Test taxonomy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: test-taxonomy-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  category:
+    name: ${{ matrix.category }} tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        category:
+          - unit
+          - integration
+          - e2e
+          - property
+          - mutation
+          - edge
+          - dst
+          - contract
+          - metamorphic
+          - agent
+          - autonomous
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.14'
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[dev,analysis]'
+      - run: python scripts/run_test_matrix.py --category '${{ matrix.category }}' --output 'artifacts/test-${{ matrix.category }}.json'
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: test-${{ matrix.category }}
+          path: artifacts/test-${{ matrix.category }}.json

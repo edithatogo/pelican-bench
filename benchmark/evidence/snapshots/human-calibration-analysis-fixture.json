@@ -1,0 +1,33 @@
+{
+  "blind_animal_accuracy": 1.0,
+  "blind_mobile_object_accuracy": 1.0,
+  "blind_relation_accuracy": 1.0,
+  "blind_scene_accuracy": 1.0,
+  "duplicate_consistency_by_field": {
+    "animal_open_text": 1.0,
+    "mobile_object_open_text": 1.0,
+    "relation_open_text": 1.0
+  },
+  "invalid_responses": 0,
+  "limitations": [
+    "inter-rater-alpha-unavailable"
+  ],
+  "mean_criterion_ratings": {
+    "animal_rating_1_to_5": 5.0,
+    "interaction_rating_1_to_5": 4.0,
+    "object_rating_1_to_5": 5.0
+  },
+  "nominal_alpha_by_field": {},
+  "pairwise_winner_counts": {
+    "A": 1
+  },
+  "recognition_brier_score": 0.0025000000000000044,
+  "responses_received": 4,
+  "schema_version": "1.0.0",
+  "valid_by_stage": {
+    "blind-recognition": 2,
+    "pairwise-preference": 1,
+    "prompt-aware-criteria": 1
+  },
+  "valid_responses": 4
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "render_contract": "canonical opaque-white raster; no SVG source, IDs, classes, comments or metadata",
+  "canaries": [
+    {
+      "canary_id": "valid-pelican-bicycle",
+      "artifact_id": "fixture:pelican-bicycle-valid",
+      "svg_path": "benchmark/fixtures/svg/pelican-bicycle-valid.svg",
+      "task_id": "pb:heritage-pelican-bike-v1",
+      "applicable_roles": ["blind-open-set", "prompt-aware-atomic", "pairwise-quality"],
+      "expected_animal": "pelican",
+      "expected_mobile_object": "bicycle",
+      "expected_relation": "rides_on",
+      "expected_quality_band": "high"
+    },
+    {
+      "canary_id": "broken-pelican-bicycle",
+      "artifact_id": "fixture:pelican-bicycle-broken",
+      "svg_path": "benchmark/fixtures/svg/pelican-bicycle-broken.svg",
+      "task_id": "pb:heritage-pelican-bike-v1",
+      "applicable_roles": ["blind-open-set", "prompt-aware-atomic", "pairwise-quality"],
+      "expected_animal": "pelican-like",
+      "expected_mobile_object": "incomplete-bicycle",
+      "expected_relation": "ambiguous-overlap",
+      "expected_quality_band": "low"
+    },
+    {
+      "canary_id": "semantic-label-injection",
+      "artifact_id": "fixture:semantic-label-injection",
+      "svg_path": "benchmark/fixtures/adversarial/semantic-label-injection.svg",
+      "task_id": "pb:heritage-pelican-bike-v1",
+      "applicable_roles": ["blind-open-set", "prompt-aware-atomic", "pairwise-quality"],
+      "expected_animal": null,
+      "expected_mobile_object": "bicycle-like-symbol",
+      "expected_relation": null,
+      "expected_quality_band": "critical-failure"
+    },
+    {
+      "canary_id": "repair-before",
+      "artifact_id": "fixture:repair-before",
+      "svg_path": "benchmark/fixtures/repair/pelican-bicycle-before.svg",
+      "task_id": "repair:pelican-bicycle-v1",
+      "applicable_roles": ["blind-open-set", "prompt-aware-atomic", "pairwise-quality"],
+      "expected_animal": "pelican-like",
+      "expected_mobile_object": "disconnected-bicycle",
+      "expected_relation": "not-riding",
+      "expected_quality_band": "low"
+    },
+    {
+      "canary_id": "repair-after",
+      "artifact_id": "fixture:repair-after",
+      "svg_path": "benchmark/fixtures/repair/pelican-bicycle-after.svg",
+      "task_id": "repair:pelican-bicycle-v1",
+      "applicable_roles": ["blind-open-set", "prompt-aware-atomic", "pairwise-quality"],
+      "expected_animal": "pelican-like",
+      "expected_mobile_object": "bicycle",
+      "expected_relation": "rides_on",
+      "expected_quality_band": "medium"
+    }
+  ],
+  "prespecified_ordering_checks": [
+    {
+      "check_id": "valid-over-broken",
+      "better_canary_id": "valid-pelican-bicycle",
+      "worse_canary_id": "broken-pelican-bicycle"
+    },
+    {
+      "check_id": "repair-after-over-before",
+      "better_canary_id": "repair-after",
+      "worse_canary_id": "repair-before"
+    },
+    {
+      "check_id": "valid-over-label-injection",
+      "better_canary_id": "valid-pelican-bicycle",
+      "worse_canary_id": "semantic-label-injection"
+    }
+  ]
+}

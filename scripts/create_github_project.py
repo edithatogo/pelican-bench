@@ -39,7 +39,12 @@ def main() -> int:
         for blocker in manifest.get("release_blockers", [])
         if blocker.get("issue_number")
     )
-    print(json.dumps({"title": args.title, "items_ready": len(issue_numbers), "mode": "apply" if args.apply else "dry-run"}, indent=2))
+    summary = {
+        "title": args.title,
+        "items_ready": len(issue_numbers),
+        "mode": "apply" if args.apply else "dry-run",
+    }
+    print(json.dumps(summary, indent=2))
     if not args.apply:
         return 0
     if shutil.which("gh") is None:
@@ -47,10 +52,37 @@ def main() -> int:
     projects = json.loads(run(["gh", "project", "list", "--owner", args.owner, "--format", "json"]))
     project = next((item for item in projects.get("projects", []) if item.get("title") == args.title), None)
     if project is None:
-        project = json.loads(run(["gh", "project", "create", "--owner", args.owner, "--title", args.title, "--format", "json"]))
+        project = json.loads(
+            run(
+                [
+                    "gh",
+                    "project",
+                    "create",
+                    "--owner",
+                    args.owner,
+                    "--title",
+                    args.title,
+                    "--format",
+                    "json",
+                ]
+            )
+        )
     for number in issue_numbers:
         url = f"https://github.com/{args.repo}/issues/{number}"
-        subprocess.run(["gh", "project", "item-add", str(project["number"]), "--owner", args.owner, "--url", url], cwd=ROOT, check=False)
+        subprocess.run(
+            [
+                "gh",
+                "project",
+                "item-add",
+                str(project["number"]),
+                "--owner",
+                args.owner,
+                "--url",
+                url,
+            ],
+            cwd=ROOT,
+            check=False,
+        )
     print(f"Project #{project['number']} contains synchronized issue items.")
     return 0
 

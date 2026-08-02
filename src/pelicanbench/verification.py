@@ -132,7 +132,7 @@ def _json_boolean_check(
 def build_repository_verification_receipt(
     root: str | Path,
     *,
-    profile: str = "v0.3-alpha",
+    profile: str = "v0.4-alpha",
     repository: str = "edithatogo/pelican-bench",
     revision: str | None = None,
     seed: int | str | None = 20260801,
@@ -265,6 +265,10 @@ def validate_repository_verification_receipt(
     receipt: RepositoryVerificationReceipt | dict[str, object],
     schema_path: str | Path,
 ) -> None:
-    value = receipt.model_dump(mode="json", exclude_none=True) if isinstance(receipt, RepositoryVerificationReceipt) else receipt
+    value = (
+        receipt.model_dump(mode="json", exclude_none=True)
+        if isinstance(receipt, RepositoryVerificationReceipt)
+        else receipt
+    )
     schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
     Draft202012Validator(schema, format_checker=None).validate(value)

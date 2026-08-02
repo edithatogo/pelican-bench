@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
@@ -11,6 +12,7 @@ from typing import Any, Iterable
 from pydantic import ValidationError
 
 from .assurance import EVIDENCE_ORDER, evaluate_release_readiness
+from .candidate import validate_candidate
 from .conductor_docs import generated_documents
 from .ecosystem import EcosystemRegistry, audit_ecosystem, load_ecosystem_registry
 from .interoperability import (
@@ -95,6 +97,31 @@ REQUIRED_PATHS = (
     "docs/source-render-semantic-contract.md",
     "docs/reproducible-environments.md",
     "docs/v1-pilot-analysis-plan.md",
+    "benchmark/tasks/v1-candidate-design.json",
+    "benchmark/tasks/v1-candidate.jsonl",
+    "benchmark/tasks/v1-candidate-canary.jsonl",
+    "benchmark/tasks/v1-candidate-commitment.json",
+    "benchmark/contracts/openai-compatible-chat.json",
+    "benchmark/contracts/pelican-canvas-openenv.json",
+    "benchmark/contracts/human-rating-exchange.json",
+    "src/pelicanbench/candidate.py",
+    "src/pelicanbench/empirical_nlp.py",
+    "src/pelicanbench/human_study.py",
+    "src/pelicanbench/qualification.py",
+    "src/pelicanbench/simon_corpus.py",
+    "scripts/static_audit.py",
+    "scripts/prose_audit.py",
+    "scripts/toolchain_preflight.py",
+    "scripts/run_test_matrix.py",
+    "scripts/mutation_smoke.py",
+    "scripts/quality_gate.py",
+    ".github/workflows/quality.yml",
+    ".github/workflows/test-taxonomy.yml",
+    ".github/workflows/mutation.yml",
+    ".github/workflows/renovate.yml",
+    "codecov.yml",
+    "renovate.json",
+    ".vale.ini",
 )
 
 SCHEMA_MODELS = {
@@ -582,7 +609,7 @@ def _validate_assurance(project: Path) -> list[ValidationFinding]:
                     )
                 )
 
-    for profile in ("v0.2-alpha", "v0.3-alpha"):
+    for profile in ("v0.2-alpha", "v0.3-alpha", "v0.4-alpha"):
         try:
             alpha = evaluate_release_readiness(project, profile=profile)
         except (KeyError, TypeError, ValueError) as exc:
@@ -1046,6 +1073,115 @@ def _validate_ontology_interoperability(project: Path) -> list[ValidationFinding
         )
     return findings
 
+
+def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
+    findings: list[ValidationFinding] = []
+    pyproject_path = project / "pyproject.toml"
+    if pyproject_path.exists():
+        try:
+            config = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
+        except (OSError, tomllib.TOMLDecodeError) as exc:
+            findings.append(
+                ValidationFinding("error", "invalid-pyproject", str(exc), "pyproject.toml")
+            )
+        else:
+            tool = config.get("tool", {})
+            coverage = tool.get("coverage", {})
+            coverage_run = coverage.get("run", {})
+            coverage_report = coverage.get("report", {})
+            if coverage_run.get("branch") is not True:
+                findings.append(
+                    ValidationFinding(
+                        "error", "coverage-branch-disabled", "branch coverage must be enabled", "pyproject.toml"
+                    )
+                )
+            if float(coverage_report.get("fail_under", 0)) < 90:
+                findings.append(
+                    ValidationFinding(
+                        "error", "coverage-threshold-low", "coverage fail_under must be at least 90", "pyproject.toml"
+                    )
+                )
+            if tool.get("mypy", {}).get("strict") is not True:
+                findings.append(
+                    ValidationFinding("error", "mypy-not-strict", "mypy strict mode is required", "pyproject.toml")
+                )
+            if tool.get("pyright", {}).get("typeCheckingMode") != "strict":
+                findings.append(
+                    ValidationFinding(
+                        "error", "pyright-not-strict", "Pyright strict mode is required", "pyproject.toml"
+                    )
+                )
+            required_markers = {
+                "unit", "integration", "e2e", "property", "mutation", "edge",
+                "dst", "contract", "metamorphic", "agent", "autonomous",
+            }
+            marker_values = tool.get("pytest", {}).get("ini_options", {}).get("markers", [])
+            present_markers = {str(item).split(":", 1)[0].strip() for item in marker_values}
+            missing_markers = sorted(required_markers - present_markers)
+            if missing_markers:
+                findings.append(
+                    ValidationFinding(
+                        "error",
+                        "test-taxonomy-incomplete",
+                        "missing pytest markers: " + ", ".join(missing_markers),
+                        "pyproject.toml",
+                    )
+                )
+
+    required_fragments = {
+        ".github/workflows/quality.yml": (
+            "ruff check", "ruff format --check", "mypy", "pyright", "vale-action",
+        ),
+        ".github/workflows/ci.yml": ("codecov/codecov-action@", "use_oidc: true", "fail_ci_if_error: true"),
+        ".github/workflows/test-taxonomy.yml": (
+            "unit", "integration", "e2e", "property", "mutation", "dst", "autonomous",
+        ),
+        ".github/workflows/mutation.yml": ("mutation_smoke.py", "mutmut"),
+        ".github/workflows/renovate.yml": ("renovatebot/github-action@",),
+    }
+    for relative, fragments in required_fragments.items():
+        path = project / relative
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        missing = [fragment for fragment in fragments if fragment not in text]
+        if missing:
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "quality-workflow-incomplete",
+                    "missing required workflow fragments: " + ", ".join(missing),
+                    relative,
+                )
+            )
+
+    codecov_path = project / "codecov.yml"
+    if codecov_path.exists():
+        text = codecov_path.read_text(encoding="utf-8")
+        if "target: 90%" not in text or "patch:" not in text:
+            findings.append(
+                ValidationFinding(
+                    "error", "codecov-threshold-incomplete", "project and patch 90% targets are required", "codecov.yml"
+                )
+            )
+    renovate_path = project / "renovate.json"
+    if renovate_path.exists():
+        try:
+            renovate = json.loads(renovate_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            pass
+        else:
+            if renovate.get("enabled") is False or renovate.get("dependencyDashboard") is not True:
+                findings.append(
+                    ValidationFinding(
+                        "error",
+                        "renovate-disabled",
+                        "Renovate and its dependency dashboard must be enabled",
+                        "renovate.json",
+                    )
+                )
+    return findings
+
 def validate_repository(root: str | Path) -> list[ValidationFinding]:
     project = Path(root)
     findings: list[ValidationFinding] = []
@@ -1097,6 +1233,29 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
 
     findings.extend(_validate_schema_snapshots(project))
     findings.extend(_validate_task_files(project))
+    candidate_path = project / "benchmark/tasks/v1-candidate.jsonl"
+    if candidate_path.exists():
+        try:
+            candidate_report = validate_candidate(project)
+        except (KeyError, TypeError, ValueError) as exc:
+            findings.append(
+                ValidationFinding(
+                    "error",
+                    "candidate-validation-failed",
+                    str(exc),
+                    _relative(project, candidate_path),
+                )
+            )
+        else:
+            findings.extend(
+                ValidationFinding(
+                    item.severity,
+                    "candidate-" + item.code,
+                    item.message,
+                    _relative(project, candidate_path),
+                )
+                for item in candidate_report.findings
+            )
     findings.extend(_validate_track_graph(project))
     findings.extend(_validate_conductor_views(project))
     findings.extend(_validate_assurance(project))
@@ -1108,6 +1267,7 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
     findings.extend(_validate_publication_contract(project))
     findings.extend(_validate_repository_standards_schema(project))
     findings.extend(_validate_ontology_interoperability(project))
+    findings.extend(_validate_quality_configuration(project))
 
     status_path = project / "conductor/status.md"
     if status_path.exists():

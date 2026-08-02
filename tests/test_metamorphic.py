@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.metamorphic
+
 from pelicanbench.metamorphic import (
     add_offcanvas_labelled_shape,
     add_source_comment,

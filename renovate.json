@@ -1,11 +1,76 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
-  "dependencyDashboard": true,
-  "labels": ["dependencies"],
+  "extends": [
+    "config:best-practices",
+    "helpers:pinGitHubActionDigests",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":enableVulnerabilityAlerts",
+    "schedule:weekly"
+  ],
+  "timezone": "Australia/Sydney",
+  "labels": [
+    "dependencies"
+  ],
   "minimumReleaseAge": "7 days",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "rangeStrategy": "pin",
+  "rebaseWhen": "conflicted",
+  "rollbackPrs": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on monday"
+    ]
+  },
+  "enabledManagers": [
+    "pep621",
+    "cargo",
+    "github-actions",
+    "dockerfile"
+  ],
   "packageRules": [
-    {"matchManagers": ["github-actions"], "pinDigests": true},
-    {"matchDepTypes": ["dev"], "groupName": "development dependencies"}
-  ]
+    {
+      "description": "Keep GitHub Actions immutable",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "pinDigests": true,
+      "groupName": "GitHub Actions"
+    },
+    {
+      "description": "Group Python quality tooling",
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchPackageNames": [
+        "coverage",
+        "hypothesis",
+        "mypy",
+        "mutmut",
+        "pyright",
+        "pytest",
+        "pytest-cov",
+        "pytest-randomly",
+        "pytest-timeout",
+        "pytest-xdist",
+        "ruff"
+      ],
+      "groupName": "Python quality tooling"
+    },
+    {
+      "description": "Require separate review for major updates",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": null,
+      "labels": [
+        "dependencies",
+        "major-update"
+      ]
+    }
+  ],
+  "enabled": true,
+  "dependencyDashboard": true
 }

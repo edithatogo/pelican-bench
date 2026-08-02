@@ -1,0 +1,13 @@
+PelicanBench
+Pelicanmaxxing
+OpenEnv
+SourceRight
+Authentext
+Substack
+Codecov
+Renovate
+CairoSVG
+Inkscape
+tuk-tuk
+JSON-LD
+SHACL

@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src
-export SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1785542400}"
+export SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1785628800}"
 
 cleanup() {
   if [[ -n "${PB_TMPDIR:-}" && -d "${PB_TMPDIR}" ]]; then
@@ -25,7 +25,7 @@ python scripts/generate_issue_manifest.py --check
 python scripts/generate_conductor_docs.py --check
 python scripts/sync_conductor_install.py --check
 python scripts/check_rights.py
-python -m pelicanbench.cli release-readiness --profile v0.3-alpha
+python -m pelicanbench.cli release-readiness --profile v0.4-alpha
 
 printf '%s\n' '== First-party ecosystem and model qualification audit =='
 python -m pelicanbench.cli ecosystem-audit \
@@ -37,18 +37,50 @@ printf '%s\n' '== GitHub work graph dry run =='
 python scripts/sync_github_issues.py --summary-only
 python scripts/create_github_project.py --summary-only
 
-printf '%s\n' '== Prespecified task-set reproducibility =='
-python -m pelicanbench.cli generate-v1-pilot --output "${PB_TMPDIR}/v1-pilot.jsonl" >/dev/null
-diff -u benchmark/tasks/v1-pilot.jsonl "${PB_TMPDIR}/v1-pilot.jsonl"
-diff -u benchmark/tasks/v1-pilot-commitment.json "${PB_TMPDIR}/v1-pilot-commitment.json"
+printf '%s\n' '== Prospective candidate, empirical bridge, and canary commitments =='
+python -m pelicanbench.cli validate-v1-candidate \
+  --root . --output artifacts/v1-candidate-validation.json >/dev/null
+python -m pelicanbench.cli candidate-commitment \
+  --root . --output "${PB_TMPDIR}/candidate-commitment.json" >/dev/null
+diff -u benchmark/tasks/v1-candidate-commitment.json "${PB_TMPDIR}/candidate-commitment.json"
+python -m pelicanbench.cli analyse-empirical-prompt-bridge \
+  --root . --output "${PB_TMPDIR}/empirical-bridge.json" >/dev/null
+python - "${PB_TMPDIR}/empirical-bridge.json" <<'PYINNER'
+import json
+import sys
+from pathlib import Path
+root = Path('.')
+actual = json.loads(Path(sys.argv[1]).read_text())
+expected_report = json.loads((root / 'benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json').read_text())
+expected_coverage = json.loads((root / 'benchmark/evidence/snapshots/castillo-2026-design-coverage.json').read_text())
+assert actual['nlp_report'] == expected_report
+assert actual['design_coverage'] == expected_coverage
+PYINNER
 
-printf '%s\n' '== Deterministic prospective execution plan =='
-python -m pelicanbench.cli plan-pilot \
-  --output "${PB_TMPDIR}/pilot-a.json" >/dev/null
-python -m pelicanbench.cli plan-pilot \
-  --output "${PB_TMPDIR}/pilot-b.json" >/dev/null
-diff -u "${PB_TMPDIR}/pilot-a.json" "${PB_TMPDIR}/pilot-b.json"
-diff -u "${PB_TMPDIR}/pilot-a-cells.jsonl" "${PB_TMPDIR}/pilot-b-cells.jsonl"
+printf '%s\n' '== Deterministic model and judge qualification plans =='
+python -m pelicanbench.cli plan-model-qualification \
+  --root . --output "${PB_TMPDIR}/model-qualification.json" >/dev/null
+diff -u benchmark/evidence/snapshots/model-qualification-plan.json "${PB_TMPDIR}/model-qualification.json"
+python -m pelicanbench.cli plan-judge-qualification \
+  --root . \
+  --output "${PB_TMPDIR}/judge-qualification.json" \
+  --cells-output "${PB_TMPDIR}/judge-qualification-cells.jsonl" >/dev/null
+diff -u benchmark/evidence/snapshots/judge-qualification-plan.json "${PB_TMPDIR}/judge-qualification.json"
+diff -u benchmark/evidence/snapshots/judge-qualification-cells.jsonl "${PB_TMPDIR}/judge-qualification-cells.jsonl"
+
+printf '%s\n' '== Deterministic staged prospective execution plan =='
+python -m pelicanbench.cli plan-prospective-pilot \
+  --root . \
+  --output "${PB_TMPDIR}/prospective-a.json" \
+  --cells-output "${PB_TMPDIR}/prospective-a-cells.jsonl" >/dev/null
+python -m pelicanbench.cli plan-prospective-pilot \
+  --root . \
+  --output "${PB_TMPDIR}/prospective-b.json" \
+  --cells-output "${PB_TMPDIR}/prospective-b-cells.jsonl" >/dev/null
+diff -u "${PB_TMPDIR}/prospective-a.json" "${PB_TMPDIR}/prospective-b.json"
+diff -u "${PB_TMPDIR}/prospective-a-cells.jsonl" "${PB_TMPDIR}/prospective-b-cells.jsonl"
+diff -u benchmark/evidence/snapshots/prospective-pilot-plan.json "${PB_TMPDIR}/prospective-a.json"
+diff -u benchmark/evidence/snapshots/prospective-pilot-plan-cells.jsonl "${PB_TMPDIR}/prospective-a-cells.jsonl"
 
 printf '%s\n' '== Normative scorer metamorphic challenge =='
 mkdir -p artifacts
@@ -109,7 +141,7 @@ python scripts/generate_sbom.py --output artifacts/sbom-b.spdx.json >/dev/null
 diff -u artifacts/sbom-a.spdx.json artifacts/sbom-b.spdx.json
 python scripts/generate_release_manifest.py \
   --output artifacts/release-manifest.json \
-  --profile v0.3-alpha \
+  --profile v0.4-alpha \
   --artifact artifacts/sbom-a.spdx.json >/dev/null
 
 printf '%s\n' '== Deterministic publication hand-off =='
@@ -125,7 +157,7 @@ diff -ru "${PB_TMPDIR}/publication-a" "${PB_TMPDIR}/publication-b"
 
 printf '%s\n' '== repository-standards verification receipt =='
 python -m pelicanbench.cli verification-receipt \
-  --profile v0.3-alpha \
+  --profile v0.4-alpha \
   --output artifacts/repository-verification-receipt.json \
   --coverage coverage.xml \
   --artifact artifacts/ecosystem-audit.json \
@@ -133,6 +165,14 @@ python -m pelicanbench.cli verification-receipt \
   --artifact artifacts/release-manifest.json \
   --artifact artifacts/scorer-challenge-report.json \
   --artifact artifacts/svg-fuzz-report.json >/dev/null
+
+printf '%s\n' '== Dependency-free quality, prose, toolchain, mutation, and taxonomy gates =='
+python scripts/static_audit.py --output artifacts/static-audit.json
+python scripts/prose_audit.py --output artifacts/prose-audit.json
+python scripts/toolchain_preflight.py --output artifacts/toolchain-preflight.json >/dev/null
+python scripts/mutation_smoke.py --output artifacts/mutation-smoke.json >/dev/null
+python scripts/run_test_matrix.py --output artifacts/test-taxonomy.json >/dev/null
+python scripts/quality_gate.py --output artifacts/quality-gate.json --coverage coverage.xml >/dev/null
 
 if command -v ruff >/dev/null 2>&1; then
   printf '%s\n' '== Ruff =='
@@ -146,6 +186,18 @@ if command -v mypy >/dev/null 2>&1; then
   mypy src/pelicanbench
 else
   printf '%s\n' 'Mypy lane skipped: executable unavailable.'
+fi
+if command -v pyright >/dev/null 2>&1; then
+  printf '%s\n' '== Pyright =='
+  pyright src
+else
+  printf '%s\n' 'Pyright lane skipped: executable unavailable.'
+fi
+if command -v vale >/dev/null 2>&1; then
+  printf '%s\n' '== Vale =='
+  vale README.md docs conductor
+else
+  printf '%s\n' 'Vale lane skipped: executable unavailable; repository-native prose audit passed.'
 fi
 if command -v cargo >/dev/null 2>&1; then
   printf '%s\n' '== Rust conformance =='

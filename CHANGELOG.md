@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0-alpha.1 - 2026-08-02
+
+- Added a content-committed 113-prompt candidate benchmark representing 81 semantic scenarios across heritage, exact empirical-replication and confirmatory panels.
+- Added a transparent deterministic NLP bridge reproducing all 48 animal-by-mobile-object prompts from the empirical comparison design.
+- Added rights-aware Simon Atom ingestion with metadata-only defaults, fixity hashes, deduplication and separate content and derived-analysis gates.
+- Added deterministic 63-cell model and 40-cell cross-family judge qualification plans and a 2,178-cell prospective multi-model execution plan.
+- Added a blind-first, prompt-aware and pairwise human-calibration state machine with direct-identifier rejection and content-addressed receipts.
+- Added consumer-driven contracts, deterministic simulation, fault injection and a bounded autonomous reference drawing agent.
+- Added eleven independently executable test classes, mandatory mutation sentinels and opportunity-weighted branch-aware coverage above 90%.
+- Added Codecov, Renovate, repository-local Vale rules, strict Ruff, mypy and Pyright CI gates, plus dependency-free local static and prose fallbacks.
+- Added explicit toolchain-preflight evidence so unavailable local analyzers are deferred to CI rather than represented as passing.
+- Added the `v0.4-alpha` assurance profile and updated Conductor evidence for NLP, candidate tasks, calibration, prospective execution, agent testing and CI/CD.
+
 ## 0.3.0-alpha.1 - 2026-08-01
 
 - Added an executable 40-asset GitHub and Hugging Face ecosystem registry with direct, pattern, candidate, watch and excluded dispositions.

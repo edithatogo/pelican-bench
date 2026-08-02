@@ -12,7 +12,12 @@ from pelicanbench.trajectory import evaluate_trajectory, trajectory_utility
 
 
 def test_longitudinal_fixture(root: Path):
-    observations = [HistoricalObservation.model_validate(item) for item in read_jsonl(root / "data/fixtures/historical-observations.jsonl")]
+    observations = [
+        HistoricalObservation.model_validate(item)
+        for item in read_jsonl(
+            root / "data/fixtures/historical-observations.jsonl"
+        )
+    ]
     summary = timeline_summary(observations)
     assert summary["observations"] == 3
     trends = {item.metric:item for item in metric_trends(observations)}

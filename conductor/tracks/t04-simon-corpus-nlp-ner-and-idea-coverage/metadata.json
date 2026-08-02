@@ -1,13 +1,22 @@
 {
-  "blocker": "The full Simon Willison corpus is deliberately not mirrored until rights and ingestion decisions are settled.",
+  "blocker": "Rights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/corpus.py",
+    "src/pelicanbench/empirical_nlp.py",
+    "src/pelicanbench/simon_corpus.py",
     "data/fixtures/corpus.jsonl",
-    "docs/source-to-requirement-map.md"
+    "data/derived/castillo-2026-prompt-corpus.jsonl",
+    "benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json",
+    "benchmark/evidence/snapshots/castillo-2026-design-coverage.json",
+    "docs/empirical-basis.md",
+    "docs/simon-corpus-method.md",
+    "docs/source-to-requirement-map.md",
+    "tests/integration/test_empirical_nlp_bridge.py",
+    "tests/integration/test_simon_corpus.py"
   ],
-  "evidence_definition": "implemented",
-  "evidence_level": "E1",
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {
@@ -29,5 +38,5 @@
   "title": "Simon corpus NLP, NER and idea coverage",
   "track_id": "T04",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-02T00:00:00Z"
 }

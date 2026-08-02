@@ -1,0 +1,11 @@
+extends: existence
+message: "Avoid an unsupported maturity claim: '%s'. State the evidence level and limitation."
+level: warning
+ignorecase: true
+tokens:
+  - fully validated
+  - proved unbiased
+  - proven unbiased
+  - guaranteed reproducible
+  - completely secure
+  - production ready

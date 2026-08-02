@@ -12,8 +12,15 @@ import typer
 from .adapters import CallableAdapter, OpenAICompatibleAdapter
 from .assurance import evaluate_release_readiness
 from .calibration import CalibrationCandidate, PairwiseCalibrationTask, build_calibration_design
+from .candidate import candidate_commitment_payload, validate_candidate
 from .corpus import annotate_document, corpus_summary
 from .ecosystem import audit_ecosystem, load_ecosystem_registry
+from .empirical_nlp import (
+    PromptRecord,
+    annotate_prompt_corpus,
+    empirical_nlp_report,
+    task_design_coverage,
+)
 from .fuzzing import run_svg_fuzz_campaign
 from .human_eval import (
     export_pairwise_evaluation_batch,
@@ -21,11 +28,17 @@ from .human_eval import (
     inter_rater_agreement,
     load_pairwise_votes_csv,
 )
+from .human_study import analyse_calibration_responses
 from .interoperability import load_ontology_interoperability_profile
 from .io import read_json, read_jsonl, write_json, write_jsonl
 from .metamorphic import run_scorer_challenges
 from .pilot import build_pilot_execution_plan, load_tasks, write_pilot_execution_plan
+from .prospective import build_prospective_pilot_plan
 from .publication import build_publication_bundle
+from .qualification import (
+    load_default_judge_qualification_plan,
+    load_default_model_qualification_plan,
+)
 from .registry import (
     load_registry,
     load_runtime_profiles,
@@ -34,6 +47,7 @@ from .registry import (
 )
 from .render_bridge import compare_renderers
 from .runner import run_benchmark
+from .simon_corpus import fetch_atom, parse_simon_atom, write_simon_atom_corpus
 from .semantic import StaticSemanticAssessor
 from .taskgen import generate_design_tasks, generate_tasks, heritage_task, load_grammar, task_set_commitment
 from .validation import validate_repository, validation_exit_code
@@ -46,7 +60,11 @@ app = typer.Typer(no_args_is_help=True, help="PelicanBench research and evaluati
 
 
 def _fixture_svg(_task: object, _seed: int) -> str:
-    return (Path(__file__).resolve().parents[2] / "benchmark/fixtures/svg/pelican-bicycle-valid.svg").read_text(encoding="utf-8")
+    fixture = (
+        Path(__file__).resolve().parents[2]
+        / "benchmark/fixtures/svg/pelican-bicycle-valid.svg"
+    )
+    return fixture.read_text(encoding="utf-8")
 
 
 @app.command("validate-repo")
@@ -62,9 +80,149 @@ def validate_repo(
     raise typer.Exit(validation_exit_code(findings))
 
 
+@app.command("validate-v1-candidate")
+def validate_v1_candidate_command(
+    root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
+    output: Annotated[
+        Path | None, typer.Option(help="Optional machine-readable report destination")
+    ] = None,
+) -> None:
+    report = validate_candidate(root)
+    payload = report.as_dict()
+    if output is not None:
+        write_json(output, payload)
+    typer.echo(json.dumps(payload, indent=2, sort_keys=True))
+    raise typer.Exit(0 if report.passed else 1)
+
+
+@app.command("candidate-commitment")
+def candidate_commitment_command(
+    root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
+    output: Annotated[Path | None, typer.Option(help="Optional JSON destination")] = None,
+) -> None:
+    payload = candidate_commitment_payload(root)
+    if output is not None:
+        write_json(output, payload)
+    typer.echo(json.dumps(payload, indent=2, sort_keys=True))
+
+
+@app.command("analyse-empirical-prompt-bridge")
+def analyse_empirical_prompt_bridge_command(
+    root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
+    output: Annotated[Path | None, typer.Option(help="Optional report destination")] = None,
+) -> None:
+    records = [
+        PromptRecord.from_mapping(item)
+        for item in read_jsonl(root / "data/derived/castillo-2026-prompt-corpus.jsonl")
+    ]
+    annotations = annotate_prompt_corpus(records)
+    status = "source-derived-exact-prompt-bridge-E2"
+    payload = {
+        "nlp_report": empirical_nlp_report(annotations, evidence_status=status),
+        "design_coverage": task_design_coverage(
+            annotations,
+            load_tasks(root / "benchmark/tasks/v1-candidate.jsonl"),
+            panel_id="castillo-2026-factorial-bridge",
+            evidence_status=status,
+        ),
+        "annotations": [item.as_dict() for item in annotations],
+    }
+    if output is not None:
+        write_json(output, payload)
+    typer.echo(json.dumps(payload, indent=2, sort_keys=True))
+
+
+@app.command("plan-prospective-pilot")
+def plan_prospective_pilot_command(
+    root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
+    output: Annotated[Path, typer.Option(help="Plan summary destination")] = Path(
+        "artifacts/prospective-pilot-plan.json"
+    ),
+    cells_output: Annotated[
+        Path | None, typer.Option(help="Optional detailed cell JSONL destination")
+    ] = None,
+    replicates: Annotated[int, typer.Option(min=1, max=100)] = 3,
+    seed: int = 20260802,
+) -> None:
+    tasks = load_tasks(root / "benchmark/tasks/v1-candidate.jsonl")
+    panel = read_json(root / "benchmark/models/prospective-panel.json")
+    commitment = read_json(root / "benchmark/tasks/v1-candidate-commitment.json")
+    plan = build_prospective_pilot_plan(
+        tasks,
+        panel,
+        task_identity_commitment=str(commitment["commitment"]),
+        replicates=replicates,
+        base_seed=seed,
+    )
+    write_json(output, plan.summary())
+    detailed = cells_output or output.with_name(output.stem + "-cells.jsonl")
+    write_jsonl(detailed, [item.as_dict() for item in plan.cells])
+    typer.echo(
+        f"Wrote {plan.cell_count} cells across {len(plan.stages)} stages to "
+        f"{output} and {detailed}"
+    )
+
+
+@app.command("plan-model-qualification")
+def plan_model_qualification_command(
+    root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
+    output: Annotated[Path | None, typer.Option(help="Optional plan destination")] = None,
+) -> None:
+    payload = load_default_model_qualification_plan(root)
+    if output is not None:
+        write_json(output, payload)
+    typer.echo(json.dumps(payload, indent=2, sort_keys=True))
+
+
+@app.command("plan-judge-qualification")
+def plan_judge_qualification_command(
+    root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
+    output: Annotated[Path | None, typer.Option(help="Optional summary destination")] = None,
+    cells_output: Annotated[
+        Path | None, typer.Option(help="Optional detailed cell JSONL destination")
+    ] = None,
+) -> None:
+    summary, cells = load_default_judge_qualification_plan(root)
+    if output is not None:
+        write_json(output, summary)
+    if cells_output is not None:
+        write_jsonl(cells_output, [item.as_dict() for item in cells])
+    typer.echo(json.dumps(summary, indent=2, sort_keys=True))
+
+
+@app.command("analyse-human-calibration-jsonl")
+def analyse_human_calibration_jsonl_command(
+    source: Annotated[Path, typer.Option(help="Staged response JSONL")],
+    output: Annotated[Path | None, typer.Option(help="Optional analysis destination")] = None,
+) -> None:
+    payload = analyse_calibration_responses(read_jsonl(source))
+    if output is not None:
+        write_json(output, payload)
+    typer.echo(json.dumps(payload, indent=2, sort_keys=True))
+
+
+@app.command("import-simon-atom")
+def import_simon_atom_command(
+    output: Annotated[Path, typer.Option(help="Destination JSONL")],
+    source: Annotated[Path | None, typer.Option(help="Local Atom XML; otherwise fetch URL")] = None,
+    url: Annotated[str, typer.Option(help="Atom URL used when source is absent")] = (
+        "https://simonwillison.net/tags/pelican-riding-a-bicycle.atom"
+    ),
+    rights_status: Annotated[str, typer.Option(help="Rights-ledger status")] = "metadata-only",
+    include_content: Annotated[bool, typer.Option("--include-content")] = False,
+    timeout_seconds: Annotated[float, typer.Option(min=0.1, max=120.0)] = 30.0,
+) -> None:
+    payload = source.read_bytes() if source is not None else fetch_atom(url, timeout_seconds=timeout_seconds)
+    corpus = parse_simon_atom(
+        payload, rights_status=rights_status, include_content=include_content
+    )
+    records, summary = write_simon_atom_corpus(corpus, output)
+    typer.echo(f"Wrote {corpus.entry_count} entries to {records}; summary {summary}")
+
+
 @app.command("release-readiness")
 def release_readiness_command(
-    profile: Annotated[str, typer.Option(help="Release assurance profile")] = "v0.3-alpha",
+    profile: Annotated[str, typer.Option(help="Release assurance profile")] = "v0.4-alpha",
     root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
     json_output: Annotated[bool, typer.Option("--json", help="Emit machine-readable JSON")] = False,
 ) -> None:
@@ -384,7 +542,7 @@ def plan_pilot_command(
 @app.command("verification-receipt")
 def verification_receipt_command(
     output: Annotated[Path, typer.Option(help="Receipt JSON destination")],
-    profile: str = "v0.3-alpha",
+    profile: str = "v0.4-alpha",
     root: Annotated[Path, typer.Option(help="Repository root")] = Path("."),
     coverage: Annotated[Path, typer.Option(help="Coverage XML path")] = Path("coverage.xml"),
     artifact: Annotated[list[Path] | None, typer.Option(help="Additional evidence artifact")] = None,

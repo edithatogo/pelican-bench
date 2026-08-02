@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract:pelican-canvas-openenv-v1",
+  "schema_version": "1.0.0",
+  "provider": "pelican-canvas-openenv",
+  "consumer": "pelicanbench",
+  "description": "Action and event surfaces consumed by the deterministic PelicanCanvas environment.",
+  "request_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["type"],
+    "properties": {
+      "type": {"enum": ["add", "update", "delete", "group", "ungroup", "checkpoint", "undo"]},
+      "id": {"type": "string", "minLength": 1},
+      "ids": {"type": "array", "items": {"type": "string", "minLength": 1}},
+      "group": {"type": ["string", "null"]},
+      "element": {"type": "object"},
+      "changes": {"type": "object"}
+    },
+    "additionalProperties": false
+  },
+  "event_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["observation", "done", "reward", "error"],
+    "properties": {
+      "observation": {
+        "type": "object",
+        "required": ["elements", "state_hash", "steps", "checkpoints"],
+        "properties": {
+          "elements": {"type": "object"},
+          "state_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "steps": {"type": "integer", "minimum": 0},
+          "checkpoints": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      },
+      "done": {"type": "boolean"},
+      "reward": {"type": "number"},
+      "error": {"type": ["string", "null"]}
+    },
+    "additionalProperties": false
+  },
+  "required_consumer_assertions": [
+    "State hashes are deterministic for equivalent visible state.",
+    "Invalid actions return an error event without mutating state.",
+    "The environment enforces an explicit element budget."
+  ]
+}

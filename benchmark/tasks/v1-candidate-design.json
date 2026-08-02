@@ -1,0 +1,65 @@
+{
+  "schema_version": "2.0.0",
+  "release": "PB-2026.08-v1-candidate",
+  "seed": 20260802,
+  "include_heritage": true,
+  "include_castillo_bridge": true,
+  "replicates": {
+    "qualification_canary": 1,
+    "empirical_bridge": 3,
+    "primary_confirmatory": 3
+  },
+  "analysis_hierarchy": [
+    "heritage anchor reported separately",
+    "Castillo 2026 bridge used for replication and external comparability",
+    "balanced interface panel used for primary confirmatory inference"
+  ],
+  "confirmatory_panel": {
+    "id": "pelicanbench-interface-confirmatory-v1",
+    "animals": [
+      "pelican",
+      "heron",
+      "dog",
+      "octopus"
+    ],
+    "mobile_objects": [
+      {"id": "bicycle", "relation": "rides_on", "stratum": "straddle-and-propel"},
+      {"id": "unicycle", "relation": "rides_on", "stratum": "straddle-and-propel"},
+      {"id": "electric-scooter", "relation": "operates", "stratum": "stand-and-balance"},
+      {"id": "skateboard", "relation": "rides_on", "stratum": "stand-and-balance"},
+      {"id": "tuk-tuk", "relation": "drives", "stratum": "sit-inside-and-control"},
+      {"id": "go-kart", "relation": "drives", "stratum": "sit-inside-and-control"},
+      {"id": "kayak", "relation": "paddles", "stratum": "occupy-and-propel"},
+      {"id": "canoe", "relation": "paddles", "stratum": "occupy-and-propel"}
+    ],
+    "viewpoint": "side",
+    "style": "simple vector illustration",
+    "public": true,
+    "prompt_templates": [
+      "Generate an SVG of {animal_with_article} {relation_phrase} {mobile_object_with_article}, viewed from the {viewpoint}, in a {style} style.",
+      "Create a valid, editable SVG depicting {animal_with_article} {relation_phrase} {mobile_object_with_article}. Use a {viewpoint} view and {style} style; include the anatomy, mechanical parts and physical contacts needed to make the interaction visually convincing."
+    ],
+    "empirical_basis": [
+      "Simon Willison longitudinal pelican-on-a-bicycle archive",
+      "Castillo 2026 8-animal by 6-vehicle factorial experiment",
+      "Paniego 2026 OpenEnv proxy-optimisation experiment",
+      "Yupp organic SVG prompt and preference corpus",
+      "Rapidata static SVG human-preference benchmark"
+    ]
+  },
+  "canary_selectors": [
+    {"task_id": "pb:heritage-pelican-bike-v1"},
+    {"panel_id": "castillo-2026-factorial-bridge", "animal": "pelican", "mobile_object": "bicycle"},
+    {"panel_id": "castillo-2026-factorial-bridge", "animal": "whale", "mobile_object": "unicycle"},
+    {"panel_id": "pelicanbench-interface-confirmatory-v1", "animal": "heron", "mobile_object": "bicycle", "prompt_variant": "pelicanbench-interface-confirmatory-v1-p1"},
+    {"panel_id": "pelicanbench-interface-confirmatory-v1", "animal": "octopus", "mobile_object": "electric-scooter", "prompt_variant": "pelicanbench-interface-confirmatory-v1-p1"},
+    {"panel_id": "pelicanbench-interface-confirmatory-v1", "animal": "pelican", "mobile_object": "tuk-tuk", "prompt_variant": "pelicanbench-interface-confirmatory-v1-p1"},
+    {"panel_id": "pelicanbench-interface-confirmatory-v1", "animal": "dog", "mobile_object": "go-kart", "prompt_variant": "pelicanbench-interface-confirmatory-v1-p2"},
+    {"panel_id": "pelicanbench-interface-confirmatory-v1", "animal": "pelican", "mobile_object": "kayak", "prompt_variant": "pelicanbench-interface-confirmatory-v1-p1"},
+    {"panel_id": "pelicanbench-interface-confirmatory-v1", "animal": "octopus", "mobile_object": "canoe", "prompt_variant": "pelicanbench-interface-confirmatory-v1-p2"}
+  ],
+  "supersedes": {
+    "design": "benchmark/tasks/v1-pilot-design.json",
+    "reason": "The earlier 16-scenario matrix partially confounded animal and mobile-object effects. It remains preserved as a historical alpha design but is not the primary confirmatory panel."
+  }
+}

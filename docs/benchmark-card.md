@@ -16,10 +16,19 @@ Heritage SVG, compositional SVG, direct image, reference-grounded generation, re
 
 Public anchors and fixtures support development. Sealed challenge tasks are sampled from versioned ontologies and published initially as commitments only. Retired challenge tasks may later enter the public archive. No learning heuristic may be promoted from sealed-task evidence alone.
 
+## Candidate V1 design
+
+The v0.4 candidate contains 113 prompt tasks representing 81 semantic scenarios. It keeps
+the public heritage anchor separate, reproduces a 48-scenario empirical animal-by-object
+bridge, and adds a 32-scenario confirmatory panel with two prompt formulations. Candidate
+status is not a model ranking: every endpoint and automatic judge must pass prespecified
+qualification before the prospective run.
+
 ## Outputs
 
-Primary outputs are dimension scorecards, critical-gate success, uncertainty, cost, stability, and provenance. A composite is secondary and frozen within a benchmark release.
+Primary outputs are dimension scorecards, critical-gate success, uncertainty, cost,
+stability and provenance. A composite is secondary and frozen within a benchmark release.
 
 ## Limitations
 
-The historical corpus is observational, exposed to selection and documentation bias, and cannot be interpreted as a controlled comparison. Structural SVG checks are proxy measures rather than full semantic truth. Human calibration is not complete in v0.3.0-alpha.1.
+The historical corpus is observational, exposed to selection and documentation bias, and cannot be interpreted as a controlled comparison. Structural SVG checks are proxy measures rather than full semantic truth. Human calibration is designed but not empirically complete in v0.4.0-alpha.1.

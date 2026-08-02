@@ -78,7 +78,12 @@ def test_command_adapter_success(heritage):
 
 
 def test_command_adapter_failure(heritage):
-    adapter = CommandAdapter(["python", "-c", "raise SystemExit(3)"], adapter_id="cmd", model_id="m", model_revision="r")
+    adapter = CommandAdapter(
+        ["python", "-c", "raise SystemExit(3)"],
+        adapter_id="cmd",
+        model_id="m",
+        model_revision="r",
+    )
     with pytest.raises(RuntimeError):
         adapter.generate(heritage, seed=1)
     with pytest.raises(ValueError):
@@ -92,7 +97,14 @@ def test_empty_and_mixed_release_rejected(tmp_path: Path, valid_svg: str):
     first = heritage_task(release="A")
     second = heritage_task(release="B")
     with pytest.raises(ValueError):
-        run_benchmark([first, second], adapter, output_directory=tmp_path, seed=1, benchmark_commit="x", environment_digest="x")
+        run_benchmark(
+            [first, second],
+            adapter,
+            output_directory=tmp_path,
+            seed=1,
+            benchmark_commit="x",
+            environment_digest="x",
+        )
 
 
 def test_runner_rejects_task_mismatch(tmp_path: Path, heritage):
@@ -103,7 +115,14 @@ def test_runner_rejects_task_mismatch(tmp_path: Path, heritage):
         def generate(self, task, *, seed):
             return GenerationResult("other", "<svg/>", "image/svg+xml", None, {})
     with pytest.raises(ValueError):
-        run_benchmark([heritage], Bad(), output_directory=tmp_path, seed=1, benchmark_commit="x", environment_digest="x")
+        run_benchmark(
+            [heritage],
+            Bad(),
+            output_directory=tmp_path,
+            seed=1,
+            benchmark_commit="x",
+            environment_digest="x",
+        )
 
 
 def test_run_without_semantic_assessor_is_explicitly_unvalidated(

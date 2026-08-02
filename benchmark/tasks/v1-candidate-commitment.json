@@ -1,0 +1,14 @@
+{
+  "commitment": "sha256:757e79a0bcd143214268e43c4f42abb273955d9c164b952dca0d6ca123f0bcb8",
+  "design_sha256": "sha256:42e036d7e86c4ad419687f4df7648dc0cbd63770af93153905bd99f5079c88e5",
+  "panel_counts": {
+    "castillo-2026-factorial-bridge": 48,
+    "heritage-anchor": 1,
+    "pelicanbench-interface-confirmatory-v1": 64
+  },
+  "prompt_count": 113,
+  "release": "PB-2026.08-v1-candidate",
+  "scenario_count": 81,
+  "schema_version": "2.0.0",
+  "task_count": 113
+}

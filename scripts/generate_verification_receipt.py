@@ -19,7 +19,7 @@ SCHEMA = ROOT / "benchmark/schemas/repository-verification-receipt.schema.json"
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--profile", default="v0.3-alpha")
+    parser.add_argument("--profile", default="v0.4-alpha")
     parser.add_argument("--coverage", type=Path, default=Path("coverage.xml"))
     parser.add_argument("--artifact", action="append", default=[])
     parser.add_argument("--revision")

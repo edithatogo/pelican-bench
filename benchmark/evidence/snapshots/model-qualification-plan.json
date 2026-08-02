@@ -1,0 +1,536 @@
+{
+  "benchmark_release": "PB-2026.08-v1-candidate",
+  "cells": [
+    {
+      "cell_id": "QCEL-951a7ed1f5b2891b3400",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20260802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-b7a35e7dceb35c1b388a",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20260803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-bffe253326e582bb7395",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20260804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-01c47987c893684fa7ce",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20260805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-dfc3f5ad5bdd156570c8",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20260806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-475245eade9cb5b6a279",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20260807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-9dd2a3648d676e19dc98",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20260808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-483920d235d6ac806d4b",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20260809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-d9763a381ac3f7ca12c8",
+      "model_id": "anthropic/claude-sonnet-5",
+      "panel_id": "heritage-anchor",
+      "seed": 20260810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    },
+    {
+      "cell_id": "QCEL-e6c8b6253003f473e776",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20270802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-bc370e4db6b97c1edd47",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20270803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-e2d87a970bbc223a52de",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20270804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-d4dced39dc1d47606b2f",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20270805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-22c3990d6dc10bb87036",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20270806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-088dae34c747e39d4e9f",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20270807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-abff1ca89a4ce5ef69d9",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20270808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-0df2ef0c5ca73ff558bd",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20270809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-3d9bc1a1eba1d1794bc4",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "panel_id": "heritage-anchor",
+      "seed": 20270810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    },
+    {
+      "cell_id": "QCEL-9a385a65ebf52322761b",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20280802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-1d4cac518cda63eb2a86",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20280803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-5c0885d152911d6b50bf",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20280804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-939c77b16e2cfa881cdf",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20280805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-008a82ed7c1d74ec27e8",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20280806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-648347a532b640450a6e",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20280807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-7dd76f3faa6cf713d35c",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20280808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-ed0a0dd618882073ba31",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20280809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-91bbf40da67ef521e7f2",
+      "model_id": "google/gemini-3.5-flash",
+      "panel_id": "heritage-anchor",
+      "seed": 20280810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    },
+    {
+      "cell_id": "QCEL-f9b5c24cb2842e7799b3",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20290802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-193709b1c0d2eef32f97",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20290803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-be61b82690931e8ba4cd",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20290804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-e46c7420d4448df1d4cf",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20290805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-9cfe75df1c4b426b8fb8",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20290806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-2bda195d6310cd8830fd",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20290807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-968b0d7966a9a14f7d1f",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20290808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-0375f25c3cc10aaf15d4",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20290809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-0730b80fa0de31b54aac",
+      "model_id": "openai/gpt-5.6-terra",
+      "panel_id": "heritage-anchor",
+      "seed": 20290810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    },
+    {
+      "cell_id": "QCEL-13bdd532111e8f0f7621",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20300802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-f7aad9e829ffb592cb02",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20300803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-34458d34a763e6f1b4f6",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20300804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-09eb0474976e0c7381c8",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20300805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-6f2a62e06f26caa17df3",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20300806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-efe146ed0b23ad50a88a",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20300807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-1fdeba62320335665ae4",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20300808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-b8e599beec545f9fcdb8",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20300809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-c348efa578fe2c96332e",
+      "model_id": "qwen/qwen3.7-max",
+      "panel_id": "heritage-anchor",
+      "seed": 20300810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    },
+    {
+      "cell_id": "QCEL-1271e4961bda4c865667",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20310802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-5234c74945fa25d35218",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20310803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-c2892a7e63a4e3c54b70",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20310804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-179aac6264bbedc6e791",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20310805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-5ff9314f84626b975a46",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20310806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-cfea142fbf447c87cdac",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20310807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-93ff79dfe199d4c273e9",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20310808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-cf89ddba927732c5fc20",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20310809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-b2b737e05ed3f3bff6ed",
+      "model_id": "x-ai/grok-4.5",
+      "panel_id": "heritage-anchor",
+      "seed": 20310810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    },
+    {
+      "cell_id": "QCEL-41b54c89b43a1c061bf6",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20320802,
+      "status": "planned",
+      "task_id": "pb:38584bfdcbd56e22"
+    },
+    {
+      "cell_id": "QCEL-5029132193e663c89801",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20320803,
+      "status": "planned",
+      "task_id": "pb:730c3dc443317cf0"
+    },
+    {
+      "cell_id": "QCEL-7d9be0cac6e8b5fe7d09",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20320804,
+      "status": "planned",
+      "task_id": "pb:78ed6be8ca67b40b"
+    },
+    {
+      "cell_id": "QCEL-d8e812a60c6d6fa179c4",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20320805,
+      "status": "planned",
+      "task_id": "pb:8d66e48e27b97ca7"
+    },
+    {
+      "cell_id": "QCEL-c5a6f48f2d5494f77436",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20320806,
+      "status": "planned",
+      "task_id": "pb:8dac80f4be3396a5"
+    },
+    {
+      "cell_id": "QCEL-2c227a638d4f5a85b811",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "castillo-2026-factorial-bridge",
+      "seed": 20320807,
+      "status": "planned",
+      "task_id": "pb:90431b8a1aaf7f78"
+    },
+    {
+      "cell_id": "QCEL-1e989f117cc31f2e43e6",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20320808,
+      "status": "planned",
+      "task_id": "pb:bdf56a7704c15216"
+    },
+    {
+      "cell_id": "QCEL-c5035dec59b629890f34",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "pelicanbench-interface-confirmatory-v1",
+      "seed": 20320809,
+      "status": "planned",
+      "task_id": "pb:facf85686e8d4323"
+    },
+    {
+      "cell_id": "QCEL-f4f5f70da5441b6f56a8",
+      "model_id": "z-ai/glm-5.2",
+      "panel_id": "heritage-anchor",
+      "seed": 20320810,
+      "status": "planned",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    }
+  ],
+  "gates": {
+    "maximum_unretained_failure_rate": 0.0,
+    "minimum_first_attempt_rate": 0.5,
+    "minimum_secure_render_rate": 0.8,
+    "minimum_success_rate": 0.8
+  },
+  "models": [
+    "anthropic/claude-sonnet-5",
+    "deepseek/deepseek-v4-pro",
+    "google/gemini-3.5-flash",
+    "openai/gpt-5.6-terra",
+    "qwen/qwen3.7-max",
+    "x-ai/grok-4.5",
+    "z-ai/glm-5.2"
+  ],
+  "schema_version": "1.0.0",
+  "tasks": [
+    "pb:38584bfdcbd56e22",
+    "pb:730c3dc443317cf0",
+    "pb:78ed6be8ca67b40b",
+    "pb:8d66e48e27b97ca7",
+    "pb:8dac80f4be3396a5",
+    "pb:90431b8a1aaf7f78",
+    "pb:bdf56a7704c15216",
+    "pb:facf85686e8d4323",
+    "pb:heritage-pelican-bike-v1"
+  ]
+}

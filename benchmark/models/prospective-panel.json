@@ -1,0 +1,88 @@
+{
+  "cohorts": [
+    {
+      "cohort_id": "core-prospective-six",
+      "models": [
+        "openai/gpt-5.6-terra",
+        "anthropic/claude-sonnet-5",
+        "google/gemini-3.5-flash",
+        "x-ai/grok-4.5",
+        "qwen/qwen3.7-max",
+        "z-ai/glm-5.2"
+      ],
+      "role": "primary model comparison"
+    },
+    {
+      "cohort_id": "castillo-2026-replication-seven",
+      "models": [
+        "openai/gpt-5.6-terra",
+        "x-ai/grok-4.5",
+        "z-ai/glm-5.2",
+        "qwen/qwen3.7-max",
+        "google/gemini-3.5-flash",
+        "anthropic/claude-sonnet-5",
+        "deepseek/deepseek-v4-pro"
+      ],
+      "role": "source-locked empirical bridge"
+    },
+    {
+      "cohort_id": "first-party-supplementary",
+      "models": [
+        "edithatogo/qwen3-4b-hermes-lora",
+        "edithatogo/qwen3-4b-hermes-lora-peft-converted"
+      ],
+      "role": "non-core local capability and transfer study"
+    }
+  ],
+  "execution_stages": [
+    {
+      "cohort_id": "core-prospective-six",
+      "role": "public longitudinal anchor; excluded from uncontaminated primary composite",
+      "stage_id": "heritage-anchor-prospective",
+      "task_panel_id": "heritage-anchor"
+    },
+    {
+      "cohort_id": "castillo-2026-replication-seven",
+      "role": "direct external replication and empirical bridge",
+      "stage_id": "castillo-2026-replication",
+      "task_panel_id": "castillo-2026-factorial-bridge"
+    },
+    {
+      "cohort_id": "core-prospective-six",
+      "role": "primary prospective affordance-balanced comparison",
+      "stage_id": "pelicanbench-interface-confirmatory",
+      "task_panel_id": "pelicanbench-interface-confirmatory-v1"
+    }
+  ],
+  "judge_panel": {
+    "blind_open_set_extractors": {
+      "minimum_families": 2,
+      "purpose": "animal, object, relation, facing and scene-element identification without the prompt",
+      "status": "to-be-qualified"
+    },
+    "generator_judge_firewall": "Report same-family and self-family sensitivity separately; no single judge supplies the normative score.",
+    "prompt_aware_atomic_judges": {
+      "minimum_families": 3,
+      "purpose": "defect-first anatomy, mechanics and interaction questions",
+      "status": "to-be-qualified"
+    }
+  },
+  "qualification_requirements": [
+    "verify provider slug on the run date",
+    "record provider route and model revision",
+    "pass all nine canary tasks through secure parsing and canonical rendering",
+    "retain every initial failure and retry as trial metadata",
+    "meet output-token and timeout budgets",
+    "review model/provider terms for artifact redistribution",
+    "record price schedule and measured cost"
+  ],
+  "schema_version": "1.0.0",
+  "selection_principles": [
+    "family diversity rather than many near-duplicate endpoints",
+    "exact immutable revision and provider route recorded before generation",
+    "same public task set and retained replicate policy",
+    "failures remain in the denominator",
+    "reasoning and output-budget differences are recorded and sensitivity-tested"
+  ],
+  "updated_at": "2026-08-02T00:00:00Z"
+}

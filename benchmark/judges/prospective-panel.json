@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-02T00:00:00Z",
+  "minimum_families_by_role": {
+    "blind-open-set": 2,
+    "prompt-aware-atomic": 3,
+    "pairwise-quality": 2
+  },
+  "judges": [
+    {
+      "judge_id": "google/gemini-3.1-flash-lite",
+      "family": "google",
+      "roles": ["blind-open-set", "pairwise-quality"],
+      "source_role": "Castillo 2026 blind feature extractor",
+      "status": "qualification-required"
+    },
+    {
+      "judge_id": "openai/gpt-5.6-luna",
+      "family": "openai",
+      "roles": ["blind-open-set", "prompt-aware-atomic", "pairwise-quality"],
+      "source_role": "Castillo 2026 prompt-aware quality judge",
+      "status": "qualification-required"
+    },
+    {
+      "judge_id": "anthropic/claude-sonnet-5",
+      "family": "anthropic",
+      "roles": ["prompt-aware-atomic", "pairwise-quality"],
+      "source_role": "family-diverse PelicanBench candidate",
+      "status": "qualification-required"
+    },
+    {
+      "judge_id": "google/gemini-3.5-flash",
+      "family": "google",
+      "roles": ["prompt-aware-atomic"],
+      "source_role": "family-diverse PelicanBench candidate",
+      "status": "qualification-required"
+    }
+  ],
+  "firewall": {
+    "source_markup_visible": false,
+    "blind_prompt_visible": false,
+    "single_judge_normative": false,
+    "same_family_sensitivity_required": true,
+    "leave_one_family_out_required": true,
+    "human_calibration_required_for_E3": true
+  },
+  "qualification_gates": {
+    "minimum_schema_valid_rate": 0.98,
+    "minimum_output_complete_rate": 0.98,
+    "minimum_source_independent_rate": 1.0,
+    "maximum_prompt_leakage_rate": 0.0,
+    "minimum_task_accuracy": 0.8,
+    "minimum_human_agreement": 0.75
+  }
+}

@@ -1,0 +1,26 @@
+name: Renovate
+on:
+  schedule:
+    - cron: '41 18 * * 0'
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+concurrency:
+  group: renovate
+  cancel-in-progress: false
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: renovatebot/github-action@581f6ac0a630038ab49d600de079abcbcee26c06 # renovate action, 2026-08-01
+        with:
+          configurationFile: renovate.json
+          renovate-version: 44.5.3
+          token: ${{ secrets.RENOVATE_TOKEN || github.token }}
+        env:
+          LOG_LEVEL: info
+          RENOVATE_REPOSITORIES: edithatogo/pelican-bench

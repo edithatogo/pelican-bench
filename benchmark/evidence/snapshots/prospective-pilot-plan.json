@@ -1,0 +1,45 @@
+{
+  "cell_count": 2178,
+  "generated_at": "2026-08-02T00:00:00Z",
+  "model_count": 7,
+  "model_registry_hash": "sha256:f7d16a9c02ee27e2f1d6dbb9cf2f75d244d3fdc642c31bfc3145d42a750b9901",
+  "qualification_required_cell_count": 2178,
+  "ready_cell_count": 0,
+  "replicates": 3,
+  "schema_version": "1.0.0",
+  "stages": [
+    {
+      "cell_count": 18,
+      "cohort_id": "core-prospective-six",
+      "model_count": 6,
+      "qualification_required_cell_count": 18,
+      "ready_cell_count": 0,
+      "stage_id": "heritage-anchor-prospective",
+      "task_count": 1,
+      "task_panel_id": "heritage-anchor"
+    },
+    {
+      "cell_count": 1008,
+      "cohort_id": "castillo-2026-replication-seven",
+      "model_count": 7,
+      "qualification_required_cell_count": 1008,
+      "ready_cell_count": 0,
+      "stage_id": "castillo-2026-replication",
+      "task_count": 48,
+      "task_panel_id": "castillo-2026-factorial-bridge"
+    },
+    {
+      "cell_count": 1152,
+      "cohort_id": "core-prospective-six",
+      "model_count": 6,
+      "qualification_required_cell_count": 1152,
+      "ready_cell_count": 0,
+      "stage_id": "pelicanbench-interface-confirmatory",
+      "task_count": 64,
+      "task_panel_id": "pelicanbench-interface-confirmatory-v1"
+    }
+  ],
+  "task_count": 113,
+  "task_identity_commitment": "sha256:757e79a0bcd143214268e43c4f42abb273955d9c164b952dca0d6ca123f0bcb8",
+  "task_set_hash": "sha256:b5be11f49921d65db45cff254900d5a3f97686eb9936dd0b080b99bbb5fa2e7e"
+}

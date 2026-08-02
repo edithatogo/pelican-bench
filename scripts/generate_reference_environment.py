@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata as metadata
-import re
 import tomllib
 from collections import deque
 from pathlib import Path

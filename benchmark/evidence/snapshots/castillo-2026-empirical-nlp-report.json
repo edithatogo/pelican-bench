@@ -1,0 +1,36 @@
+{
+  "animation_share": 0.0,
+  "awkward_or_adversarial_share": 1.0,
+  "compositional_share": 1.0,
+  "editability_share": 0.0,
+  "entity_counts": {
+    "antelope": 6,
+    "bicycle": 8,
+    "boat": 8,
+    "cat": 6,
+    "electric-scooter": 8,
+    "flamingo": 6,
+    "heron": 6,
+    "otter": 6,
+    "pelican": 6,
+    "plane": 8,
+    "raccoon": 6,
+    "skateboard": 8,
+    "unicycle": 8,
+    "whale": 6
+  },
+  "evidence_status": "source-derived-exact-prompt-bridge-E2",
+  "languages": {
+    "en": 48
+  },
+  "prompts_with_numeric_constraints": 0,
+  "records": 48,
+  "relation_counts": {
+    "aboard": 16,
+    "rides_on": 32
+  },
+  "schema_version": "1.0.0",
+  "style_counts": {},
+  "svg_intent_share": 1.0,
+  "viewpoint_counts": {}
+}

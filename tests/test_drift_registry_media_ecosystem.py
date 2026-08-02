@@ -26,7 +26,14 @@ def test_registry(root: Path):
     entries = load_registry(root / "hf/model-eligibility.json")
     assert registry_summary(entries)["models"] >= 1
     assert all(not item.remote_code_required for item in eligible_models(entries, track="compositional-svg"))
-    blocked = ModelRegistryEntry(model_id="x",revision="r",tracks=("t",),access_type="x",license_status="eligible",remote_code_required=True)
+    blocked = ModelRegistryEntry(
+        model_id="x",
+        revision="r",
+        tracks=("t",),
+        access_type="x",
+        license_status="eligible",
+        remote_code_required=True,
+    )
     assert not blocked.eligible
 
 

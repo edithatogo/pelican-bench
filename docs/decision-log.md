@@ -197,3 +197,51 @@ time, article URL, message and uploaded media asset.
 **Rationale:** publication automation can reduce clerical work but cannot decide representation,
 timing, rights or public claims. Distribution is downstream of a frozen release and is not a
 benchmark-validity requirement.
+
+## D027 — Use a committed empirical bridge and a separate confirmatory panel
+
+**Options:** treat the original 33 tasks as the candidate; copy the external factorial study
+without extension; preserve an exact replication bridge and add a prospectively balanced
+affordance panel.
+
+**Decision:** retain the public heritage prompt, reconstruct the complete 48-prompt empirical
+bridge, and use a separate 64-task confirmatory panel across body plans, mobile objects,
+interface families and two prompt formulations.
+
+**Rationale:** exact replication supports comparison with prior work, while the confirmatory
+panel tests broader compositional constructs without pretending they were discovered by NLP.
+
+## D028 — Human calibration is a staged, locked protocol
+
+**Options:** show prompts before every rating; collect only overall preference; lock blind
+recognition before prompt-aware defects and pairwise preference.
+
+**Decision:** use a three-stage state machine: blind open-set recognition, prompt-aware
+defect-first criteria, then blinded within-task pairwise comparison. Reject direct identifiers
+and preserve content-addressed response receipts.
+
+**Rationale:** prompt exposure contaminates recognition evidence, while a single preference
+score cannot validate anatomy, mechanics and interaction constructs independently.
+
+## D029 — Missing local analyzers are deferred evidence, not passing evidence
+
+**Options:** omit unavailable tools silently; weaken the toolchain; provide repository-native
+fallbacks and record third-party tools as deferred to CI.
+
+**Decision:** always run the dependency-free static, prose, contract, mutation, taxonomy and
+replay checks. Run Ruff, mypy, Pyright, Vale, Hypothesis, mutmut, Cargo, Mojo and Entire when
+available, and record absence explicitly.
+
+**Rationale:** constrained environments should still produce useful executable evidence, but
+configuration alone is not proof that an unavailable tool passed.
+
+## D030 — Coverage uses opportunity-weighted branch-aware totals
+
+**Options:** enforce only line coverage; average line and branch percentages; weight every
+executable line and branch arc once, matching coverage.py.
+
+**Decision:** require at least 90% line coverage and at least 90% opportunity-weighted total
+coverage. Report the raw branch percentage separately.
+
+**Rationale:** an arithmetic mean gives a small branch set the same weight as all executable
+lines and does not reproduce the authoritative coverage.py total.

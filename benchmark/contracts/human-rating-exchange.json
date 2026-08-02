@@ -1,0 +1,35 @@
+{
+  "contract_id": "contract:human-rating-exchange-v1",
+  "schema_version": "1.0.0",
+  "provider": "human-calibration-platform",
+  "consumer": "pelicanbench",
+  "description": "Privacy-minimised pairwise human-rating event consumed by PelicanBench.",
+  "event_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "task_id",
+      "criterion",
+      "left_artifact_id",
+      "right_artifact_id",
+      "winner",
+      "rater_hash"
+    ],
+    "properties": {
+      "task_id": {"type": "string", "minLength": 1},
+      "criterion": {"type": "string", "minLength": 1},
+      "left_artifact_id": {"type": "string", "minLength": 1},
+      "right_artifact_id": {"type": "string", "minLength": 1},
+      "winner": {"enum": ["A", "B", "a", "b", "left", "right", "tie"]},
+      "rater_hash": {"type": "string", "pattern": "^[0-9a-fA-F]{16,}$"},
+      "panel": {"type": "string"},
+      "consent_version": {"type": "string"}
+    },
+    "additionalProperties": false
+  },
+  "required_consumer_assertions": [
+    "Direct participant identifiers are prohibited.",
+    "Artifact order is blinded and randomised within task.",
+    "Consent and panel metadata are versioned outside the benchmark score."
+  ]
+}
