@@ -51,7 +51,7 @@ def _sha256(path: Path) -> str:
 
 
 def _epoch() -> int:
-    return int(os.environ.get("SOURCE_DATE_EPOCH", "1785542400"))
+    return int(os.environ.get("SOURCE_DATE_EPOCH", "1785628800"))
 
 
 def _zip_datetime() -> tuple[int, int, int, int, int, int]:

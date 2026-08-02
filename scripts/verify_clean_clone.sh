@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REF="${1:-HEAD}"
 OUTPUT="${2:-$ROOT/artifacts/clean-clone-receipt.json}"
-SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1785542400}"
+SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1785628800}"
 TMPDIR_ROOT="$(mktemp -d -t pelicanbench-clean-clone-XXXXXX)"
 trap 'rm -rf "$TMPDIR_ROOT"' EXIT
 
