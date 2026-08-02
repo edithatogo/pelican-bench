@@ -268,7 +268,23 @@ def build_publication_bundle(
         "docs/benchmark-card.md",
         "docs/data-card.md",
         "docs/scorer-card.md",
+        "docs/empirical-basis.md",
+        "docs/human-evaluation-protocol.md",
+        "docs/v1-pilot-amendment-001.md",
         "docs/v1-pilot-analysis-plan.md",
+        "benchmark/tasks/v1-candidate-design.json",
+        "benchmark/tasks/v1-candidate-commitment.json",
+        "benchmark/tasks/v1-candidate.jsonl",
+        "benchmark/tasks/v1-candidate-canary.jsonl",
+        "benchmark/models/prospective-panel.json",
+        "benchmark/judges/prospective-panel.json",
+        "benchmark/judges/canary-manifest.json",
+        "benchmark/human-calibration/study-spec.json",
+        "benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json",
+        "benchmark/evidence/snapshots/castillo-2026-design-coverage.json",
+        "benchmark/evidence/snapshots/model-qualification-plan.json",
+        "benchmark/evidence/snapshots/judge-qualification-plan.json",
+        "benchmark/evidence/snapshots/prospective-pilot-plan.json",
         "benchmark/tasks/v1-pilot-commitment.json",
         "benchmark/assurance-case.json",
         "benchmark/integrations/ecosystem-registry.json",
@@ -283,8 +299,36 @@ def build_publication_bundle(
         "docs/benchmark-card.md": "documentation/benchmark-card.md",
         "docs/data-card.md": "documentation/data-card.md",
         "docs/scorer-card.md": "documentation/scorer-card.md",
+        "docs/empirical-basis.md": "documentation/empirical-basis.md",
+        "docs/human-evaluation-protocol.md": "documentation/human-evaluation-protocol.md",
+        "docs/v1-pilot-amendment-001.md": "documentation/v1-pilot-amendment-001.md",
         "docs/v1-pilot-analysis-plan.md": "documentation/v1-pilot-analysis-plan.md",
-        "benchmark/tasks/v1-pilot-commitment.json": "evidence/v1-pilot-commitment.json",
+        "benchmark/tasks/v1-candidate-design.json": "candidate/v1-candidate-design.json",
+        "benchmark/tasks/v1-candidate-commitment.json": "candidate/v1-candidate-commitment.json",
+        "benchmark/tasks/v1-candidate.jsonl": "candidate/v1-candidate.jsonl",
+        "benchmark/tasks/v1-candidate-canary.jsonl": "candidate/v1-candidate-canary.jsonl",
+        "benchmark/models/prospective-panel.json": "candidate/prospective-model-panel.json",
+        "benchmark/judges/prospective-panel.json": "candidate/prospective-judge-panel.json",
+        "benchmark/judges/canary-manifest.json": "candidate/judge-canary-manifest.json",
+        "benchmark/human-calibration/study-spec.json": "candidate/human-calibration-study-spec.json",
+        "benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json": (
+            "evidence/castillo-2026-empirical-nlp-report.json"
+        ),
+        "benchmark/evidence/snapshots/castillo-2026-design-coverage.json": (
+            "evidence/castillo-2026-design-coverage.json"
+        ),
+        "benchmark/evidence/snapshots/model-qualification-plan.json": (
+            "evidence/model-qualification-plan.json"
+        ),
+        "benchmark/evidence/snapshots/judge-qualification-plan.json": (
+            "evidence/judge-qualification-plan.json"
+        ),
+        "benchmark/evidence/snapshots/prospective-pilot-plan.json": (
+            "evidence/prospective-pilot-plan.json"
+        ),
+        "benchmark/tasks/v1-pilot-commitment.json": (
+            "evidence/historical/v1-pilot-commitment.json"
+        ),
         "benchmark/assurance-case.json": "evidence/assurance-case.json",
         "benchmark/integrations/ecosystem-registry.json": "evidence/ecosystem-registry.json",
         "benchmark/ontologies/interoperability-profile.json": "evidence/ontology-interoperability-profile.json",

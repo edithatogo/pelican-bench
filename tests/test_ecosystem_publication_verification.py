@@ -98,6 +98,11 @@ def test_publication_bundle_is_deterministic_and_never_writes_externally(
         == (tmp_path / "first/.sourceright/references.csl.json").read_bytes()
     )
     assert (tmp_path / "first/arxiv/paper/metadata.json").exists()
+    assert (tmp_path / "first/candidate/v1-candidate-commitment.json").exists()
+    assert (tmp_path / "first/candidate/v1-candidate.jsonl").exists()
+    assert (tmp_path / "first/candidate/human-calibration-study-spec.json").exists()
+    assert (tmp_path / "first/evidence/prospective-pilot-plan.json").exists()
+    assert (tmp_path / "first/evidence/historical/v1-pilot-commitment.json").exists()
     assert (tmp_path / "first/review/authentext-brief.md").exists()
     assert (tmp_path / "first/osf/project-metadata.json").exists()
     postiz_template = tmp_path / "first/distribution/postiz-post-template.json"

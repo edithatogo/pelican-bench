@@ -226,14 +226,12 @@ def test_build_release_package_happy_path(tmp_path: Path, monkeypatch):
             return {"passed": True, "asset_count": 1}
 
     monkeypatch.setattr(rp, "audit_ecosystem", lambda *_args, **_kwargs: DummyEcosystem())
-    monkeypatch.setattr(rp, "load_tasks", lambda _path: [])
-    monkeypatch.setattr(rp, "load_registry", lambda _path: [])
     pilot = SimpleNamespace(
         cell_count=3,
         ready_cell_count=1,
         qualification_required_cell_count=2,
     )
-    monkeypatch.setattr(rp, "build_pilot_execution_plan", lambda *_args, **_kwargs: pilot)
+    monkeypatch.setattr(rp, "_build_release_pilot_plan", lambda _root: pilot)
 
     def write_pilot(_plan: object, output: Path):
         rp.write_json(output, {"cell_count": 3})
@@ -241,7 +239,9 @@ def test_build_release_package_happy_path(tmp_path: Path, monkeypatch):
         cells.write_text('{"cell_id":"cell:fixture"}\n', encoding="utf-8")
         return output, cells
 
-    monkeypatch.setattr(rp, "write_pilot_execution_plan", write_pilot)
+    monkeypatch.setattr(rp, "_write_release_pilot_plan", write_pilot)
+    candidate_report = SimpleNamespace(passed=True, as_dict=lambda: {"passed": True})
+    monkeypatch.setattr(rp, "validate_candidate", lambda _root: candidate_report)
 
     publication_hash = "sha256:" + "d" * 64
 

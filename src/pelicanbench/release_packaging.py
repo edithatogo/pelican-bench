@@ -16,11 +16,12 @@ from pathlib import Path
 from typing import Iterable
 
 from .assurance import evaluate_release_readiness
+from .candidate import validate_candidate
 from .ecosystem import audit_ecosystem, load_ecosystem_registry
-from .io import content_hash, read_json, write_json
-from .pilot import build_pilot_execution_plan, load_tasks, write_pilot_execution_plan
+from .io import content_hash, read_json, write_json, write_jsonl
+from .pilot import load_tasks
 from .publication import build_publication_bundle
-from .registry import load_registry
+from .prospective import ProspectivePilotPlan, build_prospective_pilot_plan
 from .release_records import PackagedArtifact, ReleasePackageReceipt
 from .release_manifest import build_release_manifest
 from .timeutil import utc_now_iso
@@ -168,6 +169,29 @@ def _copy_evidence(project: Path, destination: Path, relative: str) -> Path | No
     return target
 
 
+def _build_release_pilot_plan(project: Path) -> ProspectivePilotPlan:
+    tasks = load_tasks(project / "benchmark/tasks/v1-candidate.jsonl")
+    panel = read_json(project / "benchmark/models/prospective-panel.json")
+    commitment = read_json(project / "benchmark/tasks/v1-candidate-commitment.json")
+    return build_prospective_pilot_plan(
+        tasks,
+        panel,
+        task_identity_commitment=str(commitment["commitment"]),
+        replicates=3,
+        base_seed=20260802,
+    )
+
+
+def _write_release_pilot_plan(
+    plan: ProspectivePilotPlan,
+    output: Path,
+) -> tuple[Path, Path]:
+    write_json(output, plan.summary())
+    cells = output.with_name(output.stem + "-cells.jsonl")
+    write_jsonl(cells, [item.as_dict() for item in plan.cells])
+    return output, cells
+
+
 def build_release_package(
     root: str | Path,
     output_directory: str | Path,
@@ -222,15 +246,15 @@ def build_release_package(
     )
     write_json(ecosystem_path, ecosystem.as_dict())
 
-    pilot_path = output / "v1-pilot-execution-plan.json"
-    pilot = build_pilot_execution_plan(
-        load_tasks(project / "benchmark/tasks/v1-pilot.jsonl"),
-        load_registry(project / "hf/model-eligibility.json"),
-        replicates=3,
-        base_seed=20260801,
-        include_candidate_models=True,
-    )
-    _, pilot_cells_path = write_pilot_execution_plan(pilot, pilot_path)
+    pilot_path = output / "v1-candidate-execution-plan.json"
+    pilot = _build_release_pilot_plan(project)
+    _, pilot_cells_path = _write_release_pilot_plan(pilot, pilot_path)
+
+    candidate_validation_path = output / "v1-candidate-validation.json"
+    candidate_validation = validate_candidate(project)
+    if not candidate_validation.passed:
+        raise RuntimeError("candidate benchmark validation failed during release packaging")
+    write_json(candidate_validation_path, candidate_validation.as_dict())
 
     evidence_directory = output / "evidence"
     evidence_directory.mkdir(parents=True, exist_ok=True)
@@ -239,6 +263,18 @@ def build_release_package(
         "artifacts/scorer-challenge-report.json",
         "artifacts/svg-fuzz-report.json",
         "artifacts/renderer-bridge.json",
+        "artifacts/quality-gate.json",
+        "artifacts/test-taxonomy.json",
+        "artifacts/mutation-smoke.json",
+        "artifacts/static-audit.json",
+        "artifacts/prose-audit.json",
+        "artifacts/toolchain-preflight.json",
+        "coverage.xml",
+        "benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json",
+        "benchmark/evidence/snapshots/castillo-2026-design-coverage.json",
+        "benchmark/evidence/snapshots/model-qualification-plan.json",
+        "benchmark/evidence/snapshots/judge-qualification-plan.json",
+        "benchmark/human-calibration/study-spec.json",
     ):
         copied = _copy_evidence(project, evidence_directory, relative)
         if copied is not None:
@@ -290,6 +326,7 @@ def build_release_package(
         artifacts=(
             sbom_path,
             ecosystem_path,
+            candidate_validation_path,
             pilot_path,
             pilot_cells_path,
             publication_zip,
@@ -331,8 +368,9 @@ def build_release_package(
         _record(output, manifest_path, "release-manifest"),
         _record(output, verification_path, "verification-receipt"),
         _record(output, ecosystem_path, "ecosystem-audit"),
-        _record(output, pilot_path, "pilot-plan"),
-        _record(output, pilot_cells_path, "pilot-cells"),
+        _record(output, candidate_validation_path, "candidate-validation"),
+        _record(output, pilot_path, "prospective-pilot-plan"),
+        _record(output, pilot_cells_path, "prospective-pilot-cells"),
         _record(output, clean_target, "clean-clone-receipt"),
         *tuple(_record(output, item, "validation-evidence") for item in evidence_files),
     )
