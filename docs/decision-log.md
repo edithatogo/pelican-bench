@@ -270,3 +270,16 @@ every input path before parsing and reject symlinked ledgers or sourced artifact
 **Rationale:** rights validation processes untrusted provenance metadata. Explicit deterministic
 ceilings prevent accidental or adversarial resource exhaustion, while symlink rejection keeps
 the audit confined to the checked-out evidence set.
+
+## D033 — Rights contracts require explicit version migration
+
+**Options:** accept any structurally similar ledger; coerce older and future versions; support
+only declared versions and require an evidence-backed migration.
+
+**Decision:** accept rights-ledger schema `1.0.0` only, fail closed on absent or unsupported
+versions and govern later bridges, migrations and deprecations through the source-rights
+lifecycle policy.
+
+**Rationale:** permissive coercion can silently change the meaning of a permission decision.
+Exact version handling keeps rights interpretation reviewable and makes compatibility changes
+release-visible without discarding historical evidence.

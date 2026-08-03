@@ -27,7 +27,7 @@ def test_rights_audit_rejects_oversized_ledger_and_records(tmp_path: Path) -> No
     with pytest.raises(ValueError, match="ledger exceeds byte limit"):
         audit_sourced_artifacts(project, policy=policy)
 
-    ledger.write_text('{"decisions":[]}\n', encoding="utf-8")
+    ledger.write_text('{"schema_version":"1.0.0","decisions":[]}\n', encoding="utf-8")
     (project / "data/fixtures/large.jsonl").write_text(
         json.dumps(
             {

@@ -17,6 +17,7 @@ from typing import cast
 PROJECT_ORIGINAL_PREFIX = "project-original"
 SOURCED_DATA_GLOBS = ("data/fixtures/*.jsonl", "data/derived/*.jsonl")
 RIGHTS_LEDGER_PATH = "data/sources/rights-ledger.json"
+RIGHTS_LEDGER_SCHEMA_VERSION = "1.0.0"
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,6 +68,12 @@ def _ledger_source_ids(project: Path, policy: RightsAuditPolicy) -> set[str]:
     ledger: dict[str, object] = json.loads(
         _bounded_text(ledger_path, max_bytes=policy.max_ledger_bytes, label="ledger")
     )
+    schema_version = ledger.get("schema_version")
+    if schema_version != RIGHTS_LEDGER_SCHEMA_VERSION:
+        raise ValueError(
+            "unsupported rights-ledger schema "
+            f"{schema_version!r}; expected {RIGHTS_LEDGER_SCHEMA_VERSION!r}"
+        )
     raw_decisions = ledger.get("decisions")
     if not isinstance(raw_decisions, list):
         raise ValueError(f"{RIGHTS_LEDGER_PATH} must contain a decisions list")

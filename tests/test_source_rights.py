@@ -109,6 +109,21 @@ def test_malformed_ledger_and_records_fail_closed(tmp_path: Path) -> None:
         audit_sourced_artifacts(project)
 
 
+@pytest.mark.parametrize("schema_version", [None, "0.9.0", "2.0.0"])
+def test_unsupported_ledger_schema_requires_explicit_migration(
+    tmp_path: Path, schema_version: str | None
+) -> None:
+    project = tmp_path / "project"
+    (project / "data/fixtures").mkdir(parents=True)
+    ledger: dict[str, object] = {"decisions": []}
+    if schema_version is not None:
+        ledger["schema_version"] = schema_version
+    _write_ledger(project, json.dumps(ledger) + "\n")
+
+    with pytest.raises(ValueError, match="unsupported rights-ledger schema"):
+        audit_sourced_artifacts(project)
+
+
 def test_blank_lines_are_ignored(tmp_path: Path) -> None:
     project = tmp_path / "project"
     fixtures = project / "data/fixtures"

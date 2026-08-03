@@ -30,3 +30,10 @@ The audit implementation uses the Python standard library and is included in the
 source SBOM. The full harness also verifies dependency locks, immutable GitHub Action pins and
 deterministic SPDX generation. Those controls establish repository provenance; they do not
 replace permission records or an independent rights review.
+
+## Harness timing budget
+
+The independently collected unit taxonomy has a 120-second ceiling; narrower taxonomy lanes
+retain a 60-second ceiling. The unit ceiling covers the same broad repository suite that takes
+roughly 70–80 seconds in the primary harness on the reference macOS checkout, avoiding a gate
+that expires after tests complete while still bounding stalled subprocesses.
