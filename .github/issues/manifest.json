@@ -197,7 +197,7 @@
       "track_id": "T01"
     },
     {
-      "blocker": null,
+      "blocker": "Contract operations and recovery invariants are fixture-verified; a backup contract steward and an independent archive-recovery rehearsal against a tagged release remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T02 — Benchmark constitution, schemas and provenance\n**Specification:** [`conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/spec.md`](../blob/main/conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/spec.md)\n**Plan:** [`conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/plan.md`](../blob/main/conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 0\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 18,
@@ -235,7 +235,7 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T02 — Benchmark constitution, schemas and provenance\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/plan.md`](../blob/main/conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T02 — Benchmark constitution, schemas and provenance\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/plan.md`](../blob/main/conductor/tracks/t02-benchmark-constitution-schemas-and-provenance/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nContract operations and recovery invariants are fixture-verified; a backup contract steward and an independent archive-recovery rehearsal against a tagged release remain outstanding.\n",
           "issue_number": 17,
           "phase": "P3",
           "status": "partial",

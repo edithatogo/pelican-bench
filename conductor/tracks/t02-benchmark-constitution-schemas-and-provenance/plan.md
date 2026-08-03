@@ -35,5 +35,5 @@
 
 - [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
 - [x] Task: Complete bridge, migration and deprecation policy.
-- [ ] Task: Validate operational ownership, incident response and archival.
-- [ ] Task: Phase verification and stable-release checkpoint.
+- [x] Task: Validate operational ownership, incident response and archival. Evidence: `benchmark/evidence/snapshots/contract-operations.json`, `docs/contract-operations-runbook.md`, `tests/contract/test_contract_operations.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `3782500`.
+- [ ] Task: Phase verification and stable-release checkpoint. Blocked on appointment of a backup contract steward and an independently executed archive-recovery rehearsal against a tagged release.

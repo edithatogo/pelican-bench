@@ -1,0 +1,36 @@
+{
+  "archive": {
+    "immutable_records": [
+      "released schemas",
+      "release manifests",
+      "verification receipts",
+      "migration and bridge evidence"
+    ],
+    "retention": "permanent",
+    "silent_recalculation_permitted": false
+  },
+  "incident": {
+    "breaking_change_actions": [
+      "freeze-release",
+      "preserve-affected-bytes-and-receipts",
+      "classify-score-compatibility",
+      "restore-last-known-good-contract",
+      "add-regression-fixture",
+      "publish-migration-and-correction-notice"
+    ],
+    "critical_classes": [
+      "accepted-invalid-contract",
+      "rejected-valid-contract",
+      "provenance-mismatch",
+      "silent-score-reinterpretation"
+    ],
+    "severity": "P0-critical"
+  },
+  "ownership": {
+    "accountable_role": "benchmark-steward",
+    "archive_custodian": "benchmark-steward",
+    "backup_role": null,
+    "release_authority": "benchmark-steward"
+  },
+  "schema_version": "1.0.0"
+}
