@@ -54,11 +54,12 @@ def _criterion_record(value: object, *, blocker_id: str, index: int) -> dict[str
         }
     if not isinstance(value, dict):
         raise TypeError(f"{blocker_id} closure criterion {index} must be text or an object")
+    raw = cast(dict[str, Any], value)
     return {
-        "id": str(value.get("id", f"{blocker_id}-C{index}")),
-        "text": str(value["text"]),
-        "status": str(value.get("status", "planned")),
-        "evidence": list(map(str, value.get("evidence", []))),
+        "id": str(raw.get("id", f"{blocker_id}-C{index}")),
+        "text": str(raw["text"]),
+        "status": str(raw.get("status", "planned")),
+        "evidence": list(map(str, cast(list[Any], raw.get("evidence", [])))),
     }
 
 
@@ -73,9 +74,9 @@ def _blocker_body(blocker: dict[str, Any]) -> str:
         for item in criteria
     )
     evidence_lines = "\n".join(f"- `{path}`" for path in blocker.get("evidence", []))
-    criterion_evidence = []
+    criterion_evidence: list[str] = []
     for item in criteria:
-        for path in item["evidence"]:
+        for path in cast(list[str], item["evidence"]):
             criterion_evidence.append(f"- **{item['id']}:** `{path}`")
     criterion_section = "\n".join(criterion_evidence) or "- No criterion-specific evidence yet."
     return (
@@ -146,7 +147,7 @@ def build_issue_manifest(
         _existing_numbers(manifest_path) if preserve_numbers else ({}, {})
     )
     packages_path = project / "conductor/work-packages.json"
-    package_source = _read_object(packages_path) if packages_path.exists() else {"packages": []}
+    package_source: dict[str, Any] = _read_object(packages_path) if packages_path.exists() else {"packages": []}
     package_records = cast(list[dict[str, Any]], package_source.get("packages", []))
     tracks: list[dict[str, Any]] = []
     package_count = 0

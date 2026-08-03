@@ -120,7 +120,8 @@ def _json_boolean_check(
     if not path.exists():
         return VerificationCheck(name=name, result="skip", reason=missing_reason)
     value = read_json(path)
-    passed = bool(value.get(field)) if isinstance(value, dict) else False
+    passed = bool(value.get(field)) if isinstance(value, dict) else False  # type: ignore[no-untyped-call,union-attr]
+
     return VerificationCheck(
         name=name,
         result="pass" if passed else "fail",
@@ -271,4 +272,5 @@ def validate_repository_verification_receipt(
         else receipt
     )
     schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
-    Draft202012Validator(schema, format_checker=None).validate(value)
+    Draft202012Validator(schema, format_checker=None).validate(value)  # type: ignore[no-untyped-call,unknown-member-type]
+
