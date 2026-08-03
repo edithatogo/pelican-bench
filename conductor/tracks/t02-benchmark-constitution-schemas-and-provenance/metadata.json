@@ -1,5 +1,5 @@
 {
-  "blocker": null,
+  "blocker": "Contract operations and recovery invariants are fixture-verified; a backup contract steward and an independent archive-recovery rehearsal against a tagged release remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/models.py",
@@ -14,7 +14,10 @@
     "benchmark/schemas/repository-verification-receipt.schema.json",
     "benchmark/schemas/release-package-receipt.schema.json",
     "tests/test_ecosystem_publication_verification.py",
-    "tests/test_release_packaging.py"
+    "tests/test_release_packaging.py",
+    "benchmark/evidence/snapshots/contract-operations.json",
+    "docs/contract-operations-runbook.md",
+    "tests/contract/test_contract_operations.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -35,9 +38,9 @@
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t02-benchmark-constitution-schemas-and-provenance",
-  "status": "validated",
+  "status": "in_progress",
   "title": "Benchmark constitution, schemas and provenance",
   "track_id": "T02",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-03T13:32:36Z"
 }
