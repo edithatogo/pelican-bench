@@ -25,7 +25,7 @@
 - [x] Task: Add independent, adversarial or property-oriented validation.
 - [x] Task: Measure uncertainty, repeatability and known limitations.
 - [x] Task: Reproduce through the project harness and update evidence.
-- [x] Task: Phase verification and validated checkpoint. Evidence: `docs/history-and-prior-art.md`, `data/sources/source-registry.json`, `data/sources/rights-ledger.json`, `tests/integration/test_simon_corpus.py`.
+- [x] Task: Phase verification and validated checkpoint. Evidence: `docs/history-and-prior-art.md`, `data/sources/source-registry.json`, `data/sources/rights-ledger.json`, `tests/integration/test_simon_corpus.py`, `src/pelicanbench/source_rights.py`, `tests/test_source_rights.py`, `scripts/check_rights.py`.
 
 
 ## P3 Hardened

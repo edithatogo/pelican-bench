@@ -4,7 +4,10 @@
   "evidence": [
     "docs/history-and-prior-art.md",
     "data/sources/source-registry.json",
-    "data/sources/rights-ledger.json"
+    "data/sources/rights-ledger.json",
+    "src/pelicanbench/source_rights.py",
+    "tests/test_source_rights.py",
+    "scripts/check_rights.py"
   ],
   "evidence_definition": "implemented",
   "evidence_level": "E1",
@@ -29,5 +32,5 @@
   "title": "History, prior art, source registry and rights",
   "track_id": "T01",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-03T00:00:00Z"
 }
