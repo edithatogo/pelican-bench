@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/edithatogo/pelican-bench/security/advisories/new
+    about: Report vulnerabilities privately instead of opening a public issue.
+  - name: Research governance or rights question
+    url: https://github.com/edithatogo/pelican-bench/discussions
+    about: Raise non-implementation governance, participation or rights questions for accountable review.

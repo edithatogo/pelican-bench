@@ -14,6 +14,8 @@ PelicanBench is maintained as a single-developer research repository, but eviden
 
 Local green is necessary but does not imply hosted CI, rights clearance, participant approval, independent reproduction or E3/E4 maturity. Keep those gates explicit in the relevant Conductor records.
 
+GitHub repository conventions are kept in `.github/CODEOWNERS`, the issue templates and the pull-request template. Renovate is the sole dependency-update authority; do not add a second bot configuration.
+
 Scorer changes require before/after results on the public regression set and a declaration of whether scores remain comparable. Security reports should follow `SECURITY.md` rather than public issues.
 
 Never include sealed tasks, credentials or rights-restricted source media in a pull request. Use the issue and pull-request templates as a compact release checklist; do not bypass a failing gate by lowering thresholds or deleting evidence.
