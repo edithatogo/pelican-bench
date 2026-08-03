@@ -1,9 +1,10 @@
 """Rights-aware ingestion of Simon Willison's pelican-tag Atom feed.
 
-The default mode exports bibliographic metadata and content fixity only. Raw post text is
-never written unless the caller supplies a rights status that explicitly permits content
-redistribution. Derived NLP analysis is separately gated because public availability does
-not by itself grant either redistribution or benchmark-training rights.
+The default mode exports bibliographic metadata and content fixity only, including
+per-entry author attribution. Raw post text is never written unless the caller supplies
+a rights status that explicitly permits content redistribution. Derived NLP analysis is
+separately gated because public availability does not by itself grant either
+redistribution or benchmark-training rights.
 """
 
 from __future__ import annotations
@@ -62,6 +63,7 @@ class SimonAtomEntry:
     record_id: str
     entry_id: str
     title: str
+    author: str | None
     url: str
     published_at: str | None
     updated_at: str | None
@@ -142,6 +144,12 @@ def parse_simon_atom(
     for index, element in enumerate(root.findall(f"{ATOM_NAMESPACE}entry"), 1):
         entry_id = _element_text(element.find(f"{ATOM_NAMESPACE}id")).strip()
         title = html.unescape(_plain_text(_element_text(element.find(f"{ATOM_NAMESPACE}title"))))
+        author_element = element.find(f"{ATOM_NAMESPACE}author")
+        author = (
+            _element_text(author_element.find(f"{ATOM_NAMESPACE}name")).strip() or None
+            if author_element is not None
+            else None
+        )
         entry_url = ""
         for link in element.findall(f"{ATOM_NAMESPACE}link"):
             if link.attrib.get("rel", "alternate") == "alternate" and link.attrib.get("href"):
@@ -174,6 +182,7 @@ def parse_simon_atom(
                 record_id=f"simon:{record_digest}",
                 entry_id=entry_id,
                 title=title,
+                author=author,
                 url=entry_url,
                 published_at=published,
                 updated_at=updated,
