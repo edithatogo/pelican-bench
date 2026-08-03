@@ -17,6 +17,12 @@
       "decision": "redistributable",
       "rationale": "Created for PelicanBench tests.",
       "source_id": "fixture-original"
+    },
+    {
+      "artifact_class": "derived prompt panel",
+      "decision": "derived-analysis-permitted",
+      "rationale": "Project-original 48-prompt panel reproducing the design of Dylan Castillo's 1,008-generation study; no study content is redistributed.",
+      "source_id": "castillo-2026-pelicanmaxxing"
     }
   ],
   "schema_version": "1.0.0"
