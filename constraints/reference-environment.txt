@@ -13,7 +13,7 @@ cairosvg==2.8.2
 certifi==2026.5.20
 cffi==2.0.0
 click==8.1.8
-coverage==7.13.3
+coverage==7.15.2
 cssselect2==0.9.0
 defusedxml==0.7.1
 fastapi==0.128.2
