@@ -25,12 +25,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "blocked",
+    "P2": "complete",
     "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t11-hugging-face-execution-and-publication",
-  "status": "prototype",
+  "status": "validated",
   "title": "Hugging Face execution and publication",
   "track_id": "T11",
   "type": "programme",
