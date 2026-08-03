@@ -8,7 +8,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | T01 | History, prior art, source registry and rights | complete | complete | complete | planned | E1 | No declared cross-phase constraint. |
 | T02 | Benchmark constitution, schemas and provenance | complete | complete | complete | partial | E2 | No declared cross-phase constraint. |
 | T03 | Animal, mobile-object and interface ontologies | complete | complete | partial | planned | E2 | Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding. |
-| T04 | Simon corpus NLP, NER and idea coverage | complete | complete | blocked | planned | E2 | Rights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work. |
+| T04 | Simon corpus NLP, NER and idea coverage | complete | complete | complete | planned | E2 | No declared cross-phase constraint. |
 | T05 | Longitudinal image and SVG quantification | complete | complete | blocked | planned | E1 | Longitudinal methods run on synthetic fixtures; the rights-cleared historical artifact timeline remains outstanding. |
 | T06 | Deterministic SVG integrity and structural scoring | complete | complete | partial | planned | E2 | The source-label exploit and renderer bridge are fixture-verified; empirical human calibration and an independent scorer challenge remain outstanding. |
 | T07 | Semantic judges and human calibration | complete | complete | partial | planned | E2 | Source-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding. |
@@ -31,7 +31,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 
 - Tracks: 22.
 - Phases: 88.
-- Phase states: blocked 4, complete 47, partial 16, planned 21.
+- Phase states: blocked 3, complete 48, partial 16, planned 21.
 - Track evidence: E1 5, E2 17.
 - Planned GitHub work items: 22 parent tracks + 88 phase issues + 5 release blockers = 115.
 

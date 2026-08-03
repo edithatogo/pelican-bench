@@ -1,5 +1,5 @@
 {
-  "blocker": "Rights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.",
+  "blocker": null,
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/corpus.py",
@@ -29,7 +29,7 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "blocked",
+    "P2": "complete",
     "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",

@@ -299,7 +299,7 @@
       "track_id": "T03"
     },
     {
-      "blocker": "Rights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.",
+      "blocker": null,
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Specification:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/spec.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/spec.md)\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 0\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 30,
@@ -308,7 +308,7 @@
       "phase_status": {
         "P0": "complete",
         "P1": "complete",
-        "P2": "blocked",
+        "P2": "complete",
         "P3": "planned"
       },
       "phases": [
@@ -329,15 +329,15 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nRights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P2\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": 27,
           "phase": "P2",
-          "status": "blocked",
+          "status": "complete",
           "title": "[T04/P2] Validated: Simon corpus NLP, NER and idea coverage",
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nRights-aware Atom ingestion and the exact 48-prompt empirical NLP bridge are E2 fixture-verified; the complete Simon Willison corpus, manual gold annotation and empirical NER validation remain blocked by rights and study work.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": 29,
           "phase": "P3",
           "status": "planned",
