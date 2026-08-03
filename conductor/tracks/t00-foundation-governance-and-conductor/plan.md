@@ -29,9 +29,9 @@
 
 ## P3 Hardened
 
-**Phase state:** `partial`
+**Phase state:** `complete`
 
 - [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
 - [x] Task: Complete bridge, migration and deprecation policy.
-- [ ] Task: Validate operational ownership, incident response and archival.
-- [ ] Task: Phase verification and stable-release checkpoint.
+- [x] Task: Validate operational ownership, incident response and archival. Evidence: `docs/operational-procedures.md`.
+- [x] Task: Phase verification and stable-release checkpoint. Evidence: `conductor/index.md`, `.agents/plugins/conductor`, `GOVERNANCE.md`, `docs/operational-procedures.md`.
