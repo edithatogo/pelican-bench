@@ -155,6 +155,8 @@ def run_campaign(root: Path) -> tuple[MutantResult, ...]:
                     "pytest",
                     "-q",
                     str(temporary_test),
+                    "--rootdir",
+                    str(temporary_root),
                     "-k",
                     mutant.test_name,
                     "-o",
