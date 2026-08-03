@@ -54,9 +54,13 @@ class SourceRightsReport:
     artifact_count: int = 0
 
 
-def _bounded_text(path: Path, *, max_bytes: int, label: str) -> str:
-    if path.is_symlink():
-        raise ValueError(f"{label} must not be a symbolic link: {path}")
+def _bounded_text(root: Path, path: Path, *, max_bytes: int, label: str) -> str:
+    relative = path.relative_to(root)
+    current = root
+    for component in relative.parts:
+        current /= component
+        if current.is_symlink():
+            raise ValueError(f"{label} must not contain a symbolic link: {current}")
     size = path.stat().st_size
     if size > max_bytes:
         raise ValueError(f"{label} exceeds byte limit ({size} > {max_bytes})")
@@ -66,7 +70,7 @@ def _bounded_text(path: Path, *, max_bytes: int, label: str) -> str:
 def _ledger_source_ids(project: Path, policy: RightsAuditPolicy) -> set[str]:
     ledger_path = project / RIGHTS_LEDGER_PATH
     ledger: dict[str, object] = json.loads(
-        _bounded_text(ledger_path, max_bytes=policy.max_ledger_bytes, label="ledger")
+        _bounded_text(project, ledger_path, max_bytes=policy.max_ledger_bytes, label="ledger")
     )
     schema_version = ledger.get("schema_version")
     if schema_version != RIGHTS_LEDGER_SCHEMA_VERSION:
@@ -107,6 +111,7 @@ def audit_sourced_artifacts(
     for path in _data_artifacts(root):
         relative = path.relative_to(root).as_posix()
         content = _bounded_text(
+            root,
             path,
             max_bytes=selected_policy.max_artifact_bytes,
             label=f"artifact {relative}",

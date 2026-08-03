@@ -81,6 +81,23 @@ def test_rights_audit_rejects_record_count_exhaustion_and_symlinks(tmp_path: Pat
 
 
 @pytest.mark.edge
+def test_rights_audit_rejects_symlinked_source_directory(tmp_path: Path) -> None:
+    project = _project(tmp_path)
+    fixtures = project / "data/fixtures"
+    fixtures.rmdir()
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "records.jsonl").write_text(
+        '{"source_id":"fixture-a","rights_status":"project-original"}\n',
+        encoding="utf-8",
+    )
+    fixtures.symlink_to(outside, target_is_directory=True)
+
+    with pytest.raises(ValueError, match="symbolic link"):
+        audit_sourced_artifacts(project)
+
+
+@pytest.mark.edge
 @pytest.mark.parametrize(
     "field",
     ("max_ledger_bytes", "max_artifact_bytes", "max_record_bytes", "max_records"),
