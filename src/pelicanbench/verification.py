@@ -12,7 +12,7 @@ import json
 import subprocess  # nosec B404
 import xml.etree.ElementTree as ET  # nosec B405
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal, cast
 
 from jsonschema import Draft202012Validator
 from pydantic import BaseModel, ConfigDict, Field
@@ -119,8 +119,12 @@ def _json_boolean_check(
 ) -> VerificationCheck:
     if not path.exists():
         return VerificationCheck(name=name, result="skip", reason=missing_reason)
-    value = read_json(path)
-    passed = bool(value.get(field)) if isinstance(value, dict) else False
+    raw_data = read_json(path)
+    if isinstance(raw_data, dict):
+        raw_dict: dict[str, Any] = cast("dict[str, Any]", raw_data)
+        passed = bool(raw_dict.get(field))
+    else:
+        passed = False
     return VerificationCheck(
         name=name,
         result="pass" if passed else "fail",
@@ -270,5 +274,5 @@ def validate_repository_verification_receipt(
         if isinstance(receipt, RepositoryVerificationReceipt)
         else receipt
     )
-    schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
-    Draft202012Validator(schema, format_checker=None).validate(value)
+    schema = cast("dict[str, Any]", json.loads(Path(schema_path).read_text(encoding="utf-8")))
+    Draft202012Validator(schema, format_checker=None).validate(value)  # pyright: ignore[reportUnknownMemberType]
