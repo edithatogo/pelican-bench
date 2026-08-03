@@ -28,6 +28,11 @@ def test_generated_conductor_views_and_issue_graph_are_current(root: Path):
     assert len(actual["tracks"]) == 22
     assert sum(len(item["phases"]) for item in actual["tracks"]) == 88
     assert len(actual["release_blockers"]) == 5
+    archived = next(item for item in actual["tracks"] if item["track_id"] == "T00")
+    assert archived["path"] == "conductor/archive/t00-foundation-governance-and-conductor"
+    registry = (root / "conductor/tracks.md").read_text(encoding="utf-8")
+    assert "- [x] **T00:" in registry
+    assert "(archive/t00-foundation-governance-and-conductor/index.md)" in registry
 
 
 def test_release_manifest_records_assurance_work_graph_and_artifacts(root: Path, tmp_path: Path):

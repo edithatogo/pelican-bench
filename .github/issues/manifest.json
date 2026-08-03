@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-08-01T00:00:00Z",
-  "hierarchy": "21 parent track issues with 84 native phase sub-issues, 20 nested work-package issues, plus 5 cross-track release blockers",
+  "hierarchy": "22 parent track issues with 88 native phase sub-issues, 22 nested work-package issues, plus 5 cross-track release blockers",
   "release_blockers": [
     {
       "body": "## Cross-track release blocker\n\n**Blocker:** RB-01 — Measurement validity\n**State:** `partial`\n**Evidence level:** `E2`\n**Linked tracks:** T06, T07, T17\n\nPrevent source metadata, invisible geometry and implementation choices from masquerading as rendered semantic quality.\n\n## Closure criteria\n\n- [x] **RB-01-C1** All semantic dimensions are derived from the canonical render or blinded human assessment. (`complete`)\n- [x] **RB-01-C2** The normative metamorphic suite passes, and the canonical fixture has no material CairoSVG-to-Inkscape rendering difference. (`complete`)\n- [ ] **RB-01-C3** Automatic semantic dimensions are calibrated against blinded human judgements. (`planned`)\n- [ ] **RB-01-C4** An independent scorer challenge finds no known critical exploit. (`planned`)\n\n## Current evidence\n\n- `benchmark/fixtures/adversarial/semantic-label-injection.svg`\n- `benchmark/fixtures/adversarial/visible-judge-prompt-injection.svg`\n- `benchmark/judges/firewall-policy.json`\n- `src/pelicanbench/judge_firewall.py`\n- `src/pelicanbench/metamorphic.py`\n- `src/pelicanbench/render.py`\n- `src/pelicanbench/render_bridge.py`\n- `src/pelicanbench/scoring.py`\n- `src/pelicanbench/semantic.py`\n- `tests/test_assurance_render_bridge.py`\n- `tests/test_judge_firewall.py`\n- `tests/test_metamorphic.py`\n- `tests/test_svg_scoring.py`\n\n## Criterion evidence\n\n- **RB-01-C1:** `src/pelicanbench/judge_firewall.py`\n- **RB-01-C1:** `src/pelicanbench/scoring.py`\n- **RB-01-C1:** `src/pelicanbench/semantic.py`\n- **RB-01-C1:** `tests/test_judge_firewall.py`\n- **RB-01-C1:** `tests/test_svg_scoring.py`\n- **RB-01-C2:** `src/pelicanbench/metamorphic.py`\n- **RB-01-C2:** `src/pelicanbench/render_bridge.py`\n- **RB-01-C2:** `tests/test_metamorphic.py`\n- **RB-01-C2:** `tests/test_assurance_render_bridge.py`\n- **RB-01-C3:** `docs/human-evaluation-protocol.md`\n- **RB-01-C3:** `src/pelicanbench/calibration.py`\n- **RB-01-C4:** `docs/scorer-challenge.md`\n\nThis issue is managed from `conductor/release-blockers.json`.\n",
@@ -74,6 +74,77 @@
   "repository": "edithatogo/pelican-bench",
   "schema_version": "1.3.0",
   "tracks": [
+    {
+      "blocker": "Local Conductor, evidence governance, first-party ecosystem contracts, and operational procedures are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.",
+      "evidence_level": "E2",
+      "parent_body": "## Conductor track\n\n**Track:** T00 — Foundation, governance and Conductor\n**Specification:** [`conductor/archive/t00-foundation-governance-and-conductor/spec.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/spec.md)\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 2\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
+      "parent_issue": null,
+      "parent_title": "[T00] Foundation, governance and Conductor",
+      "path": "conductor/archive/t00-foundation-governance-and-conductor",
+      "phase_status": {
+        "P0": "complete",
+        "P1": "complete",
+        "P2": "complete",
+        "P3": "complete"
+      },
+      "phases": [
+        {
+          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P0\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "issue_number": null,
+          "phase": "P0",
+          "status": "complete",
+          "title": "[T00/P0] Contract: Foundation, governance and Conductor",
+          "work_packages": []
+        },
+        {
+          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P1\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "issue_number": null,
+          "phase": "P1",
+          "status": "complete",
+          "title": "[T00/P1] Prototype: Foundation, governance and Conductor",
+          "work_packages": []
+        },
+        {
+          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P2\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "issue_number": null,
+          "phase": "P2",
+          "status": "complete",
+          "title": "[T00/P2] Validated: Foundation, governance and Conductor",
+          "work_packages": [
+            {
+              "body": "## Conductor work package\n\n**Package:** T00-P2-W01 — Generate and synchronize nested evidence work packages\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P2\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n\nGenerate the deterministic three-level work graph.\n\n## Acceptance criteria\n\n- [x] The manifest contains track, phase and work-package hierarchy.\n\n## Evidence\n\n- `src/pelicanbench/workgraph.py`\n- `tests/integration/test_issue_workgraph_sync.py`\n\n## Current constraint\n\nNo package-specific blocker declared.\n\nThis issue is generated from the track's `metadata.json`.\n",
+              "evidence_level": "E2",
+              "id": "T00-P2-W01",
+              "issue_number": null,
+              "phase": "P2",
+              "status": "complete",
+              "title": "[T00-P2-W01] Generate and synchronize nested evidence work packages"
+            }
+          ]
+        },
+        {
+          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P3\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "issue_number": null,
+          "phase": "P3",
+          "status": "complete",
+          "title": "[T00/P3] Hardened: Foundation, governance and Conductor",
+          "work_packages": [
+            {
+              "body": "## Conductor work package\n\n**Package:** T00-P3-W01 — Synchronize the authoritative graph to GitHub\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P3\n**State:** `blocked`\n**Evidence level:** `E2`\n**Plan:** [`conductor/archive/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/archive/t00-foundation-governance-and-conductor/plan.md)\n\nApply the generated graph idempotently.\n\n## Acceptance criteria\n\n- [ ] All generated issues exist remotely.\n\n## Evidence\n\n- `scripts/sync_github_issues.py`\n\n## Current constraint\n\nRequires authenticated GitHub and Projects access.\n\nThis issue is generated from the track's `metadata.json`.\n",
+              "evidence_level": "E2",
+              "id": "T00-P3-W01",
+              "issue_number": null,
+              "phase": "P3",
+              "status": "blocked",
+              "title": "[T00-P3-W01] Synchronize the authoritative graph to GitHub"
+            }
+          ]
+        }
+      ],
+      "summary": "Establish the repository constitution, Conductor lifecycle, decision records, Git/Entire provenance and single-developer operating model.",
+      "title": "Foundation, governance and Conductor",
+      "track_id": "T00"
+    },
     {
       "blocker": null,
       "evidence_level": "E1",

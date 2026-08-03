@@ -16,6 +16,16 @@ PHASE_NAMES = {
 }
 
 
+def track_metadata_paths(project: Path) -> list[Path]:
+    """Return active and archived Conductor track metadata in stable order."""
+
+    paths = [
+        *(project / "conductor/tracks").glob("*/metadata.json"),
+        *(project / "conductor/archive").glob("*/metadata.json"),
+    ]
+    return sorted(paths, key=lambda path: path.parent.name)
+
+
 def _read_object(path: Path) -> dict[str, Any]:
     value = cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
     return value
@@ -153,7 +163,7 @@ def build_issue_manifest(
     package_records = cast(list[dict[str, Any]], package_source.get("packages", []))
     tracks: list[dict[str, Any]] = []
     package_count = 0
-    for metadata_path in sorted((project / "conductor/tracks").glob("*/metadata.json")):
+    for metadata_path in track_metadata_paths(project):
         metadata = _read_object(metadata_path)
         track_id = str(metadata["track_id"])
         title = str(metadata["title"])

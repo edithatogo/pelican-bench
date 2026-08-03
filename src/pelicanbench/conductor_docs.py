@@ -7,6 +7,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from .workgraph import track_metadata_paths
+
 PHASES = ("P0", "P1", "P2", "P3")
 PHASE_NAMES = {
     "P0": "Contract",
@@ -23,12 +25,9 @@ def _read_object(path: Path) -> dict[str, Any]:
     return value
 
 
-def _tracks(project: Path) -> list[dict[str, Any]]:
-    records = [
-        _read_object(path)
-        for path in sorted((project / "conductor/tracks").glob("*/metadata.json"))
-    ]
-    return sorted(records, key=lambda item: str(item["track_id"]))
+def _tracks(project: Path) -> list[tuple[Path, dict[str, Any]]]:
+    records = [(path.parent, _read_object(path)) for path in track_metadata_paths(project)]
+    return sorted(records, key=lambda record: str(record[1]["track_id"]))
 
 
 def _blockers(project: Path) -> list[dict[str, Any]]:
@@ -58,14 +57,16 @@ def render_track_registry(project: str | Path) -> str:
         ),
         "",
     ]
-    for item in tracks:
-        slug = str(item["slug"])
+    for directory, item in tracks:
         track_id = str(item["track_id"])
         title = str(item["title"])
-        summary = _summary(root / "conductor/tracks" / slug)
+        summary = _summary(directory)
+        relative = directory.relative_to(root / "conductor").as_posix()
+        archived = directory.parent.name == "archive"
+        checkbox = "x" if archived else " "
         phases = ", ".join(f"{phase} {item['phase_status'][phase]}" for phase in PHASES)
         lines.append(
-            f"- [ ] **{track_id}: {title}** — [{summary}](tracks/{slug}/index.md) "
+            f"- [{checkbox}] **{track_id}: {title}** — [{summary}]({relative}/index.md) "
             f"`{item.get('evidence_level', 'E0')}`; {phases}."
         )
     lines.extend(
@@ -100,7 +101,7 @@ def render_status(project: str | Path) -> str:
     blockers = _blockers(root)
     phase_counts: Counter[str] = Counter()
     evidence_counts: Counter[str] = Counter()
-    for item in tracks:
+    for _, item in tracks:
         phase_counts.update(map(str, item.get("phase_status", {}).values()))
         evidence_counts[str(item.get("evidence_level", "E0"))] += 1
 
@@ -116,7 +117,7 @@ def render_status(project: str | Path) -> str:
         "| Track | Capability | P0 | P1 | P2 | P3 | Evidence | Current constraint |",
         "|---|---|---:|---:|---:|---:|---:|---|",
     ]
-    for item in tracks:
+    for _, item in tracks:
         phase_status = item["phase_status"]
         constraint = str(item.get("blocker") or "No declared cross-phase constraint.")
         lines.append(
