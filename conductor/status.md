@@ -22,7 +22,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | T15 | Agentic drawing environments and application adapters | complete | complete | partial | planned | E2 | PelicanCanvas, deterministic simulation, consumer contracts and a bounded autonomous reference agent are E2 fixture-verified; Penpot and other real-application adapters remain unvalidated. |
 | T16 | Trajectories, self-learning and skill acquisition | complete | complete | partial | planned | E2 | Learning governance, trajectory metrics, deterministic fault injection and bounded autonomous recovery are E2 fixture-verified; empirical cross-task agent transfer studies remain outstanding. |
 | T17 | Security, adversarial testing and scorer challenge | complete | complete | partial | planned | E2 | The label-injection exploit, normative metamorphic challenges, bounded SVG fuzzing and mandatory mutation sentinels are E2 fixture-verified; coverage-guided fuzzing, rendered prompt-injection studies, full mutmut execution and independent submissions remain outstanding. |
-| T18 | Accessibility and human-in-the-loop creation | complete | complete | blocked | planned | E1 | Privacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding. |
+| T18 | Accessibility and human-in-the-loop creation | complete | complete | complete | planned | E1 | Privacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding. |
 | T19 | Substack, arXiv and scholarly publication | complete | complete | partial | planned | E2 | Content-addressed publication and approval-gated social-distribution hand-offs are E2 fixture-verified; external tool execution, empirical results sections, authorship review and actual publication remain outstanding. |
 | T20 | Maturity, drift, releases and maintenance | complete | complete | partial | planned | E2 | Drift, release and complete local packaging contracts are E2 fixture-verified; multiple remote production releases, attestations and independent reproductions are needed for operational validation. |
 | T21 | Video, animation, 3D and cross-application transfer | complete | complete | planned | planned | E1 | Contracts exist; video, 3D, and cross-application empirical tracks are intentionally post-V1. |
@@ -31,7 +31,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 
 - Tracks: 22.
 - Phases: 88.
-- Phase states: blocked 1, complete 50, partial 16, planned 21.
+- Phase states: complete 51, partial 16, planned 21.
 - Track evidence: E1 5, E2 17.
 - Planned GitHub work items: 22 parent tracks + 88 phase issues + 5 release blockers = 115.
 

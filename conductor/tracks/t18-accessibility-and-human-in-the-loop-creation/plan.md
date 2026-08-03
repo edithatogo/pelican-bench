@@ -20,12 +20,12 @@
 
 ## P2 Validated
 
-**Phase state:** `blocked`
+**Phase state:** `complete`
 
 - [x] Task: Add independent, adversarial or property-oriented validation.
-- [ ] Task: Measure uncertainty, repeatability and known limitations.
-- [ ] Task: Reproduce through the project harness and update evidence.
-- [ ] Task: Phase verification and validated checkpoint.
+- [x] Task: Measure uncertainty, repeatability and known limitations.
+- [x] Task: Reproduce through the project harness and update evidence.
+- [x] Task: Phase verification and validated checkpoint.
 
 **Current limitation:** No participant accessibility claim will be made before co-design, approval, recruitment, and evaluation.
 
