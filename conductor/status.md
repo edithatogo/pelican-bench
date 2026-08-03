@@ -15,7 +15,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | T08 | Dynamic animal and mobile-object task grammar | complete | complete | partial | planned | E2 | The 113-prompt, 81-scenario candidate and nine-task qualification canary are content-committed and E2 fixture-verified; empirical item difficulty and prospective multi-model execution remain outstanding. |
 | T09 | Statistics, uncertainty and Pelicanmaxxing | complete | complete | partial | planned | E2 | Cluster-aware estimators are fixture-tested; the prespecified prospective model and human data are not yet available. |
 | T10 | Reproducible runner and model adapters | complete | complete | partial | planned | E2 | Failure retention, model and judge qualification, deterministic 2,178-cell prospective planning, bounded retries, secret minimisation and research-object outputs are E2 fixture-verified; real provider behaviour and second-environment reproduction remain outstanding. |
-| T11 | Hugging Face execution and publication | complete | complete | blocked | planned | E2 | Hub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary. |
+| T11 | Hugging Face execution and publication | complete | complete | complete | planned | E2 | Hub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary. |
 | T12 | CI/CD, supply chain and Entire provenance | complete | complete | partial | planned | E2 | The dependency-resilient local harness, eleven-lane test taxonomy, greater-than-90-percent branch-aware coverage, mutation sentinels, Codecov, Renovate, Vale configuration, SBOM, release manifest and provenance contracts are E2 fixture-verified; remote CI, full third-party analyzers, attestations and Entire runtime evidence have not run. |
 | T13 | Public explorer and result explanation | complete | complete | partial | planned | E1 | Explorer prototypes exist; deployment and usability validation remain outstanding. |
 | T14 | Diagnosis, repair and edit locality | complete | complete | partial | planned | E2 | Declared edit-target scoring is fixture-tested; source-independent visual repair and preservation calibration remain outstanding. |
@@ -31,7 +31,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 
 - Tracks: 22.
 - Phases: 88.
-- Phase states: blocked 2, complete 49, partial 16, planned 21.
+- Phase states: blocked 1, complete 50, partial 16, planned 21.
 - Track evidence: E1 5, E2 17.
 - Planned GitHub work items: 22 parent tracks + 88 phase issues + 5 release blockers = 115.
 

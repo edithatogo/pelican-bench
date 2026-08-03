@@ -730,7 +730,7 @@
       "phase_status": {
         "P0": "complete",
         "P1": "complete",
-        "P2": "blocked",
+        "P2": "complete",
         "P3": "planned"
       },
       "phases": [
@@ -751,10 +751,10 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Nested work packages:** 2\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.\n",
+          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P2\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Nested work packages:** 2\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": 77,
           "phase": "P2",
-          "status": "blocked",
+          "status": "complete",
           "title": "[T11/P2] Validated: Hugging Face execution and publication",
           "work_packages": [
             {
