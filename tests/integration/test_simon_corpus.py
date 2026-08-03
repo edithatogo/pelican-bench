@@ -23,6 +23,9 @@ ATOM = """<?xml version="1.0" encoding="utf-8"?>
   <entry>
     <id>https://example.test/2026/first</id>
     <title>First &amp; best</title>
+    <author>
+      <name>Simon Willison</name>
+    </author>
     <link rel="alternate" href="https://example.test/2026/first" />
     <published>2026-01-01T00:00:00Z</published>
     <updated>2026-01-02T00:00:00Z</updated>
@@ -50,10 +53,13 @@ def test_metadata_only_parse_hashes_but_does_not_export_content() -> None:
     assert corpus.entry_count == 3
     assert not corpus.content_exported
     first = next(entry for entry in corpus.entries if entry.title == "First & best")
+    assert first.author == "Simon Willison"
     assert first.content_present
     assert first.content_sha256 is not None
     assert first.content_text is None
     assert first.categories == ("pelican", "svg")
+    second = next(entry for entry in corpus.entries if entry.title == "Second")
+    assert second.author is None
     assert feed_entry_urls(corpus) == (
         "https://example.test/2026/first",
         "https://example.test/2026/second",
@@ -94,6 +100,9 @@ def test_atom_validation_fallback_identifiers_and_deterministic_writes(tmp_path:
     receipt = json.loads(summary.read_text(encoding="utf-8"))
     assert len(rows) == 3
     assert any(row["entry_id"] == "entry-3" for row in rows)
+    assert next(row for row in rows if row["entry_id"] == "https://example.test/2026/first")[
+        "author"
+    ] == ("Simon Willison")
     assert receipt == corpus.summary()
 
 
@@ -103,6 +112,7 @@ def test_deduplication_accepts_identical_entries_and_rejects_conflicts() -> None
         record_id="record:1",
         entry_id="entry:1",
         title="A",
+        author=None,
         url="https://example.test/a",
         published_at=None,
         updated_at=None,
