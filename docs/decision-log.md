@@ -245,3 +245,16 @@ coverage. Report the raw branch percentage separately.
 
 **Rationale:** an arithmetic mean gives a small branch set the same weight as all executable
 lines and does not reproduce the authoritative coverage.py total.
+
+## D031 — Committed sourced and derived records are fail-closed on rights coverage
+
+**Options:** trust the source registry for third-party byte artifacts only; require a ledger
+decision for every committed sourced record; infer coverage from file presence alone.
+
+**Decision:** every JSONL record under `data/fixtures/` and `data/derived/` must resolve its
+`source_id` to a decision in `data/sources/rights-ledger.json` or declare a `project-original*`
+`rights_status` on the record itself; `scripts/check_rights.py` fails otherwise.
+
+**Rationale:** byte-artifact checks alone let new sourced records enter committed benchmark data
+without an explicit rights decision, so sourcing must fail closed at the record level to keep
+any redistributed material clearly cleared.
