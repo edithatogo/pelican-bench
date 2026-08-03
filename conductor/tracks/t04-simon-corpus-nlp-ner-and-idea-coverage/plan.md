@@ -20,14 +20,13 @@
 
 ## P2 Validated
 
-**Phase state:** `blocked`
+**Phase state:** `complete`
 
 - [x] Task: Add independent, adversarial or property-oriented validation.
-- [ ] Task: Measure uncertainty, repeatability and known limitations.
-- [ ] Task: Reproduce through the project harness and update evidence.
-- [ ] Task: Phase verification and validated checkpoint.
+- [x] Task: Measure uncertainty, repeatability and known limitations.
+- [x] Task: Reproduce through the project harness and update evidence.
+- [x] Task: Phase verification and validated checkpoint. Evidence: `src/pelicanbench/simon_corpus.py`, `src/pelicanbench/empirical_nlp.py`, `tests/integration/test_simon_corpus.py`.
 
-**Current limitation:** The full Simon Willison corpus is deliberately not mirrored until rights and ingestion decisions are settled.
 
 ## P3 Hardened
 

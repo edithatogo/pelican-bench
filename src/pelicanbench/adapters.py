@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from .io import content_hash, write_json
 from .models import BenchmarkTask
@@ -228,9 +228,12 @@ class OpenAICompatibleAdapter(ModelAdapter):
             return value
         if isinstance(value, list):
             parts: list[str] = []
-            for item in value:
-                if isinstance(item, dict) and isinstance(item.get("text"), str):
-                    parts.append(item["text"])
+            for item in value:  # pyright: ignore[reportUnknownVariableType]
+                if isinstance(item, dict):
+                    item_dict: dict[str, Any] = cast("dict[str, Any]", item)
+                    text = item_dict.get("text")
+                    if isinstance(text, str):
+                        parts.append(text)
             if parts:
                 return "".join(parts)
         raise RuntimeError("OpenAI-compatible response did not contain textual content")
@@ -283,27 +286,31 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 raise RuntimeError("invalid OpenAI-compatible streaming response") from exc
             if not isinstance(event, dict):
                 raise RuntimeError("invalid OpenAI-compatible streaming response")
+            event_dict: dict[str, Any] = cast("dict[str, Any]", event)
             event_count += 1
-            event_usage = event.get("usage")
+            event_usage = event_dict.get("usage")
             if isinstance(event_usage, dict):
-                usage = event_usage
-            choices = event.get("choices", [])
+                usage = cast("dict[str, Any]", event_usage)
+            choices = event_dict.get("choices", [])
             if not isinstance(choices, list) or not choices:
                 continue
-            choice = choices[0]
+            choice = choices[0]  # pyright: ignore[reportUnknownVariableType]
             if not isinstance(choice, dict):
                 continue
-            reason = choice.get("finish_reason")
+            choice_dict: dict[str, Any] = cast("dict[str, Any]", choice)
+            reason = choice_dict.get("finish_reason")
             if isinstance(reason, str):
                 finish_reason = reason
-            delta = choice.get("delta")
+            delta = choice_dict.get("delta")
             if isinstance(delta, dict):
-                content = delta.get("content")
+                delta_dict: dict[str, Any] = cast("dict[str, Any]", delta)
+                content = delta_dict.get("content")
                 if isinstance(content, str):
                     parts.append(content)
-            message = choice.get("message")
+            message = choice_dict.get("message")
             if isinstance(message, dict) and not parts:
-                content = message.get("content")
+                message_dict: dict[str, Any] = cast("dict[str, Any]", message)
+                content = message_dict.get("content")
                 if isinstance(content, str):
                     parts.append(content)
         if event_count == 0 or not parts:
@@ -347,16 +354,18 @@ class OpenAICompatibleAdapter(ModelAdapter):
         except urllib.error.URLError as exc:
             raise RuntimeError(f"OpenAI-compatible endpoint unavailable: {exc.reason}") from exc
         try:
-            value = self._stream_value(raw) if self.stream else json.loads(raw)
-            choice = value["choices"][0]
+            value = (
+                self._stream_value(raw) if self.stream else cast("dict[str, Any]", json.loads(raw))
+            )
+            choice = cast("dict[str, Any]", value["choices"][0])
             content = self._message_content(choice["message"]["content"])
         except RuntimeError:
             raise
         except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
             raise RuntimeError("invalid OpenAI-compatible response structure") from exc
         output = self._extract_svg(content)
-        usage = value.get("usage", {}) if isinstance(value, dict) else {}
-        finish_reason = choice.get("finish_reason") if isinstance(choice, dict) else None
+        usage = value.get("usage", {})
+        finish_reason = choice.get("finish_reason")
         return GenerationResult(
             task_id=task.task_id,
             output=output,
@@ -369,9 +378,7 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 "usage": usage if isinstance(usage, dict) else {},
                 "finish_reason": finish_reason,
                 "stream": self.stream,
-                "stream_event_count": (
-                    int(value.get("stream_event_count", 0)) if isinstance(value, dict) else 0
-                ),
+                "stream_event_count": int(value.get("stream_event_count", 0)),
                 "prompt_profile": {
                     "first_user_prefix": self.first_user_prefix,
                     "assistant_prefill": self.assistant_prefill,
