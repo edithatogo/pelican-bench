@@ -33,6 +33,6 @@
 **Phase state:** `partial`
 
 - [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets. Evidence: `docs/rights-audit-hardening.md`, `tests/edge/test_source_rights_limits.py`, `tests/property/test_source_rights_properties.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `b6fdc4a`.
-- [ ] Task: Complete bridge, migration and deprecation policy.
+- [x] Task: Complete bridge, migration and deprecation policy. Evidence: `docs/source-rights-lifecycle.md`, exact ledger schema enforcement in `src/pelicanbench/source_rights.py`, and migration fixtures in `tests/test_source_rights.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `6703bcd`.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.

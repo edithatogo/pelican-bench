@@ -6,6 +6,7 @@
     "data/sources/source-registry.json",
     "data/sources/rights-ledger.json",
     "docs/rights-audit-hardening.md",
+    "docs/source-rights-lifecycle.md",
     "src/pelicanbench/source_rights.py",
     "tests/edge/test_source_rights_limits.py",
     "tests/property/test_source_rights_properties.py",
@@ -35,5 +36,5 @@
   "title": "History, prior art, source registry and rights",
   "track_id": "T01",
   "type": "programme",
-  "updated_at": "2026-08-03T12:45:00Z"
+  "updated_at": "2026-08-03T13:10:34Z"
 }
