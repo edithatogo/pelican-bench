@@ -359,7 +359,7 @@
       "phase_status": {
         "P0": "complete",
         "P1": "complete",
-        "P2": "blocked",
+        "P2": "complete",
         "P3": "planned"
       },
       "phases": [
@@ -380,10 +380,10 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T05 — Longitudinal image and SVG quantification\n**Phase:** P2\n**State:** `blocked`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t05-longitudinal-image-and-svg-quantification/plan.md`](../blob/main/conductor/tracks/t05-longitudinal-image-and-svg-quantification/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLongitudinal methods run on synthetic fixtures; the rights-cleared historical artifact timeline remains outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T05 — Longitudinal image and SVG quantification\n**Phase:** P2\n**State:** `complete`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t05-longitudinal-image-and-svg-quantification/plan.md`](../blob/main/conductor/tracks/t05-longitudinal-image-and-svg-quantification/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": 34,
           "phase": "P2",
-          "status": "blocked",
+          "status": "complete",
           "title": "[T05/P2] Validated: Longitudinal image and SVG quantification",
           "work_packages": []
         },
