@@ -8,12 +8,13 @@ model panel and recover the alias assignment.
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import hmac
-import os
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 from .io import canonical_json, content_hash, read_json, read_jsonl, write_json, write_jsonl
 from .timeutil import utc_now_iso
@@ -173,8 +174,10 @@ def _valid_sha256(value: str) -> bool:
     if not value.startswith(_SHA256_PREFIX):
         return False
     digest = value.removeprefix(_SHA256_PREFIX)
-    return len(digest) == 64 and digest == digest.lower() and all(
-        character in "0123456789abcdef" for character in digest
+    return (
+        len(digest) == 64
+        and digest == digest.lower()
+        and all(character in "0123456789abcdef" for character in digest)
     )
 
 
@@ -183,12 +186,12 @@ def _key_commitment(key: bytes) -> str:
 
 
 def _hmac_commitment(key: bytes, *, purpose: str, payload: object) -> str:
-    message = f"pelicanbench:{purpose}:".encode("utf-8") + canonical_json(payload).encode("utf-8")
+    message = f"pelicanbench:{purpose}:".encode() + canonical_json(payload).encode("utf-8")
     return "hmac-sha256:" + hmac.new(key, message, hashlib.sha256).hexdigest()
 
 
 def _alias_digest(key: bytes, model_id: str, *, purpose: str, study_id: str) -> str:
-    message = f"pelicanbench:{study_id}:{purpose}:{model_id}".encode("utf-8")
+    message = f"pelicanbench:{study_id}:{purpose}:{model_id}".encode()
     return hmac.new(key, message, hashlib.sha256).hexdigest()
 
 
@@ -310,10 +313,14 @@ def verify_blinding_manifests(
 ) -> BlindingVerification:
     """Verify public/private consistency, optionally including keyed commitments."""
     public_value = (
-        public if isinstance(public, PublicBlindingManifest) else PublicBlindingManifest.from_mapping(public)
+        public
+        if isinstance(public, PublicBlindingManifest)
+        else PublicBlindingManifest.from_mapping(public)
     )
     private_value = (
-        private if isinstance(private, PrivateBlindingMap) else PrivateBlindingMap.from_mapping(private)
+        private
+        if isinstance(private, PrivateBlindingMap)
+        else PrivateBlindingMap.from_mapping(private)
     )
     model_ids = tuple(
         str(value)
@@ -343,7 +350,9 @@ def verify_blinding_manifests(
     key_verified: bool | None = None
     mapping_verified: bool | None = None
     if selected_key is not None:
-        key_verified = hmac.compare_digest(_key_commitment(selected_key), public_value.key_commitment)
+        key_verified = hmac.compare_digest(
+            _key_commitment(selected_key), public_value.key_commitment
+        )
         mapping_verified = hmac.compare_digest(
             _mapping_commitment(private_value.entries, selected_key),
             public_value.mapping_commitment,
@@ -545,10 +554,8 @@ def write_blinding_manifests(
         raise ValueError("public and private blinding manifests require different paths")
     write_json(public_path, public.as_dict())
     write_json(private_path, private.as_dict())
-    try:
-        os.chmod(private_path, 0o600)
-    except OSError:
-        pass
+    with contextlib.suppress(OSError):
+        Path(private_path).chmod(0o600)
 
 
 def load_public_blinding_manifest(path: str | Path) -> PublicBlindingManifest:

@@ -68,22 +68,16 @@ def test_pattern_source_semantic_import_invariants():
 
 def test_profile_namespace_and_uniqueness_invariants():
     with pytest.raises(ValidationError, match="require a registration target"):
-        OntologyInteroperabilityProfile.model_validate(
-            _profile(registration_target=None)
-        )
+        OntologyInteroperabilityProfile.model_validate(_profile(registration_target=None))
     with pytest.raises(ValidationError, match="require registration evidence"):
         OntologyInteroperabilityProfile.model_validate(
             _profile(namespace_status="published", registration_evidence=None)
         )
     with pytest.raises(ValidationError, match="representations must be unique"):
-        OntologyInteroperabilityProfile.model_validate(
-            _profile(representations=["json", "json"])
-        )
+        OntologyInteroperabilityProfile.model_validate(_profile(representations=["json", "json"]))
     duplicate = _source()
     with pytest.raises(ValidationError, match="identifiers must be unique"):
-        OntologyInteroperabilityProfile.model_validate(
-            _profile(sources=[duplicate, duplicate])
-        )
+        OntologyInteroperabilityProfile.model_validate(_profile(sources=[duplicate, duplicate]))
     published = OntologyInteroperabilityProfile.model_validate(
         _profile(namespace_status="published", registration_evidence="evidence.json")
     )
@@ -125,9 +119,7 @@ def test_interoperability_validation_reports_all_drift_classes(tmp_path: Path):
 def test_interoperability_validation_catches_malformed_profile(tmp_path: Path):
     root = _write_profile_root(tmp_path, _profile(registration_target=None))
     findings = _validate_ontology_interoperability(root)
-    assert [item.code for item in findings] == [
-        "invalid-ontology-interoperability-profile"
-    ]
+    assert [item.code for item in findings] == ["invalid-ontology-interoperability-profile"]
 
 
 def test_interoperability_validation_accepts_coherent_surfaces(tmp_path: Path):

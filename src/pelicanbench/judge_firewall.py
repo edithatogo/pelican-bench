@@ -9,9 +9,10 @@ than silently weakening this gate.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 import re
-from typing import Any, Literal, Mapping
+from collections.abc import Mapping
+from dataclasses import asdict, dataclass
+from typing import Any, Literal
 
 from .coercion import parse_bool
 from .io import content_hash
@@ -21,7 +22,10 @@ from .svg import SVGInspection
 Decision = Literal["eligible", "quarantined", "rejected"]
 
 _INSTRUCTION_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("ignore-instructions", re.compile(r"\bignore\b.{0,40}\b(?:instruction|prompt|system)\b", re.I | re.S)),
+    (
+        "ignore-instructions",
+        re.compile(r"\bignore\b.{0,40}\b(?:instruction|prompt|system)\b", re.I | re.S),
+    ),
     ("evaluator-direction", re.compile(r"\b(?:judge|evaluator|scorer|rating)\b", re.I)),
     (
         "answer-direction",

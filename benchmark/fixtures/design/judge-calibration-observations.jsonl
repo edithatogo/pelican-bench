@@ -1,0 +1,4 @@
+{"human_agreement":0.95,"judge_id":"fixture/judge-a","output_complete":true,"prompt_leakage":false,"schema_valid":true,"source_independent":true,"task_correct":true}
+{"human_agreement":0.9,"judge_id":"fixture/judge-a","output_complete":true,"prompt_leakage":false,"schema_valid":true,"source_independent":true,"task_correct":true}
+{"human_agreement":0.9,"judge_id":"fixture/judge-b","output_complete":true,"prompt_leakage":false,"schema_valid":true,"source_independent":true,"task_correct":true}
+{"human_agreement":0.85,"judge_id":"fixture/judge-b","output_complete":true,"prompt_leakage":false,"schema_valid":true,"source_independent":true,"task_correct":true}

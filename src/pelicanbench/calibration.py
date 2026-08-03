@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 import hashlib
 import random
 from collections import defaultdict
+from collections.abc import Iterable
+from dataclasses import asdict, dataclass
 from itertools import combinations
-from typing import Iterable
 
 
 @dataclass(frozen=True, slots=True)
@@ -200,9 +200,7 @@ def build_pairwise_calibration_tasks(
         for candidate in sorted(by_task[task_id], key=lambda item: item.artifact_id):
             by_model.setdefault(candidate.model_id, candidate)
         combinations_for_task = list(combinations(sorted(by_model), 2))
-        task_rng = random.Random(
-            seed ^ int(hashlib.sha256(task_id.encode()).hexdigest()[:16], 16)
-        )
+        task_rng = random.Random(seed ^ int(hashlib.sha256(task_id.encode()).hexdigest()[:16], 16))
         task_rng.shuffle(combinations_for_task)
         for model_a, model_b in combinations_for_task[:maximum_pairs_per_task]:
             left_model, right_model = model_a, model_b

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
 import json
-from pathlib import Path
 import time
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -24,7 +24,6 @@ from pelicanbench.campaign_worker import (
     read_campaign_execution_records,
     reconcile_campaign_execution_records,
 )
-from pelicanbench.io import content_hash
 from pelicanbench.taskgen import heritage_task
 
 
@@ -80,9 +79,7 @@ def _manifest(task_id: str, *, count: int = 2) -> CampaignManifest:
 
 
 @pytest.mark.integration
-def test_campaign_worker_executes_and_accounts_for_success(
-    tmp_path: Path, valid_svg: str
-) -> None:
+def test_campaign_worker_executes_and_accounts_for_success(tmp_path: Path, valid_svg: str) -> None:
     task = heritage_task()
     manifest = _manifest(task.task_id)
     database = tmp_path / "campaign.sqlite"
@@ -129,9 +126,7 @@ def test_campaign_worker_executes_and_accounts_for_success(
     )
     assert index.read_text(encoding="utf-8").count("\n") == 2
     assert len(read_campaign_execution_records(tmp_path / "runs")) == 2
-    reconciliation = reconcile_campaign_execution_records(
-        database, manifest, tmp_path / "runs"
-    )
+    reconciliation = reconcile_campaign_execution_records(database, manifest, tmp_path / "runs")
     assert reconciliation.valid
     assert reconciliation.matched_records == 2
 

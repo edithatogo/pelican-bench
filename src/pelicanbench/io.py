@@ -6,8 +6,9 @@ import hashlib
 import json
 import os
 import tempfile
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, cast
 
 
 def canonical_json(value: Any) -> str:
@@ -30,14 +31,14 @@ def file_hash(path: str | Path) -> str:
 
 
 def read_json(path: str | Path) -> Any:
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+    return cast(Any, json.loads(Path(path).read_text(encoding="utf-8")))
 
 
 def read_jsonl(path: str | Path) -> list[Any]:
     output: list[Any] = []
     for line in Path(path).read_text(encoding="utf-8").splitlines():
         if line.strip():
-            output.append(json.loads(line))
+            output.append(cast(Any, json.loads(line)))
     return output
 
 
@@ -51,10 +52,11 @@ def atomic_write_bytes(path: str | Path, payload: bytes) -> None:
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary_name, target)
+        Path(temporary_name).replace(target)
     finally:
-        if os.path.exists(temporary_name):
-            os.unlink(temporary_name)
+        temporary = Path(temporary_name)
+        if temporary.exists():
+            temporary.unlink()
 
 
 def atomic_write_text(path: str | Path, text: str) -> None:
@@ -67,10 +69,11 @@ def atomic_write_text(path: str | Path, text: str) -> None:
             handle.write(text)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary_name, target)
+        Path(temporary_name).replace(target)
     finally:
-        if os.path.exists(temporary_name):
-            os.unlink(temporary_name)
+        temporary = Path(temporary_name)
+        if temporary.exists():
+            temporary.unlink()
 
 
 def write_json(path: str | Path, value: Any, *, pretty: bool = True) -> Path:

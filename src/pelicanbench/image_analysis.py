@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import io
-from statistics import mean
 from typing import Any
 
 from .render import SVGRenderError, render_svg
@@ -72,5 +71,10 @@ def analyse_raster(image_bytes: bytes) -> dict[str, Any]:
             "aspect_ratio": rgb.width / max(1, rgb.height),
             "channel_means": tuple(round(value / 255, 6) for value in stat.mean),
             "channel_standard_deviations": tuple(round(value / 255, 6) for value in stat.stddev),
-            "dynamic_range": mean((high - low) / 255 for low, high in extrema),
+            "dynamic_range": sum(
+                (float(channel[1]) - float(channel[0])) / 255
+                for channel in extrema
+                if isinstance(channel, tuple)
+            )
+            / len(extrema),
         }

@@ -1,0 +1,32 @@
+{
+  "calibration_report": {
+    "judges": [
+      {
+        "empirical_gate_passed": true,
+        "judge_id": "fixture/judge-a",
+        "mean_human_agreement": 0.925,
+        "observations": 2,
+        "qualified": true,
+        "technical_gates_passed": true
+      },
+      {
+        "empirical_gate_passed": true,
+        "judge_id": "fixture/judge-b",
+        "mean_human_agreement": 0.875,
+        "observations": 2,
+        "qualified": true,
+        "technical_gates_passed": true
+      }
+    ],
+    "observation_count": 4,
+    "panel_empirically_qualified": true,
+    "panel_qualified": true,
+    "panel_technically_qualified": true,
+    "require_empirical": true,
+    "schema_version": "1.0.0"
+  },
+  "empirical_release_claim_permitted": false,
+  "evidence_context": "synthetic-fixture",
+  "evidence_level": "E2",
+  "schema_version": "1.0.0"
+}

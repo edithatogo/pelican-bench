@@ -14,13 +14,11 @@ from pelicanbench.trajectory import evaluate_trajectory, trajectory_utility
 def test_longitudinal_fixture(root: Path):
     observations = [
         HistoricalObservation.model_validate(item)
-        for item in read_jsonl(
-            root / "data/fixtures/historical-observations.jsonl"
-        )
+        for item in read_jsonl(root / "data/fixtures/historical-observations.jsonl")
     ]
     summary = timeline_summary(observations)
     assert summary["observations"] == 3
-    trends = {item.metric:item for item in metric_trends(observations)}
+    trends = {item.metric: item for item in metric_trends(observations)}
     assert trends["aggregate"].slope_per_observation > 0
     assert summary["first_observation"].startswith("2024")
 
@@ -38,11 +36,19 @@ def test_repair_score(root: Path, heritage):
 
 def test_trajectory_metrics():
     events = [
-        TrajectoryEvent(index=0,timestamp="t0",action={"type":"add"},state_hash="a",score=0.2),
-        TrajectoryEvent(index=1,timestamp="t1",action={"type":"update"},state_hash="b",score=0.5),
-        TrajectoryEvent(index=2,timestamp="t2",action={"type":"update"},state_hash="b",score=0.4),
-        TrajectoryEvent(index=3,timestamp="t3",action={"type":"update"},state_hash="c",score=0.6),
-        TrajectoryEvent(index=4,timestamp="t4",action={"type":"bad"},state_hash="c",error="failure"),
+        TrajectoryEvent(index=0, timestamp="t0", action={"type": "add"}, state_hash="a", score=0.2),
+        TrajectoryEvent(
+            index=1, timestamp="t1", action={"type": "update"}, state_hash="b", score=0.5
+        ),
+        TrajectoryEvent(
+            index=2, timestamp="t2", action={"type": "update"}, state_hash="b", score=0.4
+        ),
+        TrajectoryEvent(
+            index=3, timestamp="t3", action={"type": "update"}, state_hash="c", score=0.6
+        ),
+        TrajectoryEvent(
+            index=4, timestamp="t4", action={"type": "bad"}, state_hash="c", error="failure"
+        ),
     ]
     metrics = evaluate_trajectory(events)
     assert metrics.steps == 5
@@ -51,10 +57,10 @@ def test_trajectory_metrics():
     assert metrics.recoveries == 1
     assert metrics.repeated_state_fraction > 0
     assert metrics.error_rate == 0.2
-    assert trajectory_utility(metrics,cost=2) > 0
+    assert trajectory_utility(metrics, cost=2) > 0
 
 
 def test_empty_trajectory():
-    metrics=evaluate_trajectory([])
+    metrics = evaluate_trajectory([])
     assert metrics.final_score is None
-    assert trajectory_utility(metrics)==0
+    assert trajectory_utility(metrics) == 0

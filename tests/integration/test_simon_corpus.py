@@ -120,7 +120,7 @@ class _Response:
     def __init__(self, payload: bytes) -> None:
         self.payload = payload
 
-    def __enter__(self) -> "_Response":
+    def __enter__(self) -> _Response:
         return self
 
     def __exit__(self, *_args: object) -> None:
@@ -133,7 +133,9 @@ class _Response:
 def test_fetch_atom_has_positive_timeout_and_bounded_network_call() -> None:
     with pytest.raises(ValueError, match="must be positive"):
         fetch_atom(timeout_seconds=0)
-    with patch("pelicanbench.simon_corpus.urllib.request.urlopen", return_value=_Response(b"feed")) as call:
+    with patch(
+        "pelicanbench.simon_corpus.urllib.request.urlopen", return_value=_Response(b"feed")
+    ) as call:
         assert fetch_atom("https://example.test/feed.atom", timeout_seconds=4.5) == b"feed"
     request = call.call_args.args[0]
     assert request.full_url == "https://example.test/feed.atom"

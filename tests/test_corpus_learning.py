@@ -31,19 +31,19 @@ def test_empty_corpus_summary():
 
 
 def learning(**kwargs):
-    defaults = dict(
-        track="T16",
-        phase="P1",
-        observation="Repeated state did not improve score",
-        evidence=("run:1", "run:2"),
-        strategy="repeat action",
-        result="no gain",
-        proposed_heuristic="Stop after repeated state hash",
-        confidence=0.8,
-        scope="agentic runner",
-        review_trigger="two independent replications",
-        contamination_risk="low",
-    )
+    defaults = {
+        "track": "T16",
+        "phase": "P1",
+        "observation": "Repeated state did not improve score",
+        "evidence": ("run:1", "run:2"),
+        "strategy": "repeat action",
+        "result": "no gain",
+        "proposed_heuristic": "Stop after repeated state hash",
+        "confidence": 0.8,
+        "scope": "agentic runner",
+        "review_trigger": "two independent replications",
+        "contamination_risk": "low",
+    }
     defaults.update(kwargs)
     return LearningRecord(**defaults)
 

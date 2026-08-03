@@ -147,7 +147,11 @@ def test_judge_qualification_fails_closed_for_missing_or_duplicate_cells() -> No
         task_correct=True,
     )
     results = evaluate_judge_qualification(cells, [one], panel["qualification_gates"])
-    target = next(item for item in results if item.judge_id == cells[0].judge_id and item.role == cells[0].role)
+    target = next(
+        item
+        for item in results
+        if item.judge_id == cells[0].judge_id and item.role == cells[0].role
+    )
     assert not target.technical_gates_passed
     with pytest.raises(ValueError, match="unique cell identifiers"):
         evaluate_judge_qualification(cells, [one, one], panel["qualification_gates"])

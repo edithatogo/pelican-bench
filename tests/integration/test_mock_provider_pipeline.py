@@ -10,11 +10,11 @@ from pelicanbench.contracts import load_contract, verify_contract_payload
 from pelicanbench.mock_services import (
     MockHTTPResponse,
     ScriptedOpenAIService,
+    ScriptedVisualJudge,
     openai_stream_completion,
     openai_svg_completion,
 )
 from pelicanbench.runner import run_benchmark
-from pelicanbench.mock_services import ScriptedVisualJudge
 from pelicanbench.semantic import EnsembleSemanticAssessor
 
 pytestmark = pytest.mark.integration
@@ -70,7 +70,9 @@ def test_mock_provider_exercises_malformed_and_exhausted_response_failures(herit
             adapter.generate(heritage, seed=4)
 
 
-def test_full_runner_uses_mock_provider_and_mock_judge(root: Path, heritage, tmp_path: Path) -> None:
+def test_full_runner_uses_mock_provider_and_mock_judge(
+    root: Path, heritage, tmp_path: Path
+) -> None:
     svg = (root / "benchmark/fixtures/svg/pelican-bicycle-valid.svg").read_text(encoding="utf-8")
     with ScriptedOpenAIService([openai_svg_completion(svg)]) as service:
         adapter = OpenAICompatibleAdapter(

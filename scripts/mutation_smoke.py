@@ -81,8 +81,8 @@ MUTANTS = (
     Mutant(
         "M-CAMPAIGN-BYPASS-HARD-BUDGET",
         "campaign.py",
-        'if manifest.hard_budget is None:',
-        'if False and manifest.hard_budget is None:',
+        "if manifest.hard_budget is None:",
+        "if False and manifest.hard_budget is None:",
         "test_kills_campaign_hard_budget_bypass_mutant",
     ),
     Mutant(

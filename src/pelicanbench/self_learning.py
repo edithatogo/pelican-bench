@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from .io import content_hash, read_jsonl
 from .timeutil import utc_now_iso
@@ -76,7 +77,8 @@ def summarise_learning(records: Iterable[dict[str, Any]]) -> dict[str, Any]:
     return {
         "records": len(values),
         "by_status": {
-            status: sum(item.get("status") == status for item in values) for status in sorted(VALID_STATUSES)
+            status: sum(item.get("status") == status for item in values)
+            for status in sorted(VALID_STATUSES)
         },
         "high_contamination_risk": sum(item.get("contamination_risk") == "high" for item in values),
     }

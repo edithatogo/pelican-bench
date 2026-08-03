@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import math
 import random
+from collections.abc import Iterable
 from dataclasses import dataclass
-from statistics import mean, pvariance, pstdev
-from typing import Iterable
+from statistics import mean, pstdev, pvariance
 
 
 @dataclass(frozen=True, slots=True)
@@ -208,21 +208,21 @@ def hierarchical_shrink_interactions(
         return []
     variances = [max(item.standard_error**2, 1e-8) for item in values]
     fixed_weights = [1 / variance for variance in variances]
-    fixed_mean = sum(weight * item.interaction for weight, item in zip(fixed_weights, values)) / sum(
-        fixed_weights
-    )
+    fixed_mean = sum(
+        weight * item.interaction for weight, item in zip(fixed_weights, values, strict=False)
+    ) / sum(fixed_weights)
     q = sum(
         weight * (item.interaction - fixed_mean) ** 2
-        for weight, item in zip(fixed_weights, values)
+        for weight, item in zip(fixed_weights, values, strict=False)
     )
     c = sum(fixed_weights) - sum(weight**2 for weight in fixed_weights) / sum(fixed_weights)
     tau2 = max(0.0, (q - (len(values) - 1)) / c) if c > 0 and len(values) > 1 else 0.0
     random_weights = [1 / (variance + tau2) for variance in variances]
-    pooled = sum(weight * item.interaction for weight, item in zip(random_weights, values)) / sum(
-        random_weights
-    )
+    pooled = sum(
+        weight * item.interaction for weight, item in zip(random_weights, values, strict=False)
+    ) / sum(random_weights)
     output: list[ShrunkInteractionEstimate] = []
-    for item, variance in zip(values, variances):
+    for item, variance in zip(values, variances, strict=False):
         weight = tau2 / (tau2 + variance) if tau2 > 0 else 0.0
         shrunk = weight * item.interaction + (1 - weight) * pooled
         output.append(

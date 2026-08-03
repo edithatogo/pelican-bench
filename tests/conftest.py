@@ -31,6 +31,7 @@ def valid_svg(root: Path) -> str:
 def broken_svg(root: Path) -> str:
     return (root / "benchmark/fixtures/svg/pelican-bicycle-broken.svg").read_text(encoding="utf-8")
 
+
 CATEGORY_MARKERS = {
     "unit",
     "integration",

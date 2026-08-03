@@ -160,8 +160,7 @@ def evaluate_release_readiness(
                 title=str(blocker.get("title", blocker_id)),
                 status=status,
                 blocks_profile=(
-                    applies_to_profile
-                    and (status in OPEN_BLOCKER_STATES or bool(open_criteria))
+                    applies_to_profile and (status in OPEN_BLOCKER_STATES or bool(open_criteria))
                 ),
                 open_criteria=open_criteria,
                 missing_evidence=missing,

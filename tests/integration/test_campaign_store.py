@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
 from pathlib import Path
-import sqlite3
 
 import pytest
 
@@ -73,9 +73,9 @@ def test_transactional_store_leases_heartbeats_and_completes(tmp_path: Path) -> 
     )
     assert len(leases) == 2
     assert {item.model_id for item in leases} == {"model-a"}
-    assert campaign_store_status(
-        database, manifest, now="2026-08-03T00:00:10Z"
-    ).reserved_cost == 0.4
+    assert (
+        campaign_store_status(database, manifest, now="2026-08-03T00:00:10Z").reserved_cost == 0.4
+    )
 
     heartbeat = heartbeat_campaign_lease(
         database,
@@ -145,14 +145,13 @@ def test_expired_lease_is_reclaimed_and_cannot_complete(tmp_path: Path) -> None:
             reason="late-provider-timeout",
             now="2026-08-03T00:00:11Z",
         )
-    reclaimed = reclaim_expired_leases(
-        database, manifest, now="2026-08-03T00:00:11Z"
-    )
+    reclaimed = reclaim_expired_leases(database, manifest, now="2026-08-03T00:00:11Z")
     assert len(reclaimed) == 1
     assert reclaimed[0].new_state == "ready"
-    assert campaign_store_status(
-        database, manifest, now="2026-08-03T00:00:11Z"
-    ).state_counts["ready"] == 5
+    assert (
+        campaign_store_status(database, manifest, now="2026-08-03T00:00:11Z").state_counts["ready"]
+        == 5
+    )
 
 
 def test_failed_cell_can_be_requeued_without_erasing_failure(tmp_path: Path) -> None:

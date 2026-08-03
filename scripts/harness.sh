@@ -3,6 +3,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src
 export SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1785628800}"
+if [[ "$(uname -s)" == "Darwin" && -d /opt/homebrew/lib ]]; then
+  export DYLD_FALLBACK_LIBRARY_PATH="/opt/homebrew/lib:/usr/local/lib:/usr/lib${DYLD_FALLBACK_LIBRARY_PATH:+:${DYLD_FALLBACK_LIBRARY_PATH}}"
+fi
 
 cleanup() {
   if [[ -n "${PB_TMPDIR:-}" && -d "${PB_TMPDIR}" ]]; then

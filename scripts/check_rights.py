@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Fail when a source is mirrored without a compatible rights decision."""
+
 from __future__ import annotations
 
 import json
@@ -15,7 +16,9 @@ def main() -> int:
     errors: list[str] = []
     allowed = {"licensed", "public-domain", "permission-granted"}
     for source in data.get("sources", []):
-        if source.get("rights_status") not in allowed and "mirror" in source.get("permitted_uses", []):
+        if source.get("rights_status") not in allowed and "mirror" in source.get(
+            "permitted_uses", []
+        ):
             errors.append(f"{source['source_id']}: mirror permission conflicts with rights status")
     if THIRD_PARTY.exists():
         for path in THIRD_PARTY.rglob("*"):

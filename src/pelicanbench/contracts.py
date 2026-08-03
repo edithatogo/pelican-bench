@@ -7,9 +7,10 @@ consumed by PelicanBench.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Literal, Mapping
+from typing import Any, Literal, cast
 
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError, ValidationError
@@ -36,8 +37,12 @@ class ContractDocument(BaseModel):
     required_consumer_assertions: tuple[str, ...] = ()
 
     @model_validator(mode="after")
-    def at_least_one_surface(self) -> "ContractDocument":
-        if self.request_schema is None and self.response_schema is None and self.event_schema is None:
+    def at_least_one_surface(self) -> ContractDocument:
+        if (
+            self.request_schema is None
+            and self.response_schema is None
+            and self.event_schema is None
+        ):
             raise ValueError("a contract must define at least one schema surface")
         return self
 
@@ -49,7 +54,7 @@ class ContractDocument(BaseModel):
         value = getattr(self, f"{side}_schema")
         if value is None:
             raise ValueError(f"contract does not define a {side} schema")
-        return value
+        return cast(dict[str, Any], value)
 
 
 @dataclass(frozen=True, slots=True)
@@ -98,7 +103,9 @@ def verify_contract_payload(
     validator = Draft202012Validator(contract.schema_for(side))
     errors = tuple(
         _format_validation_error(error)
-        for error in sorted(validator.iter_errors(payload), key=lambda item: list(item.absolute_path))
+        for error in sorted(
+            validator.iter_errors(payload), key=lambda item: list(item.absolute_path)
+        )
     )
     return ContractVerification(
         contract_id=contract.contract_id,

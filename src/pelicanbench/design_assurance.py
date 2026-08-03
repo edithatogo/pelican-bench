@@ -8,10 +8,11 @@ approximations or exact binomial sums and remain dependency-free and determinist
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from math import ceil, comb, sqrt
 from statistics import NormalDist
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,9 +61,7 @@ class DesignAssuranceReport:
     def as_dict(self) -> dict[str, Any]:
         value = asdict(self)
         value["precision_scenarios"] = [item.as_dict() for item in self.precision_scenarios]
-        value["replication_sensitivity"] = [
-            item.as_dict() for item in self.replication_sensitivity
-        ]
+        value["replication_sensitivity"] = [item.as_dict() for item in self.replication_sensitivity]
         value["warnings"] = list(self.warnings)
         return value
 
@@ -83,9 +82,7 @@ def wilson_interval(successes: int, total: int, *, confidence: float = 0.95) -> 
     denominator = 1 + z * z / total
     centre = (proportion + z * z / (2 * total)) / denominator
     radius = (
-        z
-        * sqrt(proportion * (1 - proportion) / total + z * z / (4 * total * total))
-        / denominator
+        z * sqrt(proportion * (1 - proportion) / total + z * z / (4 * total * total)) / denominator
     )
     return max(0.0, centre - radius), min(1.0, centre + radius)
 
@@ -161,8 +158,10 @@ def spearman_brown_required_raters(
         raise ValueError("single_rater_reliability must be within (0,1)")
     if not single_rater_reliability < target_reliability < 1:
         raise ValueError("target reliability must exceed single-rater reliability and be below one")
-    required = target_reliability * (1 - single_rater_reliability) / (
-        single_rater_reliability * (1 - target_reliability)
+    required = (
+        target_reliability
+        * (1 - single_rater_reliability)
+        / (single_rater_reliability * (1 - target_reliability))
     )
     return max(1, ceil(required - 1e-12))
 
@@ -224,7 +223,9 @@ def build_design_assurance_report(
         )
 
     replication_sensitivity: list[ReplicationScenario] = []
-    for option in sorted({int(item) for item in assumptions.get("replicate_options", [replicates])}):
+    for option in sorted(
+        {int(item) for item in assumptions.get("replicate_options", [replicates])}
+    ):
         if option < replicates:
             raise ValueError("replicate options cannot be below the initial replicate count")
         option_trials = len(confirmatory) * option
@@ -252,9 +253,7 @@ def build_design_assurance_report(
         )
 
     target_artifacts = int(human_spec["target_artifacts"])
-    public_panel = next(
-        item for item in human_spec["panels"] if str(item["panel_id"]) == "public"
-    )
+    public_panel = next(item for item in human_spec["panels"] if str(item["panel_id"]) == "public")
     public_ratings = int(public_panel["ratings_per_artifact"])
     duplicate_fraction = float(human_spec["duplicate_fraction"])
     pairwise = {
@@ -306,7 +305,9 @@ def build_design_assurance_report(
         )
     artifact_margin = worst_case_wilson_half_width(target_artifacts, confidence=confidence)
     if artifact_margin > float(assumptions["maximum_artifact_margin"]):
-        warnings.append("artifact-level human calibration precision is wider than the preferred margin")
+        warnings.append(
+            "artifact-level human calibration precision is wider than the preferred margin"
+        )
 
     return DesignAssuranceReport(
         schema_version="1.0.0",
@@ -329,9 +330,7 @@ def build_design_assurance_report(
             ),
             4,
         ),
-        duplicate_assignments=ceil(
-            target_artifacts * public_ratings * duplicate_fraction
-        ),
+        duplicate_assignments=ceil(target_artifacts * public_ratings * duplicate_fraction),
         pairwise_majority_power=pairwise,
         rater_reliability_requirements=reliability,
         warnings=tuple(warnings),

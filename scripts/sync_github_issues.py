@@ -6,6 +6,7 @@ issues, phase issues, track parents and cross-track release blockers. It then at
 work packages beneath phases and phases beneath tracks through GitHub native sub-issues
 where supported. Generated checklists remain authoritative when that endpoint is absent.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -173,18 +174,19 @@ def parent_status(phases: list[dict[str, Any]]) -> str:
 
 def _package_count(tracks: list[dict[str, Any]]) -> int:
     return sum(
-        len(phase.get("work_packages", []))
-        for track in tracks
-        for phase in track.get("phases", [])
+        len(phase.get("work_packages", [])) for track in tracks for phase in track.get("phases", [])
     )
 
 
 def _checklist(items: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
-    return "\n".join(
-        f"- [{'x' if record.get('status') == 'complete' else ' '}] "
-        f"#{issue['number']} — `{record.get('status', 'planned')}`"
-        for record, issue in items
-    ) or "- No nested work packages are defined for this phase."
+    return (
+        "\n".join(
+            f"- [{'x' if record.get('status') == 'complete' else ' '}] "
+            f"#{issue['number']} — `{record.get('status', 'planned')}`"
+            for record, issue in items
+        )
+        or "- No nested work packages are defined for this phase."
+    )
 
 
 def main() -> int:
@@ -250,10 +252,7 @@ def main() -> int:
                 package_pairs.append((package, package_issue))
             status = str(phase.get("status", "planned"))
             phase_body = (
-                phase["body"]
-                + "\n\n## Nested work packages\n\n"
-                + _checklist(package_pairs)
-                + "\n"
+                phase["body"] + "\n\n## Nested work packages\n\n" + _checklist(package_pairs) + "\n"
             )
             phase_issue = ensure_issue(
                 args.repo,
@@ -279,8 +278,7 @@ def main() -> int:
             phase_state[phase["phase"]] = {
                 "issue": int(phase_issue["number"]),
                 "work_packages": {
-                    package["id"]: int(package["issue_number"])
-                    for package, _ in package_pairs
+                    package["id"]: int(package["issue_number"]) for package, _ in package_pairs
                 },
             }
         checklist = "\n".join(

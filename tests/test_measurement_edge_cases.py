@@ -110,9 +110,7 @@ def test_calibration_input_validation_and_empty_pair_design():
     candidate = CalibrationCandidate("a", "t", "s", "m", "x", 0.5, 0.1)
     with pytest.raises(ValueError):
         select_calibration_sample([candidate], target=0)
-    assert build_pairwise_calibration_tasks(
-        select_calibration_sample([candidate], target=1)
-    ) == ()
+    assert build_pairwise_calibration_tasks(select_calibration_sample([candidate], target=1)) == ()
     with pytest.raises(ValueError):
         build_pairwise_calibration_tasks((), maximum_pairs_per_task=0)
     with pytest.raises(ValueError):

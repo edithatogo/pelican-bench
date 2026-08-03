@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
-from dataclasses import asdict, dataclass
 import hashlib
+from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 from .io import content_hash, read_json
 from .models import BenchmarkTask
@@ -127,11 +128,12 @@ class JudgeQualificationResult:
 
 
 def execution_model_ids(panel: Mapping[str, Any]) -> tuple[str, ...]:
-    cohorts = {str(item["cohort_id"]): tuple(str(model) for model in item["models"]) for item in panel["cohorts"]}
+    cohorts = {
+        str(item["cohort_id"]): tuple(str(model) for model in item["models"])
+        for item in panel["cohorts"]
+    }
     used = {
-        model
-        for stage in panel["execution_stages"]
-        for model in cohorts[str(stage["cohort_id"])]
+        model for stage in panel["execution_stages"] for model in cohorts[str(stage["cohort_id"])]
     }
     return tuple(sorted(used))
 
@@ -144,7 +146,7 @@ def build_model_qualification_plan(
     base_seed: int = 20260802,
     gates: Mapping[str, float] = DEFAULT_MODEL_GATES,
 ) -> dict[str, Any]:
-    values = sorted(tuple(tasks), key=lambda item: item.task_id)
+    values = sorted(tasks, key=lambda item: item.task_id)
     if not values:
         raise ValueError("qualification canary tasks cannot be empty")
     model_ids = execution_model_ids(panel)
@@ -192,7 +194,11 @@ def evaluate_model_qualification(
     for model_id in sorted(by_model):
         expected_ids = by_model[model_id]
         expected = len(expected_ids)
-        retained = [by_cell[cell_id] for cell_id in expected_ids if cell_id in by_cell and by_cell[cell_id].retained]
+        retained = [
+            by_cell[cell_id]
+            for cell_id in expected_ids
+            if cell_id in by_cell and by_cell[cell_id].retained
+        ]
         success_rate = sum(item.eventual_success for item in retained) / expected
         valid_svg_rate = sum(item.valid_svg for item in retained) / expected
         secure_render_rate = sum(item.secure_render for item in retained) / expected
@@ -200,8 +206,10 @@ def evaluate_model_qualification(
         unretained_failure_rate = (expected - len(retained)) / expected
         gate_results = {
             "minimum_success_rate": success_rate >= float(gates["minimum_success_rate"]),
-            "minimum_secure_render_rate": secure_render_rate >= float(gates["minimum_secure_render_rate"]),
-            "minimum_first_attempt_rate": first_attempt_rate >= float(gates["minimum_first_attempt_rate"]),
+            "minimum_secure_render_rate": secure_render_rate
+            >= float(gates["minimum_secure_render_rate"]),
+            "minimum_first_attempt_rate": first_attempt_rate
+            >= float(gates["minimum_first_attempt_rate"]),
             "maximum_unretained_failure_rate": unretained_failure_rate
             <= float(gates["maximum_unretained_failure_rate"]),
         }
@@ -308,7 +316,9 @@ def evaluate_judge_qualification(
             and leakage_rate <= float(gates["maximum_prompt_leakage_rate"])
             and accuracy >= float(gates["minimum_task_accuracy"])
         )
-        empirical = mean_agreement is not None and mean_agreement >= float(gates["minimum_human_agreement"])
+        empirical = mean_agreement is not None and mean_agreement >= float(
+            gates["minimum_human_agreement"]
+        )
         results.append(
             JudgeQualificationResult(
                 judge_id=judge_id,
@@ -323,9 +333,11 @@ def evaluate_judge_qualification(
                 technical_gates_passed=technical,
                 empirical_gate_passed=empirical,
                 evidence_status=(
-                    "E3-human-calibrated" if technical and empirical else
-                    "E2-technical-qualified-human-calibration-required" if technical else
-                    "qualification-failed"
+                    "E3-human-calibrated"
+                    if technical and empirical
+                    else "E2-technical-qualified-human-calibration-required"
+                    if technical
+                    else "qualification-failed"
                 ),
             )
         )

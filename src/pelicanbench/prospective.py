@@ -7,10 +7,11 @@ no external calls and is therefore safe to run during local validation and CI.
 
 from __future__ import annotations
 
-from collections import Counter
-from dataclasses import asdict, dataclass
 import hashlib
-from typing import Any, Iterable, Mapping
+from collections import Counter
+from collections.abc import Iterable, Mapping
+from dataclasses import asdict, dataclass
+from typing import Any
 
 from .io import content_hash
 from .models import BenchmarkTask
@@ -78,9 +79,7 @@ def _stable_seed(base_seed: int, stage_id: str, model_id: str, task_id: str, rep
     return int.from_bytes(hashlib.sha256(payload).digest()[:8], "big") % (2**31 - 1)
 
 
-def _stable_cell_id(
-    stage_id: str, model_id: str, task_id: str, replicate: int, seed: int
-) -> str:
+def _stable_cell_id(stage_id: str, model_id: str, task_id: str, replicate: int, seed: int) -> str:
     payload = "\x1f".join((stage_id, model_id, task_id, str(replicate), str(seed)))
     return "PCEL-" + hashlib.sha256(payload.encode()).hexdigest()[:24]
 
@@ -131,7 +130,9 @@ def build_prospective_pilot_plan(
                     seed = _stable_seed(base_seed, stage_id, model_id, task.task_id, replicate)
                     stage_cells.append(
                         ProspectiveCell(
-                            cell_id=_stable_cell_id(stage_id, model_id, task.task_id, replicate, seed),
+                            cell_id=_stable_cell_id(
+                                stage_id, model_id, task.task_id, replicate, seed
+                            ),
                             stage_id=stage_id,
                             cohort_id=cohort_id,
                             task_panel_id=panel_id,

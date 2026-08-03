@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterable
+from collections.abc import Iterable
+from typing import Any
 
 from .models import EvaluationRecord, RunManifest, TrialRecord
 
@@ -161,7 +162,7 @@ def reproduction_script(manifest: RunManifest) -> str:
             "    path = root / artifact['path']",
             "    digest = 'sha256:' + hashlib.sha256(path.read_bytes()).hexdigest()",
             "    if digest != artifact['sha256']:",
-            "        raise SystemExit(f\"hash mismatch: {path}\")",
+            '        raise SystemExit(f"hash mismatch: {path}")',
             f"print('verified {manifest.run_id}')",
             "PY",
             "",

@@ -7,9 +7,9 @@ import pytest
 
 from pelicanbench.ontology import (
     Ontology,
-    evaluate_competency_cases,
     abstract_specialised_ontology,
     compose_scene,
+    evaluate_competency_cases,
     merge_ontologies,
 )
 from pelicanbench.taskgen import (
@@ -87,12 +87,23 @@ def test_compose_bicycle_and_tuktuk(root: Path):
     animal = Ontology.load(root / "benchmark/ontologies/animal.json")
     mobile = Ontology.load(root / "benchmark/ontologies/mobile-object.json")
     interface = Ontology.load(root / "benchmark/ontologies/interface.json")
-    bike = compose_scene(animal, mobile, interface, animal_id="pelican", mobile_id="bicycle", relation_id="rides_on")
+    bike = compose_scene(
+        animal, mobile, interface, animal_id="pelican", mobile_id="bicycle", relation_id="rides_on"
+    )
     assert bike["relation"] == "rides_on"
-    tuktuk = compose_scene(animal, mobile, interface, animal_id="pelican", mobile_id="tuk-tuk", relation_id="drives")
+    tuktuk = compose_scene(
+        animal, mobile, interface, animal_id="pelican", mobile_id="tuk-tuk", relation_id="drives"
+    )
     assert "driver-position" in tuktuk["required_object_features"]
     with pytest.raises(ValueError):
-        compose_scene(animal, mobile, interface, animal_id="pelican", mobile_id="tuk-tuk", relation_id="rides_on")
+        compose_scene(
+            animal,
+            mobile,
+            interface,
+            animal_id="pelican",
+            mobile_id="tuk-tuk",
+            relation_id="rides_on",
+        )
 
 
 def test_abstraction_candidate():
@@ -111,7 +122,9 @@ def test_grammar_and_generation(grammar):
     assert len(tasks) == 25
     assert tasks[0].prompt == HERITAGE_PROMPT
     assert len({task.task_id for task in tasks}) == 25
-    assert any(task.mobile_object.id == "tuk-tuk" for task in generate_tasks(grammar, count=100, seed=1))
+    assert any(
+        task.mobile_object.id == "tuk-tuk" for task in generate_tasks(grammar, count=100, seed=1)
+    )
 
 
 def test_generation_is_deterministic(grammar):
@@ -121,9 +134,16 @@ def test_generation_is_deterministic(grammar):
 
 
 def test_factorial_and_filters(grammar):
-    tasks = full_factorial(grammar, release="PB", seed=1, animals=["pelican"], mobile_objects=["bicycle", "tuk-tuk"])
+    tasks = full_factorial(
+        grammar, release="PB", seed=1, animals=["pelican"], mobile_objects=["bicycle", "tuk-tuk"]
+    )
     assert {task.mobile_object.id for task in tasks} == {"bicycle", "tuk-tuk"}
-    assert {task.relations[0].predicate for task in tasks} == {"rides_on", "operates", "drives", "passenger_in"}
+    assert {task.relations[0].predicate for task in tasks} == {
+        "rides_on",
+        "operates",
+        "drives",
+        "passenger_in",
+    }
 
 
 def test_public_sealed_split(grammar):
@@ -175,13 +195,13 @@ def test_task_identity_is_independent_of_design_seed(grammar):
 def test_prespecified_pilot_and_commitment(root: Path, grammar):
     design = json.loads((root / "benchmark/tasks/v1-pilot-design.json").read_text())
     tasks = generate_design_tasks(grammar, design, seed=design["seed"])
-    commitment = json.loads(
-        (root / "benchmark/tasks/v1-pilot-commitment.json").read_text()
-    )
+    commitment = json.loads((root / "benchmark/tasks/v1-pilot-commitment.json").read_text())
     assert len(tasks) == 33
     assert len({task.scenario_id for task in tasks}) == 17
     assert task_set_commitment(tasks) == commitment["commitment"]
-    assert {task.metadata.get("interface_stratum") for task in tasks if task.track != "heritage-svg"} == {
+    assert {
+        task.metadata.get("interface_stratum") for task in tasks if task.track != "heritage-svg"
+    } == {
         "straddle-and-propel",
         "stand-and-balance",
         "sit-inside-and-control",
@@ -190,9 +210,9 @@ def test_prespecified_pilot_and_commitment(root: Path, grammar):
 
 
 def test_ontology_competency_cases(root: Path):
-    cases = json.loads(
-        (root / "benchmark/ontology-tests/competency-cases.json").read_text()
-    )["cases"]
+    cases = json.loads((root / "benchmark/ontology-tests/competency-cases.json").read_text())[
+        "cases"
+    ]
     results = evaluate_competency_cases(
         Ontology.load(root / "benchmark/ontologies/animal.json"),
         Ontology.load(root / "benchmark/ontologies/mobile-object.json"),

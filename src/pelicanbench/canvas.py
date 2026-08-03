@@ -94,7 +94,9 @@ class CanvasEnvironment:
             for element_id in action.get("ids", []):
                 if element_id not in self.elements:
                     raise KeyError(element_id)
-                self.elements[element_id]["group"] = action.get("group") if kind == "group" else None
+                self.elements[element_id]["group"] = (
+                    action.get("group") if kind == "group" else None
+                )
         elif kind == "checkpoint":
             checkpoint_id = str(action.get("id") or f"checkpoint-{len(self.checkpoints) + 1}")
             self.checkpoints[checkpoint_id] = deepcopy(self.elements)
@@ -102,7 +104,9 @@ class CanvasEnvironment:
             if not self.history:
                 raise ValueError("nothing to undo")
             self.elements = self.history.pop()
-            self.events.append({"action": deepcopy(action), "state_hash": self.state()["state_hash"]})
+            self.events.append(
+                {"action": deepcopy(action), "state_hash": self.state()["state_hash"]}
+            )
             return self.state()
         if kind not in {"checkpoint"}:
             self.history.append(before)
@@ -115,14 +119,21 @@ class CanvasEnvironment:
         self.history.append(deepcopy(self.elements))
         self.elements = deepcopy(self.checkpoints[checkpoint_id])
         self.events.append(
-            {"action": {"type": "restore", "id": checkpoint_id}, "state_hash": self.state()["state_hash"]}
+            {
+                "action": {"type": "restore", "id": checkpoint_id},
+                "state_hash": self.state()["state_hash"],
+            }
         )
         return self.state()
 
     def to_svg(self) -> str:
         """Export the editable state as deterministic, labelled SVG."""
         group_names = sorted(
-            {str(item.get("group")) for item in self.elements.values() if item.get("group") is not None}
+            {
+                str(item.get("group"))
+                for item in self.elements.values()
+                if item.get("group") is not None
+            }
         )
         grouped: dict[str | None, list[tuple[str, dict[str, Any]]]] = {None: []}
         for name in group_names:

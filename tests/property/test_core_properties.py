@@ -28,8 +28,12 @@ def test_task_identity_is_independent_of_design_seed(grammar) -> None:
     animal = next(item for item in grammar["animals"] if item["id"] == "pelican")
     mobile_object = next(item for item in grammar["mobile_objects"] if item["id"] == "bicycle")
     relation = next(item for item in grammar["relations"] if item["id"] == "rides_on")
-    first = build_task(animal=animal, mobile_object=mobile_object, relation=relation, seed=1, release="R")
-    second = build_task(animal=animal, mobile_object=mobile_object, relation=relation, seed=2, release="R")
+    first = build_task(
+        animal=animal, mobile_object=mobile_object, relation=relation, seed=1, release="R"
+    )
+    second = build_task(
+        animal=animal, mobile_object=mobile_object, relation=relation, seed=2, release="R"
+    )
     assert first.task_id == second.task_id
     assert first.seed != second.seed
 
@@ -56,7 +60,9 @@ def test_random_valid_action_sequences_replay_deterministically() -> None:
     assert len(receipt.steps) == len(actions)
 
 
-@pytest.mark.skipif(importlib.util.find_spec("hypothesis") is None, reason="Hypothesis is a mandatory CI dependency")
+@pytest.mark.skipif(
+    importlib.util.find_spec("hypothesis") is None, reason="Hypothesis is a mandatory CI dependency"
+)
 def test_hypothesis_content_hash_property() -> None:
     from hypothesis import given, settings
     from hypothesis import strategies as st

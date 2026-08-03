@@ -12,15 +12,16 @@ same transition and hash-chain contract in a serialisable database.
 
 from __future__ import annotations
 
-from collections import Counter
-from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta, timezone
 import json
 import math
-from pathlib import Path
 import secrets
 import sqlite3
-from typing import Any, Callable, Literal, cast
+from collections import Counter
+from collections.abc import Callable
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime, timedelta
+from pathlib import Path
+from typing import Any, Literal, cast
 
 from .campaign import CELL_STATES, TERMINAL_STATES, CampaignManifest, CellState
 from .io import content_hash
@@ -31,9 +32,7 @@ CompletionState = Literal["ready", "succeeded", "failed", "quarantined", "cancel
 
 _ALLOWED_STORE_TRANSITIONS: dict[str, frozenset[str]] = {
     "ready": frozenset({"leased", "cancelled"}),
-    "leased": frozenset(
-        {"leased", "ready", "succeeded", "failed", "quarantined", "cancelled"}
-    ),
+    "leased": frozenset({"leased", "ready", "succeeded", "failed", "quarantined", "cancelled"}),
     "failed": frozenset({"ready"}),
 }
 
@@ -51,11 +50,11 @@ def _parse_utc(value: str) -> datetime:
     parsed = datetime.fromisoformat(candidate)
     if parsed.tzinfo is None:
         raise ValueError("campaign timestamps must include a timezone")
-    return parsed.astimezone(timezone.utc)
+    return parsed.astimezone(UTC)
 
 
 def _format_utc(value: datetime) -> str:
-    return value.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+    return value.astimezone(UTC).isoformat().replace("+00:00", "Z")
 
 
 def _state(value: Any, *, field: str) -> CellState:
@@ -63,8 +62,6 @@ def _state(value: Any, *, field: str) -> CellState:
     if candidate not in CELL_STATES:
         raise ValueError(f"{field} is not a valid campaign state: {candidate}")
     return cast(CellState, candidate)
-
-
 
 
 def _new_lease_token(
@@ -344,9 +341,7 @@ def initialise_campaign_store(
             "max_parallel_per_model": str(manifest.max_parallel_per_model),
             "created_at": created_at,
         }
-        connection.executemany(
-            "INSERT INTO metadata(key, value) VALUES (?, ?)", metadata.items()
-        )
+        connection.executemany("INSERT INTO metadata(key, value) VALUES (?, ?)", metadata.items())
         rows = [
             (
                 cell.cell_id,
@@ -454,7 +449,7 @@ def _insert_event(
             _canonical_json(payload),
         ),
     )
-    return StoreEvent(event_id=event_id, event_hash=event_hash, **payload)
+    return StoreEvent(event_id=event_id, event_hash=event_hash, **cast(Any, payload))
 
 
 def _reclaim_expired_in_transaction(
@@ -561,7 +556,9 @@ def lease_campaign_cells(
         connection.execute("BEGIN IMMEDIATE")
         _verify_manifest(connection, manifest)
         _reclaim_expired_in_transaction(connection, manifest, now=selected_now)
-        spent_row = connection.execute("SELECT COALESCE(SUM(actual_cost), 0) AS value FROM cells").fetchone()
+        spent_row = connection.execute(
+            "SELECT COALESCE(SUM(actual_cost), 0) AS value FROM cells"
+        ).fetchone()
         reserved_row = connection.execute(
             "SELECT COALESCE(SUM(estimated_cost), 0) AS value FROM cells WHERE state = 'leased'"
         ).fetchone()
@@ -681,9 +678,7 @@ def heartbeat_campaign_lease(
     try:
         connection.execute("BEGIN IMMEDIATE")
         _verify_manifest(connection, manifest)
-        row = connection.execute(
-            "SELECT * FROM cells WHERE cell_id = ?", (cell_id,)
-        ).fetchone()
+        row = connection.execute("SELECT * FROM cells WHERE cell_id = ?", (cell_id,)).fetchone()
         if row is None:
             raise ValueError(f"unknown campaign cell: {cell_id}")
         if str(row["state"]) != "leased":
@@ -1107,9 +1102,9 @@ def reconcile_campaign_store(
 __all__ = [
     "StoreEvent",
     "StoreLease",
-    "StoreTerminalState",
     "StoreReconciliation",
     "StoreStatus",
+    "StoreTerminalState",
     "campaign_store_status",
     "complete_campaign_lease",
     "export_store_events",

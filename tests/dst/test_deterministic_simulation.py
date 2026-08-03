@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from pelicanbench.simulation import FaultInjection, assert_deterministic_replay, run_canvas_simulation
+from pelicanbench.simulation import (
+    FaultInjection,
+    assert_deterministic_replay,
+    run_canvas_simulation,
+)
 
 pytestmark = pytest.mark.dst
 

@@ -10,8 +10,8 @@ from pelicanbench.canvas import CanvasEnvironment
 from pelicanbench.coercion import parse_bool
 from pelicanbench.contracts import load_contract, verify_contract_payload
 from pelicanbench.judge_firewall import evaluate_judge_input
-from pelicanbench.render import render_svg
 from pelicanbench.pilot import build_pilot_execution_plan
+from pelicanbench.render import render_svg
 from pelicanbench.simulation import run_canvas_simulation
 from pelicanbench.svg import inspect_svg
 from pelicanbench.taskgen import heritage_task
@@ -39,10 +39,10 @@ def test_kills_zero_replicate_mutant() -> None:
         build_pilot_execution_plan([heritage_task()], [], replicates=0)
 
 
-
 def test_kills_empty_task_acceptance_mutant() -> None:
     with pytest.raises(ValueError, match="pilot tasks"):
         build_pilot_execution_plan([], [], replicates=1)
+
 
 def test_kills_contract_validity_mutant(root: Path) -> None:
     contract = load_contract(root / "benchmark/contracts/human-rating-exchange.json")
@@ -59,6 +59,7 @@ def test_kills_zero_seed_rejection_mutant() -> None:
 def test_kills_zero_budget_acceptance_mutant() -> None:
     with pytest.raises(ValueError, match="max_steps"):
         run_autonomous_agent(ScriptedPolicy([]), max_steps=0)
+
 
 def _campaign_manifest(*, hard_budget: float | None, budget_gate: str) -> CampaignManifest:
     cell = CampaignCell(

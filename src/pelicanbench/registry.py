@@ -71,7 +71,7 @@ class RuntimeProfileRegistry(BaseModel):
     profiles: tuple[RuntimePromptProfile, ...]
 
     @model_validator(mode="after")
-    def unique_profiles(self) -> "RuntimeProfileRegistry":
+    def unique_profiles(self) -> RuntimeProfileRegistry:
         identifiers = [item.profile_id for item in self.profiles]
         if len(identifiers) != len(set(identifiers)):
             raise ValueError("runtime profile identifiers must be unique")
@@ -111,5 +111,7 @@ def registry_summary(entries: list[ModelRegistryEntry]) -> dict[str, Any]:
         "first_party": sum(entry.first_party for entry in entries),
         "tracks": sorted({track for entry in entries for track in entry.tracks}),
         "access_types": sorted({entry.access_type for entry in entries}),
-        "inference_provider_statuses": sorted({entry.inference_provider_status for entry in entries}),
+        "inference_provider_statuses": sorted(
+            {entry.inference_provider_status for entry in entries}
+        ),
     }

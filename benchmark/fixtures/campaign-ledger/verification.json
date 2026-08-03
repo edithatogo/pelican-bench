@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "event_count": 1,
+  "last_event_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "ledger_hash": "sha256:b5b208962856236fad833d944307ded013c8236b98f58839e0d96379c5c7d068",
+  "size_bytes": 191
+}

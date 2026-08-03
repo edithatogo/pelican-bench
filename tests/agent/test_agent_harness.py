@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from pelicanbench.autonomous import ScriptedPolicy, reference_pelican_bicycle_actions, run_autonomous_agent
+from pelicanbench.autonomous import (
+    ScriptedPolicy,
+    reference_pelican_bicycle_actions,
+    run_autonomous_agent,
+)
 
 pytestmark = pytest.mark.agent
 

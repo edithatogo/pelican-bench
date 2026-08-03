@@ -1,0 +1,20 @@
+{
+  "duplicate_consistency_by_field": {
+    "animal_open_text": 0.9,
+    "mobile_object_open_text": 0.9,
+    "relation_open_text": 0.9
+  },
+  "invalid_responses": 0,
+  "nominal_alpha_by_field": {
+    "animal_open_text": 0.75,
+    "mobile_object_open_text": 0.75,
+    "relation_open_text": 0.75
+  },
+  "recognition_brier_score": 0.2,
+  "responses_received": 1680,
+  "valid_by_stage": {
+    "blind-recognition": 288,
+    "pairwise-preference": 720,
+    "prompt-aware-criteria": 672
+  }
+}

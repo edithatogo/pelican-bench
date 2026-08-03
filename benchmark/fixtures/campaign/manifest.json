@@ -1,0 +1,28 @@
+{
+  "budget_gate": "pass",
+  "campaign_id": "PCAMP-fixture",
+  "cells": [
+    {
+      "cell_id": "PCEL-fixture-001",
+      "estimated_cost": 0.01,
+      "model_id": "fixture/model",
+      "replicate": 1,
+      "seed": 20260803,
+      "stage_id": "fixture",
+      "state": "ready",
+      "task_id": "pb:heritage-pelican-bike-v1"
+    }
+  ],
+  "currency": "USD",
+  "estimated_cost": 0.01,
+  "estimated_cost_with_reserve": 0.01,
+  "generated_at": "2026-08-03T00:00:00Z",
+  "hard_budget": 1.0,
+  "max_parallel_per_model": 1,
+  "policy_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "prospective_plan_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "schema_version": "1.0.0",
+  "shards": [],
+  "task_identity_commitment": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "unknown_cost_cells": 0
+}

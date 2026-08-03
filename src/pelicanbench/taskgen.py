@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import itertools
 import random
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from .io import content_hash, read_json
 from .models import BenchmarkTask, EntitySpec, RelationSpec
@@ -39,7 +40,9 @@ def validate_grammar(grammar: dict[str, Any]) -> None:
     for animal in grammar["animals"]:
         unknown = set(animal.get("interaction_modes", ())) - relation_ids
         if unknown:
-            raise ValueError(f"animal {animal['id']} has unknown interaction modes: {sorted(unknown)}")
+            raise ValueError(
+                f"animal {animal['id']} has unknown interaction modes: {sorted(unknown)}"
+            )
     for mobile_object in grammar["mobile_objects"]:
         unknown = set(mobile_object.get("interaction_modes", ())) - relation_ids
         if unknown:
@@ -237,9 +240,7 @@ def _candidate_designs(grammar: dict[str, Any]) -> list[tuple[dict[str, Any], ..
     output: list[tuple[dict[str, Any], ...]] = []
     viewpoints = grammar.get("viewpoints", ["side"])
     styles = grammar.get("styles", ["simple vector illustration"])
-    for animal, mobile_object in itertools.product(
-        grammar["animals"], grammar["mobile_objects"]
-    ):
+    for animal, mobile_object in itertools.product(grammar["animals"], grammar["mobile_objects"]):
         for relation in _compatible(animal, mobile_object, grammar):
             for viewpoint, style in itertools.product(viewpoints, styles):
                 output.append((animal, mobile_object, relation, viewpoint, style))

@@ -71,7 +71,8 @@ def main() -> int:
         "test_taxonomy": bool(evidence.get("test_taxonomy", {}).get("passed")),
         "mutation_smoke": bool(evidence.get("mutation_smoke", {}).get("passed")),
         "coverage_line": coverage is not None and coverage["line_percent"] >= args.threshold,
-        "coverage_combined": coverage is not None and coverage["combined_percent"] >= args.threshold,
+        "coverage_combined": coverage is not None
+        and coverage["combined_percent"] >= args.threshold,
     }
     payload = {
         "schema_version": "1.0.0",

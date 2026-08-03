@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from statistics import mean
-from typing import Iterable
 
 from .models import TrajectoryEvent
 
@@ -72,4 +72,9 @@ def trajectory_utility(
 ) -> float:
     auc = metrics.area_under_curve or 0.0
     improvement = metrics.improvement or 0.0
-    return auc + alpha_improvement * improvement - beta_cost * cost - gamma_regression * metrics.regressions
+    return (
+        auc
+        + alpha_improvement * improvement
+        - beta_cost * cost
+        - gamma_regression * metrics.regressions
+    )

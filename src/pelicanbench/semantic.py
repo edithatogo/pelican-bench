@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from statistics import mean
-from typing import Mapping, Protocol
+from typing import Protocol
 
 from .io import content_hash
 from .models import BenchmarkTask, QuestionAssessment, SemanticAssessment
@@ -195,7 +196,10 @@ class EnsembleSemanticAssessor:
                         f"judge {judge.judge_id} answered {answer.question_id!r} "
                         f"for {question.question_id!r}"
                     )
-                if answer.judge_id != judge.judge_id or answer.judge_revision != judge.judge_revision:
+                if (
+                    answer.judge_id != judge.judge_id
+                    or answer.judge_revision != judge.judge_revision
+                ):
                     raise ValueError("judge answer identity does not match the configured judge")
                 raw_answers.append(answer)
         aggregated = aggregate_judges(raw_answers, family_weights=self._family_weights)

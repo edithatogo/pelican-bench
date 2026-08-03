@@ -22,7 +22,9 @@ def _inputs():
     return tasks, panel, commitment
 
 
-def test_prospective_plan_has_prespecified_stage_denominators(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_prospective_plan_has_prespecified_stage_denominators(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("SOURCE_DATE_EPOCH", "1785628800")
     tasks, panel, commitment = _inputs()
     plan = build_prospective_pilot_plan(
@@ -67,7 +69,9 @@ def test_prospective_plan_is_order_invariant_and_reflects_qualification() -> Non
 def test_prospective_plan_rejects_invalid_inputs() -> None:
     tasks, panel, commitment = _inputs()
     with pytest.raises(ValueError, match="replicates"):
-        build_prospective_pilot_plan(tasks, panel, task_identity_commitment=commitment, replicates=0)
+        build_prospective_pilot_plan(
+            tasks, panel, task_identity_commitment=commitment, replicates=0
+        )
     with pytest.raises(ValueError, match="candidate tasks"):
         build_prospective_pilot_plan([], panel, task_identity_commitment=commitment)
     broken = json.loads(json.dumps(panel))

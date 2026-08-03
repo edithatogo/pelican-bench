@@ -11,9 +11,10 @@ from __future__ import annotations
 
 import shutil
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Literal
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -64,7 +65,9 @@ class StrictModel(BaseModel):
 
 
 class EcosystemAsset(StrictModel):
-    asset_id: str = Field(pattern=r"^(github|hf-model|hf-dataset|hf-space):[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
+    asset_id: str = Field(
+        pattern=r"^(github|hf-model|hf-dataset|hf-space):[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    )
     name: str
     asset_kind: AssetKind
     integration_class: IntegrationClass
@@ -83,7 +86,7 @@ class EcosystemAsset(StrictModel):
     notes: str = ""
 
     @model_validator(mode="after")
-    def coherent_status(self) -> "EcosystemAsset":
+    def coherent_status(self) -> EcosystemAsset:
         if self.required and self.status in {"planned", "blocked", "not-required"}:
             raise ValueError("required assets must have an implemented or contracted boundary")
         if self.status in {"implemented", "contracted", "pattern-adopted"} and not self.evidence:
@@ -107,7 +110,7 @@ class EcosystemRegistry(StrictModel):
     excluded_families: tuple[ExcludedFamily, ...] = ()
 
     @model_validator(mode="after")
-    def unique_assets(self) -> "EcosystemRegistry":
+    def unique_assets(self) -> EcosystemRegistry:
         identifiers = [item.asset_id for item in self.assets]
         names = [item.name for item in self.assets]
         if len(identifiers) != len(set(identifiers)):
@@ -371,7 +374,9 @@ def audit_ecosystem(
         asset_count=len(registry.assets),
         status_counts=dict(sorted(Counter(item.status for item in registry.assets).items())),
         relevance_counts=dict(sorted(Counter(item.relevance for item in registry.assets).items())),
-        class_counts=dict(sorted(Counter(item.integration_class for item in registry.assets).items())),
+        class_counts=dict(
+            sorted(Counter(item.integration_class for item in registry.assets).items())
+        ),
         evidence_files_checked=checked,
         local_repositories=local_repositories,
         command_availability=command_availability,

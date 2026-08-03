@@ -102,7 +102,10 @@ def _work_package_body(
     accepted = status == "complete"
     acceptance = "\n".join(
         f"- [{'x' if accepted else ' '}] {item}"
-        for item in map(str, package.get("acceptance", []))
+        for item in map(
+            str,
+            package.get("acceptance", package.get("acceptance_criteria", [])),
+        )
     )
     evidence = "\n".join(f"- `{path}`" for path in package.get("evidence", []))
     blocker = str(package.get("blocker") or "No package-specific blocker declared.")
@@ -114,7 +117,7 @@ def _work_package_body(
         f"**State:** `{status}`\n"
         f"**Evidence level:** `{package.get('evidence_level', 'E0')}`\n"
         f"**Plan:** [`{relative}/plan.md`](../blob/main/{relative}/plan.md)\n\n"
-        f"{package['summary']}\n\n"
+        f"{package.get('summary', package.get('description', ''))}\n\n"
         "## Acceptance criteria\n\n"
         f"{acceptance}\n\n"
         "## Evidence\n\n"
@@ -138,6 +141,9 @@ def build_issue_manifest(
     existing_tracks, existing_blockers = (
         _existing_numbers(manifest_path) if preserve_numbers else ({}, {})
     )
+    packages_path = project / "conductor/work-packages.json"
+    package_source = _read_object(packages_path) if packages_path.exists() else {"packages": []}
+    package_records = package_source.get("packages", [])
     tracks: list[dict[str, Any]] = []
     package_count = 0
     for metadata_path in sorted((project / "conductor/tracks").glob("*/metadata.json")):
@@ -147,13 +153,12 @@ def build_issue_manifest(
         directory = metadata_path.parent
         relative = directory.relative_to(project).as_posix()
         previous = existing_tracks.get(track_id, {})
-        previous_phases = {
-            str(item.get("phase")): item for item in previous.get("phases", [])
-        }
-        packages_by_phase: dict[str, list[dict[str, Any]]] = {
-            phase: [] for phase in PHASE_NAMES
-        }
-        for package in metadata.get("work_packages", []):
+        previous_phases = {str(item.get("phase")): item for item in previous.get("phases", [])}
+        packages_by_phase: dict[str, list[dict[str, Any]]] = {phase: [] for phase in PHASE_NAMES}
+        authoritative_packages = [
+            item for item in package_records if str(item.get("track_id")) == track_id
+        ]
+        for package in (*metadata.get("work_packages", []), *authoritative_packages):
             phase = str(package["phase"])
             packages_by_phase.setdefault(phase, []).append(package)
         phase_records: list[dict[str, Any]] = []
@@ -161,8 +166,7 @@ def build_issue_manifest(
             status = str(metadata["phase_status"][phase])
             previous_phase = previous_phases.get(phase, {})
             previous_packages = {
-                str(item.get("id")): item
-                for item in previous_phase.get("work_packages", [])
+                str(item.get("id")): item for item in previous_phase.get("work_packages", [])
             }
             work_packages: list[dict[str, Any]] = []
             for package in sorted(
@@ -183,9 +187,7 @@ def build_issue_manifest(
                             track_title=title,
                             relative=relative,
                         ),
-                        "issue_number": previous_packages.get(package_id, {}).get(
-                            "issue_number"
-                        ),
+                        "issue_number": previous_packages.get(package_id, {}).get("issue_number"),
                     }
                 )
             package_count += len(work_packages)

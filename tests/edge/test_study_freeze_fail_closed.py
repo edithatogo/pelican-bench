@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from dataclasses import replace
 import json
+from dataclasses import replace
 from pathlib import Path
 
-from pydantic import ValidationError
 import pytest
+from pydantic import ValidationError
 
-from pelicanbench.io import file_hash, write_json, write_jsonl
 import pelicanbench.study_freeze as freeze
+from pelicanbench.io import file_hash, write_json, write_jsonl
 
 pytestmark = pytest.mark.edge
 
@@ -44,13 +44,17 @@ def _head(root: Path) -> dict[str, object]:
 
 
 def _record_payload(*, freeze_type: str = "analysis-lock") -> dict[str, object]:
-    ledger = None if freeze_type == "analysis-lock" else {
-        "schema_version": "1.0.0",
-        "event_count": 1,
-        "last_event_hash": FILE_HASH,
-        "ledger_hash": FILE_HASH,
-        "size_bytes": 1,
-    }
+    ledger = (
+        None
+        if freeze_type == "analysis-lock"
+        else {
+            "schema_version": "1.0.0",
+            "event_count": 1,
+            "last_event_hash": FILE_HASH,
+            "ledger_hash": FILE_HASH,
+            "size_bytes": 1,
+        }
+    )
     return {
         "schema_version": "1.0.0",
         "study_id": "PB-STUDY",
@@ -131,16 +135,17 @@ def test_ledger_head_and_frozen_file_validation() -> None:
     assert freeze._normalise_ledger_head({"valid": True, "head": valid}) == valid
 
     with pytest.raises(ValueError, match="path cannot be blank"):
-        freeze.FrozenFile.from_mapping(
-            {"relative_path": " ", "sha256": FILE_HASH, "size_bytes": 1}
-        )
+        freeze.FrozenFile.from_mapping({"relative_path": " ", "sha256": FILE_HASH, "size_bytes": 1})
     with pytest.raises(ValueError, match="size cannot be negative"):
         freeze.FrozenFile.from_mapping(
             {"relative_path": "x", "sha256": FILE_HASH, "size_bytes": -1}
         )
-    assert freeze.FrozenFile.from_mapping(
-        {"relative_path": "x", "sha256": FILE_HASH, "size_bytes": 0}
-    ).relative_path == "x"
+    assert (
+        freeze.FrozenFile.from_mapping(
+            {"relative_path": "x", "sha256": FILE_HASH, "size_bytes": 0}
+        ).relative_path
+        == "x"
+    )
 
 
 def test_ledger_file_matching_covers_corruption_shapes(tmp_path: Path) -> None:
@@ -149,7 +154,9 @@ def test_ledger_file_matching_covers_corruption_shapes(tmp_path: Path) -> None:
     head = _head(root)
     assert freeze._ledger_file_matches_head(path, head)
     assert not freeze._ledger_file_matches_head(path, head | {"ledger_hash": FILE_HASH})
-    assert not freeze._ledger_file_matches_head(path, head | {"size_bytes": path.stat().st_size + 1})
+    assert not freeze._ledger_file_matches_head(
+        path, head | {"size_bytes": path.stat().st_size + 1}
+    )
 
     malformed = root / "results/malformed.jsonl"
     malformed.write_text("{bad json\n", encoding="utf-8")

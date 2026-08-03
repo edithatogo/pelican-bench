@@ -29,7 +29,9 @@ def test_deterministic_archive_helpers(tmp_path: Path, monkeypatch):
     zip_a = create_deterministic_zip(root, tmp_path / "a.zip", paths, prefix="bundle")
     zip_b = create_deterministic_zip(root, tmp_path / "b.zip", reversed(paths), prefix="bundle")
     tar_a = create_deterministic_tar_gz(root, tmp_path / "a.tar.gz", paths, prefix="bundle")
-    tar_b = create_deterministic_tar_gz(root, tmp_path / "b.tar.gz", reversed(paths), prefix="bundle")
+    tar_b = create_deterministic_tar_gz(
+        root, tmp_path / "b.tar.gz", reversed(paths), prefix="bundle"
+    )
     assert _digest(zip_a) == _digest(zip_b)
     assert _digest(tar_a) == _digest(tar_b)
 
@@ -164,7 +166,9 @@ def test_release_package_guards(tmp_path: Path, monkeypatch):
         return "a" * 40
 
     monkeypatch.setattr(rp, "_run", clean)
-    monkeypatch.setattr(rp, "evaluate_release_readiness", lambda *_args, **_kwargs: SimpleNamespace(ready=False))
+    monkeypatch.setattr(
+        rp, "evaluate_release_readiness", lambda *_args, **_kwargs: SimpleNamespace(ready=False)
+    )
     with pytest.raises(RuntimeError, match="not ready"):
         rp.build_release_package(root, output, version="x", tag="vX")
 
@@ -277,8 +281,12 @@ def test_build_release_package_happy_path(tmp_path: Path, monkeypatch):
         result="pass",
         checks=(VerificationCheck(name="fixture", result="pass"),),
     )
-    monkeypatch.setattr(rp, "build_repository_verification_receipt", lambda *_args, **_kwargs: verification)
-    monkeypatch.setattr(rp, "validate_repository_verification_receipt", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(
+        rp, "build_repository_verification_receipt", lambda *_args, **_kwargs: verification
+    )
+    monkeypatch.setattr(
+        rp, "validate_repository_verification_receipt", lambda *_args, **_kwargs: None
+    )
 
     output = tmp_path / "delivery"
     output.mkdir()

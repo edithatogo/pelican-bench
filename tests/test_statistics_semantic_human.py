@@ -68,18 +68,23 @@ def test_bradley_terry():
 
 
 def fixture_observations():
-    rows=[]
-    for model,boost in [("m1",0.15),("m2",0.0)]:
-        for animal,a_effect in [("pelican",0.1),("cat",0.0),("dog",0.02)]:
-            for obj,o_effect in [("bicycle",0.05),("tuk-tuk",0.0),("skateboard",-0.02)]:
-                score=0.5+a_effect+o_effect+(boost if animal=="pelican" and obj=="bicycle" else 0)
-                rows.append(Observation(model,animal,obj,score))
+    rows = []
+    for model, boost in [("m1", 0.15), ("m2", 0.0)]:
+        for animal, a_effect in [("pelican", 0.1), ("cat", 0.0), ("dog", 0.02)]:
+            for obj, o_effect in [("bicycle", 0.05), ("tuk-tuk", 0.0), ("skateboard", -0.02)]:
+                score = (
+                    0.5
+                    + a_effect
+                    + o_effect
+                    + (boost if animal == "pelican" and obj == "bicycle" else 0)
+                )
+                rows.append(Observation(model, animal, obj, score))
     return rows
 
 
 def test_pelicanmaxxing_interaction():
     estimates = estimate_interaction(fixture_observations(), bootstrap_samples=100, seed=1)
-    by_model = {item.model_id:item for item in estimates}
+    by_model = {item.model_id: item for item in estimates}
     assert by_model["m1"].interaction > by_model["m2"].interaction
     assert rank_with_uncertainty(estimates)[0].model_id == "m1"
     assert by_model["m1"].ci_low <= by_model["m1"].ci_high

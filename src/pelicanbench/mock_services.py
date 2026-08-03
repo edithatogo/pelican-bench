@@ -11,9 +11,9 @@ import json
 import threading
 import time
 from collections import deque
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Iterable, Mapping
 
 from .semantic import AtomicQuestion, JudgeAnswer
 
@@ -185,7 +185,7 @@ class ScriptedOpenAIService:
         if self._server is None:
             raise RuntimeError("mock service has not been started")
         host, port = self._server.server_address[:2]
-        return f"http://{host}:{port}"
+        return f"http://{host!s}:{port}"
 
     @property
     def requests(self) -> tuple[MockHTTPRequest, ...]:
@@ -197,7 +197,9 @@ class ScriptedOpenAIService:
         with self._lock:
             return len(self._responses)
 
-    def _record(self, *, method: str, path: str, headers: Mapping[str, str], payload: object) -> None:
+    def _record(
+        self, *, method: str, path: str, headers: Mapping[str, str], payload: object
+    ) -> None:
         with self._lock:
             self._requests.append(
                 MockHTTPRequest(
@@ -244,7 +246,7 @@ class ScriptedOpenAIService:
                 self.wfile.flush()
                 self.close_connection = True
 
-            def do_GET(self) -> None:  # noqa: N802 - stdlib callback name
+            def do_GET(self) -> None:
                 owner._record(
                     method="GET",
                     path=self.path,
@@ -266,7 +268,7 @@ class ScriptedOpenAIService:
                     )
                 )
 
-            def do_POST(self) -> None:  # noqa: N802 - stdlib callback name
+            def do_POST(self) -> None:
                 length = int(self.headers.get("Content-Length", "0"))
                 raw = self.rfile.read(length)
                 try:

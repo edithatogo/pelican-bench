@@ -68,8 +68,7 @@ def render_with_inkscape(svg: str, *, size: int = 512, timeout: float = 30.0) ->
                 "--export-background-opacity=255",
             ],
             check=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             timeout=timeout,
         )
         if completed.returncode != 0 or not output.exists():

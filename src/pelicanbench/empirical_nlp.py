@@ -10,8 +10,9 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import asdict, dataclass, field
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 from .models import BenchmarkTask
 
@@ -65,7 +66,9 @@ STYLE_PATTERNS: dict[str, re.Pattern[str]] = {
     "line-art": re.compile(r"\bline[ -]?art\b", re.IGNORECASE),
 }
 VIEWPOINT_PATTERNS: dict[str, re.Pattern[str]] = {
-    "side": re.compile(r"\b(?:side|profile)\s+(?:view|on)\b|\bviewed\s+from\s+the\s+side\b", re.IGNORECASE),
+    "side": re.compile(
+        r"\b(?:side|profile)\s+(?:view|on)\b|\bviewed\s+from\s+the\s+side\b", re.IGNORECASE
+    ),
     "front": re.compile(r"\bfront(?:al)?\s+view\b|\bviewed\s+from\s+the\s+front\b", re.IGNORECASE),
     "rear": re.compile(r"\brear\s+view\b|\bviewed\s+from\s+behind\b", re.IGNORECASE),
     "three-quarter": re.compile(r"\bthree[- ]quarter\b|\b3/4\s+view\b", re.IGNORECASE),
@@ -81,7 +84,7 @@ class PromptRecord:
     metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def from_mapping(cls, value: Mapping[str, Any]) -> "PromptRecord":
+    def from_mapping(cls, value: Mapping[str, Any]) -> PromptRecord:
         return cls(
             source_id=str(value["source_id"]),
             record_id=str(value["record_id"]),
@@ -146,7 +149,9 @@ def _mentions(prompt: str, aliases: Mapping[str, str], entity_type: str) -> list
                 )
             )
     # Prefer the longest alias at the same start position and remove overlapping aliases.
-    output.sort(key=lambda item: (item.start, -(item.end - item.start), item.entity_type, item.canonical_id))
+    output.sort(
+        key=lambda item: (item.start, -(item.end - item.start), item.entity_type, item.canonical_id)
+    )
     retained: list[EntityMention] = []
     for item in output:
         if any(not (item.end <= prior.start or item.start >= prior.end) for prior in retained):
@@ -160,16 +165,20 @@ def annotate_prompt(record: PromptRecord | Mapping[str, Any]) -> PromptAnnotatio
     prompt = value.prompt
     animal_mentions = _mentions(prompt, ANIMAL_ALIASES, "animal")
     object_mentions = _mentions(prompt, MOBILE_OBJECT_ALIASES, "mobile_object")
-    mentions = tuple(sorted((*animal_mentions, *object_mentions), key=lambda item: (item.start, item.end)))
-    relations = tuple(
-        relation
-        for relation, pattern in RELATION_PATTERNS
-        if pattern.search(prompt)
+    mentions = tuple(
+        sorted((*animal_mentions, *object_mentions), key=lambda item: (item.start, item.end))
     )
+    relations = tuple(relation for relation, pattern in RELATION_PATTERNS if pattern.search(prompt))
     # "on a plane/boat" is an aboard relation, not a generic ride relation.
-    if "aboard" in relations and "rides_on" in relations and not re.search(r"\briding\b", prompt, re.IGNORECASE):
+    if (
+        "aboard" in relations
+        and "rides_on" in relations
+        and not re.search(r"\briding\b", prompt, re.IGNORECASE)
+    ):
         relations = tuple(item for item in relations if item != "rides_on")
-    viewpoints = tuple(name for name, pattern in VIEWPOINT_PATTERNS.items() if pattern.search(prompt))
+    viewpoints = tuple(
+        name for name, pattern in VIEWPOINT_PATTERNS.items() if pattern.search(prompt)
+    )
     styles = tuple(name for name, pattern in STYLE_PATTERNS.items() if pattern.search(prompt))
     tokens = tuple(match.group(0).lower() for match in TOKEN_RE.finditer(prompt))
     numbers = tuple(match.group(0) for match in NUMBER_RE.finditer(prompt))
@@ -188,14 +197,18 @@ def annotate_prompt(record: PromptRecord | Mapping[str, Any]) -> PromptAnnotatio
         numeric_constraints=numbers,
         asks_for_svg=bool(re.search(r"\bsvg\b", lower)),
         asks_for_animation=bool(re.search(r"\b(?:animate|animated|animation|motion)\b", lower)),
-        asks_for_editability=bool(re.search(r"\b(?:editable|editability|layered|grouped)\b", lower)),
+        asks_for_editability=bool(
+            re.search(r"\b(?:editable|editability|layered|grouped)\b", lower)
+        ),
         asks_for_text=bool(re.search(r"\b(?:caption|label|lettering|text)\b", lower)),
         compositional=compositional,
         awkward_or_adversarial=compositional,
     )
 
 
-def annotate_prompt_corpus(records: Iterable[PromptRecord | Mapping[str, Any]]) -> tuple[PromptAnnotation, ...]:
+def annotate_prompt_corpus(
+    records: Iterable[PromptRecord | Mapping[str, Any]],
+) -> tuple[PromptAnnotation, ...]:
     annotations = tuple(annotate_prompt(record) for record in records)
     identifiers = [item.record_id for item in annotations]
     if len(identifiers) != len(set(identifiers)):
@@ -212,12 +225,12 @@ def empirical_nlp_report(
     if count == 0:
         raise ValueError("at least one annotation is required")
     entities = Counter(
-        mention.canonical_id
-        for annotation in annotations
-        for mention in annotation.mentions
+        mention.canonical_id for annotation in annotations for mention in annotation.mentions
     )
     relations = Counter(relation for annotation in annotations for relation in annotation.relations)
-    viewpoints = Counter(viewpoint for annotation in annotations for viewpoint in annotation.viewpoints)
+    viewpoints = Counter(
+        viewpoint for annotation in annotations for viewpoint in annotation.viewpoints
+    )
     styles = Counter(style for annotation in annotations for style in annotation.styles)
     languages = Counter(annotation.language for annotation in annotations)
     return {
@@ -229,12 +242,15 @@ def empirical_nlp_report(
         "relation_counts": dict(sorted(relations.items())),
         "viewpoint_counts": dict(sorted(viewpoints.items())),
         "style_counts": dict(sorted(styles.items())),
-        "prompts_with_numeric_constraints": sum(bool(item.numeric_constraints) for item in annotations),
+        "prompts_with_numeric_constraints": sum(
+            bool(item.numeric_constraints) for item in annotations
+        ),
         "svg_intent_share": sum(item.asks_for_svg for item in annotations) / count,
         "animation_share": sum(item.asks_for_animation for item in annotations) / count,
         "editability_share": sum(item.asks_for_editability for item in annotations) / count,
         "compositional_share": sum(item.compositional for item in annotations) / count,
-        "awkward_or_adversarial_share": sum(item.awkward_or_adversarial for item in annotations) / count,
+        "awkward_or_adversarial_share": sum(item.awkward_or_adversarial for item in annotations)
+        / count,
     }
 
 
@@ -246,9 +262,7 @@ def task_design_coverage(
     evidence_status: str = "source-derived-rule-based-E2",
 ) -> dict[str, Any]:
     selected = [
-        task
-        for task in tasks
-        if panel_id is None or str(task.metadata.get("panel_id")) == panel_id
+        task for task in tasks if panel_id is None or str(task.metadata.get("panel_id")) == panel_id
     ]
     source_prompts = {item.prompt for item in annotations}
     task_prompts = {item.prompt for item in selected}
@@ -266,9 +280,13 @@ def task_design_coverage(
     }
     source_relations = {relation for item in annotations for relation in item.relations}
     represented_animals = {task.animal.id for task in selected}
-    represented_objects = {MOBILE_OBJECT_ALIASES.get(task.mobile_object.id, task.mobile_object.id) for task in selected}
+    represented_objects = {
+        MOBILE_OBJECT_ALIASES.get(task.mobile_object.id, task.mobile_object.id) for task in selected
+    }
     matched_annotations = [item for item in annotations if item.prompt in task_prompts]
-    represented_relations = {relation for item in matched_annotations for relation in item.relations}
+    represented_relations = {
+        relation for item in matched_annotations for relation in item.relations
+    }
     exact_matches = len(source_prompts & task_prompts)
     return {
         "schema_version": "1.0.0",

@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from pelicanbench.canvas import CanvasEnvironment
-from pelicanbench.environments import PelicanCanvasOpenEnv, REFERENCE_ADAPTERS
+from pelicanbench.environments import REFERENCE_ADAPTERS, PelicanCanvasOpenEnv
 from pelicanbench.svg import inspect_svg
 
 
@@ -51,7 +51,9 @@ def test_canvas_validation():
     with pytest.raises(ValueError):
         canvas.step({"type": "update", "id": "x", "changes": {"attributes": {"href": "x"}}})
     with pytest.raises(ValueError):
-        canvas.step({"type": "update", "id": "x", "changes": {"attributes": {"fill": "url(http://x)"}}})
+        canvas.step(
+            {"type": "update", "id": "x", "changes": {"attributes": {"fill": "url(http://x)"}}}
+        )
 
 
 def test_openenv_error_is_observation():
@@ -65,4 +67,8 @@ def test_openenv_error_is_observation():
 
 
 def test_adapter_registry():
-    assert {item.adapter_id for item in REFERENCE_ADAPTERS} >= {"pelican-canvas", "krita-cli-legacy", "penpot-future"}
+    assert {item.adapter_id for item in REFERENCE_ADAPTERS} >= {
+        "pelican-canvas",
+        "krita-cli-legacy",
+        "penpot-future",
+    }

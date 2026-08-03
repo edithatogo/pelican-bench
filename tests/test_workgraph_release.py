@@ -30,9 +30,7 @@ def test_generated_conductor_views_and_issue_graph_are_current(root: Path):
     assert len(actual["release_blockers"]) == 5
 
 
-def test_release_manifest_records_assurance_work_graph_and_artifacts(
-    root: Path, tmp_path: Path
-):
+def test_release_manifest_records_assurance_work_graph_and_artifacts(root: Path, tmp_path: Path):
     artifact = tmp_path / "artifact.txt"
     artifact.write_text("pelican\n", encoding="utf-8")
     manifest = build_release_manifest(
@@ -60,7 +58,9 @@ def test_sbom_contains_source_and_dependency_relationships(root: Path):
         item for item in document["relationships"] if item["relationshipType"] == "DEPENDS_ON"
     ]
     assert dependency_relationships
-    assert all(item["spdxElementId"] == "SPDXRef-Package-pelicanbench" for item in dependency_relationships)
+    assert all(
+        item["spdxElementId"] == "SPDXRef-Package-pelicanbench" for item in dependency_relationships
+    )
 
 
 def _copy_repository(root: Path, destination: Path) -> Path:
@@ -107,9 +107,7 @@ def test_validation_rejects_inconsistent_blockers_and_broken_exploit_refs(
 
     registry_path = project / "benchmark/scorer-challenges/known-exploits.json"
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
-    registry["exploits"][0]["regression_tests"] = [
-        "tests/test_svg_scoring.py::test_does_not_exist"
-    ]
+    registry["exploits"][0]["regression_tests"] = ["tests/test_svg_scoring.py::test_does_not_exist"]
     registry_path.write_text(json.dumps(registry), encoding="utf-8")
     exploit_codes = {item.code for item in _validate_known_exploits(project)}
     assert "missing-exploit-test" in exploit_codes

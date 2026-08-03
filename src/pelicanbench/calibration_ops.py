@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 from .io import content_hash
 
@@ -94,7 +95,9 @@ def build_adjudication_queue(
                 needs_review = modal_share < minimum_modal_share
             else:
                 numeric = [float(item) for item in raw]
-                counts = Counter(str(int(item)) if item.is_integer() else str(item) for item in numeric)
+                counts = Counter(
+                    str(int(item)) if item.is_integer() else str(item) for item in numeric
+                )
                 modal_share = max(counts.values()) / len(raw)
                 reason = "criterion-rating-range"
                 needs_review = max(numeric) - min(numeric) >= criterion_range_threshold

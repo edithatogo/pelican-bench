@@ -1,0 +1,1 @@
+{"recommended_replicates":5,"scenarios":[{"estimated_power":0.76,"replicates":3},{"estimated_power":0.9,"replicates":5},{"estimated_power":0.99,"replicates":7}],"schema_version":"1.0.0","seed":20260803,"target_power":0.8}

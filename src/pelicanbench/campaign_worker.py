@@ -12,11 +12,12 @@ budget, and state transitions.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 import math
+from collections.abc import Callable, Iterable, Mapping
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from threading import Event, Thread
-from typing import Any, Callable, Iterable, Mapping
+from typing import Any, cast
 
 from .adapters import ModelAdapter
 from .campaign import CampaignManifest
@@ -108,8 +109,7 @@ class CampaignWorkerResult:
 
 def _safe_identifier(value: str) -> str:
     candidate = "".join(
-        character if character.isalnum() or character in "-_." else "_"
-        for character in value
+        character if character.isalnum() or character in "-_." else "_" for character in value
     )
     return candidate or "cell"
 
@@ -228,18 +228,14 @@ def export_campaign_execution_index(root: str | Path, output: str | Path) -> Pat
     return write_jsonl(output, read_campaign_execution_records(root))
 
 
-
 def _is_worker_terminal_event(event: StoreEvent) -> bool:
-    return (
-        event.reason in {
-            "task-missing-from-worker-corpus",
-            "worker-infrastructure-failure",
-            "generation-failed",
-            "runner-produced-no-outcome",
-            "canonical-artifact-retained",
-        }
-        or event.reason.startswith("artifact-failed-retention-gates:")
-    )
+    return event.reason in {
+        "task-missing-from-worker-corpus",
+        "worker-infrastructure-failure",
+        "generation-failed",
+        "runner-produced-no-outcome",
+        "canonical-artifact-retained",
+    } or event.reason.startswith("artifact-failed-retention-gates:")
 
 
 def _terminal_event_key(event: StoreEvent) -> tuple[str, str, int]:
@@ -258,9 +254,7 @@ def reconcile_campaign_execution_records(
     errors: list[str] = []
     store_reconciliation = reconcile_campaign_store(database, manifest)
     if not store_reconciliation.valid:
-        errors.extend(
-            f"campaign store: {message}" for message in store_reconciliation.errors
-        )
+        errors.extend(f"campaign store: {message}" for message in store_reconciliation.errors)
     terminal_events = tuple(
         event
         for event in read_store_events(database)
@@ -298,33 +292,33 @@ def reconcile_campaign_execution_records(
             record_map[key] = record
 
     for key in sorted(set(event_map) | set(record_map)):
-        event = event_map.get(key)
-        record = record_map.get(key)
-        if event is None:
+        matched_event = event_map.get(key)
+        matched_record = record_map.get(key)
+        if matched_event is None:
             errors.append(f"execution record has no terminal event: {key}")
             continue
-        if record is None:
+        if matched_record is None:
             errors.append(f"terminal event has no execution record: {key}")
             continue
         expected_fields = {
-            "campaign_id": event.campaign_id,
-            "cell_id": event.cell_id,
-            "worker_id": event.worker_id,
-            "lease_token": event.lease_token,
-            "attempt": event.attempt,
-            "terminal_state": event.new_state,
-            "terminal_reason": event.reason,
-            "artifact_id": event.artifact_id,
+            "campaign_id": matched_event.campaign_id,
+            "cell_id": matched_event.cell_id,
+            "worker_id": matched_event.worker_id,
+            "lease_token": matched_event.lease_token,
+            "attempt": matched_event.attempt,
+            "terminal_state": matched_event.new_state,
+            "terminal_reason": matched_event.reason,
+            "artifact_id": matched_event.artifact_id,
         }
         for field, expected in expected_fields.items():
-            if record.get(field) != expected:
+            if matched_record.get(field) != expected:
                 errors.append(f"execution record field mismatch for {key}: {field}")
         try:
-            charged_cost = float(record["charged_cost"])
+            charged_cost = float(matched_record["charged_cost"])
         except (KeyError, TypeError, ValueError):
             errors.append(f"execution record has invalid charged_cost: {key}")
         else:
-            if abs(charged_cost - event.actual_cost) > 1e-8:
+            if abs(charged_cost - matched_event.actual_cost) > 1e-8:
                 errors.append(f"execution record cost mismatch for {key}")
 
     payload = {
@@ -367,9 +361,7 @@ def _reported_cost(metadata: Mapping[str, Any]) -> float | None:
         except (TypeError, ValueError):
             continue
         if not math.isfinite(amount) or amount < 0:
-            raise ValueError(
-                "adapter-reported campaign cost must be finite and non-negative"
-            )
+            raise ValueError("adapter-reported campaign cost must be finite and non-negative")
         return amount
     return None
 
@@ -453,9 +445,7 @@ def _record(
         "cost_basis": cost_basis,
         "artifact_id": None if trial is None else trial.artifact_id,
         "run_id": result.manifest.run_id,
-        "scorecard_hash": (
-            None if score is None else content_hash(score.model_dump(mode="json"))
-        ),
+        "scorecard_hash": (None if score is None else content_hash(score.model_dump(mode="json"))),
         "output_directory": output_directory.as_posix(),
         "error_type": error_type,
         "error_message": error_message,
@@ -464,7 +454,7 @@ def _record(
         "attempt": lease.attempt,
     }
     return CampaignCellExecution(
-        **payload,
+        **cast(Any, payload),
         record_hash=content_hash(payload),
     )
 
@@ -501,19 +491,14 @@ def execute_campaign_batch(
         raise ValueError("limit must be positive")
     if heartbeat_interval_seconds is not None and heartbeat_interval_seconds < 0:
         raise ValueError("heartbeat_interval_seconds cannot be negative")
-    if now is not None and heartbeat_interval_seconds not in {None, 0, 0.0}:
-        raise ValueError(
-            "automatic heartbeats cannot be combined with a fixed deterministic time"
-        )
+    if now is not None and heartbeat_interval_seconds not in {None, 0}:
+        raise ValueError("automatic heartbeats cannot be combined with a fixed deterministic time")
     selected_heartbeat_interval = heartbeat_interval_seconds
     if selected_heartbeat_interval is None:
         selected_heartbeat_interval = (
             0.0 if now is not None else max(1.0, min(float(lease_seconds) / 3.0, 300.0))
         )
-    if (
-        selected_heartbeat_interval >= lease_seconds
-        and selected_heartbeat_interval > 0
-    ):
+    if selected_heartbeat_interval >= lease_seconds and selected_heartbeat_interval > 0:
         raise ValueError("heartbeat interval must be shorter than the lease duration")
     task_map = {task.task_id: task for task in tasks}
     leases = lease_campaign_cells(
@@ -572,15 +557,13 @@ def execute_campaign_batch(
                 "heartbeat_error": None,
                 "attempt": lease.attempt,
             }
-            record = CampaignCellExecution(**payload, record_hash=content_hash(payload))
+            record = CampaignCellExecution(**cast(Any, payload), record_hash=content_hash(payload))
             _write_immutable_json(_record_path(root, record), record.as_dict())
             records.append(record)
             continue
 
         cell_relative = (
-            Path("cells")
-            / _safe_identifier(lease.cell_id)
-            / f"attempt-{lease.attempt:03d}"
+            Path("cells") / _safe_identifier(lease.cell_id) / f"attempt-{lease.attempt:03d}"
         )
         cell_directory = root / cell_relative
         heartbeat = _LeaseHeartbeat(
@@ -644,7 +627,7 @@ def execute_campaign_batch(
                 "heartbeat_error": heartbeat_result.error,
                 "attempt": lease.attempt,
             }
-            record = CampaignCellExecution(**payload, record_hash=content_hash(payload))
+            record = CampaignCellExecution(**cast(Any, payload), record_hash=content_hash(payload))
             _write_immutable_json(_record_path(root, record), record.as_dict())
             records.append(record)
             continue
@@ -715,12 +698,7 @@ def execute_campaign_batch(
         batch_hash=content_hash(summary_payload),
     )
     batch_digest = batch.batch_hash.split(":", 1)[1][:16]
-    batch_path = (
-        root
-        / "worker-batches"
-        / _safe_identifier(worker_id)
-        / f"{batch_digest}.json"
-    )
+    batch_path = root / "worker-batches" / _safe_identifier(worker_id) / f"{batch_digest}.json"
     _write_immutable_json(batch_path, batch.as_dict())
     return batch
 

@@ -8,9 +8,10 @@ content-addressed commitment using only PelicanBench's runtime dependencies.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 from .empirical_nlp import PromptRecord, annotate_prompt_corpus, task_design_coverage
 from .io import file_hash, read_json, read_jsonl
@@ -59,7 +60,7 @@ def _task_panel(task: BenchmarkTask) -> str:
 
 def _matches_selector(task: BenchmarkTask, selector: Mapping[str, Any]) -> bool:
     if selector.get("task_id") is not None:
-        return task.task_id == selector["task_id"]
+        return bool(task.task_id == selector["task_id"])
     expected: dict[str, Any] = {
         "panel_id": _task_panel(task),
         "animal": task.animal.id,
@@ -109,7 +110,9 @@ def _validate_factorial_panel(
         if len(rows) != prompt_variants
     )
     if missing:
-        findings.append(CandidateFinding("error", "factorial-cells-missing", f"{panel_id}: {missing}"))
+        findings.append(
+            CandidateFinding("error", "factorial-cells-missing", f"{panel_id}: {missing}")
+        )
     if unexpected:
         findings.append(
             CandidateFinding("error", "factorial-cells-unexpected", f"{panel_id}: {unexpected}")
@@ -147,19 +150,27 @@ def validate_candidate(
         values = [getattr(task, attribute) for task in tasks]
         if len(values) != len(set(values)):
             findings.append(
-                CandidateFinding("error", f"duplicate-{attribute}", f"{attribute} values must be unique")
+                CandidateFinding(
+                    "error", f"duplicate-{attribute}", f"{attribute} values must be unique"
+                )
             )
 
     release = str(design.get("release", ""))
-    wrong_release = sorted({task.benchmark_release for task in tasks if task.benchmark_release != release})
+    wrong_release = sorted(
+        {task.benchmark_release for task in tasks if task.benchmark_release != release}
+    )
     if wrong_release:
         findings.append(
-            CandidateFinding("error", "mixed-release", f"tasks use unexpected releases: {wrong_release}")
+            CandidateFinding(
+                "error", "mixed-release", f"tasks use unexpected releases: {wrong_release}"
+            )
         )
 
     panel_counts = dict(sorted(Counter(_task_panel(task) for task in tasks).items()))
     if commitment.get("panel_counts") != panel_counts:
-        findings.append(CandidateFinding("error", "panel-count-mismatch", "commitment panel counts differ"))
+        findings.append(
+            CandidateFinding("error", "panel-count-mismatch", "commitment panel counts differ")
+        )
 
     expected_counts = {
         "task_count": len(tasks),
@@ -169,26 +180,43 @@ def validate_candidate(
     for name, expected in expected_counts.items():
         if commitment.get(name) != expected:
             findings.append(
-                CandidateFinding("error", f"{name}-mismatch", f"expected {expected}, got {commitment.get(name)}")
+                CandidateFinding(
+                    "error", f"{name}-mismatch", f"expected {expected}, got {commitment.get(name)}"
+                )
             )
 
     candidate_commitment = task_set_commitment(tasks)
     if commitment.get("commitment") != candidate_commitment:
         findings.append(
-            CandidateFinding("error", "task-commitment-mismatch", "task identity commitment differs")
+            CandidateFinding(
+                "error", "task-commitment-mismatch", "task identity commitment differs"
+            )
         )
     design_digest = file_hash(project / design_path)
     if commitment.get("design_sha256") != design_digest:
-        findings.append(CandidateFinding("error", "design-hash-mismatch", "design file hash differs"))
+        findings.append(
+            CandidateFinding("error", "design-hash-mismatch", "design file hash differs")
+        )
 
     panels: dict[str, list[BenchmarkTask]] = defaultdict(list)
     for task in tasks:
         panels[_task_panel(task)].append(task)
     heritage = panels.get("heritage-anchor", [])
     if len(heritage) != 1 or heritage[0].prompt != "Generate an SVG of a pelican riding a bicycle":
-        findings.append(CandidateFinding("error", "heritage-anchor-invalid", "heritage anchor changed"))
+        findings.append(
+            CandidateFinding("error", "heritage-anchor-invalid", "heritage anchor changed")
+        )
 
-    bridge_animals = {"pelican", "flamingo", "heron", "otter", "raccoon", "antelope", "whale", "cat"}
+    bridge_animals = {
+        "pelican",
+        "flamingo",
+        "heron",
+        "otter",
+        "raccoon",
+        "antelope",
+        "whale",
+        "cat",
+    }
     bridge_objects = {"bicycle", "unicycle", "skateboard", "scooter", "plane", "boat"}
     findings.extend(
         _validate_factorial_panel(
@@ -234,7 +262,9 @@ def validate_candidate(
     )
     if empirical["exact_prompt_coverage"] != 1.0:
         findings.append(
-            CandidateFinding("error", "empirical-bridge-incomplete", "source prompts are not fully represented")
+            CandidateFinding(
+                "error", "empirical-bridge-incomplete", "source prompts are not fully represented"
+            )
         )
 
     return CandidateValidationReport(

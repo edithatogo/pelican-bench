@@ -13,9 +13,10 @@ import ast
 import json
 import re
 import tomllib
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -193,12 +194,17 @@ def _call_name(node: ast.Call) -> str:
 def _is_mutable_default(node: ast.expr | None) -> bool:
     if isinstance(node, (ast.List, ast.Dict, ast.Set)):
         return True
-    return isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in {
-        "list",
-        "dict",
-        "set",
-        "defaultdict",
-    }
+    return (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id
+        in {
+            "list",
+            "dict",
+            "set",
+            "defaultdict",
+        }
+    )
 
 
 def _function_annotation_findings(
@@ -390,7 +396,11 @@ def _python_findings(root: Path, path: Path, text: str) -> list[Finding]:
         imported: list[tuple[str, int, int]] = []
         if isinstance(statement, ast.Import):
             imported.extend(
-                (alias.asname or alias.name.split(".", 1)[0], statement.lineno, statement.col_offset + 1)
+                (
+                    alias.asname or alias.name.split(".", 1)[0],
+                    statement.lineno,
+                    statement.col_offset + 1,
+                )
                 for alias in statement.names
             )
         elif isinstance(statement, ast.ImportFrom) and statement.module != "__future__":
@@ -556,9 +566,9 @@ def _structured_findings(root: Path, path: Path, text: str) -> list[Finding]:
         elif path.suffix in {".yml", ".yaml"}:
             try:
                 import yaml  # type: ignore[import-untyped]
-            except ModuleNotFoundError:
+            except ModuleNotFoundError as exc:
                 if "\t" in text:
-                    raise ValueError("YAML contains a tab")
+                    raise ValueError("YAML contains a tab") from exc
             else:
                 yaml.safe_load(text)
     except (json.JSONDecodeError, DuplicateKeyError, tomllib.TOMLDecodeError, ValueError) as exc:
@@ -635,7 +645,9 @@ def _configuration_findings(root: Path) -> list[Finding]:
     pyproject = root / "pyproject.toml"
     if pyproject.exists():
         value = tomllib.loads(pyproject.read_text(encoding="utf-8"))
-        threshold = float(value.get("tool", {}).get("coverage", {}).get("report", {}).get("fail_under", 0))
+        threshold = float(
+            value.get("tool", {}).get("coverage", {}).get("report", {}).get("fail_under", 0)
+        )
         if threshold < 90:
             findings.append(
                 _finding(
@@ -649,10 +661,18 @@ def _configuration_findings(root: Path) -> list[Finding]:
             )
         mypy = value.get("tool", {}).get("mypy", {})
         if mypy.get("strict") is not True:
-            findings.append(_finding("CFG003", "error", "typing", root, pyproject, "mypy strict mode is disabled"))
+            findings.append(
+                _finding(
+                    "CFG003", "error", "typing", root, pyproject, "mypy strict mode is disabled"
+                )
+            )
         pyright = value.get("tool", {}).get("pyright", {})
         if pyright.get("typeCheckingMode") != "strict":
-            findings.append(_finding("CFG004", "error", "typing", root, pyproject, "Pyright strict mode is disabled"))
+            findings.append(
+                _finding(
+                    "CFG004", "error", "typing", root, pyproject, "Pyright strict mode is disabled"
+                )
+            )
     return findings
 
 

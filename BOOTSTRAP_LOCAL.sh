@@ -18,6 +18,10 @@ git branch -M "$BRANCH"
 
 if command -v uv >/dev/null 2>&1; then
   uv sync --all-extras --dev
+  # uv does not activate the environment it creates.  The harness deliberately uses
+  # ``python`` so activate the repository-local interpreter before running any gate.
+  # shellcheck disable=SC1091
+  source .venv/bin/activate
 elif command -v python3 >/dev/null 2>&1; then
   python3 -m venv .venv
   # shellcheck disable=SC1091

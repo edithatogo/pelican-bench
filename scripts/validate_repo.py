@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Validate repository contracts and evidence references."""
+
 from __future__ import annotations
 
 from pathlib import Path

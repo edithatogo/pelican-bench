@@ -9,10 +9,11 @@ from the scientific identity so an identical freeze can be rebuilt deterministic
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterable, Literal, Mapping, Self, cast
+from typing import Any, Literal, Self, cast
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -41,8 +42,10 @@ def _valid_sha256(value: str) -> bool:
     if not value.startswith("sha256:"):
         return False
     digest = value.removeprefix("sha256:")
-    return len(digest) == 64 and digest == digest.lower() and all(
-        character in "0123456789abcdef" for character in digest
+    return (
+        len(digest) == 64
+        and digest == digest.lower()
+        and all(character in "0123456789abcdef" for character in digest)
     )
 
 
@@ -178,19 +181,17 @@ class FrozenFile:
         return item
 
 
-
-
 def _ledger_file_matches_head(path: Path, head: Mapping[str, object]) -> bool:
     """Verify that one frozen JSONL ledger is exactly the committed ledger head."""
     if file_hash(path) != str(head["ledger_hash"]):
         return False
-    if path.stat().st_size != int(head["size_bytes"]):
+    if path.stat().st_size != int(str(head["size_bytes"])):
         return False
     try:
         records = read_jsonl(path)
     except (OSError, ValueError):
         return False
-    if len(records) != int(head["event_count"]) or not records:
+    if len(records) != int(str(head["event_count"])) or not records:
         return False
     final = records[-1]
     if not isinstance(final, Mapping):
@@ -274,7 +275,6 @@ class StudyFreezeManifest:
             metadata=_canonical_object(parsed.metadata, field="study freeze metadata"),
             freeze_commitment=parsed.freeze_commitment,
         )
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -463,10 +463,11 @@ def verify_study_freeze(
     else:
         protocol_matches = value.protocol_lock_commitment == file_hash(protocol_path)
     commitment_matches = value.freeze_commitment == content_hash(_freeze_payload(value))
-    ledger_valid = value.ledger_head is None or _normalise_ledger_head(value.ledger_head) is not None
-    ledger_file_matches = (
-        value.ledger_head is None
-        or _ledger_head_matches_files(project, value.files, value.ledger_head)
+    ledger_valid = (
+        value.ledger_head is None or _normalise_ledger_head(value.ledger_head) is not None
+    )
+    ledger_file_matches = value.ledger_head is None or _ledger_head_matches_files(
+        project, value.files, value.ledger_head
     )
     passed = (
         not missing

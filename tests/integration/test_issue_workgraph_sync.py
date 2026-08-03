@@ -69,8 +69,8 @@ def test_issue_sync_apply_path_builds_three_level_hierarchy_without_network(
     main.__globals__["run_json"] = lambda _command: {"hosts": {}}
     main.__globals__["ensure_labels"] = fake_labels
     main.__globals__["ensure_issue"] = fake_issue
-    main.__globals__["attach_native_sub_issue"] = (
-        lambda _repo, parent, child: attachments.append((parent, child))
+    main.__globals__["attach_native_sub_issue"] = lambda _repo, parent, child: attachments.append(
+        (parent, child)
     )
     monkeypatch.setattr(main.__globals__["shutil"], "which", lambda _name: "/fixture/gh")
     monkeypatch.setattr(sys, "argv", ["sync_github_issues.py", "--apply", "--repo", "x/y"])

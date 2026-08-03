@@ -142,7 +142,9 @@ def default_publication_plan() -> PublicationPlan:
                 mode="agent-review",
                 description="Review Substack and manuscript drafts using the portable Authentext Agent Skill.",
                 input_paths=("substack", "arxiv", "review/authentext-brief.md"),
-                requires_configuration=("Authentext SKILL.md and references available to the reviewing agent",),
+                requires_configuration=(
+                    "Authentext SKILL.md and references available to the reviewing agent",
+                ),
             ),
             PublicationAction(
                 action_id="scholarly-integrity-review",
@@ -208,7 +210,14 @@ def default_publication_plan() -> PublicationPlan:
                 tool="osf-cli-go",
                 mode="local-check",
                 description="Validate an existing OSF node against the research-output profile.",
-                command=("osf", "validate", "<OSF_NODE_ID>", "--profile", "research-output", "--json"),
+                command=(
+                    "osf",
+                    "validate",
+                    "<OSF_NODE_ID>",
+                    "--profile",
+                    "research-output",
+                    "--json",
+                ),
                 input_paths=("osf/project-metadata.json", "manifest.json", "evidence"),
                 requires_configuration=("OSF_NODE_ID",),
             ),
@@ -456,7 +465,9 @@ evidence is added.
     (output / "README.md").write_text(readme, encoding="utf-8")
 
     pre_manifest_files = sorted(
-        path for path in output.rglob("*") if path.is_file() and path.name not in {"manifest.json", "SHA256SUMS"}
+        path
+        for path in output.rglob("*")
+        if path.is_file() and path.name not in {"manifest.json", "SHA256SUMS"}
     )
     records = tuple(
         PublicationBundleFile(
@@ -476,7 +487,9 @@ evidence is added.
     )
     write_json(output / "manifest.json", manifest.model_dump(mode="json"))
 
-    checksum_files = sorted(path for path in output.rglob("*") if path.is_file() and path.name != "SHA256SUMS")
+    checksum_files = sorted(
+        path for path in output.rglob("*") if path.is_file() and path.name != "SHA256SUMS"
+    )
     lines = [f"{_sha256(path)}  {path.relative_to(output).as_posix()}" for path in checksum_files]
     (output / "SHA256SUMS").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return manifest

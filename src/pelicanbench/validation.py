@@ -5,9 +5,10 @@ from __future__ import annotations
 import json
 import re
 import tomllib
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, cast
 
 from pydantic import ValidationError
 
@@ -32,8 +33,13 @@ from .models import (
 from .ontology import Ontology, evaluate_competency_cases
 from .pilot import PilotExecutionPlan
 from .publication import PublicationBundleManifest, PublicationPlan, default_publication_plan
+from .registry import (
+    RuntimeProfileRegistry,
+    load_registry,
+    load_runtime_profiles,
+    runtime_profile_for_model,
+)
 from .release_records import ReleasePackageReceipt
-from .registry import RuntimeProfileRegistry, load_registry, load_runtime_profiles, runtime_profile_for_model
 from .taskgen import load_grammar, task_set_commitment
 from .workgraph import build_issue_manifest
 
@@ -211,7 +217,7 @@ def _validate_schema_snapshots(project: Path) -> list[ValidationFinding]:
             )
             continue
         actual = json.loads(path.read_text(encoding="utf-8"))
-        expected = model.model_json_schema()
+        expected = cast(Any, model).model_json_schema()
         if actual != expected:
             findings.append(
                 ValidationFinding(
@@ -672,11 +678,7 @@ def _validate_conductor_views(project: Path) -> list[ValidationFinding]:
     try:
         documents = generated_documents(project)
     except (KeyError, TypeError, ValueError) as exc:
-        return [
-            ValidationFinding(
-                "error", "invalid-conductor-view", str(exc), "conductor"
-            )
-        ]
+        return [ValidationFinding("error", "invalid-conductor-view", str(exc), "conductor")]
     for path, expected in documents.items():
         if not path.exists() or path.read_text(encoding="utf-8") != expected:
             findings.append(
@@ -771,7 +773,6 @@ def _validate_known_exploits(project: Path) -> list[ValidationFinding]:
                     )
                 )
     return findings
-
 
 
 def _validate_workflow_action_pins(root: Path) -> list[ValidationFinding]:
@@ -930,7 +931,9 @@ def _validate_runtime_registry(project: Path) -> list[ValidationFinding]:
                 )
             )
             continue
-        if model.runtime_profile and (matched is None or matched.profile_id != model.runtime_profile):
+        if model.runtime_profile and (
+            matched is None or matched.profile_id != model.runtime_profile
+        ):
             findings.append(
                 ValidationFinding(
                     "error",
@@ -977,7 +980,10 @@ def _validate_repository_standards_schema(project: Path) -> list[ValidationFindi
     value = _load_object(path)
     expected_id = "https://github.com/edithatogo/repository-standards/schemas/verification-receipt.schema.json"
     findings: list[ValidationFinding] = []
-    if value.get("$id") != expected_id or value.get("properties", {}).get("schema_version", {}).get("const") != 1:
+    if (
+        value.get("$id") != expected_id
+        or value.get("properties", {}).get("schema_version", {}).get("const") != 1
+    ):
         findings.append(
             ValidationFinding(
                 "error",
@@ -1092,28 +1098,48 @@ def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
             if coverage_run.get("branch") is not True:
                 findings.append(
                     ValidationFinding(
-                        "error", "coverage-branch-disabled", "branch coverage must be enabled", "pyproject.toml"
+                        "error",
+                        "coverage-branch-disabled",
+                        "branch coverage must be enabled",
+                        "pyproject.toml",
                     )
                 )
             if float(coverage_report.get("fail_under", 0)) < 90:
                 findings.append(
                     ValidationFinding(
-                        "error", "coverage-threshold-low", "coverage fail_under must be at least 90", "pyproject.toml"
+                        "error",
+                        "coverage-threshold-low",
+                        "coverage fail_under must be at least 90",
+                        "pyproject.toml",
                     )
                 )
             if tool.get("mypy", {}).get("strict") is not True:
                 findings.append(
-                    ValidationFinding("error", "mypy-not-strict", "mypy strict mode is required", "pyproject.toml")
+                    ValidationFinding(
+                        "error", "mypy-not-strict", "mypy strict mode is required", "pyproject.toml"
+                    )
                 )
             if tool.get("pyright", {}).get("typeCheckingMode") != "strict":
                 findings.append(
                     ValidationFinding(
-                        "error", "pyright-not-strict", "Pyright strict mode is required", "pyproject.toml"
+                        "error",
+                        "pyright-not-strict",
+                        "Pyright strict mode is required",
+                        "pyproject.toml",
                     )
                 )
             required_markers = {
-                "unit", "integration", "e2e", "property", "mutation", "edge",
-                "dst", "contract", "metamorphic", "agent", "autonomous",
+                "unit",
+                "integration",
+                "e2e",
+                "property",
+                "mutation",
+                "edge",
+                "dst",
+                "contract",
+                "metamorphic",
+                "agent",
+                "autonomous",
             }
             marker_values = tool.get("pytest", {}).get("ini_options", {}).get("markers", [])
             present_markers = {str(item).split(":", 1)[0].strip() for item in marker_values}
@@ -1130,11 +1156,25 @@ def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
 
     required_fragments = {
         ".github/workflows/quality.yml": (
-            "ruff check", "ruff format --check", "mypy", "pyright", "vale-action",
+            "ruff check",
+            "ruff format --check",
+            "mypy",
+            "pyright",
+            "vale-action",
         ),
-        ".github/workflows/ci.yml": ("codecov/codecov-action@", "use_oidc: true", "fail_ci_if_error: true"),
+        ".github/workflows/ci.yml": (
+            "codecov/codecov-action@",
+            "use_oidc: true",
+            "fail_ci_if_error: true",
+        ),
         ".github/workflows/test-taxonomy.yml": (
-            "unit", "integration", "e2e", "property", "mutation", "dst", "autonomous",
+            "unit",
+            "integration",
+            "e2e",
+            "property",
+            "mutation",
+            "dst",
+            "autonomous",
         ),
         ".github/workflows/mutation.yml": ("mutation_smoke.py", "mutmut"),
         ".github/workflows/renovate.yml": ("renovatebot/github-action@",),
@@ -1161,7 +1201,10 @@ def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
         if "target: 90%" not in text or "patch:" not in text:
             findings.append(
                 ValidationFinding(
-                    "error", "codecov-threshold-incomplete", "project and patch 90% targets are required", "codecov.yml"
+                    "error",
+                    "codecov-threshold-incomplete",
+                    "project and patch 90% targets are required",
+                    "codecov.yml",
                 )
             )
     renovate_path = project / "renovate.json"
@@ -1182,14 +1225,13 @@ def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
                 )
     return findings
 
+
 def validate_repository(root: str | Path) -> list[ValidationFinding]:
     project = Path(root)
     findings: list[ValidationFinding] = []
     for relative in REQUIRED_PATHS:
         if not (project / relative).exists():
-            findings.append(
-                ValidationFinding("error", "missing-required-path", relative, relative)
-            )
+            findings.append(ValidationFinding("error", "missing-required-path", relative, relative))
 
     for pattern in ("*.json", "*.jsonld"):
         for path in project.rglob(pattern):
@@ -1226,9 +1268,7 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
             Ontology.load(path)
         except (KeyError, TypeError, ValueError) as exc:
             findings.append(
-                ValidationFinding(
-                    "error", "invalid-ontology", str(exc), _relative(project, path)
-                )
+                ValidationFinding("error", "invalid-ontology", str(exc), _relative(project, path))
             )
 
     findings.extend(_validate_schema_snapshots(project))

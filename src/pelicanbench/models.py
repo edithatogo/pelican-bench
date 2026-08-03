@@ -73,13 +73,15 @@ class BenchmarkTask(StrictModel):
     viewpoint: str = "side"
     style: str = "simple vector illustration"
     difficulty: int = Field(default=1, ge=1, le=5)
-    seed: int = Field(ge=0, description="Design seed; trial sampling seeds are recorded separately.")
+    seed: int = Field(
+        ge=0, description="Design seed; trial sampling seeds are recorded separately."
+    )
     public: bool = True
     references: tuple[str, ...] = ()
     metadata: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
-    def relation_entities_exist(self) -> "BenchmarkTask":
+    def relation_entities_exist(self) -> BenchmarkTask:
         identifiers = {self.animal.id, self.mobile_object.id}
         for relation in self.relations:
             if relation.subject not in identifiers or relation.object not in identifiers:
@@ -116,7 +118,7 @@ class SemanticAssessment(StrictModel):
     calibration_version: str | None = None
 
     @model_validator(mode="after")
-    def unique_questions(self) -> "SemanticAssessment":
+    def unique_questions(self) -> SemanticAssessment:
         question_ids = [item.question_id for item in self.questions]
         if len(question_ids) != len(set(question_ids)):
             raise ValueError("semantic assessment question identifiers must be unique")
@@ -182,7 +184,7 @@ class TrialRecord(StrictModel):
     metadata: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
-    def outcome_is_coherent(self) -> "TrialRecord":
+    def outcome_is_coherent(self) -> TrialRecord:
         if self.status == "success":
             if self.artifact_id is None or self.raw_response_hash is None:
                 raise ValueError("successful trials require artifact and raw-response hashes")

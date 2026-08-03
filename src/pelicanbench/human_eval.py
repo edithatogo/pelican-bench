@@ -5,10 +5,10 @@ from __future__ import annotations
 import csv
 import hashlib
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from math import exp
 from pathlib import Path
-from typing import Iterable
 
 from .calibration import PairwiseCalibrationTask
 from .io import write_json
@@ -44,7 +44,7 @@ def fit_bradley_terry(
         raise ValueError("at least two alternatives are required")
     if iterations < 1 or learning_rate <= 0 or l2 < 0:
         raise ValueError("invalid optimisation settings")
-    scores = {item: 0.0 for item in items}
+    scores = dict.fromkeys(items, 0.0)
     for _ in range(iterations):
         gradients = {item: -l2 * scores[item] for item in items}
         for vote in vote_values:
@@ -122,7 +122,7 @@ def export_pairwise_evaluation_batch(
     rater IDs plus categorical responses.
     """
 
-    values = sorted(list(pairs), key=lambda item: (item.pair_id, item.criterion))
+    values = sorted(pairs, key=lambda item: (item.pair_id, item.criterion))
     if not values:
         raise ValueError("at least one pairwise task is required")
     output = Path(output_directory)
@@ -233,12 +233,16 @@ def load_pairwise_votes_csv(path: str | Path) -> list[PairwiseVote]:
             left = str(row["left_artifact_id"]).strip()
             right = str(row["right_artifact_id"]).strip()
             raw_winner = str(row["winner"]).strip().lower()
-            winner = {"a": left, "left": left, "b": right, "right": right, "tie": "tie"}.get(raw_winner)
+            winner = {"a": left, "left": left, "b": right, "right": right, "tie": "tie"}.get(
+                raw_winner
+            )
             if winner is None:
                 raise ValueError(f"row {row_number}: winner must be A, B, left, right, or tie")
             rater_hash = str(row["rater_hash"]).strip().lower()
             if len(rater_hash) < 16 or any(char not in "0123456789abcdef" for char in rater_hash):
-                raise ValueError(f"row {row_number}: rater_hash must be at least 16 hexadecimal characters")
+                raise ValueError(
+                    f"row {row_number}: rater_hash must be at least 16 hexadecimal characters"
+                )
             votes.append(
                 PairwiseVote(
                     task_id=str(row["task_id"]).strip(),

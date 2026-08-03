@@ -11,19 +11,19 @@ import subprocess
 import sys
 import tarfile
 import zipfile
-from datetime import datetime, timezone
+from collections.abc import Iterable
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Iterable
 
 from .assurance import evaluate_release_readiness
 from .candidate import validate_candidate
 from .ecosystem import audit_ecosystem, load_ecosystem_registry
 from .io import content_hash, read_json, write_json, write_jsonl
 from .pilot import load_tasks
-from .publication import build_publication_bundle
 from .prospective import ProspectivePilotPlan, build_prospective_pilot_plan
-from .release_records import PackagedArtifact, ReleasePackageReceipt
+from .publication import build_publication_bundle
 from .release_manifest import build_release_manifest
+from .release_records import PackagedArtifact, ReleasePackageReceipt
 from .timeutil import utc_now_iso
 from .verification import (
     build_repository_verification_receipt,
@@ -36,8 +36,7 @@ def _run(root: Path, *args: str) -> str:
         list(args),
         cwd=root,
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
     return completed.stdout.strip()
@@ -56,7 +55,7 @@ def _epoch() -> int:
 
 
 def _zip_datetime() -> tuple[int, int, int, int, int, int]:
-    value = datetime.fromtimestamp(max(_epoch(), 315532800), tz=timezone.utc)
+    value = datetime.fromtimestamp(max(_epoch(), 315532800), tz=UTC)
     # ZIP timestamps have two-second resolution.
     return value.year, value.month, value.day, value.hour, value.minute, value.second // 2 * 2
 
@@ -68,13 +67,15 @@ def _tracked_paths(root: Path) -> list[Path]:
 
 def _history_paths(root: Path) -> list[Path]:
     values = _tracked_paths(root)
-    values.extend(path for path in (root / ".git").rglob("*") if path.is_file() or path.is_symlink())
+    values.extend(
+        path for path in (root / ".git").rglob("*") if path.is_file() or path.is_symlink()
+    )
     return sorted(set(values), key=lambda path: path.relative_to(root).as_posix())
 
 
 def _archive_bytes(path: Path) -> bytes:
     if path.is_symlink():
-        return os.readlink(path).encode("utf-8")
+        return str(path.readlink()).encode()
     return path.read_bytes()
 
 
@@ -100,7 +101,9 @@ def create_deterministic_zip(
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     timestamp = _zip_datetime()
-    with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+    with zipfile.ZipFile(
+        destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+    ) as archive:
         archive_paths = sorted(
             (_archive_path(project, item) for item in paths),
             key=lambda item: item.relative_to(project).as_posix(),
@@ -128,26 +131,30 @@ def create_deterministic_tar_gz(
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     epoch = _epoch()
-    with destination.open("wb") as raw:
-        with gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=epoch, compresslevel=9) as compressed:
-            with tarfile.open(fileobj=compressed, mode="w", format=tarfile.PAX_FORMAT) as archive:
-                archive_paths = sorted(
-                    (_archive_path(project, item) for item in paths),
-                    key=lambda item: item.relative_to(project).as_posix(),
-                )
-                for value in archive_paths:
-                    relative = value.relative_to(project).as_posix()
-                    info = archive.gettarinfo(value, arcname=f"{prefix.rstrip('/')}/{relative}")
-                    info.mtime = epoch
-                    info.uid = 0
-                    info.gid = 0
-                    info.uname = ""
-                    info.gname = ""
-                    if value.is_symlink():
-                        archive.addfile(info)
-                    else:
-                        with value.open("rb") as handle:
-                            archive.addfile(info, handle)
+    with (
+        destination.open("wb") as raw,
+        gzip.GzipFile(
+            filename="", mode="wb", fileobj=raw, mtime=epoch, compresslevel=9
+        ) as compressed,
+        tarfile.open(fileobj=compressed, mode="w", format=tarfile.PAX_FORMAT) as archive,
+    ):
+        archive_paths = sorted(
+            (_archive_path(project, item) for item in paths),
+            key=lambda item: item.relative_to(project).as_posix(),
+        )
+        for value in archive_paths:
+            relative = value.relative_to(project).as_posix()
+            info = archive.gettarinfo(value, arcname=f"{prefix.rstrip('/')}/{relative}")
+            info.mtime = epoch
+            info.uid = 0
+            info.gid = 0
+            info.uname = ""
+            info.gname = ""
+            if value.is_symlink():
+                archive.addfile(info)
+            else:
+                with value.open("rb") as handle:
+                    archive.addfile(info, handle)
     return destination
 
 
@@ -225,18 +232,25 @@ def build_release_package(
     prefix = f"pelican-bench-{version}"
     tracked = _tracked_paths(project)
     history = _history_paths(project)
-    source_zip = create_deterministic_zip(project, output / f"{prefix}-source.zip", tracked, prefix=prefix)
-    source_tar = create_deterministic_tar_gz(project, output / f"{prefix}-source.tar.gz", tracked, prefix=prefix)
-    history_zip = create_deterministic_zip(project, output / f"{prefix}-with-git.zip", history, prefix=prefix)
-    history_tar = create_deterministic_tar_gz(project, output / f"{prefix}-with-git.tar.gz", history, prefix=prefix)
+    source_zip = create_deterministic_zip(
+        project, output / f"{prefix}-source.zip", tracked, prefix=prefix
+    )
+    source_tar = create_deterministic_tar_gz(
+        project, output / f"{prefix}-source.tar.gz", tracked, prefix=prefix
+    )
+    history_zip = create_deterministic_zip(
+        project, output / f"{prefix}-with-git.zip", history, prefix=prefix
+    )
+    history_tar = create_deterministic_tar_gz(
+        project, output / f"{prefix}-with-git.tar.gz", history, prefix=prefix
+    )
     bundle = output / f"{prefix}.bundle"
     subprocess.run(["git", "bundle", "create", str(bundle), "--all"], cwd=project, check=True)
     subprocess.run(
         ["git", "bundle", "verify", str(bundle)],
         cwd=project,
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
 
     ecosystem_path = output / "ecosystem-audit.json"
@@ -295,7 +309,7 @@ def build_release_package(
     publication = build_publication_bundle(
         project,
         publication_directory,
-        include_artifacts=tuple(evidence_files) + (clean_target,),
+        include_artifacts=(*tuple(evidence_files), clean_target),
     )
     publication_paths = [path for path in publication_directory.rglob("*") if path.is_file()]
     publication_zip = create_deterministic_zip(
@@ -314,8 +328,7 @@ def build_release_package(
         cwd=project,
         env=env,
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
 
     manifest_path = output / "release-manifest.json"
@@ -408,9 +421,13 @@ def build_release_package(
     qa_path = output / "release-qa-receipt.json"
     write_json(qa_path, qa.model_dump(mode="json"))
 
-    checksum_paths = sorted(path for path in output.rglob("*") if path.is_file() and path.name != "SHA256SUMS")
+    checksum_paths = sorted(
+        path for path in output.rglob("*") if path.is_file() and path.name != "SHA256SUMS"
+    )
     (output / "SHA256SUMS").write_text(
-        "\n".join(f"{_sha256(path)}  {path.relative_to(output).as_posix()}" for path in checksum_paths)
+        "\n".join(
+            f"{_sha256(path)}  {path.relative_to(output).as_posix()}" for path in checksum_paths
+        )
         + "\n",
         encoding="utf-8",
     )

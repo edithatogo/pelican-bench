@@ -1,0 +1,3 @@
+{"artifact_id":"artifact-001","stage":"blind-recognition","task_id":"task-001","response":{"animal_open_text":"pelican","mobile_object_open_text":"bicycle","recognition_confidence":30,"relation_open_text":"riding"}}
+{"artifact_id":"artifact-001","stage":"blind-recognition","task_id":"task-001","response":{"animal_open_text":"duck","mobile_object_open_text":"tricycle","recognition_confidence":40,"relation_open_text":"standing"}}
+{"artifact_id":"artifact-001","stage":"blind-recognition","task_id":"task-001","response":{"animal_open_text":"goose","mobile_object_open_text":"scooter","recognition_confidence":35,"relation_open_text":"perched"}}

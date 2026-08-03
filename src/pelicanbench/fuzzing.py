@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import random
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from .render import SVGRenderError, render_svg
 from .svg import inspect_svg
@@ -84,7 +84,7 @@ def _external_image(svg: str, rng: random.Random) -> str:
 
 
 def _external_css(svg: str, _: random.Random) -> str:
-    return _before_close(svg, '<style>.x{fill:url(https://example.invalid/a)}</style>')
+    return _before_close(svg, "<style>.x{fill:url(https://example.invalid/a)}</style>")
 
 
 def _entity(svg: str, _: random.Random) -> str:

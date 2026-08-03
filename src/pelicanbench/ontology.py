@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from .io import read_json
 
@@ -27,7 +28,7 @@ class Ontology:
     competency_questions: tuple[dict[str, Any], ...]
 
     @classmethod
-    def from_dict(cls, value: dict[str, Any]) -> "Ontology":
+    def from_dict(cls, value: dict[str, Any]) -> Ontology:
         result = cls(
             str(value["id"]),
             str(value["version"]),
@@ -39,7 +40,7 @@ class Ontology:
         return result
 
     @classmethod
-    def load(cls, path: str | Path) -> "Ontology":
+    def load(cls, path: str | Path) -> Ontology:
         value = read_json(path)
         if not isinstance(value, dict):
             raise TypeError("ontology root must be an object")
@@ -106,9 +107,7 @@ class Ontology:
     def required_features(self, concept_id: str) -> tuple[str, ...]:
         profile = self.required_feature_profile(concept_id)
         return tuple(
-            feature
-            for feature, tier in profile.items()
-            if tier in {"necessary", "diagnostic"}
+            feature for feature, tier in profile.items() if tier in {"necessary", "diagnostic"}
         )
 
     def is_a(self, concept_id: str, parent_id: str) -> bool:
@@ -127,9 +126,7 @@ class Ontology:
                 "rdfs:label": concept.get("label", concept_id),
             }
             if concept.get("parent"):
-                node["rdfs:subClassOf"] = {
-                    "@id": f"{base}{self.ontology_id}/{concept['parent']}"
-                }
+                node["rdfs:subClassOf"] = {"@id": f"{base}{self.ontology_id}/{concept['parent']}"}
             profile = self.required_feature_profile(concept_id)
             if profile:
                 node["pb:featureRequirement"] = [
@@ -215,7 +212,6 @@ def compose_scene(
     }
 
 
-
 @dataclass(frozen=True, slots=True)
 class CompetencyCaseResult:
     case_id: str
@@ -269,6 +265,7 @@ def evaluate_competency_cases(
             )
         )
     return tuple(output)
+
 
 def abstract_specialised_ontology(
     value: dict[str, Any],

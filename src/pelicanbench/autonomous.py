@@ -179,7 +179,14 @@ def reference_pelican_bicycle_actions() -> list[dict[str, Any]]:
             "id": "pelican-body",
             "element": {
                 "tag": "ellipse",
-                "attributes": {"cx": 280, "cy": 170, "rx": 90, "ry": 58, "fill": "white", "stroke": "black"},
+                "attributes": {
+                    "cx": 280,
+                    "cy": 170,
+                    "rx": 90,
+                    "ry": 58,
+                    "fill": "white",
+                    "stroke": "black",
+                },
             },
         },
         {
@@ -195,10 +202,18 @@ def reference_pelican_bicycle_actions() -> list[dict[str, Any]]:
             "id": "pelican-bill",
             "element": {
                 "tag": "path",
-                "attributes": {"d": "M405 115 L535 130 L405 145 Z", "fill": "orange", "stroke": "black"},
+                "attributes": {
+                    "d": "M405 115 L535 130 L405 145 Z",
+                    "fill": "orange",
+                    "stroke": "black",
+                },
             },
         },
         {"type": "group", "ids": ["rear-wheel", "front-wheel", "frame"], "group": "bicycle"},
-        {"type": "group", "ids": ["pelican-body", "pelican-head", "pelican-bill"], "group": "pelican"},
+        {
+            "type": "group",
+            "ids": ["pelican-body", "pelican-head", "pelican-bill"],
+            "group": "pelican",
+        },
         {"type": "checkpoint", "id": "reference-complete"},
     ]

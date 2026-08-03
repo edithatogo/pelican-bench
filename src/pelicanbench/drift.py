@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from math import log
 from statistics import mean
-from typing import Iterable
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,8 +44,7 @@ def compare_distributions(
     second_hist = _histogram(second, bins)
     epsilon = 1e-6
     psi = sum(
-        (candidate_bin - baseline_bin)
-        * log((candidate_bin + epsilon) / (baseline_bin + epsilon))
+        (candidate_bin - baseline_bin) * log((candidate_bin + epsilon) / (baseline_bin + epsilon))
         for baseline_bin, candidate_bin in zip(first_hist, second_hist, strict=True)
     )
     maximum_shift = max(abs(a - b) for a, b in zip(first_hist, second_hist, strict=True))

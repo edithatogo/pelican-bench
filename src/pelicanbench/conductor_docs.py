@@ -63,9 +63,7 @@ def render_track_registry(project: str | Path) -> str:
         track_id = str(item["track_id"])
         title = str(item["title"])
         summary = _summary(root / "conductor/tracks" / slug)
-        phases = ", ".join(
-            f"{phase} {item['phase_status'][phase]}" for phase in PHASES
-        )
+        phases = ", ".join(f"{phase} {item['phase_status'][phase]}" for phase in PHASES)
         lines.append(
             f"- [ ] **{track_id}: {title}** — [{summary}](tracks/{slug}/index.md) "
             f"`{item.get('evidence_level', 'E0')}`; {phases}."

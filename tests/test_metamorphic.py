@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import pytest
 
-pytestmark = pytest.mark.metamorphic
-
 from pelicanbench.metamorphic import (
     add_offcanvas_labelled_shape,
     add_source_comment,
@@ -13,6 +11,8 @@ from pelicanbench.metamorphic import (
     strip_source_labels,
 )
 from pelicanbench.render import render_svg
+
+pytestmark = pytest.mark.metamorphic
 
 
 def test_all_normative_scorer_challenges_pass(heritage, valid_svg: str):

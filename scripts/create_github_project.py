@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Create a single-developer GitHub Projects v2 view over synchronized issues."""
+
 from __future__ import annotations
 
 import argparse
@@ -13,7 +14,9 @@ MANIFEST = ROOT / ".github/issues/manifest.json"
 
 
 def run(command: list[str]) -> str:
-    return subprocess.run(command, cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
+    return subprocess.run(
+        command, cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE
+    ).stdout.strip()
 
 
 def main() -> int:
@@ -53,7 +56,9 @@ def main() -> int:
     if shutil.which("gh") is None:
         raise SystemExit("gh CLI is required for --apply")
     projects = json.loads(run(["gh", "project", "list", "--owner", args.owner, "--format", "json"]))
-    project = next((item for item in projects.get("projects", []) if item.get("title") == args.title), None)
+    project = next(
+        (item for item in projects.get("projects", []) if item.get("title") == args.title), None
+    )
     if project is None:
         project = json.loads(
             run(

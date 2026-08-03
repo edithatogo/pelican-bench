@@ -4,7 +4,13 @@ from pathlib import Path
 
 import pytest
 
-from pelicanbench.adapters import CallableAdapter, CommandAdapter, DirectoryAdapter, GenerationResult, ModelAdapter
+from pelicanbench.adapters import (
+    CallableAdapter,
+    CommandAdapter,
+    DirectoryAdapter,
+    GenerationResult,
+    ModelAdapter,
+)
 from pelicanbench.io import read_json
 from pelicanbench.manifest import artifact_record, build_run_manifest
 from pelicanbench.runner import run_benchmark
@@ -93,7 +99,14 @@ def test_command_adapter_failure(heritage):
 def test_empty_and_mixed_release_rejected(tmp_path: Path, valid_svg: str):
     adapter = CallableAdapter(lambda _task, _seed: valid_svg)
     with pytest.raises(ValueError):
-        run_benchmark([], adapter, output_directory=tmp_path, seed=1, benchmark_commit="x", environment_digest="x")
+        run_benchmark(
+            [],
+            adapter,
+            output_directory=tmp_path,
+            seed=1,
+            benchmark_commit="x",
+            environment_digest="x",
+        )
     first = heritage_task(release="A")
     second = heritage_task(release="B")
     with pytest.raises(ValueError):
@@ -112,8 +125,10 @@ def test_runner_rejects_task_mismatch(tmp_path: Path, heritage):
         adapter_id = "bad"
         model_id = "bad"
         model_revision = "bad"
+
         def generate(self, task, *, seed):
             return GenerationResult("other", "<svg/>", "image/svg+xml", None, {})
+
     with pytest.raises(ValueError):
         run_benchmark(
             [heritage],
@@ -198,7 +213,7 @@ def test_retrying_and_checkpointing_adapters(tmp_path: Path, heritage, valid_svg
     )
     with pytest.raises(RuntimeError, match="after 2 attempts") as captured:
         exhausted.generate(heritage, seed=1)
-    assert getattr(captured.value, "attempts") == 2
+    assert captured.value.attempts == 2
 
 
 def test_runner_retains_generation_failures(tmp_path: Path, heritage):

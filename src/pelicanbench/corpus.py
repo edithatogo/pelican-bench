@@ -33,7 +33,9 @@ CATEGORY_PATTERNS = {
 
 
 def _spans(text: str, term: str) -> list[tuple[int, int]]:
-    return [(match.start(), match.end()) for match in re.finditer(rf"\b{re.escape(term)}\b", text, re.I)]
+    return [
+        (match.start(), match.end()) for match in re.finditer(rf"\b{re.escape(term)}\b", text, re.I)
+    ]
 
 
 def annotate_document(record: dict[str, Any]) -> dict[str, Any]:
@@ -42,7 +44,9 @@ def annotate_document(record: dict[str, Any]) -> dict[str, Any]:
     for label, terms in ENTITY_PATTERNS.items():
         for term in terms:
             for start, end in _spans(text, term):
-                entities.append({"label": label, "text": text[start:end], "start": start, "end": end})
+                entities.append(
+                    {"label": label, "text": text[start:end], "start": start, "end": end}
+                )
     relations = [name for name, pattern in RELATION_PATTERNS.items() if pattern.search(text)]
     categories = [name for name, pattern in CATEGORY_PATTERNS.items() if pattern.search(text)]
     payload = {
@@ -52,11 +56,18 @@ def annotate_document(record: dict[str, Any]) -> dict[str, Any]:
     }
     idea_id = "idea:" + content_hash(payload)[7:19]
     return {
-        "annotation_id": f"ann:{record['source_id']}", "source_id": record["source_id"],
-        "idea_id": idea_id, "category": categories[0] if categories else "other",
-        "categories": categories, "text_hash": content_hash(text), "entities": entities,
-        "relations": relations, "requirement_links": [], "confidence": 0.55,
-        "review_status": "machine-proposed", "pipeline_version": "0.1.0",
+        "annotation_id": f"ann:{record['source_id']}",
+        "source_id": record["source_id"],
+        "idea_id": idea_id,
+        "category": categories[0] if categories else "other",
+        "categories": categories,
+        "text_hash": content_hash(text),
+        "entities": entities,
+        "relations": relations,
+        "requirement_links": [],
+        "confidence": 0.55,
+        "review_status": "machine-proposed",
+        "pipeline_version": "0.1.0",
         "created_at": utc_now_iso(),
     }
 
@@ -70,8 +81,11 @@ def corpus_summary(annotations: list[dict[str, Any]]) -> dict[str, Any]:
         category_counts.update(annotation.get("categories", []))
         relation_counts.update(annotation.get("relations", []))
     return {
-        "documents": len(annotations), "entity_counts": dict(sorted(entity_counts.items())),
+        "documents": len(annotations),
+        "entity_counts": dict(sorted(entity_counts.items())),
         "category_counts": dict(sorted(category_counts.items())),
         "relation_counts": dict(sorted(relation_counts.items())),
-        "unmapped_ideas": sum(not annotation.get("requirement_links") for annotation in annotations),
+        "unmapped_ideas": sum(
+            not annotation.get("requirement_links") for annotation in annotations
+        ),
     }

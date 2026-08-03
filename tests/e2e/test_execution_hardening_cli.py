@@ -8,7 +8,6 @@ from typer.testing import CliRunner
 
 from pelicanbench.cli import app
 
-
 ROOT = Path(__file__).resolve().parents[2]
 RUNNER = CliRunner()
 
@@ -207,10 +206,7 @@ def test_design_and_judge_evidence_cli_matches_snapshots(tmp_path: Path) -> None
                 "--config",
                 str(ROOT / "benchmark/judges/calibration-policy.json"),
                 "--source",
-                str(
-                    ROOT
-                    / "benchmark/fixtures/design/judge-calibration-observations.jsonl"
-                ),
+                str(ROOT / "benchmark/fixtures/design/judge-calibration-observations.jsonl"),
                 "--output",
                 str(judge_output),
                 "--require-empirical",
@@ -219,10 +215,7 @@ def test_design_and_judge_evidence_cli_matches_snapshots(tmp_path: Path) -> None
     )
     assert judge["panel_empirically_qualified"]
     snapshot = json.loads(
-        (
-            ROOT
-            / "benchmark/evidence/snapshots/judge-panel-calibration-fixture.json"
-        ).read_text()
+        (ROOT / "benchmark/evidence/snapshots/judge-panel-calibration-fixture.json").read_text()
     )
     assert snapshot["evidence_level"] == "E2"
     assert snapshot["evidence_context"] == "synthetic-fixture"
@@ -314,10 +307,7 @@ def test_blinded_reassessment_and_replicate_wave_cli(tmp_path: Path) -> None:
     )
     assert reassessment["status"] == "decision-ready"
     assert reassessment == json.loads(
-        (
-            ROOT
-            / "benchmark/evidence/snapshots/blinded-reassessment-fixture.json"
-        ).read_text()
+        (ROOT / "benchmark/evidence/snapshots/blinded-reassessment-fixture.json").read_text()
     )
 
     wave_path = tmp_path / "wave.json"

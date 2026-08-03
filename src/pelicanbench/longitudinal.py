@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from statistics import mean
-from typing import Any, Iterable
+from typing import Any
 
 from .models import HistoricalObservation
 
@@ -57,7 +58,11 @@ def timeline_summary(observations: Iterable[HistoricalObservation]) -> dict[str,
     values = list(observations)
     models = Counter(item.model_id or "unknown" for item in values)
     rights = Counter(item.rights_status for item in values)
-    dated = [datetime.fromisoformat(item.observed_at.replace("Z", "+00:00")) for item in values if item.observed_at]
+    dated = [
+        datetime.fromisoformat(item.observed_at.replace("Z", "+00:00"))
+        for item in values
+        if item.observed_at
+    ]
     return {
         "observations": len(values),
         "models": dict(sorted(models.items())),

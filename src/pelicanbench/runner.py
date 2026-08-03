@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import json
-import os
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
 
 from .adapters import GenerationResult, ModelAdapter
 from .io import atomic_write_bytes, atomic_write_text, content_hash, write_json, write_jsonl
+from .judge_firewall import JudgeFirewallPolicy, evaluate_judge_input
 from .manifest import artifact_record, build_run_manifest
 from .models import (
     BenchmarkTask,
@@ -48,6 +48,7 @@ def run_benchmark(
     benchmark_commit: str,
     environment_digest: str,
     semantic_assessor: SemanticAssessor | None = None,
+    judge_policy: JudgeFirewallPolicy | None = None,
     continue_on_error: bool = False,
 ) -> RunResult:
     task_values = list(tasks)
@@ -176,6 +177,21 @@ def run_benchmark(
             inspection=inspection,
             rendered=rendered,
         )
+        firewall = evaluate_judge_input(
+            generated.output,
+            inspection,
+            rendered,
+            policy=judge_policy,
+        )
+        score = score.model_copy(
+            update={
+                "critical_gates": {
+                    **score.critical_gates,
+                    "judge_input_safe": firewall.eligible,
+                },
+                "valid": score.valid and firewall.eligible,
+            }
+        )
         score_path = scores_dir / f"{safe_id}.json"
         write_json(score_path, score.model_dump(mode="json"))
 
@@ -204,8 +220,7 @@ def run_benchmark(
             "semantic_assessment_id": score.semantic_assessment_id,
         }
         evaluation = EvaluationRecord(
-            evaluation_id="evaluation:"
-            + content_hash(evaluation_payload).split(":", 1)[1][:24],
+            evaluation_id="evaluation:" + content_hash(evaluation_payload).split(":", 1)[1][:24],
             trial_id=trial_id,
             task_id=task.task_id,
             artifact_id=artifact_id,
@@ -291,8 +306,10 @@ def run_benchmark(
         evaluations=evaluations,
     )
     atomic_write_text(reproduce_path, reproduction_script(placeholder_manifest))
-    os.chmod(reproduce_path, 0o755)
-    artifacts.append(artifact_record(reproduce_path, media_type="text/x-shellscript", relative_to=root))
+    reproduce_path.chmod(0o755)
+    artifacts.append(
+        artifact_record(reproduce_path, media_type="text/x-shellscript", relative_to=root)
+    )
 
     manifest = build_run_manifest(
         tasks=task_values,

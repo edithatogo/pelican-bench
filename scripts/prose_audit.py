@@ -6,9 +6,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterable
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,7 +52,9 @@ def _markdown_files(root: Path, inputs: Iterable[str]) -> tuple[Path, ...]:
             paths.append(candidate)
         elif candidate.is_dir():
             paths.extend(sorted(candidate.rglob("*.md")))
-    return tuple(dict.fromkeys(path for path in paths if path.relative_to(root).as_posix() not in EXCLUDED))
+    return tuple(
+        dict.fromkeys(path for path in paths if path.relative_to(root).as_posix() not in EXCLUDED)
+    )
 
 
 def audit_prose(root: Path, inputs: Iterable[str]) -> tuple[ProseFinding, ...]:
@@ -134,7 +136,9 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     for finding in findings:
-        print(f"{finding.severity.upper()} {finding.code} {finding.path}:{finding.line} {finding.message}")
+        print(
+            f"{finding.severity.upper()} {finding.code} {finding.path}:{finding.line} {finding.message}"
+        )
     if args.fail_level == "none":
         return 0
     if args.fail_level == "error":

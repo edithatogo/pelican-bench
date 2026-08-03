@@ -7,8 +7,9 @@ import platform
 import subprocess
 import sys
 import tomllib
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from .assurance import evaluate_release_readiness
 from .io import file_hash

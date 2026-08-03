@@ -1,5 +1,5 @@
 {
-  "amendment_ledger_hash": "sha256:45a5d91ba75c72b2b3dfd6f51f3a469a463d72e48652280ef472d233d577f1cc",
+  "amendment_ledger_hash": "sha256:80b29b7a6ca488712ad51012ce60803a30abc93bbaf8539087afb57fe0a3b4ff",
   "candidate_release": "PB-2026.08-v1-candidate",
   "files": [
     {
@@ -63,9 +63,9 @@
       "sha256": "sha256:42e036d7e86c4ad419687f4df7648dc0cbd63770af93153905bd99f5079c88e5"
     },
     {
-      "bytes": 7326,
+      "bytes": 6206,
       "path": "docs/human-evaluation-protocol.md",
-      "sha256": "sha256:d1757dec281145b28a25fc86cece6a8531431b4b922322dafe4981e81458879c"
+      "sha256": "sha256:b1d666083e925f105f4c59cf0516b1fa00ecf80a2a9dbe1dc8d74ee4cec6f6be"
     },
     {
       "bytes": 1557,
@@ -73,24 +73,24 @@
       "sha256": "sha256:d1c9431d149c4a6d0bf1cbc2fd4dcb382d94ec103d5fc0f17ce074b3bfd439dd"
     },
     {
-      "bytes": 1763,
+      "bytes": 951,
       "path": "docs/v1-pilot-amendment-002.md",
-      "sha256": "sha256:cb3af09ac5ad65c9b928b69e9500fe5ba27de0abb76aca7a30980b4ee1413eca"
+      "sha256": "sha256:7b9f8b2e926ea99230323a007bf018de5b379dbe2da9776e3c93f8ca50c82fe8"
     },
     {
-      "bytes": 10011,
+      "bytes": 10918,
       "path": "docs/v1-pilot-analysis-plan.md",
-      "sha256": "sha256:6245234a7a418ed6f2db12a7ef6e6d77e723a9563b9b3fb01457dfe664d981a8"
+      "sha256": "sha256:5d5a393ea239fdf1b3a9f73bc1ca0903544bd85b2d180360778877fa7d19a36e"
     },
     {
-      "bytes": 7641,
+      "bytes": 7706,
       "path": "src/pelicanbench/calibration_ops.py",
-      "sha256": "sha256:c3820e1ab21ea5e811dc7d752b514cead447a041576a7903106e6812f235ffea"
+      "sha256": "sha256:6eddc2fc6413df958d47dd04164397afa6c70f8d20eca6a35fc3644ac7c0f824"
     },
     {
-      "bytes": 25216,
+      "bytes": 25277,
       "path": "src/pelicanbench/campaign.py",
-      "sha256": "sha256:c3f07cec65ee32045ec0adb39a8a5460d777e133aa4a9b0ab122550e348dede5"
+      "sha256": "sha256:89697246994d6041401727fa5f4e769fee05336c3bb75251f4142512b0dfe1da"
     },
     {
       "bytes": 977,
@@ -98,28 +98,28 @@
       "sha256": "sha256:3dcb28e36b859984d03daf332f05ee29d300754a3ed10ad17b7d08658a126c55"
     },
     {
-      "bytes": 13158,
+      "bytes": 13165,
       "path": "src/pelicanbench/design_assurance.py",
-      "sha256": "sha256:0bb77d8382627fdc5c881cc599ce029b2db8068c0e5249a423cac5e9cfbfa506"
+      "sha256": "sha256:8809b4ff0336d498e25aceb2d527d995369813e0d2eebb82b916e91425a59d8d"
     },
     {
-      "bytes": 6194,
+      "bytes": 6244,
       "path": "src/pelicanbench/judge_firewall.py",
-      "sha256": "sha256:08e47a5c96cd9af9aeb07fd69b1e6fd30396fc35e6850a408aeefc59d42cea4d"
+      "sha256": "sha256:fe8cd3a9d2d3c39190a7694578af6cd1fa62c8d3b6c07ba5bee552bb5c5315b6"
     },
     {
-      "bytes": 8036,
+      "bytes": 3004,
       "path": "src/pelicanbench/protocol.py",
-      "sha256": "sha256:e68a2e7474684c0623d4e93912971b9d04378ca16a50b1322f61dd6748c6dce4"
+      "sha256": "sha256:e29e625aa1efebe056882272a218c4b5c19077144b4034737444a22e4d25f5c7"
     },
     {
-      "bytes": 10300,
+      "bytes": 9764,
       "path": "src/pelicanbench/scoring.py",
-      "sha256": "sha256:eddfa940bfbcdca25c5e08b9bbc39e83e3377de7343a99e08f297a9907a92c21"
+      "sha256": "sha256:001a443a156f39130720d67f9f576473cb79e853a2377319a45446d589375423"
     }
   ],
-  "generated_at": "2026-08-02T00:00:00Z",
-  "protocol_id": "PPROT-d801f5fb5f314bcce205066e",
+  "generated_at": "2026-08-03T00:00:00Z",
+  "protocol_id": "pelicanbench-v1-study-protocol",
   "protocol_revision": "PB-PROTOCOL-2026.08-r4",
   "schema_version": "1.0.0",
   "task_identity_commitment": "sha256:757e79a0bcd143214268e43c4f42abb273955d9c164b952dca0d6ca123f0bcb8"

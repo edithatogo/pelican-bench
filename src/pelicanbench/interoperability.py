@@ -22,7 +22,7 @@ class OntologyPatternSource(StrictModel):
     rationale: str
 
     @model_validator(mode="after")
-    def coherent_import(self) -> "OntologyPatternSource":
+    def coherent_import(self) -> OntologyPatternSource:
         if self.role == "semantic-import" and not self.semantic_import:
             raise ValueError("semantic-import sources must explicitly enable semantic_import")
         if self.semantic_import and self.role != "semantic-import":
@@ -43,8 +43,11 @@ class OntologyInteroperabilityProfile(StrictModel):
     sources: tuple[OntologyPatternSource, ...]
 
     @model_validator(mode="after")
-    def coherent_namespace(self) -> "OntologyInteroperabilityProfile":
-        if self.namespace_status in {"registration-planned", "published"} and not self.registration_target:
+    def coherent_namespace(self) -> OntologyInteroperabilityProfile:
+        if (
+            self.namespace_status in {"registration-planned", "published"}
+            and not self.registration_target
+        ):
             raise ValueError("planned or published namespaces require a registration target")
         if self.namespace_status == "published" and not self.registration_evidence:
             raise ValueError("published namespaces require registration evidence")

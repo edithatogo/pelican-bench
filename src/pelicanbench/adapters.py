@@ -9,9 +9,10 @@ import time
 import urllib.error
 import urllib.request
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Mapping
+from typing import Any
 
 from .io import content_hash, write_json
 from .models import BenchmarkTask
@@ -145,8 +146,7 @@ class CommandAdapter(ModelAdapter):
             self.command,
             input=task.prompt,
             text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             timeout=self.timeout_seconds,
             check=False,
             env=self._environment(seed=seed),
@@ -341,7 +341,9 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 body = exc.read().decode("utf-8", errors="replace")[-2000:]
             finally:
                 exc.close()
-            raise RuntimeError(f"OpenAI-compatible endpoint returned HTTP {exc.code}: {body}") from exc
+            raise RuntimeError(
+                f"OpenAI-compatible endpoint returned HTTP {exc.code}: {body}"
+            ) from exc
         except urllib.error.URLError as exc:
             raise RuntimeError(f"OpenAI-compatible endpoint unavailable: {exc.reason}") from exc
         try:
@@ -368,9 +370,7 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 "finish_reason": finish_reason,
                 "stream": self.stream,
                 "stream_event_count": (
-                    int(value.get("stream_event_count", 0))
-                    if isinstance(value, dict)
-                    else 0
+                    int(value.get("stream_event_count", 0)) if isinstance(value, dict) else 0
                 ),
                 "prompt_profile": {
                     "first_user_prefix": self.first_user_prefix,
@@ -479,9 +479,7 @@ class CheckpointingAdapter(ModelAdapter):
                 output=str(value["output"]),
                 media_type=str(value["media_type"]),
                 raw_response=(
-                    str(value["raw_response"])
-                    if value.get("raw_response") is not None
-                    else None
+                    str(value["raw_response"]) if value.get("raw_response") is not None else None
                 ),
                 metadata=metadata,
             )

@@ -11,10 +11,11 @@ from __future__ import annotations
 import hashlib
 import html
 import urllib.request
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from defusedxml import ElementTree
 
@@ -94,7 +95,9 @@ class SimonAtomCorpus:
             "content_exported": self.content_exported,
             "entry_count": self.entry_count,
             "entries_sha256": _sha256_text(
-                "\n".join(entry.record_id + "\t" + (entry.content_sha256 or "") for entry in self.entries)
+                "\n".join(
+                    entry.record_id + "\t" + (entry.content_sha256 or "") for entry in self.entries
+                )
             ),
         }
 
@@ -108,8 +111,8 @@ def fetch_atom(url: str = DEFAULT_SIMON_ATOM_URL, *, timeout_seconds: float = 30
         url,
         headers={"User-Agent": "PelicanBench/0.4 rights-aware corpus metadata importer"},
     )
-    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:  # noqa: S310
-        return response.read()
+    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+        return bytes(response.read())
 
 
 def parse_simon_atom(
@@ -228,7 +231,9 @@ def write_simon_atom_corpus(
     """Write deterministic metadata/content records plus a compact receipt."""
 
     output = Path(output_jsonl)
-    summary = Path(summary_path) if summary_path is not None else output.with_suffix(".summary.json")
+    summary = (
+        Path(summary_path) if summary_path is not None else output.with_suffix(".summary.json")
+    )
     write_jsonl(output, [entry.as_dict() for entry in corpus.entries])
     write_json(summary, corpus.summary())
     return output, summary

@@ -53,7 +53,9 @@ def test_broken_svg_score(heritage, broken_svg: str):
     assert score.critical_gates["interaction_minimum"] is False
 
 
-@pytest.mark.parametrize("filename", ["script.svg", "external-image.svg", "event-handler.svg", "entity.svg"])
+@pytest.mark.parametrize(
+    "filename", ["script.svg", "external-image.svg", "event-handler.svg", "entity.svg"]
+)
 def test_malicious_fixtures_rejected(root: Path, filename: str):
     svg = (root / "benchmark/fixtures/malicious" / filename).read_text()
     inspection = inspect_svg(svg)

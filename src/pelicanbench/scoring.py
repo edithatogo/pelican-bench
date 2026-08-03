@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import math
-from typing import Iterable
+from collections.abc import Iterable
+from typing import cast
 
-from .models import BenchmarkTask, DimensionScore, ScoreCard, SemanticAssessment
+from .models import BenchmarkTask, DimensionScore, EvidenceLevel, ScoreCard, SemanticAssessment
 from .render import RenderedSVG, SVGRenderError, render_svg
 from .semantic import validate_semantic_assessment
 from .svg import SVGInspection, inspect_svg
@@ -35,7 +36,9 @@ def _dimension(name: str, value: float, method: str, *evidence: str) -> Dimensio
     )
 
 
-def _range_score(value: float, *, low: float, ideal_low: float, ideal_high: float, high: float) -> float:
+def _range_score(
+    value: float, *, low: float, ideal_low: float, ideal_high: float, high: float
+) -> float:
     if value <= low or value >= high:
         return 0.0
     if ideal_low <= value <= ideal_high:
@@ -58,7 +61,9 @@ def _entity_score(
 ) -> float:
     present = probabilities.get(present_id, 0.0)
     feature_ids = [f"{feature_prefix}:{feature}" for feature in required_features]
-    feature_score = _mean(probabilities.get(item, 0.0) for item in feature_ids) if feature_ids else 1.0
+    feature_score = (
+        _mean(probabilities.get(item, 0.0) for item in feature_ids) if feature_ids else 1.0
+    )
     # Presence is conjunctive: a list of plausible parts cannot compensate for the
     # absence of a recognisable entity.
     return present * (0.5 + 0.5 * feature_score)
@@ -141,19 +146,25 @@ def score_svg(
             high=1.0001,
         )
         render_composition = _mean((foreground, occupied))
-    composition = _mean(
-        (
-            render_composition,
-            probabilities.get("scene-coherent", 0.0),
+    composition = (
+        _mean(
+            (
+                render_composition,
+                probabilities.get("scene-coherent", 0.0),
+            )
         )
-    ) if assessment is not None else render_composition * 0.5
+        if assessment is not None
+        else render_composition * 0.5
+    )
 
     features = checked.features
     visible_shapes = int(features.get("visible_shape_count", 0))
     hidden_shapes = int(features.get("hidden_shape_count", 0))
     visible_ratio = visible_shapes / max(1, visible_shapes + hidden_shapes)
     element_count = int(features.get("element_count", 0))
-    complexity_score = 1.0 if 3 <= element_count <= 1_500 else 0.5 if element_count <= 5_000 else 0.0
+    complexity_score = (
+        1.0 if 3 <= element_count <= 1_500 else 0.5 if element_count <= 5_000 else 0.0
+    )
     path_score = 1.0 if int(features.get("path_characters", 0)) < 100_000 else 0.5
     grouping_score = min(1.0, int(features.get("group_count", 0)) / max(1, visible_shapes / 8))
     vector_quality = _mean(
@@ -246,7 +257,11 @@ def score_svg(
         aggregate = 0.0
         warnings.append("non-finite aggregate replaced with zero")
 
-    evidence_level = "E3" if assessment and assessment.calibration_version not in {None, "fixture-only"} else "E2"
+    evidence_level = (
+        "E3"
+        if assessment and assessment.calibration_version not in {None, "fixture-only"}
+        else "E2"
+    )
     return ScoreCard(
         task_id=task.task_id,
         submission_id=submission_id,
@@ -257,6 +272,6 @@ def score_svg(
         valid=all(gates.values()),
         aggregate=round(aggregate, 6),
         scorer_version=scorer_version,
-        evidence_level=evidence_level,
+        evidence_level=cast(EvidenceLevel, evidence_level),
         warnings=tuple(dict.fromkeys(warnings)),
     )

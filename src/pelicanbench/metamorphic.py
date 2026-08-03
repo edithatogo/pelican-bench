@@ -7,9 +7,9 @@ that CI and releases can emit a machine-readable scorer challenge report.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 import re
-from typing import Callable
+from collections.abc import Callable
+from dataclasses import asdict, dataclass
 
 from .io import content_hash
 from .models import BenchmarkTask, ScoreCard
@@ -87,7 +87,7 @@ def rename_source_labels(svg: str) -> str:
     def replacement(match: re.Match[str]) -> str:
         nonlocal counter
         counter += 1
-        return f'{match.group(1)}pb-meta-{counter}{match.group(2)}'
+        return f"{match.group(1)}pb-meta-{counter}{match.group(2)}"
 
     return _LABEL_VALUE.sub(replacement, svg)
 

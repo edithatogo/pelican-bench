@@ -9,8 +9,9 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
 
 from defusedxml import ElementTree as DefusedET
 
@@ -146,10 +147,10 @@ def _multiply(left: tuple[float, ...], right: tuple[float, ...]) -> tuple[float,
 
 
 def _transform_matrix(raw: str | None) -> tuple[float, ...]:
-    current = IDENTITY
+    current: tuple[float, ...] = IDENTITY
     for name, args in TRANSFORM.findall(raw or ""):
         values = [_float(value) for value in POINT.findall(args)]
-        operation = IDENTITY
+        operation: tuple[float, ...] = IDENTITY
         lowered = name.lower()
         if lowered == "matrix" and len(values) == 6:
             operation = tuple(values)
@@ -179,7 +180,9 @@ def _point(matrix: tuple[float, ...], x: float, y: float) -> tuple[float, float]
     return a * x + c * y + e, b * x + d * y + f
 
 
-def _bounds_for(element: Any, tag: str, matrix: tuple[float, ...]) -> tuple[float, float, float, float] | None:
+def _bounds_for(
+    element: Any, tag: str, matrix: tuple[float, ...]
+) -> tuple[float, float, float, float] | None:
     points: list[tuple[float, float]] = []
     if tag == "circle":
         cx, cy = _float(element.attrib.get("cx")), _float(element.attrib.get("cy"))
@@ -191,7 +194,10 @@ def _bounds_for(element: Any, tag: str, matrix: tuple[float, ...]) -> tuple[floa
         points = [(cx - rx, cy - ry), (cx + rx, cy + ry)]
     elif tag == "rect":
         x, y = _float(element.attrib.get("x")), _float(element.attrib.get("y"))
-        width, height = abs(_float(element.attrib.get("width"))), abs(_float(element.attrib.get("height")))
+        width, height = (
+            abs(_float(element.attrib.get("width"))),
+            abs(_float(element.attrib.get("height"))),
+        )
         points = [(x, y), (x + width, y), (x, y + height), (x + width, y + height)]
     elif tag == "line":
         points = [
@@ -220,7 +226,9 @@ def _view_box(root: Any) -> tuple[float, float, float, float] | None:
     return None
 
 
-def _intersects(bounds: tuple[float, float, float, float] | None, viewport: tuple[float, ...] | None) -> bool:
+def _intersects(
+    bounds: tuple[float, float, float, float] | None, viewport: tuple[float, ...] | None
+) -> bool:
     if bounds is None or viewport is None:
         return True
     left, top, right, bottom = bounds
@@ -238,7 +246,9 @@ def _has_visible_paint(element: Any, tag: str, style: dict[str, str], opacity: f
     stroke_opacity = opacity * _float(_property(element, style, "stroke-opacity", "1"), 1.0)
     stroke_width = _float(_property(element, style, "stroke-width", "1"), 1.0)
     fill_visible = fill not in {"none", "transparent"} and fill_opacity > 0
-    stroke_visible = stroke not in {"none", "transparent"} and stroke_opacity > 0 and stroke_width > 0
+    stroke_visible = (
+        stroke not in {"none", "transparent"} and stroke_opacity > 0 and stroke_width > 0
+    )
     return fill_visible or stroke_visible
 
 
@@ -258,7 +268,9 @@ def inspect_svg(
     try:
         root = DefusedET.fromstring(svg)
     except Exception as exc:  # parser-specific security exceptions share no stable base class
-        return SVGInspection(False, (f"XML parse failure: {type(exc).__name__}: {exc}",), (), {}, None)
+        return SVGInspection(
+            False, (f"XML parse failure: {type(exc).__name__}: {exc}",), (), {}, None
+        )
     if _local_name(root.tag) != "svg":
         errors.append("root element must be svg")
 
@@ -322,12 +334,14 @@ def inspect_svg(
                 errors.append(f"external reference is forbidden: {candidate}")
             if local_attribute == "style" and UNSAFE_CSS.search(candidate):
                 errors.append("unsafe CSS reference or expression")
-            if local_attribute in {"fill", "stroke", "filter", "clip-path", "mask"}:
-                if _is_external_reference(candidate) or (
+            if local_attribute in {"fill", "stroke", "filter", "clip-path", "mask"} and (
+                _is_external_reference(candidate)
+                or (
                     "url(" in candidate.lower()
                     and not re.fullmatch(r"url\(\s*#[^)]+\s*\)", candidate, re.IGNORECASE)
-                ):
-                    errors.append(f"unsafe paint/filter reference: {candidate}")
+                )
+            ):
+                errors.append(f"unsafe paint/filter reference: {candidate}")
 
         display = _property(element, style, "display", "inline").strip().lower()
         visibility = _property(element, style, "visibility", "visible").strip().lower()
@@ -426,7 +440,8 @@ def inspect_svg(
         # Backward-compatible diagnostic alias. Normative scorers must not use it.
         "role_counts": dict(sorted(declared_role_counts.items())),
         "declared_labelled_element_fraction": declared_labelled_elements / max(1, len(elements)),
-        "visible_labelled_element_fraction": visible_labelled_elements / max(1, visible_shape_count),
+        "visible_labelled_element_fraction": visible_labelled_elements
+        / max(1, visible_shape_count),
         "attribute_count": attribute_count,
         "path_characters": path_characters,
         "visible_shape_count": visible_shape_count,

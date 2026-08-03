@@ -27,6 +27,7 @@ def test_contract_directory_is_unique_and_schema_valid(root: Path) -> None:
         "contract:campaign-worker-execution-v1",
         "contract:human-rating-exchange-v1",
         "contract:openai-compatible-chat-v1",
+        "contract:openai-compatible-stream-v1",
         "contract:pelican-canvas-openenv-v1",
     }
     assert len({contract.digest for contract in contracts}) == len(contracts)
@@ -80,9 +81,7 @@ def test_openai_adapter_against_consumer_driven_contract(root: Path, heritage) -
     provider_response = {
         "choices": [
             {
-                "message": {
-                    "content": "<svg xmlns='http://www.w3.org/2000/svg'></svg>"
-                },
+                "message": {"content": "<svg xmlns='http://www.w3.org/2000/svg'></svg>"},
                 "finish_reason": "stop",
             }
         ],
@@ -91,7 +90,7 @@ def test_openai_adapter_against_consumer_driven_contract(root: Path, heritage) -
     assert verify_contract_payload(contract, "response", provider_response).valid
 
     class Handler(BaseHTTPRequestHandler):
-        def do_POST(self) -> None:  # noqa: N802 - stdlib callback name
+        def do_POST(self) -> None:
             length = int(self.headers["Content-Length"])
             payload = json.loads(self.rfile.read(length))
             observed["payload"] = payload
@@ -130,15 +129,14 @@ def test_openai_adapter_against_consumer_driven_contract(root: Path, heritage) -
     request_result = verify_contract_payload(contract, "request", observed["payload"])
     assert request_result.valid, request_result.errors
     messages = observed["payload"]["messages"]
-    assert any(message["role"] == "user" and heritage.prompt in message["content"] for message in messages)
+    assert any(
+        message["role"] == "user" and heritage.prompt in message["content"] for message in messages
+    )
 
 
 def test_campaign_worker_records_satisfy_consumer_contract(root: Path) -> None:
     contract = load_contract(root / "benchmark/contracts/campaign-worker-execution.json")
-    source = (
-        root
-        / "benchmark/evidence/snapshots/campaign-execution-records-fixture.jsonl"
-    )
+    source = root / "benchmark/evidence/snapshots/campaign-execution-records-fixture.jsonl"
     records = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines()]
     assert records
     for record in records:

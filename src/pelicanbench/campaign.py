@@ -10,8 +10,9 @@ transitions.
 from __future__ import annotations
 
 from collections import Counter
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
-from typing import Any, Iterable, Literal, Mapping, cast
+from typing import Any, Literal, cast
 
 from .coercion import parse_bool
 from .io import content_hash
@@ -232,9 +233,7 @@ class CampaignManifest:
             prospective_plan_hash=str(value["prospective_plan_hash"]),
             task_identity_commitment=str(value["task_identity_commitment"]),
             currency=str(value["currency"]),
-            hard_budget=(
-                None if value.get("hard_budget") is None else float(value["hard_budget"])
-            ),
+            hard_budget=(None if value.get("hard_budget") is None else float(value["hard_budget"])),
             max_parallel_per_model=int(value["max_parallel_per_model"]),
             policy_hash=str(value["policy_hash"]),
             budget_gate=str(value["budget_gate"]),
@@ -343,7 +342,9 @@ def build_campaign_manifest(
         raise ValueError("price schedule currency does not match campaign policy")
 
     cells: list[CampaignCell] = []
-    for source in sorted(plan.cells, key=lambda item: (item.stage_id, item.model_id, item.task_id, item.replicate)):
+    for source in sorted(
+        plan.cells, key=lambda item: (item.stage_id, item.model_id, item.task_id, item.replicate)
+    ):
         price = price_map.get(source.model_id)
         if not qualified_models.get(source.model_id, False):
             state: CellState = "blocked-qualification"
@@ -425,7 +426,9 @@ def build_campaign_manifest(
         "task_identity_commitment": plan.task_identity_commitment,
         "policy_hash": policy_hash,
         "qualified_models": dict(sorted(qualified_models.items())),
-        "prices": [asdict(item) for item in sorted(price_map.values(), key=lambda item: item.model_id)],
+        "prices": [
+            asdict(item) for item in sorted(price_map.values(), key=lambda item: item.model_id)
+        ],
         "cells": [cell.as_dict() for cell in cells],
         "shards": [shard.as_dict() for shard in shards],
     }
@@ -529,7 +532,7 @@ def append_campaign_event(
         "artifact_id": artifact_id,
         "previous_event_hash": previous_hash,
     }
-    event = CampaignEvent(event_hash=content_hash(payload), **payload)
+    event = CampaignEvent(event_hash=content_hash(payload), **cast(Any, payload))
     return (*values, event)
 
 
@@ -542,7 +545,7 @@ def campaign_status(
     values = tuple(events)
     states, total_cost = replay_campaign_events(manifest, values)
     counts = Counter(states.values())
-    terminal = sum(counts.get(state, 0) for state in TERMINAL_STATES)
+    terminal = sum(counts.get(cast(CellState, state), 0) for state in TERMINAL_STATES)
     remaining = counts.get("ready", 0)
     selected_budget = manifest.hard_budget if hard_budget is None else hard_budget
     budget_exceeded = selected_budget is not None and total_cost > selected_budget

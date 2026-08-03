@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Create and publish PelicanBench Hugging Face dataset and Spaces."""
+
 from __future__ import annotations
 
 import argparse
@@ -31,7 +32,12 @@ def main() -> int:
     identity = api.whoami()
     print(f"Authenticated as {identity.get('name') or identity.get('fullname')}")
     for repo_type, repo_id, folder in TARGETS:
-        kwargs = {"repo_id": repo_id, "repo_type": repo_type, "exist_ok": True, "private": args.private}
+        kwargs = {
+            "repo_id": repo_id,
+            "repo_type": repo_type,
+            "exist_ok": True,
+            "private": args.private,
+        }
         if repo_type == "space":
             kwargs["space_sdk"] = "gradio"
         api.create_repo(**kwargs)

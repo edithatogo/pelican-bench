@@ -117,9 +117,11 @@ def test_openai_adapter_closes_http_error_before_raising() -> None:
         model_revision="fixture-r1",
     )
 
-    with patch("pelicanbench.adapters.urllib.request.urlopen", side_effect=error):
-        with pytest.raises(RuntimeError, match="HTTP 429"):
-            adapter.generate(task, seed=1)
+    with (
+        patch("pelicanbench.adapters.urllib.request.urlopen", side_effect=error),
+        pytest.raises(RuntimeError, match="HTTP 429"),
+    ):
+        adapter.generate(task, seed=1)
 
     close.assert_called_once_with()
 

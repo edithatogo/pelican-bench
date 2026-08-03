@@ -7,12 +7,13 @@ content-addressed receipts, and calculates transparent calibration summaries.
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
-from dataclasses import asdict, dataclass, field
 import hashlib
 import json
+from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping
+from dataclasses import asdict, dataclass, field
 from math import isfinite
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 STAGE_ORDER = ("blind-recognition", "prompt-aware-criteria", "pairwise-preference")
 SENSITIVE_FIELDS = frozenset(
@@ -113,7 +114,9 @@ class CalibrationSession:
         validation = validate_calibration_response(stage, response)
         if not validation.valid:
             raise ValueError(json.dumps(validation.as_dict(), sort_keys=True))
-        canonical_response = json.dumps(dict(response), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        canonical_response = json.dumps(
+            dict(response), ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        )
         response_hash = "sha256:" + hashlib.sha256(canonical_response.encode("utf-8")).hexdigest()
         previous = self._receipts[-1].receipt_hash if self._receipts else None
         receipt_payload = {
@@ -123,9 +126,12 @@ class CalibrationSession:
             "response_hash": response_hash,
             "previous_receipt_hash": previous,
         }
-        receipt_hash = "sha256:" + hashlib.sha256(
-            json.dumps(receipt_payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-        ).hexdigest()
+        receipt_hash = (
+            "sha256:"
+            + hashlib.sha256(
+                json.dumps(receipt_payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            ).hexdigest()
+        )
         receipt = StageReceipt(
             schema_version="1.0.0",
             assignment_id=self.assignment_id,
@@ -191,9 +197,10 @@ def validate_calibration_response(stage: str, response: Mapping[str, Any]) -> Re
             value = _number(response.get(field_name))
             if value is None or not 1 <= value <= 5 or not value.is_integer():
                 invalid.append(field_name)
-    elif stage == "pairwise-preference":
-        if str(response.get("pairwise_winner", "")).strip().lower() not in {"a", "b", "tie"}:
-            invalid.append("pairwise_winner")
+    elif stage == "pairwise-preference" and str(
+        response.get("pairwise_winner", "")
+    ).strip().lower() not in {"a", "b", "tie"}:
+        invalid.append("pairwise_winner")
 
     return ResponseValidation(
         stage=stage,
@@ -225,7 +232,9 @@ def _nominal_alpha(groups: Iterable[list[str]]) -> float | None:
     if observed_pairs == 0:
         return None
     observed = observed_disagreements / observed_pairs
-    expected = 1.0 - sum(count * (count - 1) for count in category_counts.values()) / (total * (total - 1))
+    expected = 1.0 - sum(count * (count - 1) for count in category_counts.values()) / (
+        total * (total - 1)
+    )
     if expected == 0:
         return 1.0 if observed == 0 else 0.0
     return 1.0 - observed / expected
@@ -278,9 +287,7 @@ def analyse_calibration_responses(rows: Iterable[Mapping[str, Any]]) -> dict[str
             else 0.0
         )
     comparable_scene = [
-        item
-        for item in blind_rows
-        if all(item.get(expected) is not None for _, expected in fields)
+        item for item in blind_rows if all(item.get(expected) is not None for _, expected in fields)
     ]
     scene_correct: dict[int, bool] = {}
     for item in comparable_scene:
@@ -288,10 +295,16 @@ def analyse_calibration_responses(rows: Iterable[Mapping[str, Any]]) -> dict[str
             _normalise_label(item["response"][response]) == _normalise_label(item[expected])
             for response, expected in fields
         )
-    scene_accuracy = sum(scene_correct.values()) / len(comparable_scene) if comparable_scene else 0.0
+    scene_accuracy = (
+        sum(scene_correct.values()) / len(comparable_scene) if comparable_scene else 0.0
+    )
     brier = (
         sum(
-            (float(item["response"]["recognition_confidence"]) / 100.0 - float(scene_correct[id(item)])) ** 2
+            (
+                float(item["response"]["recognition_confidence"]) / 100.0
+                - float(scene_correct[id(item)])
+            )
+            ** 2
             for item in comparable_scene
         )
         / len(comparable_scene)
@@ -305,7 +318,8 @@ def analyse_calibration_responses(rows: Iterable[Mapping[str, Any]]) -> dict[str
         "interaction_rating_1_to_5",
     )
     criterion_means = {
-        field_name: sum(float(item["response"][field_name]) for item in criterion_rows) / len(criterion_rows)
+        field_name: sum(float(item["response"][field_name]) for item in criterion_rows)
+        / len(criterion_rows)
         for field_name in criterion_fields
         if criterion_rows
     }
@@ -352,7 +366,9 @@ def analyse_calibration_responses(rows: Iterable[Mapping[str, Any]]) -> dict[str
         "recognition_brier_score": brier,
         "mean_criterion_ratings": criterion_means,
         "pairwise_winner_counts": dict(
-            sorted(Counter(str(item["response"]["pairwise_winner"]) for item in pairwise_rows).items())
+            sorted(
+                Counter(str(item["response"]["pairwise_winner"]) for item in pairwise_rows).items()
+            )
         ),
         "duplicate_consistency_by_field": duplicate_consistency,
         "nominal_alpha_by_field": alpha_by_field,

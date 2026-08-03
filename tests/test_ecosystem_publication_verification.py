@@ -93,10 +93,9 @@ def test_publication_bundle_is_deterministic_and_never_writes_externally(
     assert not first.external_writes_executed
     assert (tmp_path / "first/references/references.csl.json").exists()
     assert (tmp_path / "first/.sourceright/references.csl.json").exists()
-    assert (
-        (tmp_path / "first/references/references.csl.json").read_bytes()
-        == (tmp_path / "first/.sourceright/references.csl.json").read_bytes()
-    )
+    assert (tmp_path / "first/references/references.csl.json").read_bytes() == (
+        tmp_path / "first/.sourceright/references.csl.json"
+    ).read_bytes()
     assert (tmp_path / "first/arxiv/paper/metadata.json").exists()
     assert (tmp_path / "first/candidate/v1-candidate-commitment.json").exists()
     assert (tmp_path / "first/candidate/v1-candidate.jsonl").exists()
@@ -138,13 +137,11 @@ def test_ontology_interoperability_is_formal_but_does_not_overclaim_publication(
     assert by_asset["github:edithatogo/UOGTO"].role == "design-pattern"
     assert by_asset["github:edithatogo/UOGTO"].semantic_import is False
     assert by_asset["github:edithatogo/w3id.org"].role == "namespace-host"
-    context = json.loads(
-        (root / "benchmark/ontologies/context.jsonld").read_text(encoding="utf-8")
-    )
+    context = json.loads((root / "benchmark/ontologies/context.jsonld").read_text(encoding="utf-8"))
     assert context["@context"]["pb"] == profile.namespace
-    assert f"<{profile.namespace}>" in (
-        root / "benchmark/ontologies/shapes.ttl"
-    ).read_text(encoding="utf-8")
+    assert f"<{profile.namespace}>" in (root / "benchmark/ontologies/shapes.ttl").read_text(
+        encoding="utf-8"
+    )
 
 
 def test_repository_standards_receipt_contract(root: Path, tmp_path: Path, monkeypatch):
@@ -239,7 +236,9 @@ def test_verification_receipt_missing_and_failure_branches(tmp_path: Path, monke
         artifact_paths=(coverage, coverage, project / "missing.file"),
     )
     assert failed.result == "fail"
-    coverage_check = next(item for item in failed.checks if item.name == "python-coverage-threshold")
+    coverage_check = next(
+        item for item in failed.checks if item.name == "python-coverage-threshold"
+    )
     assert coverage_check.evidence == coverage.as_posix()
     assert len(failed.artifacts) == 1
 
