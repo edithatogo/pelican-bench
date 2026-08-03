@@ -228,9 +228,12 @@ class OpenAICompatibleAdapter(ModelAdapter):
             return value
         if isinstance(value, list):
             parts: list[str] = []
-            for item in value:
-                if isinstance(item, dict) and isinstance(item.get("text"), str):
-                    parts.append(item["text"])
+            for item in value:  # pyright: ignore[reportUnknownVariableType]
+                if isinstance(item, dict):
+                    item_dict: dict[str, Any] = cast("dict[str, Any]", item)
+                    text = item_dict.get("text")
+                    if isinstance(text, str):
+                        parts.append(text)
             if parts:
                 return "".join(parts)
         raise RuntimeError("OpenAI-compatible response did not contain textual content")
@@ -283,27 +286,31 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 raise RuntimeError("invalid OpenAI-compatible streaming response") from exc
             if not isinstance(event, dict):
                 raise RuntimeError("invalid OpenAI-compatible streaming response")
+            event_dict: dict[str, Any] = cast("dict[str, Any]", event)
             event_count += 1
-            event_usage = event.get("usage")
+            event_usage = event_dict.get("usage")
             if isinstance(event_usage, dict):
-                usage = event_usage
-            choices = event.get("choices", [])
+                usage = cast("dict[str, Any]", event_usage)
+            choices = event_dict.get("choices", [])
             if not isinstance(choices, list) or not choices:
                 continue
-            choice = choices[0]
+            choice = choices[0]  # pyright: ignore[reportUnknownVariableType]
             if not isinstance(choice, dict):
                 continue
-            reason = choice.get("finish_reason")
+            choice_dict: dict[str, Any] = cast("dict[str, Any]", choice)
+            reason = choice_dict.get("finish_reason")
             if isinstance(reason, str):
                 finish_reason = reason
-            delta = choice.get("delta")
+            delta = choice_dict.get("delta")
             if isinstance(delta, dict):
-                content = delta.get("content")
+                delta_dict: dict[str, Any] = cast("dict[str, Any]", delta)
+                content = delta_dict.get("content")
                 if isinstance(content, str):
                     parts.append(content)
-            message = choice.get("message")
+            message = choice_dict.get("message")
             if isinstance(message, dict) and not parts:
-                content = message.get("content")
+                message_dict: dict[str, Any] = cast("dict[str, Any]", message)
+                content = message_dict.get("content")
                 if isinstance(content, str):
                     parts.append(content)
         if event_count == 0 or not parts:
