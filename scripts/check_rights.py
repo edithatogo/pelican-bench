@@ -6,6 +6,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pelicanbench.source_rights import audit_sourced_artifacts
+
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "data/sources/source-registry.json"
 THIRD_PARTY = ROOT / "data/third-party"
@@ -24,10 +26,17 @@ def main() -> int:
         for path in THIRD_PARTY.rglob("*"):
             if path.is_file() and path.name != "README.md":
                 errors.append(f"unreviewed third-party byte artifact: {path.relative_to(ROOT)}")
+    coverage = audit_sourced_artifacts(ROOT)
+    for finding in coverage.findings:
+        errors.append(f"{finding.code}: {finding.message}")
     if errors:
         print("\n".join(errors))
         return 1
-    print(f"Rights audit passed for {len(data.get('sources', []))} registered sources.")
+    print(
+        "Rights audit passed for "
+        f"{len(data.get('sources', []))} registered sources and "
+        f"{coverage.artifact_count} sourced records."
+    )
     return 0
 
 
