@@ -5,7 +5,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | Track | Capability | P0 | P1 | P2 | P3 | Evidence | Current constraint |
 |---|---|---:|---:|---:|---:|---:|---|
 | T00 | Foundation, governance and Conductor | complete | complete | complete | complete | E2 | Local Conductor, evidence governance, first-party ecosystem contracts, and operational procedures are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding. |
-| T01 | History, prior art, source registry and rights | complete | complete | complete | planned | E1 | No declared cross-phase constraint. |
+| T01 | History, prior art, source registry and rights | complete | complete | complete | partial | E1 | Repository-owned rights controls are harness-verified; independent rights review, a backup steward and clearance for any restricted historical bytes remain outstanding. |
 | T02 | Benchmark constitution, schemas and provenance | complete | complete | complete | partial | E2 | No declared cross-phase constraint. |
 | T03 | Animal, mobile-object and interface ontologies | complete | complete | complete | planned | E2 | Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding. |
 | T04 | Simon corpus NLP, NER and idea coverage | complete | complete | complete | planned | E2 | No declared cross-phase constraint. |
@@ -31,7 +31,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 
 - Tracks: 22.
 - Phases: 88.
-- Phase states: complete 53, partial 14, planned 21.
+- Phase states: complete 53, partial 15, planned 20.
 - Track evidence: E1 5, E2 17.
 - Planned GitHub work items: 22 parent tracks + 88 phase issues + 5 release blockers = 115.
 

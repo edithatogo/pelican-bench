@@ -17,6 +17,27 @@ from typing import cast
 PROJECT_ORIGINAL_PREFIX = "project-original"
 SOURCED_DATA_GLOBS = ("data/fixtures/*.jsonl", "data/derived/*.jsonl")
 RIGHTS_LEDGER_PATH = "data/sources/rights-ledger.json"
+RIGHTS_LEDGER_SCHEMA_VERSION = "1.0.0"
+
+
+@dataclass(frozen=True, slots=True)
+class RightsAuditPolicy:
+    """Fail-closed resource budgets for local rights-ledger validation."""
+
+    max_ledger_bytes: int = 1_000_000
+    max_artifact_bytes: int = 10_000_000
+    max_record_bytes: int = 1_000_000
+    max_records: int = 100_000
+
+    def __post_init__(self) -> None:
+        for field_name in (
+            "max_ledger_bytes",
+            "max_artifact_bytes",
+            "max_record_bytes",
+            "max_records",
+        ):
+            if getattr(self, field_name) <= 0:
+                raise ValueError(f"{field_name} must be positive")
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,10 +54,30 @@ class SourceRightsReport:
     artifact_count: int = 0
 
 
-def _ledger_source_ids(project: Path) -> set[str]:
+def _bounded_text(root: Path, path: Path, *, max_bytes: int, label: str) -> str:
+    relative = path.relative_to(root)
+    current = root
+    for component in relative.parts:
+        current /= component
+        if current.is_symlink():
+            raise ValueError(f"{label} must not contain a symbolic link: {current}")
+    size = path.stat().st_size
+    if size > max_bytes:
+        raise ValueError(f"{label} exceeds byte limit ({size} > {max_bytes})")
+    return path.read_text(encoding="utf-8")
+
+
+def _ledger_source_ids(project: Path, policy: RightsAuditPolicy) -> set[str]:
+    ledger_path = project / RIGHTS_LEDGER_PATH
     ledger: dict[str, object] = json.loads(
-        (project / RIGHTS_LEDGER_PATH).read_text(encoding="utf-8")
+        _bounded_text(project, ledger_path, max_bytes=policy.max_ledger_bytes, label="ledger")
     )
+    schema_version = ledger.get("schema_version")
+    if schema_version != RIGHTS_LEDGER_SCHEMA_VERSION:
+        raise ValueError(
+            "unsupported rights-ledger schema "
+            f"{schema_version!r}; expected {RIGHTS_LEDGER_SCHEMA_VERSION!r}"
+        )
     raw_decisions = ledger.get("decisions")
     if not isinstance(raw_decisions, list):
         raise ValueError(f"{RIGHTS_LEDGER_PATH} must contain a decisions list")
@@ -59,16 +100,36 @@ def _data_artifacts(project: Path) -> list[Path]:
     return artifacts
 
 
-def audit_sourced_artifacts(project: str | Path) -> SourceRightsReport:
+def audit_sourced_artifacts(
+    project: str | Path, *, policy: RightsAuditPolicy | None = None
+) -> SourceRightsReport:
     root = Path(project)
-    decisions = _ledger_source_ids(root)
+    selected_policy = policy or RightsAuditPolicy()
+    decisions = _ledger_source_ids(root, selected_policy)
     findings: list[SourceRightsFinding] = []
     record_count = 0
     for path in _data_artifacts(root):
         relative = path.relative_to(root).as_posix()
-        for line_number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        content = _bounded_text(
+            root,
+            path,
+            max_bytes=selected_policy.max_artifact_bytes,
+            label=f"artifact {relative}",
+        )
+        for line_number, raw in enumerate(content.splitlines(), 1):
             if not raw.strip():
                 continue
+            record_bytes = len(raw.encode("utf-8"))
+            if record_bytes > selected_policy.max_record_bytes:
+                raise ValueError(
+                    f"{relative}:{line_number} record exceeds byte limit "
+                    f"({record_bytes} > {selected_policy.max_record_bytes})"
+                )
+            if record_count >= selected_policy.max_records:
+                raise ValueError(
+                    f"record count exceeds limit ({record_count + 1} > "
+                    f"{selected_policy.max_records})"
+                )
             record_raw: object = json.loads(raw)
             if not isinstance(record_raw, dict):
                 raise ValueError(f"{relative}:{line_number} is not a JSON object")

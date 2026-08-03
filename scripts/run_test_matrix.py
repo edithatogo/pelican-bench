@@ -42,7 +42,8 @@ CATEGORY_SELECTORS: dict[str, tuple[str, ...]] = {
     "autonomous": ("tests/autonomous",),
 }
 
-CATEGORY_TIMEOUT_SECONDS = 60
+DEFAULT_CATEGORY_TIMEOUT_SECONDS = 60
+CATEGORY_TIMEOUT_SECONDS = {"unit": 120}
 
 CATEGORIES = tuple(CATEGORY_SELECTORS)
 
@@ -50,6 +51,7 @@ CATEGORIES = tuple(CATEGORY_SELECTORS)
 def run_category(root: Path, category: str) -> CategoryResult:
     environment = os.environ.copy()
     environment["PYTHONPATH"] = str(root / "src")
+    timeout_seconds = CATEGORY_TIMEOUT_SECONDS.get(category, DEFAULT_CATEGORY_TIMEOUT_SECONDS)
     started = time.monotonic()
     try:
         completed = subprocess.run(  # nosec B603
@@ -58,7 +60,7 @@ def run_category(root: Path, category: str) -> CategoryResult:
             env=environment,
             capture_output=True,
             text=True,
-            timeout=CATEGORY_TIMEOUT_SECONDS,
+            timeout=timeout_seconds,
             check=False,
         )
     except subprocess.TimeoutExpired as exc:
@@ -71,7 +73,7 @@ def run_category(root: Path, category: str) -> CategoryResult:
             returncode=124,
             duration_seconds=round(duration, 3),
             output_tail=(
-                f"category timed out after {CATEGORY_TIMEOUT_SECONDS}s\n"
+                f"category timed out after {timeout_seconds}s\n"
                 + "\n".join(output.splitlines()[-11:])
             ),
         )

@@ -1,11 +1,18 @@
 {
-  "blocker": null,
+  "blocker": "Repository-owned rights controls are harness-verified; independent rights review, a backup steward and clearance for any restricted historical bytes remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "docs/history-and-prior-art.md",
     "data/sources/source-registry.json",
     "data/sources/rights-ledger.json",
+    "data/sources/operations-policy.json",
+    "docs/rights-audit-hardening.md",
+    "docs/source-rights-lifecycle.md",
+    "docs/source-rights-incident-runbook.md",
     "src/pelicanbench/source_rights.py",
+    "tests/edge/test_source_rights_limits.py",
+    "tests/property/test_source_rights_properties.py",
+    "tests/contract/test_source_rights_operations.py",
     "tests/test_source_rights.py",
     "scripts/check_rights.py"
   ],
@@ -24,13 +31,13 @@
     "P0": "complete",
     "P1": "complete",
     "P2": "complete",
-    "P3": "planned"
+    "P3": "partial"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t01-history-prior-art-source-registry-and-rights",
-  "status": "prototype",
+  "status": "in_progress",
   "title": "History, prior art, source registry and rights",
   "track_id": "T01",
   "type": "programme",
-  "updated_at": "2026-08-03T00:00:00Z"
+  "updated_at": "2026-08-03T13:20:26Z"
 }
