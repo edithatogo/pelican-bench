@@ -75,7 +75,7 @@
   "schema_version": "1.3.0",
   "tracks": [
     {
-      "blocker": "Local Conductor, evidence governance and first-party ecosystem contracts are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.",
+      "blocker": "Local Conductor, evidence governance, first-party ecosystem contracts, and operational procedures are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T00 — Foundation, governance and Conductor\n**Specification:** [`conductor/tracks/t00-foundation-governance-and-conductor/spec.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/spec.md)\n**Plan:** [`conductor/tracks/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 2\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 7,
@@ -85,7 +85,7 @@
         "P0": "complete",
         "P1": "complete",
         "P2": "complete",
-        "P3": "partial"
+        "P3": "complete"
       },
       "phases": [
         {
@@ -123,10 +123,10 @@
           ]
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nLocal Conductor, evidence governance and first-party ecosystem contracts are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T00 — Foundation, governance and Conductor\n**Phase:** P3\n**State:** `complete`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t00-foundation-governance-and-conductor/plan.md`](../blob/main/conductor/tracks/t00-foundation-governance-and-conductor/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": 6,
           "phase": "P3",
-          "status": "partial",
+          "status": "complete",
           "title": "[T00/P3] Hardened: Foundation, governance and Conductor",
           "work_packages": [
             {

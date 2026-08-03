@@ -1,5 +1,5 @@
 {
-  "blocker": "Local Conductor, evidence governance and first-party ecosystem contracts are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.",
+  "blocker": "Local Conductor, evidence governance, first-party ecosystem contracts, and operational procedures are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "conductor/index.md",
@@ -8,7 +8,8 @@
     ".entire/settings.json",
     "benchmark/integrations/ecosystem-registry.json",
     "src/pelicanbench/ecosystem.py",
-    "docs/ecosystem-integration.md"
+    "docs/ecosystem-integration.md",
+    "docs/operational-procedures.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -25,7 +26,7 @@
     "P0": "complete",
     "P1": "complete",
     "P2": "complete",
-    "P3": "partial"
+    "P3": "complete"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t00-foundation-governance-and-conductor",
@@ -33,5 +34,5 @@
   "title": "Foundation, governance and Conductor",
   "track_id": "T00",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-03T00:00:00Z"
 }
