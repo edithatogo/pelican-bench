@@ -27,6 +27,7 @@ def main() -> int:
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--summary-only", action="store_true")
     args = parser.parse_args()
+    repository = args.repo if "/" in args.repo else f"{args.owner}/{args.repo}"
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     issue_numbers = []
     for track in manifest["tracks"]:
@@ -76,7 +77,7 @@ def main() -> int:
             )
         )
     for number in issue_numbers:
-        url = f"https://github.com/{args.repo}/issues/{number}"
+        url = f"https://github.com/{repository}/issues/{number}"
         subprocess.run(
             [
                 "gh",
