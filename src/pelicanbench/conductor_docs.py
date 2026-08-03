@@ -63,7 +63,7 @@ def render_track_registry(project: str | Path) -> str:
         summary = _summary(directory)
         relative = directory.relative_to(root / "conductor").as_posix()
         archived = directory.parent.name == "archive"
-        checkbox = "x" if archived else " "
+        checkbox = "x" if archived else "~" if item.get("status") == "in_progress" else " "
         phases = ", ".join(f"{phase} {item['phase_status'][phase]}" for phase in PHASES)
         lines.append(
             f"- [{checkbox}] **{track_id}: {title}** — [{summary}]({relative}/index.md) "

@@ -33,6 +33,7 @@ def test_generated_conductor_views_and_issue_graph_are_current(root: Path):
     registry = (root / "conductor/tracks.md").read_text(encoding="utf-8")
     assert "- [x] **T00:" in registry
     assert "(archive/t00-foundation-governance-and-conductor/index.md)" in registry
+    assert "- [~] **T01:" in registry
 
 
 def test_release_manifest_records_assurance_work_graph_and_artifacts(root: Path, tmp_path: Path):
