@@ -26,12 +26,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "partial",
+    "P2": "complete",
     "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t03-animal-mobile-object-and-interface-ontologies",
-  "status": "prototype",
+  "status": "validated",
   "title": "Animal, mobile-object and interface ontologies",
   "track_id": "T03",
   "type": "programme",
