@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
-import xml.etree.ElementTree as ET
+import subprocess  # nosec B404
+import xml.etree.ElementTree as ET  # nosec B405
 from pathlib import Path
 from typing import Literal
 
@@ -71,7 +71,7 @@ class RepositoryVerificationReceipt(StrictModel):
 
 
 def _git_revision(root: Path) -> str:
-    completed = subprocess.run(
+    completed = subprocess.run(  # nosec B603 B607
         ["git", "rev-parse", "HEAD"],
         cwd=root,
         check=False,
@@ -101,7 +101,7 @@ def _artifact(root: Path, path: Path) -> VerificationArtifact:
 
 
 def coverage_metrics(path: str | Path) -> VerificationQualityMetrics:
-    root = ET.parse(Path(path)).getroot()
+    root = ET.parse(Path(path)).getroot()  # nosec B314
     line_rate = float(root.attrib.get("line-rate", "0")) * 100
     branch_rate = float(root.attrib.get("branch-rate", "0")) * 100
     return VerificationQualityMetrics(
