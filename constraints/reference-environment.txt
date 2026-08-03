@@ -70,7 +70,7 @@ tqdm==4.67.3
 typer==0.26.3
 typing-extensions==4.15.0
 typing-inspection==0.4.2
-tzdata==2026.2
+tzdata==2026.3
 uvicorn==0.48.0
 webencodings==0.5.1
 # Missing from the current environment: datasets, hypothesis, mutmut, mypy, pyright, pytest-randomly, pytest-timeout, pytest-xdist, ruff
