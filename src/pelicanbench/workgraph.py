@@ -91,13 +91,47 @@ def _blocker_body(blocker: dict[str, Any]) -> str:
     )
 
 
+def _work_package_body(
+    package: dict[str, Any],
+    *,
+    track_id: str,
+    track_title: str,
+    relative: str,
+) -> str:
+    status = str(package.get("status", "planned"))
+    accepted = status == "complete"
+    acceptance = "\n".join(
+        f"- [{'x' if accepted else ' '}] {item}"
+        for item in map(str, package.get("acceptance", []))
+    )
+    evidence = "\n".join(f"- `{path}`" for path in package.get("evidence", []))
+    blocker = str(package.get("blocker") or "No package-specific blocker declared.")
+    return (
+        "## Conductor work package\n\n"
+        f"**Package:** {package['id']} — {package['title']}\n"
+        f"**Track:** {track_id} — {track_title}\n"
+        f"**Phase:** {package['phase']}\n"
+        f"**State:** `{status}`\n"
+        f"**Evidence level:** `{package.get('evidence_level', 'E0')}`\n"
+        f"**Plan:** [`{relative}/plan.md`](../blob/main/{relative}/plan.md)\n\n"
+        f"{package['summary']}\n\n"
+        "## Acceptance criteria\n\n"
+        f"{acceptance}\n\n"
+        "## Evidence\n\n"
+        f"{evidence or '- No repository evidence yet.'}\n\n"
+        "## Current constraint\n\n"
+        f"{blocker}\n\n"
+        "This issue is generated from the track's `metadata.json`.\n"
+    )
+
+
 def build_issue_manifest(
     root: str | Path,
     *,
     generated_at: str | None = None,
     preserve_numbers: bool = True,
 ) -> dict[str, Any]:
-    """Build the complete parent/phase/blocker issue manifest from source records."""
+    """Build parent, phase, nested work-package and blocker issue records."""
 
     project = Path(root)
     manifest_path = project / ".github/issues/manifest.json"
@@ -105,30 +139,68 @@ def build_issue_manifest(
         _existing_numbers(manifest_path) if preserve_numbers else ({}, {})
     )
     tracks: list[dict[str, Any]] = []
+    package_count = 0
     for metadata_path in sorted((project / "conductor/tracks").glob("*/metadata.json")):
         metadata = _read_object(metadata_path)
         track_id = str(metadata["track_id"])
         title = str(metadata["title"])
-        slug = str(metadata["slug"])
         directory = metadata_path.parent
         relative = directory.relative_to(project).as_posix()
         previous = existing_tracks.get(track_id, {})
         previous_phases = {
             str(item.get("phase")): item for item in previous.get("phases", [])
         }
+        packages_by_phase: dict[str, list[dict[str, Any]]] = {
+            phase: [] for phase in PHASE_NAMES
+        }
+        for package in metadata.get("work_packages", []):
+            phase = str(package["phase"])
+            packages_by_phase.setdefault(phase, []).append(package)
         phase_records: list[dict[str, Any]] = []
-        for phase in ("P0", "P1", "P2", "P3"):
+        for phase in PHASE_NAMES:
             status = str(metadata["phase_status"][phase])
+            previous_phase = previous_phases.get(phase, {})
+            previous_packages = {
+                str(item.get("id")): item
+                for item in previous_phase.get("work_packages", [])
+            }
+            work_packages: list[dict[str, Any]] = []
+            for package in sorted(
+                packages_by_phase.get(phase, []), key=lambda item: str(item["id"])
+            ):
+                package_id = str(package["id"])
+                package_status = str(package.get("status", "planned"))
+                work_packages.append(
+                    {
+                        "id": package_id,
+                        "phase": phase,
+                        "title": f"[{package_id}] {package['title']}",
+                        "status": package_status,
+                        "evidence_level": str(package.get("evidence_level", "E0")),
+                        "body": _work_package_body(
+                            package,
+                            track_id=track_id,
+                            track_title=title,
+                            relative=relative,
+                        ),
+                        "issue_number": previous_packages.get(package_id, {}).get(
+                            "issue_number"
+                        ),
+                    }
+                )
+            package_count += len(work_packages)
             body = (
                 "## Conductor phase\n\n"
                 f"**Track:** {track_id} — {title}\n"
                 f"**Phase:** {phase}\n"
                 f"**State:** `{status}`\n"
                 f"**Evidence level:** `{metadata.get('evidence_level', 'E0')}`\n"
-                f"**Plan:** [`{relative}/plan.md`](../blob/main/{relative}/plan.md)\n\n"
+                f"**Plan:** [`{relative}/plan.md`](../blob/main/{relative}/plan.md)\n"
+                f"**Nested work packages:** {len(work_packages)}\n\n"
                 "### Exit criterion\n\n"
-                "Complete the phase tasks with repository evidence, run `scripts/harness.sh`, "
-                "update Conductor status, and record score-compatibility impact.\n"
+                "Complete the phase tasks and nested work packages with repository evidence, "
+                "run `scripts/harness.sh`, update Conductor status, and record "
+                "score-compatibility impact.\n"
             )
             if metadata.get("blocker") and phase in {"P2", "P3"} and status != "complete":
                 body += f"\n### Constraint\n\n{metadata['blocker']}\n"
@@ -138,7 +210,8 @@ def build_issue_manifest(
                     "title": f"[{track_id}/{phase}] {PHASE_NAMES[phase]}: {title}",
                     "status": status,
                     "body": body,
-                    "issue_number": previous_phases.get(phase, {}).get("issue_number"),
+                    "issue_number": previous_phase.get("issue_number"),
+                    "work_packages": work_packages,
                 }
             )
         parent_body = (
@@ -146,9 +219,10 @@ def build_issue_manifest(
             f"**Track:** {track_id} — {title}\n"
             f"**Specification:** [`{relative}/spec.md`](../blob/main/{relative}/spec.md)\n"
             f"**Plan:** [`{relative}/plan.md`](../blob/main/{relative}/plan.md)\n"
-            f"**Evidence level:** `{metadata.get('evidence_level', 'E0')}`\n\n"
-            "The parent remains open until P3 is complete. Phase issues are the executable "
-            "maturity graph.\n"
+            f"**Evidence level:** `{metadata.get('evidence_level', 'E0')}`\n"
+            f"**Nested work packages:** {sum(len(item['work_packages']) for item in phase_records)}\n\n"
+            "The parent remains open until P3 is complete. Phase issues are the maturity "
+            "graph; their nested work packages are executable, evidence-specific deliverables.\n"
         )
         tracks.append(
             {
@@ -183,14 +257,15 @@ def build_issue_manifest(
             }
         )
 
+    phase_count = sum(len(item["phases"]) for item in tracks)
     return {
-        "schema_version": "1.2.0",
+        "schema_version": "1.3.0",
         "generated_at": generated_at or utc_now_iso(),
         "repository": "edithatogo/pelican-bench",
         "hierarchy": (
-            f"{len(tracks)} parent track issues with "
-            f"{sum(len(item['phases']) for item in tracks)} native phase sub-issues, "
-            f"plus {len(blockers)} cross-track release blockers"
+            f"{len(tracks)} parent track issues with {phase_count} native phase sub-issues, "
+            f"{package_count} nested work-package issues, plus {len(blockers)} "
+            "cross-track release blockers"
         ),
         "tracks": tracks,
         "release_blockers": blockers,

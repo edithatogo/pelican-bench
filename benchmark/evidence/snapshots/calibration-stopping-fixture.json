@@ -1,0 +1,24 @@
+{
+  "failures": [],
+  "gates": {
+    "alpha:animal_open_text": true,
+    "alpha:mobile_object_open_text": true,
+    "alpha:relation_open_text": true,
+    "brier-score": true,
+    "duplicate:animal_open_text": true,
+    "duplicate:mobile_object_open_text": true,
+    "duplicate:relation_open_text": true,
+    "invalid-fraction": true,
+    "stage:blind-recognition": true,
+    "stage:pairwise-preference": true,
+    "stage:prompt-aware-criteria": true
+  },
+  "invalid_fraction": 0.009524,
+  "ready_to_stop": true,
+  "schema_version": "1.0.0",
+  "valid_by_stage": {
+    "blind-recognition": 288,
+    "pairwise-preference": 720,
+    "prompt-aware-criteria": 672
+  }
+}

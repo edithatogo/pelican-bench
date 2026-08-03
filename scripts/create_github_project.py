@@ -25,15 +25,18 @@ def main() -> int:
     parser.add_argument("--summary-only", action="store_true")
     args = parser.parse_args()
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    issue_numbers = [
-        number
-        for track in manifest["tracks"]
-        for number in [
-            track.get("parent_issue"),
-            *(phase.get("issue_number") for phase in track["phases"]),
-        ]
-        if number
-    ]
+    issue_numbers = []
+    for track in manifest["tracks"]:
+        if track.get("parent_issue"):
+            issue_numbers.append(track["parent_issue"])
+        for phase in track["phases"]:
+            if phase.get("issue_number"):
+                issue_numbers.append(phase["issue_number"])
+            issue_numbers.extend(
+                package["issue_number"]
+                for package in phase.get("work_packages", [])
+                if package.get("issue_number")
+            )
     issue_numbers.extend(
         blocker["issue_number"]
         for blocker in manifest.get("release_blockers", [])

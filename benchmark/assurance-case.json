@@ -4,19 +4,24 @@
     {
       "claim": "Animal, object, interaction and instruction dimensions do not use SVG identifiers, classes, comments, metadata or invisible elements as evidence.",
       "defeaters": [
-        "A visual judge could still be manipulated by rendered prompt injection.",
+        "Text converted to paths or rasterised lettering still requires render-level adversarial judge qualification.",
         "Human alignment has not yet been established.",
         "The bridge study currently covers fixture renderings rather than the full prospective corpus."
       ],
       "evidence": [
+        "benchmark/evidence/snapshots/judge-firewall-quarantine.json",
+        "benchmark/judges/firewall-policy.json",
+        "docs/judge-firewall.md",
+        "src/pelicanbench/judge_firewall.py",
+        "src/pelicanbench/metamorphic.py",
+        "src/pelicanbench/render.py",
+        "src/pelicanbench/render_bridge.py",
         "src/pelicanbench/scoring.py",
         "src/pelicanbench/semantic.py",
-        "src/pelicanbench/render.py",
-        "src/pelicanbench/metamorphic.py",
-        "src/pelicanbench/render_bridge.py",
-        "tests/test_svg_scoring.py",
+        "tests/test_assurance_render_bridge.py",
+        "tests/test_judge_firewall.py",
         "tests/test_metamorphic.py",
-        "tests/test_assurance_render_bridge.py"
+        "tests/test_svg_scoring.py"
       ],
       "evidence_level": "E2",
       "id": "C-SEM-01",
@@ -54,9 +59,12 @@
       ],
       "evidence": [
         "benchmark/tasks/grammar.json",
+        "benchmark/tasks/v1-candidate-commitment.json",
+        "benchmark/tasks/v1-candidate-design.json",
+        "benchmark/tasks/v1-candidate.jsonl",
+        "benchmark/tasks/v1-pilot-commitment.json",
         "benchmark/tasks/v1-pilot-design.json",
-        "benchmark/tasks/v1-pilot.jsonl",
-        "benchmark/tasks/v1-pilot-commitment.json"
+        "benchmark/tasks/v1-pilot.jsonl"
       ],
       "evidence_level": "E2",
       "id": "C-TASK-01",
@@ -72,9 +80,13 @@
         "No independent remote reproduction has yet occurred."
       ],
       "evidence": [
-        "src/pelicanbench/runner.py",
+        "benchmark/campaign/policy.json",
+        "benchmark/evidence/snapshots/campaign-manifest-summary.json",
+        "src/pelicanbench/campaign.py",
         "src/pelicanbench/manifest.py",
         "src/pelicanbench/provenance.py",
+        "src/pelicanbench/runner.py",
+        "tests/integration/test_campaign_orchestration.py",
         "tests/test_runner_manifest.py"
       ],
       "evidence_level": "E2",
@@ -91,9 +103,13 @@
         "The estimator has not yet been fitted to a real prospective benchmark run."
       ],
       "evidence": [
+        "benchmark/design/assumptions.json",
+        "benchmark/evidence/snapshots/design-assurance.json",
+        "docs/v1-pilot-analysis-plan.md",
+        "src/pelicanbench/design_assurance.py",
         "src/pelicanbench/statistics.py",
-        "tests/test_statistics_semantic_human.py",
-        "docs/v1-pilot-analysis-plan.md"
+        "tests/test_design_assurance.py",
+        "tests/test_statistics_semantic_human.py"
       ],
       "evidence_level": "E2",
       "id": "C-STAT-01",
@@ -145,14 +161,17 @@
         "Coverage-guided fuzzing and independent security review have not yet occurred."
       ],
       "evidence": [
-        "src/pelicanbench/svg.py",
-        "benchmark/fixtures/malicious",
+        ".github/workflows/security.yml",
         "benchmark/fixtures/adversarial",
-        "tests/test_svg_scoring.py",
-        "tests/test_metamorphic.py",
+        "benchmark/fixtures/adversarial/visible-judge-prompt-injection.svg",
+        "benchmark/fixtures/malicious",
         "src/pelicanbench/fuzzing.py",
+        "src/pelicanbench/judge_firewall.py",
+        "src/pelicanbench/svg.py",
         "tests/test_fuzzing.py",
-        ".github/workflows/security.yml"
+        "tests/test_judge_firewall.py",
+        "tests/test_metamorphic.py",
+        "tests/test_svg_scoring.py"
       ],
       "evidence_level": "E2",
       "id": "C-SEC-01",
@@ -406,6 +425,264 @@
       ],
       "status": "implemented",
       "title": "Quality gates remain executable when optional static-analysis tools are absent"
+    },
+    {
+      "claim": "V1 retains text-bearing artifacts but withholds automatic semantic credit when the canonical render contains visible evaluator-directed text or fails source/render safety gates.",
+      "defeaters": [
+        "Text converted to vector outlines is not reliably detected by the source-level text gate.",
+        "No live multimodal judge has yet completed the render-level adversarial canary study."
+      ],
+      "evidence": [
+        "src/pelicanbench/judge_firewall.py",
+        "src/pelicanbench/scoring.py",
+        "src/pelicanbench/runner.py",
+        "benchmark/judges/firewall-policy.json",
+        "benchmark/fixtures/adversarial/visible-judge-prompt-injection.svg",
+        "benchmark/evidence/snapshots/judge-firewall-quarantine.json",
+        "tests/test_judge_firewall.py",
+        "docs/judge-firewall.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-JUDGE-FW-01",
+      "linked_blockers": [
+        "RB-01",
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Automatic judges receive a fail-closed, text-quarantined render input"
+    },
+    {
+      "claim": "Committed prospective cells are deterministically sharded and managed through a hash-chained failure-retaining ledger; blocked cells cannot disappear or make the campaign complete.",
+      "defeaters": [
+        "The JSONL ledger is a single-writer contract and has not yet been exercised through a transactional distributed coordinator.",
+        "No live provider price, lease or result event has yet been recorded."
+      ],
+      "evidence": [
+        "src/pelicanbench/campaign.py",
+        "benchmark/campaign/policy.json",
+        "benchmark/evidence/snapshots/campaign-manifest-summary.json",
+        "tests/integration/test_campaign_orchestration.py",
+        "docs/prospective-campaign-operations.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-CAMP-01",
+      "linked_blockers": [
+        "RB-02",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "The prospective campaign is qualification, price, concurrency and budget gated"
+    },
+    {
+      "claim": "The project reports design precision under prespecified clustering assumptions and permits only a blinded pooled-variance reassessment among three, five and seven retained replicates.",
+      "defeaters": [
+        "Current variance and intraclass-correlation values are sensitivity assumptions rather than empirical estimates.",
+        "The blinded reassessment has not yet been performed on the initial generation wave."
+      ],
+      "evidence": [
+        "src/pelicanbench/design_assurance.py",
+        "benchmark/design/assumptions.json",
+        "benchmark/evidence/snapshots/design-assurance.json",
+        "tests/test_design_assurance.py",
+        "docs/design-assurance.md",
+        "docs/v1-pilot-analysis-plan.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-DESIGN-02",
+      "linked_blockers": [
+        "RB-02",
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Pilot precision and replication decisions are prespecified and sensitivity-tested"
+    },
+    {
+      "claim": "Candidate tasks, panels, policies, rubrics and analysis documents are locked by digest, while amendments record timing, rationale, affected files and sensitivity actions.",
+      "defeaters": [
+        "The lock proves fixity and amendment completeness, not substantive scientific validity.",
+        "It has not yet been registered in an external immutable scholarly repository."
+      ],
+      "evidence": [
+        "src/pelicanbench/protocol.py",
+        "benchmark/protocol/lock-spec.json",
+        "benchmark/protocol/amendments.jsonl",
+        "benchmark/protocol/v1-study-lock.json",
+        "benchmark/evidence/snapshots/protocol-verification.json",
+        "tests/integration/test_protocol_lock.py",
+        "docs/study-protocol-lock.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-PROTOCOL-01",
+      "linked_blockers": [
+        "RB-02",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Inferential inputs are content-addressed and amended append-only"
+    },
+    {
+      "claim": "Original responses are preserved, disagreement enters a content-addressed adjudication queue, and collection stops only when all workload, validity, calibration and repeat-consistency gates pass.",
+      "defeaters": [
+        "The thresholds are prespecified policy values, not yet validated against recruited participants.",
+        "No production collection platform or governance approval exists."
+      ],
+      "evidence": [
+        "src/pelicanbench/calibration_ops.py",
+        "benchmark/human-calibration/operations-policy.json",
+        "benchmark/fixtures/human-calibration/operations-responses.jsonl",
+        "benchmark/fixtures/human-calibration/operations-analysis.json",
+        "benchmark/evidence/snapshots/calibration-adjudication-fixture.jsonl",
+        "benchmark/evidence/snapshots/calibration-stopping-fixture.json",
+        "tests/integration/test_calibration_operations.py",
+        "docs/human-calibration-operations.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-CAL-OPS-01",
+      "linked_blockers": [
+        "RB-03",
+        "RB-05"
+      ],
+      "status": "implemented",
+      "title": "Human calibration uses separate adjudication and fail-closed stopping rules"
+    },
+    {
+      "claim": "The reference campaign store atomically leases cells across concurrent workers, enforces per-model concurrency and hard-budget reservation, renews leases to a bounded horizon, reclaims expiry, preserves every retry as an immutable per-attempt record, and reconciles those records against a hash-chained terminal event ledger.",
+      "defeaters": [
+        "The reference evidence uses a single-host SQLite fixture rather than a distributed production database.",
+        "Live provider invoices, long-duration load tests and second-environment operational reconciliation remain outstanding."
+      ],
+      "evidence": [
+        "benchmark/contracts/campaign-worker-execution.json",
+        "benchmark/evidence/snapshots/campaign-execution-records-fixture.jsonl",
+        "benchmark/evidence/snapshots/campaign-store-events-fixture.jsonl",
+        "benchmark/evidence/snapshots/campaign-store-transactional-fixture.json",
+        "benchmark/evidence/snapshots/campaign-worker-immutable-fixture.json",
+        "docs/transactional-campaign-store.md",
+        "src/pelicanbench/campaign_store.py",
+        "src/pelicanbench/campaign_worker.py",
+        "tests/integration/test_campaign_store.py",
+        "tests/integration/test_campaign_worker.py",
+        "tests/integration/test_consumer_contracts.py"
+      ],
+      "evidence_level": "E2",
+      "id": "C-CAMP-TXN-02",
+      "linked_blockers": [
+        "RB-02",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Prospective allocation and per-attempt provenance are atomic and tamper-evident"
+    },
+    {
+      "claim": "Model canary qualification executes generation, SVG inspection, canonical rendering and automatic-judge firewall checks, retains failures and resumes only when model, revision, adapter and plan identities match.",
+      "defeaters": [
+        "Only fixture adapters have completed the executable qualification path.",
+        "Live endpoints, licences, prices and immutable revisions remain unqualified."
+      ],
+      "evidence": [
+        "src/pelicanbench/qualification_runner.py",
+        "src/pelicanbench/qualification.py",
+        "benchmark/evidence/snapshots/model-qualification-execution-fixture.json",
+        "tests/integration/test_model_qualification_runner.py",
+        "docs/model-and-judge-qualification-execution.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-QUAL-EXEC-03",
+      "linked_blockers": [
+        "RB-02",
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Model qualification is executable, resumable and judge-firewall aware"
+    },
+    {
+      "claim": "Automatic-judge qualification evaluates technical integrity, human-anchor agreement, expected ordering, same-family bias and leave-one-family-out stability while synthetic calibration fixtures remain explicitly classified as E2 rather than empirical E3 evidence.",
+      "defeaters": [
+        "The current snapshot uses synthetic human anchors.",
+        "No live judge is qualified for published scoring until participant evidence and provenance are audited."
+      ],
+      "evidence": [
+        "src/pelicanbench/judge_calibration.py",
+        "benchmark/judges/calibration-policy.json",
+        "benchmark/evidence/snapshots/judge-panel-calibration-fixture.json",
+        "tests/integration/test_judge_panel_calibration.py",
+        "tests/unit/test_judge_calibration.py",
+        "docs/model-and-judge-qualification-execution.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-JUDGE-CAL-02",
+      "linked_blockers": [
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Judge calibration is family-sensitive and release-honest"
+    },
+    {
+      "claim": "The initial three-replicate design can expand only through a content-addressed reassessment that rejects model and comparative identifiers, estimates clustered dependence and emits only newly approved replicate cells.",
+      "defeaters": [
+        "The selected fixture wave is not the real campaign decision.",
+        "The approximation must be checked against the final multilevel analysis."
+      ],
+      "evidence": [
+        "src/pelicanbench/reassessment.py",
+        "benchmark/design/replicate-reassessment.json",
+        "benchmark/evidence/snapshots/blinded-reassessment-fixture.json",
+        "benchmark/evidence/snapshots/replicate-wave-fixture.json",
+        "tests/integration/test_blinded_reassessment.py",
+        "docs/blinded-replicate-reassessment.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-REASSESS-01",
+      "linked_blockers": [
+        "RB-02",
+        "RB-03"
+      ],
+      "status": "implemented",
+      "title": "Replicate expansion follows a blinded prespecified rule"
+    },
+    {
+      "claim": "A locked deterministic simulation evaluates null rejection, power, clustered dependence, retained failures and underidentification across candidate replicate counts.",
+      "defeaters": [
+        "Simulation assumptions are not observed pilot estimates.",
+        "The simulation approximates rather than reproduces the final hierarchical estimator."
+      ],
+      "evidence": [
+        "src/pelicanbench/power_simulation.py",
+        "benchmark/design/power-simulation.json",
+        "benchmark/evidence/snapshots/power-simulation.json",
+        "tests/test_power_simulation.py",
+        "docs/power-simulation.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-POWER-01",
+      "linked_blockers": [
+        "RB-02"
+      ],
+      "status": "implemented",
+      "title": "Initial replicate selection has deterministic design-power evidence"
+    },
+    {
+      "claim": "Salted domain-separated Merkle commitments detect post-commit task substitution and support independently verifiable staged or full disclosure.",
+      "defeaters": [
+        "Fixture salts are deterministic and must not be used for a live challenge.",
+        "Commitment does not prove absence of model training exposure or secrecy compromise."
+      ],
+      "evidence": [
+        "src/pelicanbench/challenge.py",
+        "benchmark/fixtures/challenge/commitment.json",
+        "benchmark/evidence/snapshots/challenge-reveals-fixture.jsonl",
+        "tests/unit/test_challenge_commitments.py",
+        "tests/unit/test_challenge_validation.py",
+        "docs/sealed-challenge-commitments.md"
+      ],
+      "evidence_level": "E2",
+      "id": "C-CHALLENGE-01",
+      "linked_blockers": [
+        "RB-01",
+        "RB-04"
+      ],
+      "status": "implemented",
+      "title": "Sealed challenge tasks can be committed before disclosure"
     }
   ],
   "evidence_levels": {
@@ -471,6 +748,68 @@
         "C-QUALITY-01"
       ]
     },
+    "v0.5-alpha": {
+      "description": "A fixture-verified operational-readiness alpha adding judge-input quarantine, campaign controls, design assurance, protocol fixity, and human-calibration operations without claiming live model, judge, or participant evidence.",
+      "minimum_evidence_level": "E2",
+      "required_claims": [
+        "C-SEM-01",
+        "C-ID-01",
+        "C-TASK-01",
+        "C-RUN-01",
+        "C-STAT-01",
+        "C-SEC-01",
+        "C-CAL-DESIGN-01",
+        "C-ECO-01",
+        "C-MODEL-01",
+        "C-PUB-01",
+        "C-HUM-X-01",
+        "C-ONTO-01",
+        "C-CAND-01",
+        "C-NLP-01",
+        "C-QUAL-02",
+        "C-HUM-STAGE-02",
+        "C-QUALITY-01",
+        "C-JUDGE-FW-01",
+        "C-CAMP-01",
+        "C-DESIGN-02",
+        "C-PROTOCOL-01",
+        "C-CAL-OPS-01"
+      ]
+    },
+    "v0.6-alpha": {
+      "description": "A fixture-verified empirical-execution hardening alpha adding atomic campaign leasing, executable qualification, release-honest judge calibration, blinded replicate reassessment, design power and sealed challenge commitments without claiming live model or participant evidence.",
+      "minimum_evidence_level": "E2",
+      "required_claims": [
+        "C-SEM-01",
+        "C-ID-01",
+        "C-TASK-01",
+        "C-RUN-01",
+        "C-STAT-01",
+        "C-SEC-01",
+        "C-CAL-DESIGN-01",
+        "C-ECO-01",
+        "C-MODEL-01",
+        "C-PUB-01",
+        "C-HUM-X-01",
+        "C-ONTO-01",
+        "C-CAND-01",
+        "C-NLP-01",
+        "C-QUAL-02",
+        "C-HUM-STAGE-02",
+        "C-QUALITY-01",
+        "C-JUDGE-FW-01",
+        "C-CAMP-01",
+        "C-DESIGN-02",
+        "C-PROTOCOL-01",
+        "C-CAL-OPS-01",
+        "C-CAMP-TXN-02",
+        "C-QUAL-EXEC-03",
+        "C-JUDGE-CAL-02",
+        "C-REASSESS-01",
+        "C-POWER-01",
+        "C-CHALLENGE-01"
+      ]
+    },
     "v1.0": {
       "description": "The first empirically calibrated and reproducible public benchmark release.",
       "minimum_evidence_level": "E3",
@@ -489,5 +828,5 @@
     }
   },
   "schema_version": "1.0.0",
-  "updated_at": "2026-08-02T00:00:00Z"
+  "updated_at": "2026-08-03T00:00:00Z"
 }

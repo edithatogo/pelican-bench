@@ -266,6 +266,100 @@ def _python_findings(root: Path, path: Path, text: str) -> list[Finding]:
             )
         ]
 
+    def permits_redefinition(
+        node: ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef,
+    ) -> bool:
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            return False
+        for decorator in node.decorator_list:
+            if isinstance(decorator, ast.Name) and decorator.id == "overload":
+                return True
+            if isinstance(decorator, ast.Attribute) and decorator.attr in {
+                "deleter",
+                "getter",
+                "setter",
+            }:
+                return True
+        return False
+
+    def duplicate_definitions(
+        body: list[ast.stmt],
+        *,
+        scope: str,
+    ) -> None:
+        definitions: dict[str, ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef] = {}
+        for statement in body:
+            if not isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                continue
+            previous = definitions.get(statement.name)
+            if (
+                previous is not None
+                and not permits_redefinition(previous)
+                and not permits_redefinition(statement)
+            ):
+                findings.append(
+                    _finding(
+                        "PY006",
+                        "error",
+                        "lint",
+                        root,
+                        path,
+                        f"duplicate {scope} definition {statement.name!r}; "
+                        f"first defined on line {previous.lineno}",
+                        line=statement.lineno,
+                        column=statement.col_offset + 1,
+                    )
+                )
+            else:
+                definitions[statement.name] = statement
+            if isinstance(statement, ast.ClassDef):
+                duplicate_definitions(
+                    statement.body,
+                    scope=f"class {statement.name!r}",
+                )
+
+    duplicate_definitions(tree.body, scope="module-level")
+
+    imported_bindings: dict[str, tuple[int, str, bool]] = {}
+    for statement in tree.body:
+        aliases: list[tuple[ast.alias, str, bool]] = []
+        if isinstance(statement, ast.Import):
+            aliases = [(alias, alias.name, True) for alias in statement.names]
+        elif isinstance(statement, ast.ImportFrom) and statement.module != "__future__":
+            aliases = [
+                (alias, f"{statement.module}.{alias.name}", False)
+                for alias in statement.names
+                if alias.name != "*"
+            ]
+        for alias, origin, is_plain_import in aliases:
+            bound_name = alias.asname or alias.name.split(".", 1)[0]
+            previous = imported_bindings.get(bound_name)
+            if previous is not None:
+                previous_line, previous_origin, previous_plain = previous
+                compatible_package_imports = (
+                    alias.asname is None
+                    and is_plain_import
+                    and previous_plain
+                    and origin != previous_origin
+                    and origin.split(".", 1)[0] == previous_origin.split(".", 1)[0]
+                )
+                if not compatible_package_imports:
+                    findings.append(
+                        _finding(
+                            "PY007",
+                            "error",
+                            "lint",
+                            root,
+                            path,
+                            f"duplicate import binding {bound_name!r}; "
+                            f"first imported on line {previous_line}",
+                            line=statement.lineno,
+                            column=statement.col_offset + 1,
+                        )
+                    )
+            else:
+                imported_bindings[bound_name] = (statement.lineno, origin, is_plain_import)
+
     loaded_names = {
         node.id
         for node in ast.walk(tree)

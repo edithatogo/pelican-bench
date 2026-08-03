@@ -7,8 +7,10 @@
       "closure_criteria": [
         {
           "evidence": [
+            "src/pelicanbench/judge_firewall.py",
             "src/pelicanbench/scoring.py",
             "src/pelicanbench/semantic.py",
+            "tests/test_judge_firewall.py",
             "tests/test_svg_scoring.py"
           ],
           "id": "RB-01-C1",
@@ -45,15 +47,19 @@
         }
       ],
       "evidence": [
-        "src/pelicanbench/scoring.py",
-        "src/pelicanbench/render.py",
-        "src/pelicanbench/semantic.py",
+        "benchmark/fixtures/adversarial/semantic-label-injection.svg",
+        "benchmark/fixtures/adversarial/visible-judge-prompt-injection.svg",
+        "benchmark/judges/firewall-policy.json",
+        "src/pelicanbench/judge_firewall.py",
         "src/pelicanbench/metamorphic.py",
+        "src/pelicanbench/render.py",
         "src/pelicanbench/render_bridge.py",
-        "tests/test_svg_scoring.py",
-        "tests/test_metamorphic.py",
+        "src/pelicanbench/scoring.py",
+        "src/pelicanbench/semantic.py",
         "tests/test_assurance_render_bridge.py",
-        "benchmark/fixtures/adversarial/semantic-label-injection.svg"
+        "tests/test_judge_firewall.py",
+        "tests/test_metamorphic.py",
+        "tests/test_svg_scoring.py"
       ],
       "evidence_level": "E2",
       "id": "RB-01",
@@ -89,8 +95,10 @@
         },
         {
           "evidence": [
-            "docs/v1-pilot-analysis-plan.md",
-            "benchmark/tasks/v1-pilot-commitment.json"
+            "benchmark/protocol/amendments.jsonl",
+            "benchmark/protocol/v1-study-lock.json",
+            "benchmark/tasks/v1-pilot-commitment.json",
+            "docs/v1-pilot-analysis-plan.md"
           ],
           "id": "RB-02-C3",
           "status": "complete",
@@ -98,19 +106,48 @@
         },
         {
           "evidence": [
+            "benchmark/evidence/snapshots/design-assurance.json",
+            "src/pelicanbench/design_assurance.py",
             "src/pelicanbench/statistics.py",
             "tests/test_statistics_semantic_human.py"
           ],
           "id": "RB-02-C4",
           "status": "partial",
           "text": "Report uncertainty, replicate reliability and sensitivity analyses."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/mock_services.py",
+            "src/pelicanbench/campaign_store.py",
+            "src/pelicanbench/campaign_worker.py",
+            "tests/unit/test_adapter_mocking.py",
+            "tests/integration/test_mock_provider_pipeline.py",
+            "tests/e2e/test_mocked_campaign_worker.py"
+          ],
+          "id": "RB-02-C5",
+          "status": "complete",
+          "text": "Exercise qualification, provider failure, retry, lease ownership and terminal-result retention through deterministic mock services before live execution."
         }
       ],
       "evidence": [
+        "benchmark/campaign/policy.json",
+        "benchmark/design/assumptions.json",
+        "benchmark/evidence/snapshots/campaign-manifest-summary.json",
+        "benchmark/evidence/snapshots/design-assurance.json",
+        "benchmark/protocol/v1-study-lock.json",
+        "benchmark/tasks/v1-candidate-commitment.json",
+        "benchmark/tasks/v1-candidate-design.json",
+        "benchmark/tasks/v1-candidate.jsonl",
+        "benchmark/tasks/v1-pilot-commitment.json",
         "benchmark/tasks/v1-pilot-design.json",
         "benchmark/tasks/v1-pilot.jsonl",
-        "benchmark/tasks/v1-pilot-commitment.json",
-        "docs/v1-pilot-analysis-plan.md"
+        "docs/v1-pilot-analysis-plan.md",
+        "src/pelicanbench/campaign_store.py",
+        "src/pelicanbench/campaign_worker.py",
+        "src/pelicanbench/mock_services.py",
+        "tests/e2e/test_mocked_campaign_worker.py",
+        "tests/integration/test_mock_provider_pipeline.py",
+        "tests/unit/test_adapter_mocking.py"
       ],
       "evidence_level": "E2",
       "id": "RB-02",
@@ -138,7 +175,9 @@
         },
         {
           "evidence": [
+            "benchmark/human-calibration/operations-policy.json",
             "src/pelicanbench/calibration.py",
+            "src/pelicanbench/calibration_ops.py",
             "tests/test_calibration.py"
           ],
           "id": "RB-03-C2",
@@ -147,6 +186,7 @@
         },
         {
           "evidence": [
+            "src/pelicanbench/calibration_ops.py",
             "src/pelicanbench/human_eval.py",
             "src/pelicanbench/statistics.py"
           ],
@@ -156,18 +196,40 @@
         },
         {
           "evidence": [
+            "benchmark/evidence/snapshots/calibration-stopping-fixture.json",
             "docs/v1-pilot-analysis-plan.md"
           ],
           "id": "RB-03-C4",
           "status": "planned",
           "text": "Publish calibration, disagreement and sensitivity results."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/blinding.py",
+            "benchmark/blinding/policy.json",
+            "docs/blinding-and-unblinding.md",
+            "tests/unit/test_blinding.py",
+            "tests/e2e/test_blinding_cli.py"
+          ],
+          "id": "RB-03-C5",
+          "status": "complete",
+          "text": "Keep model and provider identities blinded across scorer and human-calibration artifacts until a protocol-bound authorized unblinding gate."
         }
       ],
       "evidence": [
+        "benchmark/blinding/policy.json",
+        "benchmark/evidence/snapshots/calibration-adjudication-fixture.jsonl",
+        "benchmark/evidence/snapshots/calibration-stopping-fixture.json",
+        "benchmark/human-calibration/operations-policy.json",
+        "docs/blinding-and-unblinding.md",
         "docs/human-evaluation-protocol.md",
         "docs/v1-pilot-analysis-plan.md",
+        "src/pelicanbench/blinding.py",
         "src/pelicanbench/calibration.py",
-        "tests/test_calibration.py"
+        "src/pelicanbench/calibration_ops.py",
+        "tests/e2e/test_blinding_cli.py",
+        "tests/test_calibration.py",
+        "tests/unit/test_blinding.py"
       ],
       "evidence_level": "E2",
       "id": "RB-03",
@@ -220,14 +282,31 @@
           "id": "RB-04-C4",
           "status": "partial",
           "text": "Complete a second-environment clean-clone reproduction."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/mock_services.py",
+            "src/pelicanbench/campaign_worker.py",
+            "tests/integration/test_mock_provider_pipeline.py",
+            "tests/e2e/test_mocked_campaign_worker.py",
+            "tests/integration/test_issue_workgraph_sync.py"
+          ],
+          "id": "RB-04-C5",
+          "status": "complete",
+          "text": "Verify the provider, judge, campaign and nested issue synchronization contracts through a network-independent mocked integration matrix."
         }
       ],
       "evidence": [
-        "src/pelicanbench/provenance.py",
         ".github/workflows/ci.yml",
         ".github/workflows/release.yml",
         "scripts/harness.sh",
-        "scripts/verify_clean_clone.sh"
+        "scripts/verify_clean_clone.sh",
+        "src/pelicanbench/campaign_worker.py",
+        "src/pelicanbench/mock_services.py",
+        "src/pelicanbench/provenance.py",
+        "tests/e2e/test_mocked_campaign_worker.py",
+        "tests/integration/test_issue_workgraph_sync.py",
+        "tests/integration/test_mock_provider_pipeline.py"
       ],
       "evidence_level": "E2",
       "id": "RB-04",
@@ -280,13 +359,28 @@
           "id": "RB-05-C4",
           "status": "complete",
           "text": "Publish data, benchmark and scorer-card limitations statements."
+        },
+        {
+          "evidence": [
+            "src/pelicanbench/publication.py",
+            "src/pelicanbench/blinding.py",
+            "tests/test_ecosystem_publication_verification.py",
+            "docs/blinding-and-unblinding.md"
+          ],
+          "id": "RB-05-C5",
+          "status": "complete",
+          "text": "Exclude private blinding maps, keys, participant identifiers and malformed operational records from public research objects."
         }
       ],
       "evidence": [
         "data/sources/rights-ledger.json",
+        "docs/blinding-and-unblinding.md",
+        "docs/human-evaluation-protocol.md",
         "docs/rights-and-ethics.md",
         "docs/simon-corpus-method.md",
-        "docs/human-evaluation-protocol.md"
+        "src/pelicanbench/blinding.py",
+        "src/pelicanbench/publication.py",
+        "tests/test_ecosystem_publication_verification.py"
       ],
       "evidence_level": "E1",
       "id": "RB-05",

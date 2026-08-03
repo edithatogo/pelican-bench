@@ -1,0 +1,32 @@
+{
+  "amendments_path": "benchmark/protocol/amendments.jsonl",
+  "candidate_commitment_path": "benchmark/tasks/v1-candidate-commitment.json",
+  "candidate_release": "PB-2026.08-v1-candidate",
+  "files": [
+    "benchmark/campaign/policy.json",
+    "benchmark/design/assumptions.json",
+    "benchmark/human-calibration/operations-policy.json",
+    "benchmark/human-calibration/study-spec.json",
+    "benchmark/judges/canary-manifest.json",
+    "benchmark/judges/firewall-policy.json",
+    "benchmark/judges/prospective-panel.json",
+    "benchmark/models/prospective-panel.json",
+    "benchmark/protocol/lock-spec.json",
+    "benchmark/rubrics/svg-structural-v1.json",
+    "benchmark/tasks/v1-candidate-commitment.json",
+    "benchmark/tasks/v1-candidate-design.json",
+    "docs/human-evaluation-protocol.md",
+    "docs/v1-pilot-amendment-001.md",
+    "docs/v1-pilot-amendment-002.md",
+    "docs/v1-pilot-analysis-plan.md",
+    "src/pelicanbench/calibration_ops.py",
+    "src/pelicanbench/campaign.py",
+    "src/pelicanbench/coercion.py",
+    "src/pelicanbench/design_assurance.py",
+    "src/pelicanbench/judge_firewall.py",
+    "src/pelicanbench/protocol.py",
+    "src/pelicanbench/scoring.py"
+  ],
+  "protocol_revision": "PB-PROTOCOL-2026.08-r4",
+  "schema_version": "1.0.0"
+}

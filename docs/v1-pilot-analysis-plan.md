@@ -11,6 +11,10 @@ numbered amendment, rationale, updated commitment and paired sensitivity analysi
 No model endpoint has yet been qualified or run under this plan. The committed artifacts
 are design and execution contracts, not empirical results.
 
+The inferential inputs are frozen by `benchmark/protocol/v1-study-lock.json`. Changes use
+the append-only amendment ledger under `benchmark/protocol/`; the original analysis remains
+reportable after every amendment.
+
 ## Objectives
 
 The study has three distinct objectives:
@@ -69,6 +73,18 @@ All completed and failed attempts are retained. There is no best-of selection. P
 failures, safety rejections, refusals, timeouts and exhausted retries remain denominator
 outcomes. A provider retry cannot silently replace an earlier completed generation.
 
+Three replicates are the initial wave, not an unquestioned final sample size. After the
+initial confirmatory wave, pooled within-scenario variance and replicate correlation may be
+estimated while model labels and comparative effects remain blinded. The project then uses
+the prespecified three, five or seven-replicate rule in `benchmark/design/assumptions.json`.
+No task, model or outcome can be selected through this reassessment, and the initial-wave
+analysis remains mandatory.
+
+Campaign execution uses the content-addressed manifest and append-only event ledger. Cells
+remain blocked until model qualification and current price evidence exist. Leasing enforces
+per-model concurrency and hard-budget reservations. Blocked and terminal-failure cells
+remain visible in the planned denominator.
+
 ## Automatic assessment and judge qualification
 
 Source security and artifact-quality diagnostics never supply semantic credit. Canonical
@@ -83,6 +99,12 @@ Every automatic judge must pass technical schema, prompt-leakage, source-indepen
 canary-order checks. E3 qualification additionally requires prespecified agreement with
 human outcomes. Same-family, generator-family and leave-one-family-out sensitivity are
 reported.
+
+The judge-input firewall is a separate critical gate. V1 does not request visible text, so
+text-bearing renders are retained but quarantined from automatic semantic judging. This
+prevents direct rendered evaluator instructions from receiving semantic credit. Text
+converted to vector outlines remains a declared residual risk and must be tested through
+render-level judge canaries before E3 promotion.
 
 ## Primary outcomes
 
@@ -120,6 +142,11 @@ separate questions and are not collapsed without panel effects.
 Governance, consent, recruitment, compensation and data-retention decisions must be
 approved before collection. The reference application is not an approved production study.
 
+Original ratings are never overwritten by adjudication. A content-addressed queue identifies
+low-agreement open-set labels, low-confidence recognition and wide criterion-rating ranges.
+Collection may stop only when the prespecified workload, invalid-response, Brier-score,
+inter-rater agreement and duplicate-consistency gates all pass.
+
 ## Statistical analysis
 
 The principal confirmatory analysis is cross-classified by model system, animal,
@@ -155,6 +182,10 @@ interaction estimands. The confirmatory panel is the principal generalisation re
 - Compare first-attempt success with eventual success after retained retries.
 - Compare canonical and bridge renderers where materially different.
 - Repeat the primary model after excluding tasks or judges with inadequate reliability.
+- Report the initial three-replicate wave, the blinded reassessment inputs and the achieved
+  replicate wave separately.
+- Report automatic semantic results with quarantined judge-input artifacts treated as
+  failures and as a separate outcome class.
 
 ## Missingness, deviations and interpretation
 
@@ -163,6 +194,26 @@ denominators and reasons. No artifact is removed because it is unattractive or s
 All protocol deviations are timestamped before unblinding where possible and accompanied by
 the originally prespecified analysis.
 
+The campaign event chain is the operational record of leasing, success, failure,
+quarantine, cancellation and cost. Protocol-lock verification, campaign identity and task
+commitment must pass before the main comparative campaign begins.
+
 The pilot estimates performance for the recorded prompts, providers, revisions and dates.
 It does not prove absence of contamination, establish universal visual intelligence, or
 justify combining direct generation with tool-using agent performance.
+
+## Blinded replicate decision
+
+The campaign begins with three replicates. Before model or provider identities are joined
+to outcome data, opaque complete clusters are analysed under the locked reassessment
+policy. The decision may retain three replicates or add a content-addressed wave to five or
+seven. The input hash, ICC estimate and bounds, option table and wave commitment will be
+reported. No aggregate model score or ranking may enter this decision.
+
+### Attempt-level execution denominator
+
+Operational reporting uses leased attempts as well as planned cells. Every worker terminal
+event must reconcile to one immutable attempt record. Retries do not replace earlier
+failures. The report will provide planned cells, leased attempts, successful artifacts,
+quarantined artifacts, provider failures, infrastructure failures, retry counts, total
+charged cost and reconciliation exceptions separately.

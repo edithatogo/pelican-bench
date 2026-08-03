@@ -1,0 +1,94 @@
+{
+  "batch": {
+    "batch_hash": "sha256:98a6e35684ecdd80201333f09fb34566786ebb96b01e356035eb0a7356abce57",
+    "campaign_id": "PCAMP-v0.6-fixture",
+    "charged_cost": 0.2,
+    "failed": 0,
+    "heartbeat_count": 0,
+    "heartbeat_failures": 0,
+    "leased_cells": 1,
+    "model_id": "fixture/model",
+    "quarantined": 0,
+    "records": [
+      {
+        "adapter_id": "fixture-campaign-v06",
+        "artifact_id": "sha256:fdc785b570ad55791f3a4f53040cb7c1a2248c5742efb9a3e7122f8197297b2b",
+        "attempt": 1,
+        "campaign_id": "PCAMP-v0.6-fixture",
+        "cell_id": "PCEL-v0.6-fixture-1",
+        "charged_cost": 0.2,
+        "cost_basis": "reserved-estimate",
+        "error_message": null,
+        "error_type": null,
+        "heartbeat_count": 0,
+        "heartbeat_error": null,
+        "lease_token": "LEASE-fixture-worker-token-0001",
+        "model_id": "fixture/model",
+        "model_revision": "fixture-v1",
+        "output_directory": "cells/PCEL-v0.6-fixture-1/attempt-001",
+        "record_hash": "sha256:463b605579a37d1d16311ef379c09bcad3551e189c96d33a981641c680c67639",
+        "replicate": 1,
+        "run_id": "run:4dcb401addaa1172c778",
+        "schema_version": "1.0.0",
+        "scorecard_hash": "sha256:7e993cf553322de749503ea3ca497051998e0984a88eefac9e58803db5dfe07b",
+        "seed": 20260803,
+        "task_id": "pb:heritage-pelican-bike-v1",
+        "terminal_reason": "canonical-artifact-retained",
+        "terminal_state": "succeeded",
+        "worker_id": "fixture-worker"
+      }
+    ],
+    "schema_version": "1.0.0",
+    "succeeded": 1,
+    "worker_id": "fixture-worker"
+  },
+  "evidence_level": "E2-fixture-verified",
+  "execution_reconciliation": {
+    "campaign_id": "PCAMP-v0.6-fixture",
+    "errors": [],
+    "execution_records": 1,
+    "matched_records": 1,
+    "reconciliation_hash": "sha256:b2015cd85ed53b7407efea969c2128e17a2822bafe59a535cda44b0a37063af3",
+    "schema_version": "1.0.0",
+    "terminal_events": 1,
+    "valid": true
+  },
+  "final_status": {
+    "active_leases": 0,
+    "budget_exceeded": false,
+    "campaign_id": "PCAMP-v0.6-fixture",
+    "cell_count": 1,
+    "complete": true,
+    "event_count": 2,
+    "expired_leases": 0,
+    "hard_budget": 1.0,
+    "manifest_hash": "sha256:967c33ab1ab547a6e8c08955d1b95837aef3b4a8bb31312a713b03c951bd0b92",
+    "remaining_budget": 0.8,
+    "reserved_cost": 0.0,
+    "spent_cost": 0.2,
+    "state_counts": {
+      "succeeded": 1
+    },
+    "terminal_cells": 1
+  },
+  "limitations": [
+    "The worker used a deterministic fixture adapter rather than a live provider.",
+    "The fixture proves immutable per-attempt recording and reconciliation, not distributed storage performance."
+  ],
+  "record_commitment": "sha256:ef21f94cd48a949d81c0ec1a8a1a22ee50bd6d58e7851120cf93fdcd29eecd62",
+  "record_count": 1,
+  "schema_version": "1.0.0",
+  "store_reconciliation": {
+    "campaign_id": "PCAMP-v0.6-fixture",
+    "cell_state_matches": true,
+    "cost_matches": true,
+    "errors": [],
+    "event_chain_valid": true,
+    "event_count": 2,
+    "lease_invariants_valid": true,
+    "manifest_matches": true,
+    "replayed_cost": 0.2,
+    "stored_cost": 0.2,
+    "valid": true
+  }
+}

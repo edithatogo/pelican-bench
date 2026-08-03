@@ -1,0 +1,20 @@
+{
+  "budget_gate": "blocked-no-hard-budget",
+  "campaign_id": "PCAMP-2d9e1b23932d1cc34b8d6e55",
+  "cell_count": 2178,
+  "currency": "USD",
+  "estimated_cost": 0.0,
+  "estimated_cost_with_reserve": 0.0,
+  "generated_at": "2026-08-02T00:00:00Z",
+  "hard_budget": null,
+  "max_parallel_per_model": 4,
+  "policy_hash": "sha256:a0590efdb6cdc1b6fb379a4e7622a9f1ae613f539782baf504f3c19ef9f3738f",
+  "prospective_plan_hash": "sha256:241981930f3a892fe248eff104f89eda82e55044a2f02298ca86f6bf060f4f73",
+  "schema_version": "1.0.0",
+  "shard_count": 0,
+  "state_counts": {
+    "blocked-qualification": 2178
+  },
+  "task_identity_commitment": "sha256:757e79a0bcd143214268e43c4f42abb273955d9c164b952dca0d6ca123f0bcb8",
+  "unknown_cost_cells": 0
+}

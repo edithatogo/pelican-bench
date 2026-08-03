@@ -1,0 +1,72 @@
+{
+  "consumer": "pelicanbench",
+  "contract_id": "contract:openai-compatible-stream-v1",
+  "description": "Server-sent event chunks consumed by the optional streaming OpenAI-compatible adapter mode.",
+  "event_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "additionalProperties": true,
+    "properties": {
+      "choices": {
+        "items": {
+          "additionalProperties": true,
+          "properties": {
+            "delta": {
+              "additionalProperties": true,
+              "properties": {
+                "content": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "finish_reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "delta"
+          ],
+          "type": "object"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "usage": {
+        "additionalProperties": true,
+        "properties": {
+          "completion_tokens": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "prompt_tokens": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "total_tokens": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "required": [
+      "choices"
+    ],
+    "type": "object"
+  },
+  "provider": "openai-compatible-chat-completions-stream",
+  "required_consumer_assertions": [
+    "Only data-prefixed server-sent events are interpreted.",
+    "The [DONE] sentinel terminates parsing but does not contribute content.",
+    "Malformed JSON events and streams without textual content fail closed.",
+    "Usage and finish-reason data are retained when supplied by the endpoint."
+  ],
+  "schema_version": "1.0.0"
+}

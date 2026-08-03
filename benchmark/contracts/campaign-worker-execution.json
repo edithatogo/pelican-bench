@@ -1,0 +1,82 @@
+{
+  "contract_id": "contract:campaign-worker-execution-v1",
+  "schema_version": "1.0.0",
+  "provider": "pelicanbench-campaign-worker",
+  "consumer": "pelicanbench-campaign-reconciliation",
+  "description": "Immutable per-attempt campaign execution record reconciled against a terminal transactional-store event.",
+  "event_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "schema_version",
+      "campaign_id",
+      "cell_id",
+      "worker_id",
+      "lease_token",
+      "model_id",
+      "model_revision",
+      "adapter_id",
+      "task_id",
+      "replicate",
+      "seed",
+      "terminal_state",
+      "terminal_reason",
+      "charged_cost",
+      "cost_basis",
+      "artifact_id",
+      "run_id",
+      "scorecard_hash",
+      "output_directory",
+      "error_type",
+      "error_message",
+      "heartbeat_count",
+      "heartbeat_error",
+      "attempt",
+      "record_hash"
+    ],
+    "properties": {
+      "schema_version": {"const": "1.0.0"},
+      "campaign_id": {"type": "string", "minLength": 1},
+      "cell_id": {"type": "string", "minLength": 1},
+      "worker_id": {"type": "string", "minLength": 1},
+      "lease_token": {"type": "string", "pattern": "^LEASE-.+"},
+      "model_id": {"type": "string", "minLength": 1},
+      "model_revision": {"type": "string", "minLength": 1},
+      "adapter_id": {"type": "string", "minLength": 1},
+      "task_id": {"type": "string", "minLength": 1},
+      "replicate": {"type": "integer", "minimum": 0},
+      "seed": {"type": "integer", "minimum": 0},
+      "terminal_state": {"enum": ["succeeded", "failed", "quarantined"]},
+      "terminal_reason": {"type": "string", "minLength": 1},
+      "charged_cost": {"type": "number", "minimum": 0},
+      "cost_basis": {"type": "string", "minLength": 1},
+      "artifact_id": {
+        "oneOf": [
+          {"type": "null"},
+          {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+        ]
+      },
+      "run_id": {"type": ["string", "null"]},
+      "scorecard_hash": {
+        "oneOf": [
+          {"type": "null"},
+          {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+        ]
+      },
+      "output_directory": {"type": "string"},
+      "error_type": {"type": ["string", "null"]},
+      "error_message": {"type": ["string", "null"]},
+      "heartbeat_count": {"type": "integer", "minimum": 0},
+      "heartbeat_error": {"type": ["string", "null"]},
+      "attempt": {"type": "integer", "minimum": 1},
+      "record_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+    },
+    "additionalProperties": false
+  },
+  "required_consumer_assertions": [
+    "Every worker terminal event has exactly one matching record keyed by cell, lease token and attempt.",
+    "Retries create new immutable records and never overwrite an earlier attempt.",
+    "The record hash covers every field except the hash itself.",
+    "The charged cost and artifact identifier reconcile with the terminal campaign-store event."
+  ]
+}

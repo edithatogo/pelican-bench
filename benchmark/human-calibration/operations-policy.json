@@ -1,0 +1,27 @@
+{
+  "adjudication_policy": "Queue low-agreement, low-confidence and wide-range cases as a derived layer. Preserve all original responses and report analyses with and without adjudication.",
+  "criterion_range_threshold": 2.0,
+  "low_confidence_threshold": 50.0,
+  "maximum_invalid_fraction": 0.05,
+  "maximum_recognition_brier": 0.25,
+  "minimum_duplicate_consistency": 0.8,
+  "minimum_modal_share": 0.67,
+  "minimum_nominal_alpha": 0.67,
+  "minimum_valid_by_stage": {
+    "blind-recognition": 288,
+    "pairwise-preference": 720,
+    "prompt-aware-criteria": 672
+  },
+  "policy": "Stopping is permitted only when all workload, validity, calibration and repeat-consistency gates pass. Adjudication does not erase original ratings.",
+  "required_alpha_fields": [
+    "animal_open_text",
+    "mobile_object_open_text",
+    "relation_open_text"
+  ],
+  "required_duplicate_fields": [
+    "animal_open_text",
+    "mobile_object_open_text",
+    "relation_open_text"
+  ],
+  "schema_version": "1.0.0"
+}

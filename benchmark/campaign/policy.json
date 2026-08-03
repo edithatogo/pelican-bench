@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "shard_size": 24,
+  "max_parallel_per_model": 4,
+  "default_input_tokens": 300,
+  "default_output_tokens": 8000,
+  "reserve_fraction": 0.15,
+  "hard_budget": null,
+  "currency": "USD",
+  "require_price_schedule": true,
+  "price_policy": "Provider prices must be captured on the qualification date. PelicanBench does not treat stale hard-coded prices as current evidence.",
+  "failure_policy": "Every completed attempt and terminal failure remains in the campaign ledger and benchmark denominator.",
+  "require_hard_budget_before_execution": true
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "study_id": "PB-2026.08-v1-candidate",
+  "status": "implementation-fixture-verified-no-operational-key-created",
+  "scope": {
+    "generator_models": "all models referenced by normative execution stages",
+    "automatic_judges": "generator identity remains hidden from every automatic judge",
+    "human_raters": "generator identity remains hidden through all recognition, criterion and pairwise stages",
+    "supplementary_models": "excluded unless explicitly added before the protocol lock"
+  },
+  "alias_scheme": {
+    "algorithm": "HMAC-SHA256",
+    "domain_separation": "study ID and purpose are included in every HMAC message",
+    "format": "SYS- followed by at least 12 uppercase hexadecimal characters",
+    "display_order": "deterministic study-specific HMAC ordering",
+    "cross_study_linkability": "prohibited by study-specific domain separation"
+  },
+  "commitment_scheme": {
+    "key_commitment": "SHA-256 of the operational key",
+    "mapping_commitment": "keyed HMAC-SHA256 over the canonical model-to-alias map",
+    "reason": "an unkeyed commitment would permit permutation enumeration for a small public model panel"
+  },
+  "key_custody": {
+    "environment_variable": "PELICANBENCH_BLINDING_KEY",
+    "minimum_length_bytes": 32,
+    "rotation": "new independent key for each prospective study",
+    "repository_storage": "prohibited",
+    "private_map_storage": "restricted local or institutional secret-controlled storage",
+    "private_map_repository_path": null
+  },
+  "publication": {
+    "public_manifest_permitted": true,
+    "private_map_permitted": false,
+    "secret_key_permitted": false,
+    "publication_bundle_rejects_sensitivity": [
+      "restricted-unblinding-map",
+      "restricted-unblinding-authorization",
+      "secret-key-material"
+    ]
+  },
+  "unblinding_gate": {
+    "analysis_lock_commitment_required": true,
+    "data_freeze_commitment_required": true,
+    "keyed_authorization_required": true,
+    "authorization_reason_required": true,
+    "authorization_custodian_required": true,
+    "unblinded_outputs_are_restricted": true,
+    "verified_analysis_lock_manifest_required": true,
+    "verified_data_freeze_manifest_required": true,
+    "data_freeze_campaign_ledger_head_required": true,
+    "analysis_and_data_study_identity_must_match": true,
+    "analysis_and_data_task_identity_must_match": true,
+    "analysis_and_data_protocol_lock_must_match": true,
+    "preferred_authorization_command": "authorize-model-unblinding-from-freezes"
+  },
+  "limitations": [
+    "Software blinding does not create organisational independence when one person controls generation, key custody and analysis.",
+    "Operational use should separate the blinding custodian from primary rating and confirmatory analysis where feasible.",
+    "The committed repository contains policy and fixture evidence only, not an operational key or private mapping.",
+    "Fixture-verified study freezes do not establish independent custody or certify that a live dataset is complete."
+  ]
+}

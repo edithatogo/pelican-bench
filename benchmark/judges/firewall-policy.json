@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "allow_visible_text": false,
+  "max_visible_text_characters": 0,
+  "quarantine_instruction_like_text": true,
+  "require_safe_source": true,
+  "require_nonblank_render": true,
+  "scope": "PB-2026.08-v1-candidate",
+  "decision_rule": "V1 tasks do not require visible text. Retain text-bearing outputs in the generation denominator, but quarantine them from automatic semantic judging and report them separately.",
+  "residual_risk": "Text converted to vector outlines or otherwise rendered without SVG text elements requires judge canaries and later render-level text detection; this source-level gate alone does not prove immunity."
+}

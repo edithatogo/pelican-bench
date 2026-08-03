@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Synchronise Conductor parent and phase issues with GitHub using the gh CLI.
+"""Synchronise the nested Conductor work graph with GitHub using ``gh``.
 
-The script is dry-run by default. It creates phase issues first, then parent
-issues containing tracked checklists. Where GitHub's native sub-issue endpoint
-is available, it attaches the phase issues to the parent as well.
+The script is dry-run by default. Under ``--apply`` it creates or updates work-package
+issues, phase issues, track parents and cross-track release blockers. It then attaches
+work packages beneath phases and phases beneath tracks through GitHub native sub-issues
+where supported. Generated checklists remain authoritative when that endpoint is absent.
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ BASE_LABELS: dict[str, tuple[str, str]] = {
     "conductor": ("5319e7", "Managed by the repository Conductor work graph"),
     "track": ("1d76db", "Top-level Conductor capability track"),
     "phase": ("8250df", "Conductor maturity phase"),
+    "work-package": ("c5def5", "Evidence-specific nested Conductor deliverable"),
     "release-blocker": ("b60205", "Cross-track benchmark release blocker"),
     "phase:P0": ("bfdadc", "Contract phase"),
     "phase:P1": ("9be9a8", "Prototype phase"),
@@ -82,19 +84,16 @@ def find_issue(repo: str, title: str) -> dict[str, Any] | None:
     return next((item for item in payload.get("items", []) if item.get("title") == title), None)
 
 
-def track_label(code: str) -> tuple[str, str, str]:
-    colour = hashlib.sha256(code.encode("utf-8")).hexdigest()[:6]
-    return f"track:{code}", colour, f"Conductor track {code}"
+def track_label(track_id: str) -> tuple[str, str, str]:
+    colour = hashlib.sha256(track_id.encode("utf-8")).hexdigest()[:6]
+    return f"track:{track_id}", colour, f"Conductor track {track_id}"
 
 
 def ensure_labels(repo: str, tracks: list[dict[str, Any]]) -> None:
-    existing = {
-        item["name"]: item
-        for item in gh_api(f"repos/{repo}/labels?per_page=100")
-    }
+    existing = {item["name"]: item for item in gh_api(f"repos/{repo}/labels?per_page=100")}
     desired = dict(BASE_LABELS)
     for track in tracks:
-        name, colour, description = track_label(track["code"])
+        name, colour, description = track_label(str(track["track_id"]))
         desired[name] = (colour, description)
     for name, (colour, description) in desired.items():
         payload = {"name": name, "color": colour, "description": description}
@@ -124,13 +123,16 @@ def ensure_issue(
         mutable_payload["state_reason"] = "completed"
     existing = find_issue(repo, title)
     if existing is None:
-        create_payload = {
-            "title": title,
-            "body": body,
-            "assignees": [OWNER],
-            "labels": labels or [],
-        }
-        issue = gh_api(f"repos/{repo}/issues", method="POST", payload=create_payload)
+        issue = gh_api(
+            f"repos/{repo}/issues",
+            method="POST",
+            payload={
+                "title": title,
+                "body": body,
+                "assignees": [OWNER],
+                "labels": labels or [],
+            },
+        )
         if desired_state == "closed":
             issue = gh_api(
                 f"repos/{repo}/issues/{issue['number']}",
@@ -154,7 +156,7 @@ def attach_native_sub_issue(repo: str, parent_number: int, child_id: int) -> Non
     except subprocess.CalledProcessError:
         print(
             f"Native sub-issue attachment unavailable for #{parent_number}; "
-            "the parent checklist remains authoritative."
+            "the generated checklist remains authoritative."
         )
 
 
@@ -164,9 +166,25 @@ def parent_status(phases: list[dict[str, Any]]) -> str:
         return "complete"
     if "blocked" in values:
         return "blocked"
-    if values & {"complete", "partial"}:
+    if values & {"complete", "partial", "reopened"}:
         return "partial"
     return "planned"
+
+
+def _package_count(tracks: list[dict[str, Any]]) -> int:
+    return sum(
+        len(phase.get("work_packages", []))
+        for track in tracks
+        for phase in track.get("phases", [])
+    )
+
+
+def _checklist(items: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
+    return "\n".join(
+        f"- [{'x' if record.get('status') == 'complete' else ' '}] "
+        f"#{issue['number']} — `{record.get('status', 'planned')}`"
+        for record, issue in items
+    ) or "- No nested work packages are defined for this phase."
 
 
 def main() -> int:
@@ -178,13 +196,16 @@ def main() -> int:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     tracks = manifest["tracks"]
     release_blockers = manifest.get("release_blockers", [])
+    package_count = _package_count(tracks)
+    phase_count = sum(len(track["phases"]) for track in tracks)
     summary = {
         "repository": args.repo,
         "mode": "apply" if args.apply else "dry-run",
         "parent_issues": len(tracks),
-        "phase_issues": sum(len(track["phases"]) for track in tracks),
+        "phase_issues": phase_count,
+        "work_package_issues": package_count,
         "release_blocker_issues": len(release_blockers),
-        "total_issues": len(tracks) + sum(len(track["phases"]) for track in tracks) + len(release_blockers),
+        "total_issues": len(tracks) + phase_count + package_count + len(release_blockers),
     }
     print(json.dumps(summary, indent=2, sort_keys=True))
     if not args.apply:
@@ -193,6 +214,8 @@ def main() -> int:
                 print(track["parent_title"])
                 for phase in track["phases"]:
                     print(f"  {phase['title']}")
+                    for package in phase.get("work_packages", []):
+                        print(f"    {package['title']}")
             for blocker in release_blockers:
                 print(blocker["title"])
         return 0
@@ -202,19 +225,64 @@ def main() -> int:
     ensure_labels(args.repo, tracks)
     state: dict[str, Any] = {"repository": args.repo, "tracks": {}, "release_blockers": {}}
     for track in tracks:
-        code = str(track["code"])
-        phase_records = []
+        track_id = str(track["track_id"])
+        phase_records: list[dict[str, Any]] = []
+        phase_state: dict[str, Any] = {}
         for phase in track["phases"]:
+            package_pairs: list[tuple[dict[str, Any], dict[str, Any]]] = []
+            for package in phase.get("work_packages", []):
+                package_status = str(package.get("status", "planned"))
+                package_issue = ensure_issue(
+                    args.repo,
+                    title=package["title"],
+                    body=package["body"],
+                    status=package_status,
+                    labels=[
+                        "conductor",
+                        "work-package",
+                        f"track:{track_id}",
+                        f"phase:{phase['phase']}",
+                        f"status:{package_status}",
+                        f"evidence:{package.get('evidence_level', 'E0')}",
+                    ],
+                )
+                package["issue_number"] = int(package_issue["number"])
+                package_pairs.append((package, package_issue))
             status = str(phase.get("status", "planned"))
-            issue = ensure_issue(
+            phase_body = (
+                phase["body"]
+                + "\n\n## Nested work packages\n\n"
+                + _checklist(package_pairs)
+                + "\n"
+            )
+            phase_issue = ensure_issue(
                 args.repo,
                 title=phase["title"],
-                body=phase["body"],
+                body=phase_body,
                 status=status,
-                labels=["conductor", "phase", f"track:{code}", f"phase:{phase['phase']}", f"status:{status}"],
+                labels=[
+                    "conductor",
+                    "phase",
+                    f"track:{track_id}",
+                    f"phase:{phase['phase']}",
+                    f"status:{status}",
+                ],
             )
-            phase["issue_number"] = int(issue["number"])
-            phase_records.append(issue)
+            phase["issue_number"] = int(phase_issue["number"])
+            for _, package_issue in package_pairs:
+                attach_native_sub_issue(
+                    args.repo,
+                    int(phase_issue["number"]),
+                    int(package_issue["id"]),
+                )
+            phase_records.append(phase_issue)
+            phase_state[phase["phase"]] = {
+                "issue": int(phase_issue["number"]),
+                "work_packages": {
+                    package["id"]: int(package["issue_number"])
+                    for package, _ in package_pairs
+                },
+            }
         checklist = "\n".join(
             f"- [{'x' if phase.get('status') == 'complete' else ' '}] #{issue['number']}"
             for phase, issue in zip(track["phases"], phase_records, strict=True)
@@ -237,17 +305,23 @@ def main() -> int:
             title=track["parent_title"],
             body=parent_body,
             status="complete" if current_parent_status == "complete" else "planned",
-            labels=["conductor", "track", f"track:{code}", f"status:{current_parent_status}"],
+            labels=[
+                "conductor",
+                "track",
+                f"track:{track_id}",
+                f"status:{current_parent_status}",
+            ],
         )
         track["parent_issue"] = int(parent["number"])
-        for issue in phase_records:
-            attach_native_sub_issue(args.repo, int(parent["number"]), int(issue["id"]))
-        state["tracks"][code] = {
+        for phase_issue in phase_records:
+            attach_native_sub_issue(
+                args.repo,
+                int(parent["number"]),
+                int(phase_issue["id"]),
+            )
+        state["tracks"][track_id] = {
             "parent": int(parent["number"]),
-            "phases": {
-                phase["phase"]: int(phase["issue_number"])
-                for phase in track["phases"]
-            },
+            "phases": phase_state,
         }
     for blocker in release_blockers:
         status = str(blocker.get("status", "planned"))
@@ -266,14 +340,8 @@ def main() -> int:
         )
         blocker["issue_number"] = int(issue["number"])
         state["release_blockers"][blocker["id"]] = int(issue["number"])
-    MANIFEST.write_text(
-        json.dumps(manifest, sort_keys=True, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    STATE.write_text(
-        json.dumps(state, sort_keys=True, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    MANIFEST.write_text(json.dumps(manifest, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    STATE.write_text(json.dumps(state, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     print(f"Synchronized {summary['total_issues']} issues.")
     return 0
 

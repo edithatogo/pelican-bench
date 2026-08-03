@@ -1,0 +1,82 @@
+{
+  "artifact_level_wilson_half_width": 0.0981,
+  "blinded_reassessment_required": true,
+  "candidate_release": "PB-2026.08-v1-candidate",
+  "confirmatory_tasks": 64,
+  "core_models": 6,
+  "duplicate_assignments": 29,
+  "human_target_artifacts": 96,
+  "pairwise_majority_power": {
+    "3": {
+      "p=0.55": 0.5748,
+      "p=0.60": 0.648,
+      "p=0.65": 0.7183
+    },
+    "5": {
+      "p=0.55": 0.5931,
+      "p=0.60": 0.6826,
+      "p=0.65": 0.7648
+    },
+    "7": {
+      "p=0.55": 0.6083,
+      "p=0.60": 0.7102,
+      "p=0.65": 0.8002
+    }
+  },
+  "precision_scenarios": [
+    {
+      "design_effect": 1.0,
+      "effective_n_per_model": 192.0,
+      "intraclass_correlation": 0.0,
+      "minimum_detectable_difference": 0.143
+    },
+    {
+      "design_effect": 1.2,
+      "effective_n_per_model": 160.0,
+      "intraclass_correlation": 0.1,
+      "minimum_detectable_difference": 0.1566
+    },
+    {
+      "design_effect": 1.5,
+      "effective_n_per_model": 128.0,
+      "intraclass_correlation": 0.25,
+      "minimum_detectable_difference": 0.1751
+    }
+  ],
+  "public_ratings_per_artifact": 3,
+  "rater_reliability_requirements": {
+    "single=0.40": 6,
+    "single=0.50": 4,
+    "single=0.60": 3
+  },
+  "rating_level_wilson_half_width": 0.0574,
+  "recommended_replicates_for_target": 7,
+  "replicates": 3,
+  "replication_sensitivity": [
+    {
+      "replicates": 3,
+      "trials_per_model": 192,
+      "worst_case_effective_n": 128.0,
+      "worst_case_minimum_detectable_difference": 0.1751
+    },
+    {
+      "replicates": 5,
+      "trials_per_model": 320,
+      "worst_case_effective_n": 160.0,
+      "worst_case_minimum_detectable_difference": 0.1566
+    },
+    {
+      "replicates": 7,
+      "trials_per_model": 448,
+      "worst_case_effective_n": 179.2,
+      "worst_case_minimum_detectable_difference": 0.148
+    }
+  ],
+  "schema_version": "1.0.0",
+  "trials_per_model": 192,
+  "warnings": [
+    "three replicates support denominator retention and variance estimation but provide limited within-cell precision",
+    "under the highest prespecified clustering assumption, the design may miss smaller model differences",
+    "retain three initial replicates, then apply the prespecified blinded pooled-variance reassessment before adding replicate waves"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "binary_baseline": 0.5,
+  "blinded_reassessment": {
+    "analysis_requirement": "retain the initial-wave analysis and report final results with the achieved replicate count and pooled reassessment inputs",
+    "decision_rule": "select the smallest prespecified replicate option whose worst-case recalculated MDE is at or below maximum_desired_mde; otherwise retain the maximum option and report the residual limitation",
+    "enabled": true,
+    "estimator": "pooled within-scenario replicate correlation and binary-outcome variance across the full core cohort",
+    "permitted_options": [
+      3,
+      5,
+      7
+    ],
+    "task_set_change": false,
+    "timing": "after the initial three-replicate confirmatory wave and before model labels or comparative outcomes are unblinded"
+  },
+  "candidate_release": "PB-2026.08-v1-candidate",
+  "confidence": 0.95,
+  "confirmatory_panel_id": "pelicanbench-interface-confirmatory-v1",
+  "core_cohort_id": "core-prospective-six",
+  "interpretation": "These are sensitivity assumptions, not empirical estimates. The report must be regenerated after the canary and again after human pilot data become available.",
+  "intraclass_correlations": [
+    0.0,
+    0.1,
+    0.25
+  ],
+  "maximum_artifact_margin": 0.11,
+  "maximum_desired_mde": 0.15,
+  "pairwise_choice_probabilities": [
+    0.55,
+    0.6,
+    0.65
+  ],
+  "pairwise_vote_counts": [
+    3,
+    5,
+    7
+  ],
+  "power": 0.8,
+  "replicate_options": [
+    3,
+    5,
+    7
+  ],
+  "replicates": 3,
+  "schema_version": "1.0.0",
+  "single_rater_reliabilities": [
+    0.4,
+    0.5,
+    0.6
+  ],
+  "target_rater_reliability": 0.8
+}

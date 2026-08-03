@@ -24,6 +24,7 @@ pytestmark = [pytest.mark.integration, pytest.mark.contract]
 def test_contract_directory_is_unique_and_schema_valid(root: Path) -> None:
     contracts = validate_contract_directory(root / "benchmark/contracts")
     assert {contract.contract_id for contract in contracts} == {
+        "contract:campaign-worker-execution-v1",
         "contract:human-rating-exchange-v1",
         "contract:openai-compatible-chat-v1",
         "contract:pelican-canvas-openenv-v1",
@@ -130,3 +131,22 @@ def test_openai_adapter_against_consumer_driven_contract(root: Path, heritage) -
     assert request_result.valid, request_result.errors
     messages = observed["payload"]["messages"]
     assert any(message["role"] == "user" and heritage.prompt in message["content"] for message in messages)
+
+
+def test_campaign_worker_records_satisfy_consumer_contract(root: Path) -> None:
+    contract = load_contract(root / "benchmark/contracts/campaign-worker-execution.json")
+    source = (
+        root
+        / "benchmark/evidence/snapshots/campaign-execution-records-fixture.jsonl"
+    )
+    records = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines()]
+    assert records
+    for record in records:
+        result = verify_contract_payload(contract, "event", record)
+        assert result.valid, result.errors
+
+    invalid = dict(records[0])
+    invalid.pop("attempt")
+    result = verify_contract_payload(contract, "event", invalid)
+    assert not result.valid
+    assert any("attempt" in error for error in result.errors)

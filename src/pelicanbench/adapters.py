@@ -189,6 +189,7 @@ class OpenAICompatibleAdapter(ModelAdapter):
         assistant_prefill: str = "",
         temperature: float = 0.0,
         max_tokens: int = 12000,
+        stream: bool = False,
         extra_body: Mapping[str, Any] | None = None,
     ) -> None:
         if not base_url.startswith(("http://", "https://")):
@@ -210,6 +211,7 @@ class OpenAICompatibleAdapter(ModelAdapter):
         self.assistant_prefill = assistant_prefill
         self.temperature = temperature
         self.max_tokens = max_tokens
+        self.stream = stream
         self.extra_body = dict(extra_body or {})
 
     @property
@@ -255,10 +257,67 @@ class OpenAICompatibleAdapter(ModelAdapter):
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
             "seed": seed,
-            "stream": False,
+            "stream": self.stream,
         }
         payload.update(self.extra_body)
         return payload
+
+    @classmethod
+    def _stream_value(cls, raw: str) -> dict[str, Any]:
+        parts: list[str] = []
+        usage: dict[str, Any] = {}
+        finish_reason: str | None = None
+        event_count = 0
+        for line in raw.splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith(":"):
+                continue
+            if not stripped.startswith("data:"):
+                continue
+            data = stripped[5:].strip()
+            if data == "[DONE]":
+                break
+            try:
+                event = json.loads(data)
+            except json.JSONDecodeError as exc:
+                raise RuntimeError("invalid OpenAI-compatible streaming response") from exc
+            if not isinstance(event, dict):
+                raise RuntimeError("invalid OpenAI-compatible streaming response")
+            event_count += 1
+            event_usage = event.get("usage")
+            if isinstance(event_usage, dict):
+                usage = event_usage
+            choices = event.get("choices", [])
+            if not isinstance(choices, list) or not choices:
+                continue
+            choice = choices[0]
+            if not isinstance(choice, dict):
+                continue
+            reason = choice.get("finish_reason")
+            if isinstance(reason, str):
+                finish_reason = reason
+            delta = choice.get("delta")
+            if isinstance(delta, dict):
+                content = delta.get("content")
+                if isinstance(content, str):
+                    parts.append(content)
+            message = choice.get("message")
+            if isinstance(message, dict) and not parts:
+                content = message.get("content")
+                if isinstance(content, str):
+                    parts.append(content)
+        if event_count == 0 or not parts:
+            raise RuntimeError("OpenAI-compatible stream did not contain textual content")
+        return {
+            "choices": [
+                {
+                    "message": {"content": "".join(parts)},
+                    "finish_reason": finish_reason,
+                }
+            ],
+            "usage": usage,
+            "stream_event_count": event_count,
+        }
 
     def generate(self, task: BenchmarkTask, *, seed: int) -> GenerationResult:
         payload = self._payload(task, seed=seed)
@@ -278,14 +337,19 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 raw = response.read().decode("utf-8")
                 status = int(getattr(response, "status", 200))
         except urllib.error.HTTPError as exc:
-            body = exc.read().decode("utf-8", errors="replace")[-2000:]
+            try:
+                body = exc.read().decode("utf-8", errors="replace")[-2000:]
+            finally:
+                exc.close()
             raise RuntimeError(f"OpenAI-compatible endpoint returned HTTP {exc.code}: {body}") from exc
         except urllib.error.URLError as exc:
             raise RuntimeError(f"OpenAI-compatible endpoint unavailable: {exc.reason}") from exc
         try:
-            value = json.loads(raw)
+            value = self._stream_value(raw) if self.stream else json.loads(raw)
             choice = value["choices"][0]
             content = self._message_content(choice["message"]["content"])
+        except RuntimeError:
+            raise
         except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
             raise RuntimeError("invalid OpenAI-compatible response structure") from exc
         output = self._extract_svg(content)
@@ -302,6 +366,12 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 "http_status": status,
                 "usage": usage if isinstance(usage, dict) else {},
                 "finish_reason": finish_reason,
+                "stream": self.stream,
+                "stream_event_count": (
+                    int(value.get("stream_event_count", 0))
+                    if isinstance(value, dict)
+                    else 0
+                ),
                 "prompt_profile": {
                     "first_user_prefix": self.first_user_prefix,
                     "assistant_prefill": self.assistant_prefill,

@@ -1,0 +1,20 @@
+{
+  "decision": "quarantined",
+  "eligible": false,
+  "instruction_markers": [
+    "ignore-instructions",
+    "evaluator-direction",
+    "answer-direction",
+    "score-direction"
+  ],
+  "policy_hash": "sha256:bf1c8e06009dcf79a04a780536732fd4b469d0903eb66ee13b41c8ae2d510006",
+  "reasons": [
+    "visible-text-not-permitted-for-v1-judging",
+    "instruction-like-visible-text-detected"
+  ],
+  "render_hash": "sha256:e9f77c77a1520cc4d7ff62dfd01960353eba3817e6c6138297b2f407575438f7",
+  "schema_version": "1.0.0",
+  "source_hash": "sha256:91a677d262ca9f2b9e7d45cef3cf4655dbbc37b40006cd1b5be1e717d962fb9c",
+  "visible_text_characters": 56,
+  "visible_text_elements": 1
+}

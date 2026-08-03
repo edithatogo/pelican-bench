@@ -78,6 +78,34 @@ MUTANTS = (
         "if max_steps < 0:",
         "test_kills_zero_budget_acceptance_mutant",
     ),
+    Mutant(
+        "M-CAMPAIGN-BYPASS-HARD-BUDGET",
+        "campaign.py",
+        'if manifest.hard_budget is None:',
+        'if False and manifest.hard_budget is None:',
+        "test_kills_campaign_hard_budget_bypass_mutant",
+    ),
+    Mutant(
+        "M-CAMPAIGN-BYPASS-BUDGET-GATE",
+        "campaign.py",
+        'if manifest.budget_gate.startswith("blocked-"):',
+        'if False and manifest.budget_gate.startswith("blocked-"):',
+        "test_kills_campaign_budget_gate_bypass_mutant",
+    ),
+    Mutant(
+        "M-COERCION-FALSE-AS-TRUE",
+        "coercion.py",
+        "if normalised in _FALSE_VALUES:\n            return False",
+        "if normalised in _FALSE_VALUES:\n            return True",
+        "test_kills_false_string_truthiness_mutant",
+    ),
+    Mutant(
+        "M-FIREWALL-ALWAYS-ELIGIBLE",
+        "judge_firewall.py",
+        'eligible=decision == "eligible",',
+        "eligible=True,",
+        "test_kills_judge_firewall_eligibility_mutant",
+    ),
 )
 
 
