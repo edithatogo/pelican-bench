@@ -30,9 +30,9 @@
 
 ## P3 Hardened
 
-**Phase state:** `planned`
+**Phase state:** `partial`
 
-- [ ] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
+- [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets. Evidence: `docs/simon-corpus-hardening.md`, `tests/edge/test_simon_corpus_limits.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `0c89dcf`.
 - [ ] Task: Complete bridge, migration and deprecation policy.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.

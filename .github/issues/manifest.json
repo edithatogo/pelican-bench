@@ -309,7 +309,7 @@
         "P0": "complete",
         "P1": "complete",
         "P2": "complete",
-        "P3": "planned"
+        "P3": "partial"
       },
       "phases": [
         {
@@ -337,10 +337,10 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
+          "body": "## Conductor phase\n\n**Track:** T04 — Simon corpus NLP, NER and idea coverage\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md`](../blob/main/conductor/tracks/t04-simon-corpus-nlp-ner-and-idea-coverage/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n",
           "issue_number": 29,
           "phase": "P3",
-          "status": "planned",
+          "status": "partial",
           "title": "[T04/P3] Hardened: Simon corpus NLP, NER and idea coverage",
           "work_packages": []
         }

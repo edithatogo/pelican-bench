@@ -11,9 +11,11 @@
     "benchmark/evidence/snapshots/castillo-2026-design-coverage.json",
     "docs/empirical-basis.md",
     "docs/simon-corpus-method.md",
+    "docs/simon-corpus-hardening.md",
     "docs/source-to-requirement-map.md",
     "tests/integration/test_empirical_nlp_bridge.py",
-    "tests/integration/test_simon_corpus.py"
+    "tests/integration/test_simon_corpus.py",
+    "tests/edge/test_simon_corpus_limits.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -30,13 +32,13 @@
     "P0": "complete",
     "P1": "complete",
     "P2": "complete",
-    "P3": "planned"
+    "P3": "partial"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t04-simon-corpus-nlp-ner-and-idea-coverage",
-  "status": "prototype",
+  "status": "in_progress",
   "title": "Simon corpus NLP, NER and idea coverage",
   "track_id": "T04",
   "type": "programme",
-  "updated_at": "2026-08-02T00:00:00Z"
+  "updated_at": "2026-08-03T13:44:32Z"
 }
