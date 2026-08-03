@@ -9,7 +9,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | T02 | Benchmark constitution, schemas and provenance | complete | complete | complete | partial | E2 | No declared cross-phase constraint. |
 | T03 | Animal, mobile-object and interface ontologies | complete | complete | partial | planned | E2 | Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding. |
 | T04 | Simon corpus NLP, NER and idea coverage | complete | complete | complete | planned | E2 | No declared cross-phase constraint. |
-| T05 | Longitudinal image and SVG quantification | complete | complete | blocked | planned | E1 | Longitudinal methods run on synthetic fixtures; the rights-cleared historical artifact timeline remains outstanding. |
+| T05 | Longitudinal image and SVG quantification | complete | complete | complete | planned | E1 | Longitudinal methods run on synthetic fixtures; the rights-cleared historical artifact timeline remains outstanding. |
 | T06 | Deterministic SVG integrity and structural scoring | complete | complete | partial | planned | E2 | The source-label exploit and renderer bridge are fixture-verified; empirical human calibration and an independent scorer challenge remain outstanding. |
 | T07 | Semantic judges and human calibration | complete | complete | partial | planned | E2 | Source-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding. |
 | T08 | Dynamic animal and mobile-object task grammar | complete | complete | partial | planned | E2 | The 113-prompt, 81-scenario candidate and nine-task qualification canary are content-committed and E2 fixture-verified; empirical item difficulty and prospective multi-model execution remain outstanding. |
@@ -31,7 +31,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 
 - Tracks: 22.
 - Phases: 88.
-- Phase states: blocked 3, complete 48, partial 16, planned 21.
+- Phase states: blocked 2, complete 49, partial 16, planned 21.
 - Track evidence: E1 5, E2 17.
 - Planned GitHub work items: 22 parent tracks + 88 phase issues + 5 release blockers = 115.
 
