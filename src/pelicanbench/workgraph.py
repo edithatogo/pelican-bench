@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from .timeutil import utc_now_iso
 
@@ -17,9 +17,7 @@ PHASE_NAMES = {
 
 
 def _read_object(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise TypeError(f"{path} must contain an object")
+    value = cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
     return value
 
 
@@ -35,8 +33,14 @@ def _existing_numbers(manifest_path: Path) -> tuple[dict[str, Any], dict[str, An
     if not manifest_path.exists():
         return {}, {}
     manifest = _read_object(manifest_path)
-    tracks = {str(item.get("track_id")): item for item in manifest.get("tracks", [])}
-    blockers = {str(item.get("id")): item for item in manifest.get("release_blockers", [])}
+    tracks = {
+        str(item.get("track_id")): item
+        for item in cast(list[dict[str, Any]], manifest.get("tracks", []))
+    }
+    blockers = {
+        str(item.get("id")): item
+        for item in cast(list[dict[str, Any]], manifest.get("release_blockers", []))
+    }
     return tracks, blockers
 
 
@@ -143,7 +147,7 @@ def build_issue_manifest(
     )
     packages_path = project / "conductor/work-packages.json"
     package_source = _read_object(packages_path) if packages_path.exists() else {"packages": []}
-    package_records = package_source.get("packages", [])
+    package_records = cast(list[dict[str, Any]], package_source.get("packages", []))
     tracks: list[dict[str, Any]] = []
     package_count = 0
     for metadata_path in sorted((project / "conductor/tracks").glob("*/metadata.json")):
@@ -153,12 +157,18 @@ def build_issue_manifest(
         directory = metadata_path.parent
         relative = directory.relative_to(project).as_posix()
         previous = existing_tracks.get(track_id, {})
-        previous_phases = {str(item.get("phase")): item for item in previous.get("phases", [])}
+        previous_phases = {
+            str(item.get("phase")): item
+            for item in cast(list[dict[str, Any]], previous.get("phases", []))
+        }
         packages_by_phase: dict[str, list[dict[str, Any]]] = {phase: [] for phase in PHASE_NAMES}
         authoritative_packages = [
             item for item in package_records if str(item.get("track_id")) == track_id
         ]
-        for package in (*metadata.get("work_packages", []), *authoritative_packages):
+        for package in (
+            *cast(list[dict[str, Any]], metadata.get("work_packages", [])),
+            *authoritative_packages,
+        ):
             phase = str(package["phase"])
             packages_by_phase.setdefault(phase, []).append(package)
         phase_records: list[dict[str, Any]] = []
