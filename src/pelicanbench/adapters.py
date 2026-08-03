@@ -347,16 +347,23 @@ class OpenAICompatibleAdapter(ModelAdapter):
         except urllib.error.URLError as exc:
             raise RuntimeError(f"OpenAI-compatible endpoint unavailable: {exc.reason}") from exc
         try:
+<<<<<<< HEAD
             value = self._stream_value(raw) if self.stream else json.loads(raw)
             choice = value["choices"][0]
+=======
+            value = (
+                self._stream_value(raw) if self.stream else cast("dict[str, Any]", json.loads(raw))
+            )
+            choice = cast("dict[str, Any]", value["choices"][0])
+>>>>>>> 7d1d7b8 (style(quality): apply ruff formatting)
             content = self._message_content(choice["message"]["content"])
         except RuntimeError:
             raise
         except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
             raise RuntimeError("invalid OpenAI-compatible response structure") from exc
         output = self._extract_svg(content)
-        usage = value.get("usage", {}) if isinstance(value, dict) else {}
-        finish_reason = choice.get("finish_reason") if isinstance(choice, dict) else None
+        usage = value.get("usage", {})
+        finish_reason = choice.get("finish_reason")
         return GenerationResult(
             task_id=task.task_id,
             output=output,
@@ -369,9 +376,7 @@ class OpenAICompatibleAdapter(ModelAdapter):
                 "usage": usage if isinstance(usage, dict) else {},
                 "finish_reason": finish_reason,
                 "stream": self.stream,
-                "stream_event_count": (
-                    int(value.get("stream_event_count", 0)) if isinstance(value, dict) else 0
-                ),
+                "stream_event_count": int(value.get("stream_event_count", 0)),
                 "prompt_profile": {
                     "first_user_prefix": self.first_user_prefix,
                     "assistant_prefill": self.assistant_prefill,

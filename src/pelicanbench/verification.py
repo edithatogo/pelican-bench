@@ -273,4 +273,3 @@ def validate_repository_verification_receipt(
     )
     schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
     Draft202012Validator(schema, format_checker=None).validate(value)  # type: ignore[no-untyped-call,unknown-member-type]
-

@@ -147,7 +147,9 @@ def build_issue_manifest(
         _existing_numbers(manifest_path) if preserve_numbers else ({}, {})
     )
     packages_path = project / "conductor/work-packages.json"
-    package_source: dict[str, Any] = _read_object(packages_path) if packages_path.exists() else {"packages": []}
+    package_source: dict[str, Any] = (
+        _read_object(packages_path) if packages_path.exists() else {"packages": []}
+    )
     package_records = cast(list[dict[str, Any]], package_source.get("packages", []))
     tracks: list[dict[str, Any]] = []
     package_count = 0
