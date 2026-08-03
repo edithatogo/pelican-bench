@@ -495,8 +495,9 @@ def _validate_assurance(project: Path) -> list[ValidationFinding]:
                     )
                 )
                 continue
-            criterion_id = str(criterion.get("id", ""))
-            criterion_status = str(criterion.get("status", "planned"))
+            criterion_dict: dict[str, Any] = cast("dict[str, Any]", criterion)
+            criterion_id = str(criterion_dict.get("id", ""))
+            criterion_status = str(criterion_dict.get("status", "planned"))
             criterion_statuses.append(criterion_status)
             if not criterion_id or criterion_id in criterion_ids:
                 findings.append(
@@ -508,7 +509,7 @@ def _validate_assurance(project: Path) -> list[ValidationFinding]:
                     )
                 )
             criterion_ids.add(criterion_id)
-            if not str(criterion.get("text", "")).strip():
+            if not str(criterion_dict.get("text", "")).strip():
                 findings.append(
                     ValidationFinding(
                         "error",
@@ -526,7 +527,8 @@ def _validate_assurance(project: Path) -> list[ValidationFinding]:
                         _relative(project, blockers_path),
                     )
                 )
-            for evidence in criterion.get("evidence", []):
+            evidence_list: list[Any] = cast("list[Any]", criterion_dict.get("evidence", []))
+            for evidence in evidence_list:
                 if not (project / str(evidence)).exists():
                     findings.append(
                         ValidationFinding(
@@ -717,7 +719,8 @@ def _validate_known_exploits(project: Path) -> list[ValidationFinding]:
                 )
             )
             continue
-        exploit_id = str(exploit.get("id", ""))
+        exploit_dict: dict[str, Any] = cast("dict[str, Any]", exploit)
+        exploit_id = str(exploit_dict.get("id", ""))
         if not exploit_id or exploit_id in exploit_ids:
             findings.append(
                 ValidationFinding(
@@ -728,7 +731,7 @@ def _validate_known_exploits(project: Path) -> list[ValidationFinding]:
                 )
             )
         exploit_ids.add(exploit_id)
-        fixture = str(exploit.get("fixture", ""))
+        fixture = str(exploit_dict.get("fixture", ""))
         if not fixture or not (project / fixture).exists():
             findings.append(
                 ValidationFinding(
@@ -738,7 +741,7 @@ def _validate_known_exploits(project: Path) -> list[ValidationFinding]:
                     _relative(project, path),
                 )
             )
-        regression_tests = exploit.get("regression_tests", [])
+        regression_tests = exploit_dict.get("regression_tests", [])
         if not isinstance(regression_tests, list) or not regression_tests:
             findings.append(
                 ValidationFinding(

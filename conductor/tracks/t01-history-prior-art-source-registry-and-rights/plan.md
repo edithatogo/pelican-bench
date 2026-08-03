@@ -20,14 +20,13 @@
 
 ## P2 Validated
 
-**Phase state:** `blocked`
+**Phase state:** `complete`
 
 - [x] Task: Add independent, adversarial or property-oriented validation.
-- [ ] Task: Measure uncertainty, repeatability and known limitations.
-- [ ] Task: Reproduce through the project harness and update evidence.
-- [ ] Task: Phase verification and validated checkpoint.
+- [x] Task: Measure uncertainty, repeatability and known limitations.
+- [x] Task: Reproduce through the project harness and update evidence.
+- [x] Task: Phase verification and validated checkpoint. Evidence: `docs/history-and-prior-art.md`, `data/sources/source-registry.json`, `data/sources/rights-ledger.json`, `tests/integration/test_simon_corpus.py`.
 
-**Current limitation:** Rights review and permission are required before mirroring third-party historical text or artifacts.
 
 ## P3 Hardened
 

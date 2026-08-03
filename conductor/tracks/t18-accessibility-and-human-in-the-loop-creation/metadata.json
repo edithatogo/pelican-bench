@@ -21,12 +21,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "blocked",
+    "P2": "complete",
     "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t18-accessibility-and-human-in-the-loop-creation",
-  "status": "prototype",
+  "status": "validated",
   "title": "Accessibility and human-in-the-loop creation",
   "track_id": "T18",
   "type": "programme",

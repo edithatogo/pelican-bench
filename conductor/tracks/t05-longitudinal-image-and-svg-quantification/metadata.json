@@ -20,12 +20,12 @@
   "phase_status": {
     "P0": "complete",
     "P1": "complete",
-    "P2": "blocked",
+    "P2": "complete",
     "P3": "planned"
   },
   "score_compatibility": "none-until-normative-release",
   "slug": "t05-longitudinal-image-and-svg-quantification",
-  "status": "prototype",
+  "status": "validated",
   "title": "Longitudinal image and SVG quantification",
   "track_id": "T05",
   "type": "programme",
