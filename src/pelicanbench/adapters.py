@@ -347,15 +347,10 @@ class OpenAICompatibleAdapter(ModelAdapter):
         except urllib.error.URLError as exc:
             raise RuntimeError(f"OpenAI-compatible endpoint unavailable: {exc.reason}") from exc
         try:
-<<<<<<< HEAD
-            value = self._stream_value(raw) if self.stream else json.loads(raw)
-            choice = value["choices"][0]
-=======
             value = (
                 self._stream_value(raw) if self.stream else cast("dict[str, Any]", json.loads(raw))
             )
             choice = cast("dict[str, Any]", value["choices"][0])
->>>>>>> 7d1d7b8 (style(quality): apply ruff formatting)
             content = self._message_content(choice["message"]["content"])
         except RuntimeError:
             raise
