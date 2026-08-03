@@ -258,3 +258,15 @@ decision for every committed sourced record; infer coverage from file presence a
 **Rationale:** byte-artifact checks alone let new sourced records enter committed benchmark data
 without an explicit rights decision, so sourcing must fail closed at the record level to keep
 any redistributed material clearly cleared.
+
+## D032 — Rights auditing is bounded before parsing
+
+**Options:** trust repository size; impose only a whole-file limit; bound ledgers, artifacts,
+records and total record count while rejecting symbolic links.
+
+**Decision:** enforce positive byte and record ceilings through `RightsAuditPolicy`, preflight
+every input path before parsing and reject symlinked ledgers or sourced artifacts.
+
+**Rationale:** rights validation processes untrusted provenance metadata. Explicit deterministic
+ceilings prevent accidental or adversarial resource exhaustion, while symlink rejection keeps
+the audit confined to the checked-out evidence set.
