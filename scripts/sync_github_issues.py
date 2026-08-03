@@ -111,6 +111,7 @@ def ensure_issue(
     body: str,
     status: str = "planned",
     labels: list[str] | None = None,
+    issue_number: int | None = None,
 ) -> dict[str, Any]:
     desired_state = "closed" if status == "complete" else "open"
     mutable_payload: dict[str, Any] = {
@@ -122,7 +123,11 @@ def ensure_issue(
     }
     if desired_state == "closed":
         mutable_payload["state_reason"] = "completed"
-    existing = find_issue(repo, title)
+    existing = (
+        gh_api(f"repos/{repo}/issues/{issue_number}")
+        if issue_number is not None
+        else find_issue(repo, title)
+    )
     if existing is None:
         issue = gh_api(
             f"repos/{repo}/issues",
@@ -239,6 +244,7 @@ def main() -> int:
                     title=package["title"],
                     body=package["body"],
                     status=package_status,
+                    issue_number=package.get("issue_number"),
                     labels=[
                         "conductor",
                         "work-package",
@@ -259,6 +265,7 @@ def main() -> int:
                 title=phase["title"],
                 body=phase_body,
                 status=status,
+                issue_number=phase.get("issue_number"),
                 labels=[
                     "conductor",
                     "phase",
@@ -303,6 +310,7 @@ def main() -> int:
             title=track["parent_title"],
             body=parent_body,
             status="complete" if current_parent_status == "complete" else "planned",
+            issue_number=track.get("parent_issue"),
             labels=[
                 "conductor",
                 "track",
@@ -328,6 +336,7 @@ def main() -> int:
             title=blocker["title"],
             body=blocker["body"],
             status=status,
+            issue_number=blocker.get("issue_number"),
             labels=[
                 "conductor",
                 "release-blocker",

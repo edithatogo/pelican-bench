@@ -13,11 +13,11 @@ from typing import Any
 
 import gradio as gr
 
+from pelicanbench.human_study import validate_calibration_response
+
+
 def prompt_disclosure_permitted(*, blind_response_locked: bool) -> bool:
     return bool(blind_response_locked)
-
-
-from pelicanbench.human_study import validate_calibration_response
 
 
 EXAMPLE_SVG = Path(__file__).with_name("example.svg")
@@ -90,9 +90,7 @@ def submit_criteria(
 
 
 def submit_pairwise(winner: str) -> str:
-    validation = validate_calibration_response(
-        "pairwise-preference", {"pairwise_winner": winner}
-    )
+    validation = validate_calibration_response("pairwise-preference", {"pairwise_winner": winner})
     return json.dumps(
         {
             "stage": "pairwise-preference",
@@ -116,7 +114,9 @@ with gr.Blocks(title="PelicanBench Human Calibration") as demo:
             animal = gr.Textbox(label="What animal is depicted?")
             mobile_object = gr.Textbox(label="What mobile object is depicted?")
             relation = gr.Textbox(label="What is the animal doing in relation to it?")
-            recognition_confidence = gr.Slider(0, 100, value=50, step=1, label="Recognition confidence")
+            recognition_confidence = gr.Slider(
+                0, 100, value=50, step=1, label="Recognition confidence"
+            )
             lock = gr.Button("Lock blind response and reveal prompt")
             blind_receipt = gr.Code(language="json", label="Blind-stage receipt")
         prompt = gr.Textbox(label="Generation prompt", visible=False, interactive=False)

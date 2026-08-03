@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from pelicanbench.adapters import CallableAdapter
 from pelicanbench.runner import run_benchmark
 from pelicanbench.taskgen import heritage_task
