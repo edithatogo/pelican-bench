@@ -1,0 +1,34 @@
+{
+  "archive": {
+    "custody_records": [
+      "data/sources/source-registry.json",
+      "data/sources/rights-ledger.json",
+      "release-bound audit receipts",
+      "source fixity and decision rationale"
+    ],
+    "retention": "permanent",
+    "silent_rewrite_permitted": false
+  },
+  "incident": {
+    "classification": "P0-critical",
+    "close_authority": "steward",
+    "external_disclosure_must_exclude_restricted_bytes": true,
+    "response": [
+      "freeze-publication",
+      "quarantine-affected-artifacts",
+      "preserve-fixity-and-release-records",
+      "open-incident-record",
+      "obtain-accountable-rights-review",
+      "remediate-with-new-ledger-decision",
+      "rerun-rights-audit-and-harness",
+      "publish-correction-or-withdrawal-if-required"
+    ]
+  },
+  "ownership": {
+    "accountable_role": "benchmark-steward",
+    "backup_role": null,
+    "external_rights_reviewer": "unassigned",
+    "release_authority": "benchmark-steward"
+  },
+  "schema_version": "1.0.0"
+}
