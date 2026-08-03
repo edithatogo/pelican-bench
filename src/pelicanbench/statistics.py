@@ -135,7 +135,7 @@ def estimate_interaction(
     values = list(observations)
     model_ids = sorted({row.model_id for row in values})
     output: list[InteractionEstimate] = []
-    rng = random.Random(seed)
+    rng = random.Random(seed)  # nosec B311
     for model_id in model_ids:
         rows = [row for row in values if row.model_id == model_id]
         target = [

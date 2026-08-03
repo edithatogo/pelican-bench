@@ -197,7 +197,7 @@ def run_svg_fuzz_campaign(
         raise ValueError("budget_ms must be positive")
     if not mutations:
         raise ValueError("at least one mutation is required")
-    rng = random.Random(seed)
+    rng = random.Random(seed)  # nosec B311
     accepted = 0
     rejected = 0
     rendered = 0
@@ -206,7 +206,7 @@ def run_svg_fuzz_campaign(
     failures: list[FuzzFailure] = []
     for index in range(cases):
         mutation_name, mutation = mutations[index % len(mutations)]
-        case_rng = random.Random(rng.getrandbits(64))
+        case_rng = random.Random(rng.getrandbits(64))  # nosec B311
         start = time.perf_counter()
         try:
             candidate = mutation(baseline_svg, case_rng)

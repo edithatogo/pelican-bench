@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import shutil
-import subprocess
+import subprocess  # nosec B404
 import tempfile
 from dataclasses import dataclass
 from io import BytesIO
@@ -57,7 +57,7 @@ def render_with_inkscape(svg: str, *, size: int = 512, timeout: float = 30.0) ->
         source = root / "input.svg"
         output = root / "output.png"
         source.write_text(svg, encoding="utf-8")
-        completed = subprocess.run(
+        completed = subprocess.run(  # nosec B603
             [
                 executable,
                 str(source),

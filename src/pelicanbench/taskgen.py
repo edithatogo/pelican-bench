@@ -258,7 +258,7 @@ def generate_tasks(
 ) -> list[BenchmarkTask]:
     if count < 1:
         raise ValueError("count must be positive")
-    rng = random.Random(seed)
+    rng = random.Random(seed)  # nosec B311
     candidates = _candidate_designs(grammar)
     if not candidates:
         raise ValueError("grammar has no compatible combinations")
@@ -303,7 +303,7 @@ def generate_design_tasks(
     animals = {item["id"]: item for item in grammar["animals"]}
     objects = {item["id"]: item for item in grammar["mobile_objects"]}
     relations = {item["id"]: item for item in grammar["relations"]}
-    rng = random.Random(seed)
+    rng = random.Random(seed)  # nosec B311
     output: list[BenchmarkTask] = []
     if design.get("include_heritage", True):
         output.append(heritage_task(release=str(design["release"]), seed=seed))
@@ -388,7 +388,7 @@ def split_public_sealed(
         raise ValueError("sealed_fraction must be between 0 and 1")
     heritage = [task for task in tasks if task.track == "heritage-svg"]
     rest = [task for task in tasks if task.track != "heritage-svg"]
-    random.Random(seed).shuffle(rest)
+    random.Random(seed).shuffle(rest)  # nosec B311
     count = max(1, round(len(rest) * sealed_fraction))
     sealed = [
         BenchmarkTask.model_validate({**task.model_dump(), "public": False})

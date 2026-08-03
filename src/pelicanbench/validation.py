@@ -41,7 +41,7 @@ from .registry import (
 )
 from .release_records import ReleasePackageReceipt
 from .taskgen import load_grammar, task_set_commitment
-from .workgraph import build_issue_manifest
+from .workgraph import build_issue_manifest, track_metadata_paths
 
 
 @dataclass(frozen=True, slots=True)
@@ -282,14 +282,14 @@ def _validate_task_files(project: Path) -> list[ValidationFinding]:
 
 def _validate_track_graph(project: Path) -> list[ValidationFinding]:
     findings: list[ValidationFinding] = []
-    metadata_paths = sorted((project / "conductor/tracks").glob("*/metadata.json"))
+    metadata_paths = track_metadata_paths(project)
     if len(metadata_paths) != 22:
         findings.append(
             ValidationFinding(
                 "error",
                 "track-metadata-count",
                 f"expected 22 track metadata files, found {len(metadata_paths)}",
-                "conductor/tracks",
+                "conductor",
             )
         )
     track_ids: set[str] = set()
@@ -426,8 +426,7 @@ def _validate_assurance(project: Path) -> list[ValidationFinding]:
             )
         )
     known_track_ids = {
-        str(_load_object(path).get("track_id", ""))
-        for path in (project / "conductor/tracks").glob("*/metadata.json")
+        str(_load_object(path).get("track_id", "")) for path in track_metadata_paths(project)
     }
     criterion_ids: set[str] = set()
     for item in blockers:

@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import subprocess
+import subprocess  # nosec B404
 import sys
 import time
 from dataclasses import asdict, dataclass
@@ -52,7 +52,7 @@ def run_category(root: Path, category: str) -> CategoryResult:
     environment["PYTHONPATH"] = str(root / "src")
     started = time.monotonic()
     try:
-        completed = subprocess.run(
+        completed = subprocess.run(  # nosec B603
             [sys.executable, "-m", "pytest", "-q", *CATEGORY_SELECTORS[category]],
             cwd=root,
             env=environment,

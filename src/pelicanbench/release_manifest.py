@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import platform
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tomllib
 from collections.abc import Iterable
@@ -26,7 +26,7 @@ KEY_RELEASE_FILES = (
 
 
 def _git(root: Path, *args: str) -> str | None:
-    result = subprocess.run(
+    result = subprocess.run(  # nosec B603, B607
         ["git", *args],
         cwd=root,
         check=False,
