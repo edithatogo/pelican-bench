@@ -30,9 +30,9 @@
 
 ## P3 Hardened
 
-**Phase state:** `planned`
+**Phase state:** `partial`
 
-- [ ] Task: Meet stable performance, fuzzing, security and supply-chain budgets.
+- [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets. Evidence: `docs/rights-audit-hardening.md`, `tests/edge/test_source_rights_limits.py`, `tests/property/test_source_rights_properties.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `b6fdc4a`.
 - [ ] Task: Complete bridge, migration and deprecation policy.
 - [ ] Task: Validate operational ownership, incident response and archival.
 - [ ] Task: Phase verification and stable-release checkpoint.
