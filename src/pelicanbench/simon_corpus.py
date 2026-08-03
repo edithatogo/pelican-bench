@@ -32,6 +32,18 @@ CONTENT_EXPORT_RIGHTS = frozenset(
 DERIVED_ANALYSIS_RIGHTS = CONTENT_EXPORT_RIGHTS | frozenset({"analysis-permitted"})
 
 
+@dataclass(frozen=True, slots=True)
+class SimonCorpusPolicy:
+    max_feed_bytes: int = 5_000_000
+    max_entries: int = 1_000
+    max_entry_text_chars: int = 1_000_000
+
+    def __post_init__(self) -> None:
+        for name in ("max_feed_bytes", "max_entries", "max_entry_text_chars"):
+            if getattr(self, name) <= 0:
+                raise ValueError(f"{name} must be positive")
+
+
 class _PlainTextExtractor(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -105,7 +117,12 @@ class SimonAtomCorpus:
         }
 
 
-def fetch_atom(url: str = DEFAULT_SIMON_ATOM_URL, *, timeout_seconds: float = 30.0) -> bytes:
+def fetch_atom(
+    url: str = DEFAULT_SIMON_ATOM_URL,
+    *,
+    timeout_seconds: float = 30.0,
+    policy: SimonCorpusPolicy | None = None,
+) -> bytes:
     """Fetch an Atom feed with an explicit user agent and bounded timeout."""
 
     if timeout_seconds <= 0:
@@ -116,9 +133,13 @@ def fetch_atom(url: str = DEFAULT_SIMON_ATOM_URL, *, timeout_seconds: float = 30
         url,
         headers={"User-Agent": "PelicanBench/0.4 rights-aware corpus metadata importer"},
     )
+    selected_policy = policy or SimonCorpusPolicy()
     # Scheme restricted to http/https above; bandit cannot trace the guard.
     with urllib.request.urlopen(request, timeout=timeout_seconds) as response:  # nosec B310
-        return bytes(response.read())
+        payload = bytes(response.read(selected_policy.max_feed_bytes + 1))
+    if len(payload) > selected_policy.max_feed_bytes:
+        raise ValueError("Atom feed exceeds byte limit")
+    return payload
 
 
 def parse_simon_atom(
@@ -127,6 +148,7 @@ def parse_simon_atom(
     source_id: str = "simon-tag-archive",
     rights_status: str = "metadata-only",
     include_content: bool = False,
+    policy: SimonCorpusPolicy | None = None,
 ) -> SimonAtomCorpus:
     """Parse a tag feed without silently exporting copyrighted post text."""
 
@@ -135,6 +157,9 @@ def parse_simon_atom(
             "raw content export requires licensed, permission-granted, public-domain, or author-owned status"
         )
     raw = payload.encode("utf-8") if isinstance(payload, str) else payload
+    selected_policy = policy or SimonCorpusPolicy()
+    if len(raw) > selected_policy.max_feed_bytes:
+        raise ValueError("Atom feed exceeds byte limit")
     root = ElementTree.fromstring(raw)
     if root.tag != f"{ATOM_NAMESPACE}feed":
         raise ValueError("expected an Atom feed root")
@@ -144,8 +169,11 @@ def parse_simon_atom(
         if link.attrib.get("rel", "alternate") == "alternate" and link.attrib.get("href"):
             alternate_link = str(link.attrib["href"])
             break
+    entry_elements = root.findall(f"{ATOM_NAMESPACE}entry")
+    if len(entry_elements) > selected_policy.max_entries:
+        raise ValueError("Atom entry count exceeds limit")
     entries: list[SimonAtomEntry] = []
-    for index, element in enumerate(root.findall(f"{ATOM_NAMESPACE}entry"), 1):
+    for index, element in enumerate(entry_elements, 1):
         entry_id = _element_text(element.find(f"{ATOM_NAMESPACE}id")).strip()
         title = html.unescape(_plain_text(_element_text(element.find(f"{ATOM_NAMESPACE}title"))))
         author_element = element.find(f"{ATOM_NAMESPACE}author")
@@ -168,6 +196,8 @@ def parse_simon_atom(
             content_element = element.find(f"{ATOM_NAMESPACE}summary")
         raw_content = _element_text(content_element)
         plain_content = html.unescape(_plain_text(raw_content)) if raw_content else ""
+        if len(plain_content) > selected_policy.max_entry_text_chars:
+            raise ValueError(f"Atom entry {index} text exceeds character limit")
         record_digest = hashlib.sha256(f"{source_id}\x1f{entry_id}".encode()).hexdigest()[:20]
         categories = tuple(
             sorted(

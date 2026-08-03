@@ -283,3 +283,14 @@ lifecycle policy.
 **Rationale:** permissive coercion can silently change the meaning of a permission decision.
 Exact version handling keeps rights interpretation reviewable and makes compatibility changes
 release-visible without discarding historical evidence.
+
+## D034 — Bound Atom ingestion before corpus analysis
+
+**Options:** rely on network timeouts; bound only downloaded bytes; bound downloaded bytes, entry
+count and per-entry extracted text before downstream NLP.
+
+**Decision:** enforce positive configurable ceilings for all three dimensions and read at most one
+byte beyond the feed limit to detect overflow without buffering an unbounded response.
+
+**Rationale:** a timeout does not prevent memory or parser exhaustion. Layered deterministic
+ceilings keep hostile or malformed feeds bounded while preserving the separate rights gate.

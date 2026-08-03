@@ -136,8 +136,8 @@ class _Response:
     def __exit__(self, *_args: object) -> None:
         return None
 
-    def read(self) -> bytes:
-        return self.payload
+    def read(self, size: int = -1) -> bytes:
+        return self.payload if size < 0 else self.payload[:size]
 
 
 def test_fetch_atom_has_positive_timeout_and_bounded_network_call() -> None:
