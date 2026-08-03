@@ -13,7 +13,7 @@ import argparse
 import json
 import os
 import shutil
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tempfile
 from dataclasses import asdict, dataclass
@@ -148,7 +148,7 @@ def run_campaign(root: Path) -> tuple[MutantResult, ...]:
             shutil.copytree(root / "benchmark/fixtures", temporary_root / "benchmark/fixtures")
             environment = os.environ.copy()
             environment["PYTHONPATH"] = str(temporary_root / "src")
-            completed = subprocess.run(
+            completed = subprocess.run(  # nosec B603
                 [
                     sys.executable,
                     "-m",

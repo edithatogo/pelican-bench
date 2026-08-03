@@ -17,6 +17,7 @@ from dataclasses import asdict, dataclass
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from defusedxml import ElementTree
 
@@ -109,11 +110,14 @@ def fetch_atom(url: str = DEFAULT_SIMON_ATOM_URL, *, timeout_seconds: float = 30
 
     if timeout_seconds <= 0:
         raise ValueError("timeout_seconds must be positive")
+    if urlsplit(url).scheme not in ("http", "https"):
+        raise ValueError("only http(s) Atom feed URLs are supported")
     request = urllib.request.Request(
         url,
         headers={"User-Agent": "PelicanBench/0.4 rights-aware corpus metadata importer"},
     )
-    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+    # Scheme restricted to http/https above; bandit cannot trace the guard.
+    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:  # nosec B310
         return bytes(response.read())
 
 

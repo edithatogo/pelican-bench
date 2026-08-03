@@ -5,9 +5,10 @@ from __future__ import annotations
 
 import argparse
 import json
-import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
+
+from defusedxml import ElementTree as ET  # nosec B405
 
 
 def _load(path: Path) -> dict[str, Any]:

@@ -577,7 +577,7 @@ def lease_campaign_cells(
             clauses.append("model_id = ?")
             parameters.append(model_id)
         query = (
-            "SELECT * FROM cells WHERE "
+            "SELECT * FROM cells WHERE "  # nosec B608
             + " AND ".join(clauses)
             + " ORDER BY stage_id, model_id, task_id, replicate"
         )

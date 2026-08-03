@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
+import subprocess  # nosec B404
 import time
 import urllib.error
 import urllib.request
@@ -142,7 +142,7 @@ class CommandAdapter(ModelAdapter):
         return environment
 
     def generate(self, task: BenchmarkTask, *, seed: int) -> GenerationResult:
-        completed = subprocess.run(
+        completed = subprocess.run(  # nosec B603
             self.command,
             input=task.prompt,
             text=True,
@@ -340,7 +340,8 @@ class OpenAICompatibleAdapter(ModelAdapter):
             method="POST",
         )
         try:
-            with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:
+            # Scheme is restricted to http/https during construction; endpoint derives from it.
+            with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:  # nosec B310
                 raw = response.read().decode("utf-8")
                 status = int(getattr(response, "status", 200))
         except urllib.error.HTTPError as exc:

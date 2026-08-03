@@ -7,7 +7,7 @@ import hashlib
 import os
 import shutil
 import stat
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tarfile
 import zipfile
@@ -32,7 +32,7 @@ from .verification import (
 
 
 def _run(root: Path, *args: str) -> str:
-    completed = subprocess.run(
+    completed = subprocess.run(  # nosec B603
         list(args),
         cwd=root,
         check=True,
@@ -245,8 +245,8 @@ def build_release_package(
         project, output / f"{prefix}-with-git.tar.gz", history, prefix=prefix
     )
     bundle = output / f"{prefix}.bundle"
-    subprocess.run(["git", "bundle", "create", str(bundle), "--all"], cwd=project, check=True)
-    subprocess.run(
+    subprocess.run(["git", "bundle", "create", str(bundle), "--all"], cwd=project, check=True)  # nosec B603, B607
+    subprocess.run(  # nosec B603, B607
         ["git", "bundle", "verify", str(bundle)],
         cwd=project,
         check=True,
@@ -323,7 +323,7 @@ def build_release_package(
     sbom_path = output / f"{prefix}.spdx.json"
     env = dict(os.environ)
     env["PYTHONPATH"] = str(project / "src")
-    subprocess.run(
+    subprocess.run(  # nosec B603
         [sys.executable, "scripts/generate_sbom.py", "--output", str(sbom_path)],
         cwd=project,
         env=env,

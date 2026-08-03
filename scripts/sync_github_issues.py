@@ -13,7 +13,7 @@ import argparse
 import hashlib
 import json
 import shutil
-import subprocess
+import subprocess  # nosec B404
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
@@ -47,7 +47,7 @@ BASE_LABELS: dict[str, tuple[str, str]] = {
 
 
 def run_json(command: list[str]) -> Any:
-    completed = subprocess.run(
+    completed = subprocess.run(  # nosec B603
         command,
         cwd=ROOT,
         text=True,
@@ -67,7 +67,7 @@ def gh_api(
     command = ["gh", "api", endpoint, "--method", method]
     if payload is not None:
         command.extend(["--input", "-"])
-        completed = subprocess.run(
+        completed = subprocess.run(  # nosec B603, B607
             command,
             cwd=ROOT,
             text=True,

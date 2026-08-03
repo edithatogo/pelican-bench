@@ -33,7 +33,7 @@ def evaluate_trajectory(events: Iterable[TrajectoryEvent]) -> TrajectoryMetrics:
     best = float("-inf")
     was_below_best = False
     for score in scores:
-        assert score is not None
+        assert score is not None  # nosec B101
         if previous is not None and score < previous:
             regressions += 1
         if score < best:

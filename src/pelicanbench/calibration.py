@@ -127,11 +127,11 @@ def select_calibration_sample(
         )
         grouped[cell].append((candidate, score_value, disagreement_value))
 
-    rng = random.Random(seed)
+    rng = random.Random(seed)  # nosec B311
     for cell, rows in grouped.items():
         # A stable pre-sort makes seeded shuffling reproducible even when input order changes.
         rows.sort(key=lambda item: item[0].artifact_id)
-        cell_rng = random.Random(seed ^ int(hashlib.sha256(cell.encode()).hexdigest()[:16], 16))
+        cell_rng = random.Random(seed ^ int(hashlib.sha256(cell.encode()).hexdigest()[:16], 16))  # nosec B311
         cell_rng.shuffle(rows)
 
     cell_order = sorted(grouped)
@@ -200,7 +200,7 @@ def build_pairwise_calibration_tasks(
         for candidate in sorted(by_task[task_id], key=lambda item: item.artifact_id):
             by_model.setdefault(candidate.model_id, candidate)
         combinations_for_task = list(combinations(sorted(by_model), 2))
-        task_rng = random.Random(seed ^ int(hashlib.sha256(task_id.encode()).hexdigest()[:16], 16))
+        task_rng = random.Random(seed ^ int(hashlib.sha256(task_id.encode()).hexdigest()[:16], 16))  # nosec B311
         task_rng.shuffle(combinations_for_task)
         for model_a, model_b in combinations_for_task[:maximum_pairs_per_task]:
             left_model, right_model = model_a, model_b

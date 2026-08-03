@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
-import subprocess
+import subprocess  # nosec B404
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,7 +14,7 @@ MANIFEST = ROOT / ".github/issues/manifest.json"
 
 
 def run(command: list[str]) -> str:
-    return subprocess.run(
+    return subprocess.run(  # nosec B603
         command, cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE
     ).stdout.strip()
 
@@ -78,7 +78,7 @@ def main() -> int:
         )
     for number in issue_numbers:
         url = f"https://github.com/{repository}/issues/{number}"
-        subprocess.run(
+        subprocess.run(  # nosec B603, B607
             [
                 "gh",
                 "project",
