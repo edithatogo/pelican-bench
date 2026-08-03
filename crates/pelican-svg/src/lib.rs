@@ -5,7 +5,9 @@ pub const FORBIDDEN_MARKERS: [&str; 3] = ["<!doctype", "<!entity", "<?xml-styles
 
 pub fn preflight_safe(source: &str) -> bool {
     let lowered = source.to_ascii_lowercase();
-    !FORBIDDEN_MARKERS.iter().any(|marker| lowered.contains(marker))
+    !FORBIDDEN_MARKERS
+        .iter()
+        .any(|marker| lowered.contains(marker))
 }
 
 #[cfg(test)]
