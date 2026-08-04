@@ -283,3 +283,25 @@ lifecycle policy.
 **Rationale:** permissive coercion can silently change the meaning of a permission decision.
 Exact version handling keeps rights interpretation reviewable and makes compatibility changes
 release-visible without discarding historical evidence.
+
+## D034 — Bound Atom ingestion before corpus analysis
+
+**Options:** rely on network timeouts; bound only downloaded bytes; bound downloaded bytes, entry
+count and per-entry extracted text before downstream NLP.
+
+**Decision:** enforce positive configurable ceilings for all three dimensions and read at most one
+byte beyond the feed limit to detect overflow without buffering an unbounded response.
+
+**Rationale:** a timeout does not prevent memory or parser exhaustion. Layered deterministic
+ceilings keep hostile or malformed feeds bounded while preserving the separate rights gate.
+
+## D035 — Require explicit Simon corpus schema migration
+
+**Options:** accept structurally similar corpus objects; coerce versions at the NLP bridge; reject
+unsupported versions until migration evidence is implemented.
+
+**Decision:** the writer and empirical-NLP bridge accept schema `1.0.0` only and fail closed on
+other versions.
+
+**Rationale:** shape-based coercion can silently change identifiers, fixity or rights meaning.
+Exact version handling makes migrations reviewable and preserves historical analysis semantics.

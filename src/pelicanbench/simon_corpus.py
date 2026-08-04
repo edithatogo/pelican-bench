@@ -26,10 +26,23 @@ from .io import write_json, write_jsonl
 
 ATOM_NAMESPACE = "{http://www.w3.org/2005/Atom}"
 DEFAULT_SIMON_ATOM_URL = "https://simonwillison.net/tags/pelican-riding-a-bicycle.atom"
+SIMON_CORPUS_SCHEMA_VERSION = "1.0.0"
 CONTENT_EXPORT_RIGHTS = frozenset(
     {"licensed", "permission-granted", "public-domain", "author-owned"}
 )
 DERIVED_ANALYSIS_RIGHTS = CONTENT_EXPORT_RIGHTS | frozenset({"analysis-permitted"})
+
+
+@dataclass(frozen=True, slots=True)
+class SimonCorpusPolicy:
+    max_feed_bytes: int = 5_000_000
+    max_entries: int = 1_000
+    max_entry_text_chars: int = 1_000_000
+
+    def __post_init__(self) -> None:
+        for name in ("max_feed_bytes", "max_entries", "max_entry_text_chars"):
+            if getattr(self, name) <= 0:
+                raise ValueError(f"{name} must be positive")
 
 
 class _PlainTextExtractor(HTMLParser):
@@ -105,7 +118,12 @@ class SimonAtomCorpus:
         }
 
 
-def fetch_atom(url: str = DEFAULT_SIMON_ATOM_URL, *, timeout_seconds: float = 30.0) -> bytes:
+def fetch_atom(
+    url: str = DEFAULT_SIMON_ATOM_URL,
+    *,
+    timeout_seconds: float = 30.0,
+    policy: SimonCorpusPolicy | None = None,
+) -> bytes:
     """Fetch an Atom feed with an explicit user agent and bounded timeout."""
 
     if timeout_seconds <= 0:
@@ -116,9 +134,13 @@ def fetch_atom(url: str = DEFAULT_SIMON_ATOM_URL, *, timeout_seconds: float = 30
         url,
         headers={"User-Agent": "PelicanBench/0.4 rights-aware corpus metadata importer"},
     )
+    selected_policy = policy or SimonCorpusPolicy()
     # Scheme restricted to http/https above; bandit cannot trace the guard.
     with urllib.request.urlopen(request, timeout=timeout_seconds) as response:  # nosec B310
-        return bytes(response.read())
+        payload = bytes(response.read(selected_policy.max_feed_bytes + 1))
+    if len(payload) > selected_policy.max_feed_bytes:
+        raise ValueError("Atom feed exceeds byte limit")
+    return payload
 
 
 def parse_simon_atom(
@@ -127,6 +149,7 @@ def parse_simon_atom(
     source_id: str = "simon-tag-archive",
     rights_status: str = "metadata-only",
     include_content: bool = False,
+    policy: SimonCorpusPolicy | None = None,
 ) -> SimonAtomCorpus:
     """Parse a tag feed without silently exporting copyrighted post text."""
 
@@ -135,6 +158,9 @@ def parse_simon_atom(
             "raw content export requires licensed, permission-granted, public-domain, or author-owned status"
         )
     raw = payload.encode("utf-8") if isinstance(payload, str) else payload
+    selected_policy = policy or SimonCorpusPolicy()
+    if len(raw) > selected_policy.max_feed_bytes:
+        raise ValueError("Atom feed exceeds byte limit")
     root = ElementTree.fromstring(raw)
     if root.tag != f"{ATOM_NAMESPACE}feed":
         raise ValueError("expected an Atom feed root")
@@ -144,8 +170,11 @@ def parse_simon_atom(
         if link.attrib.get("rel", "alternate") == "alternate" and link.attrib.get("href"):
             alternate_link = str(link.attrib["href"])
             break
+    entry_elements = root.findall(f"{ATOM_NAMESPACE}entry")
+    if len(entry_elements) > selected_policy.max_entries:
+        raise ValueError("Atom entry count exceeds limit")
     entries: list[SimonAtomEntry] = []
-    for index, element in enumerate(root.findall(f"{ATOM_NAMESPACE}entry"), 1):
+    for index, element in enumerate(entry_elements, 1):
         entry_id = _element_text(element.find(f"{ATOM_NAMESPACE}id")).strip()
         title = html.unescape(_plain_text(_element_text(element.find(f"{ATOM_NAMESPACE}title"))))
         author_element = element.find(f"{ATOM_NAMESPACE}author")
@@ -168,6 +197,8 @@ def parse_simon_atom(
             content_element = element.find(f"{ATOM_NAMESPACE}summary")
         raw_content = _element_text(content_element)
         plain_content = html.unescape(_plain_text(raw_content)) if raw_content else ""
+        if len(plain_content) > selected_policy.max_entry_text_chars:
+            raise ValueError(f"Atom entry {index} text exceeds character limit")
         record_digest = hashlib.sha256(f"{source_id}\x1f{entry_id}".encode()).hexdigest()[:20]
         categories = tuple(
             sorted(
@@ -198,7 +229,7 @@ def parse_simon_atom(
         )
     entries.sort(key=lambda item: ((item.published_at or item.updated_at or ""), item.record_id))
     return SimonAtomCorpus(
-        schema_version="1.0.0",
+        schema_version=SIMON_CORPUS_SCHEMA_VERSION,
         source_id=source_id,
         feed_title=feed_title,
         feed_url=alternate_link or DEFAULT_SIMON_ATOM_URL,
@@ -212,6 +243,11 @@ def parse_simon_atom(
 def corpus_prompt_records(corpus: SimonAtomCorpus) -> tuple[PromptRecord, ...]:
     """Convert authorised post text into the shared empirical-NLP exchange model."""
 
+    if corpus.schema_version != SIMON_CORPUS_SCHEMA_VERSION:
+        raise ValueError(
+            f"unsupported Simon corpus schema {corpus.schema_version!r}; "
+            f"expected {SIMON_CORPUS_SCHEMA_VERSION!r}"
+        )
     if corpus.rights_status not in DERIVED_ANALYSIS_RIGHTS:
         raise PermissionError("derived content analysis is not permitted for this source status")
     if any(entry.content_present and entry.content_text is None for entry in corpus.entries):
@@ -243,6 +279,22 @@ def write_simon_atom_corpus(
 ) -> tuple[Path, Path]:
     """Write deterministic metadata/content records plus a compact receipt."""
 
+    if corpus.schema_version != SIMON_CORPUS_SCHEMA_VERSION:
+        raise ValueError(
+            f"unsupported Simon corpus schema {corpus.schema_version!r}; "
+            f"expected {SIMON_CORPUS_SCHEMA_VERSION!r}"
+        )
+    if corpus.content_exported and corpus.rights_status not in CONTENT_EXPORT_RIGHTS:
+        raise PermissionError(
+            "raw content export requires licensed, permission-granted, public-domain, or author-owned status"
+        )
+    if (
+        any(entry.content_text is not None for entry in corpus.entries)
+        and corpus.rights_status not in CONTENT_EXPORT_RIGHTS
+    ):
+        raise PermissionError(
+            "persisting retained content requires licensed, permission-granted, public-domain, or author-owned status"
+        )
     output = Path(output_jsonl)
     summary = (
         Path(summary_path) if summary_path is not None else output.with_suffix(".summary.json")

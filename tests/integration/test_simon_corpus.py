@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -90,6 +91,20 @@ def test_raw_content_and_derived_records_require_explicit_rights() -> None:
         corpus_prompt_records(denied)
 
 
+def test_corpus_bridge_and_writer_require_explicit_schema_migration(tmp_path: Path) -> None:
+    corpus = parse_simon_atom(ATOM, rights_status="licensed", include_content=True)
+    future = replace(corpus, schema_version="2.0.0")
+
+    with pytest.raises(ValueError, match="unsupported Simon corpus schema"):
+        corpus_prompt_records(future)
+    with pytest.raises(ValueError, match="unsupported Simon corpus schema"):
+        write_simon_atom_corpus(future, tmp_path / "future.jsonl")
+
+    unauthorized = replace(corpus, rights_status="metadata-only")
+    with pytest.raises(PermissionError, match="raw content export"):
+        write_simon_atom_corpus(unauthorized, tmp_path / "unauthorized.jsonl")
+
+
 def test_atom_validation_fallback_identifiers_and_deterministic_writes(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="Atom feed root"):
         parse_simon_atom("<rss/>")
@@ -136,8 +151,8 @@ class _Response:
     def __exit__(self, *_args: object) -> None:
         return None
 
-    def read(self) -> bytes:
-        return self.payload
+    def read(self, size: int = -1) -> bytes:
+        return self.payload if size < 0 else self.payload[:size]
 
 
 def test_fetch_atom_has_positive_timeout_and_bounded_network_call() -> None:
