@@ -16,6 +16,20 @@ THIRD_PARTY = ROOT / "data/third-party"
 def main() -> int:
     data = json.loads(REGISTRY.read_text(encoding="utf-8"))
     errors: list[str] = []
+    registry_ids = {
+        source.get("source_id")
+        for source in data.get("sources", [])
+        if isinstance(source, dict) and isinstance(source.get("source_id"), str)
+    }
+    ledger_path = ROOT / "data/sources/rights-ledger.json"
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    ledger_ids = {
+        decision.get("source_id")
+        for decision in ledger.get("decisions", [])
+        if isinstance(decision, dict) and isinstance(decision.get("source_id"), str)
+    }
+    for source_id in sorted(registry_ids - ledger_ids):
+        errors.append(f"registry source lacks an explicit rights-ledger decision: {source_id}")
     allowed = {"licensed", "public-domain", "permission-granted"}
     for source in data.get("sources", []):
         if source.get("rights_status") not in allowed and "mirror" in source.get(
