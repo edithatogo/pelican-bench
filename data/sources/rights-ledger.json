@@ -23,6 +23,18 @@
       "decision": "derived-analysis-permitted",
       "rationale": "Project-original 48-prompt panel reproducing the design of Dylan Castillo's 1,008-generation study; no study content is redistributed.",
       "source_id": "castillo-2026-pelicanmaxxing"
+    },
+    {
+      "artifact_class": "social-post body",
+      "decision": "link-only-until-review",
+      "rationale": "The source registry permits link and bibliographic metadata only; no post body is mirrored.",
+      "source_id": "sergio-hf-post"
+    },
+    {
+      "artifact_class": "software adapter",
+      "decision": "licensed-adapter-use",
+      "rationale": "The source registry permits adapter integration and version reference; no source archive bytes are mirrored.",
+      "source_id": "krita-cli"
     }
   ],
   "schema_version": "1.0.0"
