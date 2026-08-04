@@ -12,6 +12,7 @@
     "docs/empirical-basis.md",
     "docs/simon-corpus-method.md",
     "docs/simon-corpus-hardening.md",
+    "docs/simon-corpus-lifecycle.md",
     "docs/source-to-requirement-map.md",
     "tests/integration/test_empirical_nlp_bridge.py",
     "tests/integration/test_simon_corpus.py",
@@ -40,5 +41,5 @@
   "title": "Simon corpus NLP, NER and idea coverage",
   "track_id": "T04",
   "type": "programme",
-  "updated_at": "2026-08-03T13:44:32Z"
+  "updated_at": "2026-08-04T13:45:36Z"
 }
