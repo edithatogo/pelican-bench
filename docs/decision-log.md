@@ -294,3 +294,14 @@ byte beyond the feed limit to detect overflow without buffering an unbounded res
 
 **Rationale:** a timeout does not prevent memory or parser exhaustion. Layered deterministic
 ceilings keep hostile or malformed feeds bounded while preserving the separate rights gate.
+
+## D035 — Require explicit Simon corpus schema migration
+
+**Options:** accept structurally similar corpus objects; coerce versions at the NLP bridge; reject
+unsupported versions until migration evidence is implemented.
+
+**Decision:** the writer and empirical-NLP bridge accept schema `1.0.0` only and fail closed on
+other versions.
+
+**Rationale:** shape-based coercion can silently change identifiers, fixity or rights meaning.
+Exact version handling makes migrations reviewable and preserves historical analysis semantics.

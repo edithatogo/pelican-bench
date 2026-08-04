@@ -26,6 +26,7 @@ from .io import write_json, write_jsonl
 
 ATOM_NAMESPACE = "{http://www.w3.org/2005/Atom}"
 DEFAULT_SIMON_ATOM_URL = "https://simonwillison.net/tags/pelican-riding-a-bicycle.atom"
+SIMON_CORPUS_SCHEMA_VERSION = "1.0.0"
 CONTENT_EXPORT_RIGHTS = frozenset(
     {"licensed", "permission-granted", "public-domain", "author-owned"}
 )
@@ -228,7 +229,7 @@ def parse_simon_atom(
         )
     entries.sort(key=lambda item: ((item.published_at or item.updated_at or ""), item.record_id))
     return SimonAtomCorpus(
-        schema_version="1.0.0",
+        schema_version=SIMON_CORPUS_SCHEMA_VERSION,
         source_id=source_id,
         feed_title=feed_title,
         feed_url=alternate_link or DEFAULT_SIMON_ATOM_URL,
@@ -242,6 +243,11 @@ def parse_simon_atom(
 def corpus_prompt_records(corpus: SimonAtomCorpus) -> tuple[PromptRecord, ...]:
     """Convert authorised post text into the shared empirical-NLP exchange model."""
 
+    if corpus.schema_version != SIMON_CORPUS_SCHEMA_VERSION:
+        raise ValueError(
+            f"unsupported Simon corpus schema {corpus.schema_version!r}; "
+            f"expected {SIMON_CORPUS_SCHEMA_VERSION!r}"
+        )
     if corpus.rights_status not in DERIVED_ANALYSIS_RIGHTS:
         raise PermissionError("derived content analysis is not permitted for this source status")
     if any(entry.content_present and entry.content_text is None for entry in corpus.entries):
@@ -273,6 +279,11 @@ def write_simon_atom_corpus(
 ) -> tuple[Path, Path]:
     """Write deterministic metadata/content records plus a compact receipt."""
 
+    if corpus.schema_version != SIMON_CORPUS_SCHEMA_VERSION:
+        raise ValueError(
+            f"unsupported Simon corpus schema {corpus.schema_version!r}; "
+            f"expected {SIMON_CORPUS_SCHEMA_VERSION!r}"
+        )
     output = Path(output_jsonl)
     summary = (
         Path(summary_path) if summary_path is not None else output.with_suffix(".summary.json")
