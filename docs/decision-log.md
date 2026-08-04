@@ -118,6 +118,17 @@ validity, independent reproduction or operational maturity.
 
 ## D020: Do not fabricate a resolver lock in a restricted package environment
 
+## D021 — Rights review packets are fail-closed and artifact-scoped
+
+**Options:** rely on the current ledger prose; review a convenience sample; require a
+content-addressed packet covering every mirrored artifact with independent agent provenance.
+**Decision:** use the content-addressed, artifact-level packet in
+`docs/independent-rights-review-packet.md`. Missing coverage, uncertain permission,
+conflicts, or unverifiable provenance defer the item to link/metadata-only and leave RB-05
+and T04/P3 partial.
+**Rationale:** public visibility is not redistribution permission, and repository automation
+cannot establish source-owner authority or independent clearance.
+
 **Options considered:** commit an incomplete `uv.lock`; use only unconstrained dependency ranges; retain a labelled installed-environment snapshot and require a real registry resolution before V1.
 
 **Decision:** retain `constraints/reference-environment.txt` as development evidence, document its limitations, and require a complete `uv.lock`, OCI digest and release SBOM before the stable benchmark release.
