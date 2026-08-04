@@ -288,7 +288,10 @@ def write_simon_atom_corpus(
         raise PermissionError(
             "raw content export requires licensed, permission-granted, public-domain, or author-owned status"
         )
-    if any(entry.content_text is not None for entry in corpus.entries) and corpus.rights_status not in CONTENT_EXPORT_RIGHTS:
+    if (
+        any(entry.content_text is not None for entry in corpus.entries)
+        and corpus.rights_status not in CONTENT_EXPORT_RIGHTS
+    ):
         raise PermissionError(
             "persisting retained content requires licensed, permission-granted, public-domain, or author-owned status"
         )
