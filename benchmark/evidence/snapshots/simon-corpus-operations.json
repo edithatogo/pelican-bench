@@ -1,0 +1,38 @@
+{
+  "archive": {
+    "immutable_records": [
+      "source metadata",
+      "content fixity",
+      "rights decisions",
+      "annotation and coverage reports"
+    ],
+    "restricted_content_public": false,
+    "retention": "permanent"
+  },
+  "incident": {
+    "critical_classes": [
+      "unauthorized-content-export",
+      "source-fixity-mismatch",
+      "archive-coverage-overclaim",
+      "annotation-provenance-loss"
+    ],
+    "response": [
+      "freeze-corpus-publication",
+      "quarantine-affected-content",
+      "preserve-metadata-fixity-and-receipts",
+      "open-incident-record",
+      "obtain-accountable-source-review",
+      "issue-new-rights-or-coverage-decision",
+      "rerun-corpus-rights-and-harness-gates",
+      "publish-correction-or-withdrawal-if-required"
+    ],
+    "severity": "P0-critical"
+  },
+  "ownership": {
+    "accountable_role": "benchmark-steward",
+    "backup_role": null,
+    "corpus_custodian": "benchmark-steward",
+    "external_source_reviewer": "unassigned"
+  },
+  "schema_version": "1.0.0"
+}
