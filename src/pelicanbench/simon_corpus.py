@@ -284,6 +284,14 @@ def write_simon_atom_corpus(
             f"unsupported Simon corpus schema {corpus.schema_version!r}; "
             f"expected {SIMON_CORPUS_SCHEMA_VERSION!r}"
         )
+    if corpus.content_exported and corpus.rights_status not in CONTENT_EXPORT_RIGHTS:
+        raise PermissionError(
+            "raw content export requires licensed, permission-granted, public-domain, or author-owned status"
+        )
+    if any(entry.content_text is not None for entry in corpus.entries) and corpus.rights_status not in CONTENT_EXPORT_RIGHTS:
+        raise PermissionError(
+            "persisting retained content requires licensed, permission-granted, public-domain, or author-owned status"
+        )
     output = Path(output_jsonl)
     summary = (
         Path(summary_path) if summary_path is not None else output.with_suffix(".summary.json")

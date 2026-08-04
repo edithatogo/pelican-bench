@@ -100,6 +100,10 @@ def test_corpus_bridge_and_writer_require_explicit_schema_migration(tmp_path: Pa
     with pytest.raises(ValueError, match="unsupported Simon corpus schema"):
         write_simon_atom_corpus(future, tmp_path / "future.jsonl")
 
+    unauthorized = replace(corpus, rights_status="metadata-only")
+    with pytest.raises(PermissionError, match="raw content export"):
+        write_simon_atom_corpus(unauthorized, tmp_path / "unauthorized.jsonl")
+
 
 def test_atom_validation_fallback_identifiers_and_deterministic_writes(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="Atom feed root"):
