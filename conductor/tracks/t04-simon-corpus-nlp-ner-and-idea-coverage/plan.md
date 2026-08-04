@@ -34,5 +34,5 @@
 
 - [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets. Evidence: `docs/simon-corpus-hardening.md`, `tests/edge/test_simon_corpus_limits.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `0c89dcf`.
 - [x] Task: Complete bridge, migration and deprecation policy. Evidence: `docs/simon-corpus-lifecycle.md`, exact schema enforcement in `src/pelicanbench/simon_corpus.py`, and migration-boundary tests in `tests/integration/test_simon_corpus.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `f18764e`.
-- [ ] Task: Validate operational ownership, incident response and archival.
-- [ ] Task: Phase verification and stable-release checkpoint.
+- [x] Task: Validate operational ownership, incident response and archival. Evidence: `benchmark/evidence/snapshots/simon-corpus-operations.json`, `docs/simon-corpus-incident-runbook.md`, `tests/contract/test_simon_corpus_operations.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `4cdd814`.
+- [ ] Task: Phase verification and stable-release checkpoint. Blocked on independent source/rights review, appointment of a backup corpus custodian, and validated coverage against the complete source archive.

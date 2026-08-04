@@ -1,5 +1,5 @@
 {
-  "blocker": null,
+  "blocker": "Corpus hardening, lifecycle and incident controls are fixture-verified; independent source/rights review, a backup corpus custodian and validated coverage against the complete source archive remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "src/pelicanbench/corpus.py",
@@ -9,14 +9,17 @@
     "data/derived/castillo-2026-prompt-corpus.jsonl",
     "benchmark/evidence/snapshots/castillo-2026-empirical-nlp-report.json",
     "benchmark/evidence/snapshots/castillo-2026-design-coverage.json",
+    "benchmark/evidence/snapshots/simon-corpus-operations.json",
     "docs/empirical-basis.md",
     "docs/simon-corpus-method.md",
     "docs/simon-corpus-hardening.md",
     "docs/simon-corpus-lifecycle.md",
+    "docs/simon-corpus-incident-runbook.md",
     "docs/source-to-requirement-map.md",
     "tests/integration/test_empirical_nlp_bridge.py",
     "tests/integration/test_simon_corpus.py",
-    "tests/edge/test_simon_corpus_limits.py"
+    "tests/edge/test_simon_corpus_limits.py",
+    "tests/contract/test_simon_corpus_operations.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -41,5 +44,5 @@
   "title": "Simon corpus NLP, NER and idea coverage",
   "track_id": "T04",
   "type": "programme",
-  "updated_at": "2026-08-04T13:45:36Z"
+  "updated_at": "2026-08-04T13:50:15Z"
 }
