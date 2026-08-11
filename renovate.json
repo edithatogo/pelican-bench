@@ -28,8 +28,12 @@
     "pep621",
     "cargo",
     "github-actions",
-    "dockerfile"
+    "dockerfile",
+    "git-submodules"
   ],
+  "git-submodules": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "description": "Keep GitHub Actions immutable",

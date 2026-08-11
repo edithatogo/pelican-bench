@@ -86,7 +86,7 @@
       "direction": "import",
       "evidence": [
         ".conductor/vendor/UPSTREAM.lock.json",
-        ".agents/plugins/conductor/UPSTREAM.md",
+        ".conductor/vendor/UPSTREAM.md",
         "scripts/sync_conductor_install.py"
       ],
       "integration_class": "governance",

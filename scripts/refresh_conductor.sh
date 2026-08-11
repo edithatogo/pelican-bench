@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SHA="99ba10e1a11130fc159f681b7ba8803489239cbf"
-TMP="$(mktemp -d)"
-trap 'rm -rf "$TMP"' EXIT
+SHA="f06add33b598f4262a190f234828dda551db70d7"
+PLUGIN="$ROOT/.agents/plugins/conductor"
 
-git clone --filter=blob:none --no-checkout https://github.com/gemini-cli-extensions/conductor.git "$TMP/conductor"
-git -C "$TMP/conductor" checkout "$SHA"
-rm -rf "$ROOT/.agents/plugins/conductor"
-mkdir -p "$ROOT/.agents/plugins"
-cp -a "$TMP/conductor" "$ROOT/.agents/plugins/conductor"
-rm -rf "$ROOT/.agents/plugins/conductor/.git"
-python "$ROOT/scripts/sync_conductor_install.py"
+git -C "$ROOT" submodule update --init --checkout -- .agents/plugins/conductor
+git -C "$PLUGIN" fetch origin main --tags
+git -C "$PLUGIN" checkout --detach "$SHA"
+python "$ROOT/scripts/sync_conductor_install.py" --check
 echo "Installed exact Conductor snapshot $SHA"
