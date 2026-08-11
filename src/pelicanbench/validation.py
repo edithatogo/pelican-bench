@@ -158,6 +158,24 @@ def _relative(root: Path, path: Path) -> str:
         return path.as_posix()
 
 
+def _is_external_repository_path(root: Path, path: Path) -> bool:
+    """Exclude managed environments and dependency checkouts from source scans."""
+    try:
+        parts = path.relative_to(root).parts
+    except ValueError:
+        return False
+    return (
+        ".git" in parts
+        or ".venv" in parts
+        or parts[:3]
+        == (
+            ".agents",
+            "plugins",
+            "conductor",
+        )
+    )
+
+
 def _load_object(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
@@ -1237,7 +1255,7 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
 
     for pattern in ("*.json", "*.jsonld"):
         for path in project.rglob(pattern):
-            if ".git" in path.parts:
+            if _is_external_repository_path(project, path):
                 continue
             try:
                 json.loads(path.read_text(encoding="utf-8"))
@@ -1318,7 +1336,7 @@ def validate_repository(root: str | Path) -> list[ValidationFinding]:
     for path in project.rglob("*"):
         if (
             not path.is_file()
-            or ".git" in path.parts
+            or _is_external_repository_path(project, path)
             or path.suffix in {".png", ".jpg", ".jpeg", ".webp", ".pyc"}
             or "__pycache__" in path.parts
         ):

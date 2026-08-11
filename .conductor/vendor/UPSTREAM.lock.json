@@ -1,9 +1,10 @@
 {
-  "commit": "99ba10e1a11130fc159f681b7ba8803489239cbf",
-  "installation": "workspace-vendored-functional-snapshot",
-  "installed_at": "2026-08-01T00:00:00Z",
+  "commit": "f06add33b598f4262a190f234828dda551db70d7",
+  "installation": "workspace-pinned-git-submodule",
+  "installed_at": "2026-08-11T00:00:00Z",
   "name": "conductor",
   "repository": "https://github.com/gemini-cli-extensions/conductor",
-  "upstream_version": "0.3.0",
+  "upstream_describe": "conductor-v0.4.1-16-gf06add3",
+  "upstream_version": "0.4.1",
   "verification": "scripts/sync_conductor_install.py"
 }

@@ -3,7 +3,7 @@ name: conductor-review
 description: Reviews completed work against specifications, plans, quality gates and threats.
 metadata:
   version: "1.1-pelicanbench.1"
-  upstream_commit: "99ba10e1a11130fc159f681b7ba8803489239cbf"
+  upstream_commit: "f06add33b598f4262a190f234828dda551db70d7"
 ---
 
 # Conductor Review Skill

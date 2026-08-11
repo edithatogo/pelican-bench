@@ -3,7 +3,7 @@ name: conductor-setup
 description: Scaffolds the project and sets up the Conductor environment.
 metadata:
   version: "1.1-pelicanbench.1"
-  upstream_commit: "99ba10e1a11130fc159f681b7ba8803489239cbf"
+  upstream_commit: "f06add33b598f4262a190f234828dda551db70d7"
 ---
 
 # Conductor Setup Skill

@@ -75,7 +75,7 @@ V1 is deliberately narrow: a prospective, human-calibrated one-shot SVG benchmar
 
 ## Conductor and agent workflow
 
-The repository vendors a workspace-local Conductor plugin at [`.agents/plugins/conductor`](.agents/plugins/conductor), mirrors its callable skills at [`.agents/skills`](.agents/skills), and stores the project context, specifications and plans under [`conductor/`](conductor/). Every programme track is specified as one parent GitHub issue and four phase issues, with five cross-track release blockers. The deterministic manifest therefore defines 115 work items; authenticated synchronization creates and updates that hierarchy idempotently.
+The repository pins the upstream Conductor plugin as a Git submodule at [`.agents/plugins/conductor`](.agents/plugins/conductor), keeps PelicanBench-specific callable adapters at [`.agents/skills`](.agents/skills), and stores the project context, specifications and plans under [`conductor/`](conductor/). Initialize the plugin with `git submodule update --init --recursive`. Every programme track is specified as one parent GitHub issue and four phase issues, with five cross-track release blockers. The deterministic manifest therefore defines 115 work items; authenticated synchronization creates and updates that hierarchy idempotently.
 
 The development contract is:
 
