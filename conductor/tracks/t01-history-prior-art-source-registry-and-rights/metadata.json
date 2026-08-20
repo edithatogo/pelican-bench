@@ -1,5 +1,5 @@
 {
-  "blocker": "Repository-owned rights controls are harness-verified; independent rights review, a backup steward and clearance for any restricted historical bytes remain outstanding.",
+  "blocker": "Repository-owned rights controls are harness-verified; explicit V1 exclusion of restricted historical bytes and a backup-steward record are committed and accepted by the single human developer (D036). Rights review is routed to a subagent panel; panel receipts remain to be recorded to close T01 P3.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "docs/history-and-prior-art.md",
@@ -39,5 +39,5 @@
   "title": "History, prior art, source registry and rights",
   "track_id": "T01",
   "type": "programme",
-  "updated_at": "2026-08-03T13:20:26Z"
+  "updated_at": "2026-08-19T08:30:03Z"
 }

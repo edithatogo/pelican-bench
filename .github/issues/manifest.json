@@ -146,7 +146,7 @@
       "track_id": "T00"
     },
     {
-      "blocker": "Repository-owned rights controls are harness-verified; independent rights review, a backup steward and clearance for any restricted historical bytes remain outstanding.",
+      "blocker": "Repository-owned rights controls are harness-verified; explicit V1 exclusion of restricted historical bytes and a backup-steward record are committed and accepted by the single human developer (D036). Rights review is routed to a subagent panel; panel receipts remain to be recorded to close T01 P3.",
       "evidence_level": "E1",
       "parent_body": "## Conductor track\n\n**Track:** T01 — History, prior art, source registry and rights\n**Specification:** [`conductor/tracks/t01-history-prior-art-source-registry-and-rights/spec.md`](../blob/main/conductor/tracks/t01-history-prior-art-source-registry-and-rights/spec.md)\n**Plan:** [`conductor/tracks/t01-history-prior-art-source-registry-and-rights/plan.md`](../blob/main/conductor/tracks/t01-history-prior-art-source-registry-and-rights/plan.md)\n**Evidence level:** `E1`\n**Nested work packages:** 0\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 12,
@@ -184,7 +184,7 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T01 — History, prior art, source registry and rights\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t01-history-prior-art-source-registry-and-rights/plan.md`](../blob/main/conductor/tracks/t01-history-prior-art-source-registry-and-rights/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nRepository-owned rights controls are harness-verified; independent rights review, a backup steward and clearance for any restricted historical bytes remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T01 — History, prior art, source registry and rights\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t01-history-prior-art-source-registry-and-rights/plan.md`](../blob/main/conductor/tracks/t01-history-prior-art-source-registry-and-rights/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nRepository-owned rights controls are harness-verified; explicit V1 exclusion of restricted historical bytes and a backup-steward record are committed and accepted by the single human developer (D036). Rights review is routed to a subagent panel; panel receipts remain to be recorded to close T01 P3.\n",
           "issue_number": 11,
           "phase": "P3",
           "status": "partial",
