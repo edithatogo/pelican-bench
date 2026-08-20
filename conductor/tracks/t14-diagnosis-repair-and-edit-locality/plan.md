@@ -50,4 +50,4 @@ pending until the steward's recorded response is attached to the packet.
 - [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets. Evidence: `docs/t14-hardening.md`, `src/pelicanbench/render.py`, `src/pelicanbench/repair.py`, `src/pelicanbench/fuzzing.py`, `scripts/harness.sh`; full harness (`HARNESS_OK`). Commit: `00dd5ce`.
 - [x] Task: Complete bridge, migration and deprecation policy. Evidence: `docs/t14-lifecycle.md`; `render-repair-v1` compatibility and bridge requirements. Commit: `dfc4b9c`.
 - [x] Task: Validate operational ownership, incident response and archival. Evidence: `docs/t14-incident-runbook.md`, `benchmark/evidence/snapshots/t14-operations.json`; commit: `b959cb4`.
-- [ ] Task: Phase verification and stable-release checkpoint.
+- [ ] Task: Phase verification and stable-release checkpoint. Gate intake: `docs/t14-p3-gate-intake.md`; remains blocked on eligible calibration episodes, steward ratings, and a witnessed independent recovery rehearsal.
