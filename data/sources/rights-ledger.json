@@ -3,7 +3,7 @@
     {
       "artifact_class": "post text and SVG/images",
       "decision": "link-only-until-review",
-      "rationale": "Public visibility does not itself grant redistribution rights.",
+      "rationale": "Public visibility does not itself grant redistribution rights. Explicit V1 exclusion: post text and SVG/image bytes are not mirrored or redistributed and remain link/metadata-only; longitudinal analysis uses project-original and permissively licensed reference artifacts only. See rights-review-packet-t01-2026-08-19.",
       "source_id": "simon-tag-archive"
     },
     {
@@ -27,7 +27,7 @@
     {
       "artifact_class": "social-post body",
       "decision": "link-only-until-review",
-      "rationale": "The source registry permits link and bibliographic metadata only; no post body is mirrored.",
+      "rationale": "The source registry permits link and bibliographic metadata only; no post body is mirrored. Explicit V1 exclusion: post body bytes are not mirrored or redistributed. See rights-review-packet-t01-2026-08-19.",
       "source_id": "sergio-hf-post"
     },
     {

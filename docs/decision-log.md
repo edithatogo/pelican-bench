@@ -316,3 +316,19 @@ other versions.
 
 **Rationale:** shape-based coercion can silently change identifiers, fixity or rights meaning.
 Exact version handling makes migrations reviewable and preserves historical analysis semantics.
+
+## D036 — Rights review runs through a subagent panel; the single human developer decides
+
+**Options:** require an external human rights reviewer; rely on an authorial self-review; route
+every contested artifact to a panel of independent subagent runs and have the single human
+developer make the final decision from their options and recommendations.
+
+**Decision:** rights review is performed by a panel of separate subagent runs with distinct
+evidence chains, and the benchmark steward (the single human developer) makes the final
+decision from the panel's options and recommendations. No independent human reviewer is
+required; external source-owner or legal authority is not a precondition for closing T01 P3.
+
+**Rationale:** the project operates a single-developer model; gating T01 P3 on an external
+human reviewer or legal authority would hold the programme hostage to an unavailable resource.
+Subagent-panel review provides reproducible, independently-checked evidence, while final
+decision authority stays unambiguously with the human developer rather than with automation.
