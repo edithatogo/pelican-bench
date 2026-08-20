@@ -18,6 +18,7 @@ revising the design, or reject the current metric promotion proposal. No option 
 - Repair fixtures: `benchmark/fixtures/repair/tasks.json` and referenced SVGs.
 - Current readiness snapshot: `benchmark/evidence/snapshots/t14-calibration-pilot-readiness.json`.
 - Development-only blind manifest: `benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json`.
+- Steward response template: `benchmark/evidence/snapshots/t14-human-rating-response-template.json`.
 - Metrics under review: `foreground_retention_fraction`, `added_ink_fraction`,
   `edit_locality`, `introduced_components`, and `diff_pixel_fraction`.
 - Required outcomes: blinded defect recognition, targeted-correction success,

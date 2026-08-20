@@ -14,6 +14,7 @@
     "benchmark/evidence/snapshots/t14-operations.json",
     "docs/t14-p3-gate-intake.md",
     "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json"
+    ,"benchmark/evidence/snapshots/t14-human-rating-response-template.json"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

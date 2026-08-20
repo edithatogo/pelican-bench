@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "study_id": "t14-human-calibration-pilot",
+  "manifest": "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json",
+  "status": "template-not-collected",
+  "rater_role": "benchmark-steward",
+  "responses": [
+    {
+      "episode_id": "repair-pelican-bike-001",
+      "before_alias": "episode-001-before",
+      "after_alias": "episode-001-after",
+      "target_corrected": null,
+      "preservation_score_1_to_5": null,
+      "introduced_defect": null,
+      "confidence_0_to_100": null,
+      "uncertain": null,
+      "repeat_observation": null
+    },
+    {
+      "episode_id": "repair-pelican-bike-002",
+      "before_alias": "episode-002-before",
+      "after_alias": "episode-002-after",
+      "target_corrected": null,
+      "preservation_score_1_to_5": null,
+      "introduced_defect": null,
+      "confidence_0_to_100": null,
+      "uncertain": null,
+      "repeat_observation": null
+    }
+  ],
+  "privacy": {
+    "direct_identifiers": false,
+    "free_text": false,
+    "rater_hash": null
+  },
+  "limitations": [
+    "This is a two-episode development rehearsal, not the prespecified held-out calibration.",
+    "No response is evidence until the steward completes and hash-binds the template.",
+    "Agent analysis may summarize completed responses but cannot supply missing ratings."
+  ]
+}
