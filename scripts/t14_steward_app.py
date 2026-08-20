@@ -95,6 +95,7 @@ body{font:16px system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 
 </style></head><body>
 <h1>T14 steward rating</h1>
 <div class="notice"><strong>Blinded development rehearsal.</strong> This local interface shows only canonical before/after renders. It does not show source labels, expected outcomes, automatic scores, or agent advice. Your submitted JSON is advisory evidence until you review and accept it.</div>
+<p><a href="/instructions" target="_blank">Open instructions in another tab</a></p>
 <p id="progress"></p><section id="episode"></section>
 <form id="rating" class="controls" onsubmit="return next(event)">
 <label>Target corrected?<select name="target_corrected" required><option value="">Choose…</option><option value="true">Yes</option><option value="false">No</option><option value="null">Uncertain</option></select></label>
@@ -113,6 +114,25 @@ render();
 </script></body></html>"""
 
 
+INSTRUCTIONS = r"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T14 rating instructions</title><style>body{font:16px system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;color:#17202a;line-height:1.5}section{background:#fff;border:1px solid #ccd3da;border-radius:8px;padding:1rem;margin:1rem 0}dt{font-weight:700;margin-top:.8rem}dd{margin-left:0}code{background:#eef1f4;padding:.1rem .3rem;border-radius:3px}.notice{background:#fff3cd;border:1px solid #e0c36a;padding:1rem;border-radius:8px}</style></head><body>
+<h1>T14 steward-rating instructions</h1>
+<div class="notice"><strong>This is a two-episode development rehearsal.</strong> You are the sole human rater. Agent suggestions, automatic scores, hidden task labels, and source identities are intentionally unavailable and must not be reconstructed or added.</div>
+<section><h2>What “before” and “after” mean</h2><p><strong>Before</strong> is the canonical render of the project-original repair fixture before the proposed repair. <strong>After</strong> is the corresponding canonical render after the proposed repair. Compare the two images as a single pair; do not treat the after image as a new independent drawing.</p><p>Use the visible change and the broad task intent: did the repair address the apparent structural problem while preserving the pelican, bicycle, and other correct content? If you cannot make a defensible judgment from the pair, use the uncertainty controls.</p></section>
+<section><h2>What each choice means</h2><dl>
+<dt>Target corrected?</dt><dd><strong>Yes</strong> means the visible intended repair appears successful. <strong>No</strong> means the defect remains or the repair does not solve it. <strong>Uncertain</strong> means the pair does not support a reliable yes/no judgment.</dd>
+<dt>Preservation score (1–5)</dt><dd>Rate how much correct content and relationships were retained: <strong>1</strong> = substantial loss or distortion, <strong>3</strong> = mixed/partly preserved, <strong>5</strong> = correct content is preserved with only necessary changes.</dd>
+<dt>Introduced defect?</dt><dd><strong>Yes</strong> means the after image visibly adds a new error, break, omission, or harmful change not present before. <strong>No</strong> means no new defect is apparent. <strong>Uncertain</strong> means you cannot tell.</dd>
+<dt>Confidence (0–100)</dt><dd>Your confidence in the three judgments above. Use a lower value when the images are ambiguous or the distinction is hard to see.</dd>
+<dt>Uncertain overall?</dt><dd>Choose <strong>Yes</strong> if any important part of the judgment is genuinely uncertain; otherwise choose <strong>No</strong>.</dd>
+<dt>Repeat observation?</dt><dd>Choose <strong>Yes</strong> only if you independently rechecked the pair before submitting. Choose <strong>No</strong> if you did not perform a repeat check. <strong>Not requested</strong> is retained for episodes where no repeat was requested by the protocol.</dd>
+</dl></section>
+<section><h2>Workflow</h2><ol><li>Read these instructions before rating.</li><li>For each episode, inspect the before and after images side by side.</li><li>Record your first judgment without looking for hidden labels or automatic scores.</li><li>Use uncertainty rather than guessing.</li><li>After the final episode, submit once. The app writes a hash-bound JSON response locally.</li><li>Review that file before treating it as a steward decision or evidence.</li></ol></section>
+<section><h2>What this page does not establish</h2><p>This interface does not create a normative score, independent review, legal approval, inter-rater agreement, or E3 evidence. The current two episodes are not a held-out calibration sample, and T14 remains P2-partial until the approved calibration and analysis gates are complete.</p></section>
+<p><a href="/">Return to rating interface</a></p></body></html>"""
+
+
 class Handler(http.server.BaseHTTPRequestHandler):
     server_version = "T14Steward/1.0"
 
@@ -123,6 +143,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers()
             self.wfile.write(body.encode())
             return
+        if route == "/instructions":
+            self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers()
+            self.wfile.write(INSTRUCTIONS.encode()); return
         parts = route.strip("/").split("/")
         if len(parts) == 3 and parts[0] == "asset" and parts[1].isdigit() and parts[2] in {"before", "after"}:
             index = int(parts[1])
