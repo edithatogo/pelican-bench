@@ -348,3 +348,18 @@ would treat agent-panel evidence as rights clearance or permit phase promotion.
 
 **Rationale:** reproducible agent evidence improves traceability but does not establish source
 authority, permission, or redistribution rights.
+
+## D038 — One human decision-maker with agent-panel advice for T14
+
+**Options:** distribute decisions across multiple human approvers; let agents decide
+normative or release questions; or route each human-dependent decision through an agent panel
+to one accountable human.
+
+**Decision:** the benchmark steward (the user) is the sole human decision-maker for T14.
+Every human-dependent choice is first packaged and reviewed by separately run agents, whose
+findings, options, risks, and recommendation are returned to the steward. The steward's
+recorded decision is required before the choice is normative or release-affecting. Agent
+advice does not constitute human-judgement data, independent approval, or release authority.
+
+**Rationale:** a single accountable decision owner avoids conflicting approvals while
+preserving adversarial, reproducible agent analysis before each decision.
