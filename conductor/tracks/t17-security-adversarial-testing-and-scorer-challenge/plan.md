@@ -27,7 +27,7 @@
 - [x] Task: Add metamorphic regression tests and render/source disagreement checks.
 - [x] Task: Execute five normative scorer challenges against metadata and invisible-element attacks.
 - [x] Task: Add a bounded deterministic parser/renderer mutation-fuzz campaign to local and security CI.
-- [ ] Task: Add continuous coverage-guided parser and transform fuzzing with sustained resource budgets.
+- [x] Task: Add continuous coverage-guided parser and transform fuzzing with sustained resource budgets. Evidence: `src/pelicanbench/fuzzing.py` (`run_coverage_guided_svg_fuzz_campaign`, stdlib `trace`-guided), regression coverage in `tests/test_fuzzing.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: pending.
 - [ ] Task: Run rendered prompt-injection studies and an independent scorer challenge.
 
 **Current limitation:** Known exploit protection and bounded fuzz smoke are E2; coverage-guided and independent adversarial validation remain open.

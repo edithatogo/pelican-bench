@@ -48,7 +48,7 @@ from .empirical_nlp import (
     empirical_nlp_report,
     task_design_coverage,
 )
-from .fuzzing import run_svg_fuzz_campaign
+from .fuzzing import run_coverage_guided_svg_fuzz_campaign, run_svg_fuzz_campaign
 from .human_eval import (
     export_pairwise_evaluation_batch,
     fit_bradley_terry,
@@ -429,8 +429,10 @@ def fuzz_svg_command(
     cases: Annotated[int, typer.Option(min=1, max=10000)] = 100,
     seed: int = 20260801,
     budget_ms: Annotated[float, typer.Option(min=1.0)] = 1000.0,
+    guided: Annotated[bool, typer.Option(help="Use coverage-guided fuzzing")] = False,
 ) -> None:
-    report = run_svg_fuzz_campaign(
+    campaign = run_coverage_guided_svg_fuzz_campaign if guided else run_svg_fuzz_campaign
+    report = campaign(
         source.read_text(encoding="utf-8"),
         cases=cases,
         seed=seed,
