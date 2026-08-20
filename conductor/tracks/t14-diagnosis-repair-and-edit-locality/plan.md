@@ -36,7 +36,7 @@ pending until the steward's recorded response is attached to the packet.
 - [x] Task: Separate declared edit-target and preservation metrics from visual benchmark semantics.
 - [x] Task: Retain deterministic repair fixtures and regression tests.
 - [x] Task: Add render-based defect and preservation assessments. Evidence: `src/pelicanbench/repair.py` (`score_repair_render`, `RenderRepairScore`), regression coverage in `tests/test_longitudinal_repair_trajectory.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `c1ab131`.
-- [ ] Task: Calibrate edit locality and introduced-defect measures against human judgement.
+- [~] Task: Calibrate edit locality and introduced-defect measures against human judgement. Decision packet: `docs/t14-human-calibration-decision-packet.md`.
   Route the study design, sampling, analysis, and score-compatibility options through the
   T14 agent panel; return the panel packet to the benchmark steward for the final decision.
   Agent ratings and fixture evidence do not satisfy the human-calibration requirement.
