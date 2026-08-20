@@ -6,7 +6,8 @@
     "docs/source-render-semantic-contract.md",
     "src/pelicanbench/repair.py",
     "tests/test_longitudinal_repair_trajectory.py",
-    "docs/t14-human-calibration-decision-packet.md"
+    "docs/t14-human-calibration-decision-packet.md",
+    "benchmark/evidence/snapshots/t14-calibration-pilot-readiness.json"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
