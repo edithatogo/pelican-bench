@@ -10,8 +10,10 @@ Run it from the repository root:
 python scripts/t14_steward_app.py
 ```
 
-Open `http://127.0.0.1:8765/`, complete each response, and stop the process when
-finished. The default output is
+Open `http://127.0.0.1:8765/`, then open the **Open instructions in another tab**
+link before rating. That page explains what before/after mean and defines every
+choice in the rubric. Complete each response and stop the process when finished.
+The default output is
 `benchmark/evidence/snapshots/t14-human-rating-response.json`. Validate it with:
 
 ```sh
