@@ -91,8 +91,8 @@ are complete.
 Current status is **authorized / E2**. No fixture, agent-panel, or synthetic result closes the
 human-calibration gate.
 
-The current readiness snapshot is blocked because only one eligible project-original repair
-episode is present. No development/held-out split is frozen until additional eligible
+The current readiness snapshot is blocked because only two eligible project-original repair
+episodes are present. No development/held-out split is frozen until additional eligible
 episodes are added or explicitly authorized by the steward.
 
 ## Panel recommendation returned to the steward
