@@ -332,3 +332,19 @@ required; external source-owner or legal authority is not a precondition for clo
 human reviewer or legal authority would hold the programme hostage to an unavailable resource.
 Subagent-panel review provides reproducible, independently-checked evidence, while final
 decision authority stays unambiguously with the human developer rather than with automation.
+
+## D037 — Retain historical artifacts fail-closed pending rights determination
+
+**Options:** promote agent-panel recommendations as rights clearance; retain uncertain
+artifacts while recording their dispositions; or remove all historical references.
+
+**Decision:** retain all mirrored historical artifacts as link-/metadata-only or quarantined
+pending a rights determination. Agent analysis may inventory, hash, classify, and draft
+dispositions, but cannot constitute independent legal/source-rights approval or authorize
+redistribution. RB-05-C1 remains planned until every artifact has a recorded
+permission/redistribution decision with redacted, hash-bound evidence. Any ambiguity remains
+non-distributable; T04/P3 must not be promoted. This decision supersedes D036 wherever D036
+would treat agent-panel evidence as rights clearance or permit phase promotion.
+
+**Rationale:** reproducible agent evidence improves traceability but does not establish source
+authority, permission, or redistribution rights.

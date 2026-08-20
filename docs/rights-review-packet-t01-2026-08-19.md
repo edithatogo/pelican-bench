@@ -3,9 +3,9 @@
 Completed packet for the T01 P3 phase checkpoint and RB-05 input. Prepared by the Conductor
 session acting as packet preparer. The rights review is performed by a **panel of separate
 subagent runs** with distinct evidence chains (see [Reviewer independence](#reviewer-independence)).
-The final decision on the panel's options and recommendations rests with the single human
-developer (benchmark steward); no independent human reviewer or external legal/source-owner
-authority is required (decision D036).
+The panel is a preparation and cross-check mechanism only. Agent analysis cannot constitute
+independent legal/source-rights approval or authorize redistribution. Under D037, unresolved
+artifacts remain link/metadata-only or quarantined and RB-05-C1 remains planned.
 
 ## Packet header
 
@@ -105,14 +105,15 @@ remain retained.
 
 ## Decision
 
-**Decision:** All registered sources remain on their recorded dispositions. Third-party
+**Decision (D037):** All registered sources remain on their recorded dispositions. Third-party
 historical post text, SVG/images and social-post bodies are explicitly **excluded from V1
-distribution** and remain link/metadata-only (`defer-link-only`). Project-original fixtures,
-synthetic records and the derived prompt panel remain redistributable/derived as recorded.
-No restricted byte is mirrored, and none is added by this decision. This review does not
-expand the rights ledger, authorize new acquisition, or grant redistribution permission for
-restricted source bytes. The panel's options and recommendations are presented to the single
-human developer, who holds the final decision (D036).
+distribution** and remain link/metadata-only (`defer-link-only`) or quarantined. Project-original
+fixtures, synthetic records and the derived prompt panel remain redistributable/derived as
+recorded. No restricted byte is mirrored, and none is added by this decision. Agent analysis
+may inventory, hash, classify, and draft dispositions, but cannot constitute independent
+legal/source-rights approval or authorize redistribution. RB-05-C1 remains planned until
+every artifact has a redacted, hash-bound permission/redistribution decision. Any ambiguity
+remains non-distributable; T04/P3 must not be promoted.
 
 **Packet status:** `submitted`, acceptance **partial**. The explicit V1 exclusion (C2) and
 backup-steward record are complete. The T01 P3 checkpoint closes when the subagent-panel
@@ -120,13 +121,13 @@ receipts are recorded and the single human developer accepts the panel's recomme
 
 ## Developer decision record
 
-The substantive recommendations of this packet were presented to the single human developer
-for a decision under D036. The developer directed that the work proceed and accepted the
-recommended dispositions: the explicit **V1 exclusion** of restricted historical bytes
+Under D037, the explicit **V1 exclusion** of restricted historical bytes
 (`defer-link-only`, nothing mirrored) and the **backup-steward record**
-(`benchmark-steward-backup`, author under the single-developer model) stand, subject to the
-subagent-panel acceptance gate. The panel receipts remain to be attached and are the only
-outstanding acceptance item for T01 P3.
+(`benchmark-steward-backup`, author under the single-developer model) stand as repository
+controls. They do not constitute independent legal/source-rights approval or authorize
+redistribution. The panel receipts are preparation evidence only; RB-05-C1 remains planned
+and T01/T04 P3 remain partial until every artifact has a redacted, hash-bound
+permission/redistribution decision.
 
 ## T01 P3 closure checklist (for a fresh session or working subagent tooling)
 
