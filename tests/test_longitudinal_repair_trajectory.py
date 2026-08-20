@@ -7,7 +7,7 @@ import pytest
 from pelicanbench.io import read_json, read_jsonl
 from pelicanbench.longitudinal import metric_trends, timeline_summary
 from pelicanbench.models import HistoricalObservation, TrajectoryEvent
-from pelicanbench.repair import RepairRequirement, score_repair
+from pelicanbench.repair import RepairRequirement, score_repair, score_repair_render
 from pelicanbench.trajectory import evaluate_trajectory, trajectory_utility
 
 
@@ -64,3 +64,33 @@ def test_empty_trajectory():
     metrics = evaluate_trajectory([])
     assert metrics.final_score is None
     assert trajectory_utility(metrics) == 0
+
+
+def test_render_based_repair_assesses_fixture_edit(root: Path, heritage):
+    from pelicanbench.render import SVGRenderError
+
+    before = (root / "benchmark/fixtures/repair/pelican-bicycle-before.svg").read_text()
+    after = (root / "benchmark/fixtures/repair/pelican-bicycle-after.svg").read_text()
+    score = score_repair_render(before, after, size=80)
+    # The fixture edit visibly changes rendered ink.
+    assert not score.renders_match
+    assert score.diff_pixel_fraction > 0
+    assert score.preserved_pixel_fraction == pytest.approx(1 - score.diff_pixel_fraction)
+    assert 0 <= score.foreground_retention_fraction <= 1
+    assert 0 <= score.added_ink_fraction <= 1
+    assert 0 < score.edit_locality <= 1
+    assert score.introduced_components >= 0
+
+    # Identical render -> identical assessment is a fixed point.
+    match = score_repair_render(before, before, size=80)
+    assert match.renders_match
+    assert match.diff_pixel_fraction == 0
+    assert match.preserved_pixel_fraction == 1
+    assert match.introduced_components == 0
+
+    # Unsafe/malformed input must raise rather than silently scoring.
+    with pytest.raises(SVGRenderError):
+        score_repair_render(
+            "<svg xmlns='http://www.w3.org/2000/svg'><g></svg>",
+            "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+        )

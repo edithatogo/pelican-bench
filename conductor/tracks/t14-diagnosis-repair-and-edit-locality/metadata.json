@@ -2,9 +2,10 @@
   "blocker": "Declared edit-target scoring is fixture-tested; source-independent visual repair and preservation calibration remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
-    "src/pelicanbench/repair.py",
     "benchmark/fixtures/repair",
-    "docs/source-render-semantic-contract.md"
+    "docs/source-render-semantic-contract.md",
+    "src/pelicanbench/repair.py",
+    "tests/test_longitudinal_repair_trajectory.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -29,5 +30,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-19T03:53:36Z"
 }
