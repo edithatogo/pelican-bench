@@ -18,6 +18,13 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def canonical_response_hash(payload: dict) -> str:
+    unsigned = dict(payload)
+    unsigned.pop("response_sha256", None)
+    canonical = json.dumps(unsigned, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--response", type=Path, default=DEFAULT_RESPONSE)
@@ -30,6 +37,8 @@ def main() -> int:
         score_repair_render = None
         render_error = f"render runtime unavailable: {exc}"
     response = json.loads(args.response.read_text(encoding="utf-8"))
+    if response.get("response_sha256") != canonical_response_hash(response):
+        raise ValueError("response_sha256 does not match the canonical response payload")
     manifest_path = ROOT / response["manifest"]
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if response.get("manifest_sha256") != digest(manifest_path):
@@ -63,7 +72,8 @@ def main() -> int:
         "status": "rehearsal-only-insufficient-sample",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "manifest_sha256": response["manifest_sha256"],
-        "response_sha256": digest(args.response),
+        "response_sha256": response["response_sha256"],
+        "response_file_sha256": digest(args.response),
         "episode_count": len(rows),
         "rows": rows,
         "claims": {

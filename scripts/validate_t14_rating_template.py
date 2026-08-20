@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import sys
 from pathlib import Path
 
@@ -13,6 +14,13 @@ REQUIRED = {
     "uncertain", "repeat_observation",
 }
 SENSITIVE = {"name", "email", "phone", "address", "ip", "user_agent", "participant_id"}
+
+
+def _canonical_hash(payload: dict) -> str:
+    unsigned = dict(payload)
+    unsigned.pop("response_sha256", None)
+    canonical = json.dumps(unsigned, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def main() -> int:
@@ -55,6 +63,8 @@ def main() -> int:
     privacy = payload.get("privacy")
     if not isinstance(privacy, dict) or privacy.get("direct_identifiers") is not False:
         raise ValueError("privacy.direct_identifiers must be false")
+    if "response_sha256" in payload and payload["response_sha256"] != _canonical_hash(payload):
+        raise ValueError("response_sha256 does not match the canonical response payload")
     print(f"T14 response template valid: {len(responses)} episode(s), status={payload.get('status')}")
     return 0
 

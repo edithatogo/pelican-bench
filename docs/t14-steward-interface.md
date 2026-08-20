@@ -30,6 +30,10 @@ PYTHONPATH=src python scripts/analyze_t14_steward_response.py
 If the local SVG renderer is unavailable, the receipt records that limitation
 instead of fabricating automatic metrics.
 
+The validator also checks the response's canonical `response_sha256` when that
+field is present; the analysis receipt carries both that canonical hash and the
+raw response-file hash.
+
 The interface exposes only blinded aliases and before/after fixture renders. It
 does not display source labels, automatic scores, requirements, or agent advice.
 The generated response includes the manifest SHA-256 and a response SHA-256;
