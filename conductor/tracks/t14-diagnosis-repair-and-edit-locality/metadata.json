@@ -12,7 +12,8 @@
     "docs/t14-lifecycle.md",
     "docs/t14-incident-runbook.md",
     "benchmark/evidence/snapshots/t14-operations.json",
-    "docs/t14-p3-gate-intake.md"
+    "docs/t14-p3-gate-intake.md",
+    "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
