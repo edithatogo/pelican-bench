@@ -13,8 +13,10 @@
     "docs/t14-incident-runbook.md",
     "benchmark/evidence/snapshots/t14-operations.json",
     "docs/t14-p3-gate-intake.md",
-    "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json"
-    ,"benchmark/evidence/snapshots/t14-human-rating-response-template.json"
+    "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json",
+    "benchmark/evidence/snapshots/t14-human-rating-response-template.json",
+    "scripts/t14_steward_app.py",
+    "docs/t14-steward-interface.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

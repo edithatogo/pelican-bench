@@ -40,6 +40,7 @@ pending until the steward's recorded response is attached to the packet.
   Route the study design, sampling, analysis, and score-compatibility options through the
   T14 agent panel; return the panel packet to the benchmark steward for the final decision.
   Agent ratings and fixture evidence do not satisfy the human-calibration requirement.
+- [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
 
