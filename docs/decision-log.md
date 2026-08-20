@@ -363,3 +363,15 @@ advice does not constitute human-judgement data, independent approval, or releas
 
 **Rationale:** a single accountable decision owner avoids conflicting approvals while
 preserving adversarial, reproducible agent analysis before each decision.
+
+## D039 — Authorize the bounded T14 calibration pilot
+
+**Decision:** authorize a bounded, blinded T14 calibration pilot over project-original repair
+fixtures only. The agent panel recommends the sample, rubric, exclusions, analysis, and
+score-compatibility treatment; the benchmark steward is the sole human rater and
+decision-maker. Agent outputs are advisory and cannot be represented as human ratings,
+independent approval, or E3 evidence. Until the steward's ratings and hash-bound analysis are
+complete, T14 remains P2-partial and score compatibility remains
+`none-until-normative-release`.
+
+**Decision receipt:** `13d48c64ec74b0a120f18fba1619037d90fc377968d2b83fb7868967cfeb84f9`.

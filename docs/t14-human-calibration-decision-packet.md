@@ -61,14 +61,16 @@ cannot satisfy human-judgement evidence, independent approval, or release author
 
 ```yaml
 decision_maker: "benchmark-steward"
-decision: "pending | authorize | revise | defer | reject"
-decision_at: "<UTC ISO-8601>"
-rationale: "<decision and conditions>"
+decision: "authorize"
+decision_at: "2026-08-20T12:15:00Z"
+rationale: "Approve a bounded, blinded T14 calibration pilot over project-original repair fixtures only. The agent panel recommends the sample, rubric, exclusions, analysis, and score-compatibility treatment; the benchmark steward is the sole human rater and decision-maker. Agent outputs are advisory and cannot be represented as human ratings, independent approval, or E3 evidence. Until the steward's ratings and hash-bound analysis are complete, T14 remains P2-partial and score compatibility remains none-until-normative-release."
 conditions: []
-signature_receipt_sha256: "<64 lowercase hex characters>"
+signature_receipt_sha256: "13d48c64ec74b0a120f18fba1619037d90fc377968d2b83fb7868967cfeb84f9"
 ```
 
-Until this block is completed by the benchmark steward, the calibration task remains open.
+The steward has authorized the pilot. Authorization does not constitute calibration evidence
+or promote T14/P2; the evidence gates below remain open until the rating and analysis receipts
+are complete.
 
 ## Evidence and promotion gates
 
@@ -85,8 +87,8 @@ Until this block is completed by the benchmark steward, the calibration task rem
   by the steward before rating and must not be tuned on held-out results.
 - [ ] Only after those results pass the stated thresholds may T14/P2 be promoted.
 
-Current status is **pre-decision / E2**. No fixture, agent-panel, or synthetic result closes
-the human-calibration gate.
+Current status is **authorized / E2**. No fixture, agent-panel, or synthetic result closes the
+human-calibration gate.
 
 ## Panel recommendation returned to the steward
 
