@@ -10,5 +10,17 @@
   "agent_panel_role": "advice-only",
   "evidence_level": "E2",
   "human_calibration_status": "authorized-but-not-collected",
-  "recovery_rehearsal_status": "not-yet-witnessed"
+  "recovery_rehearsal_status": "clean-clone-passed-unwitnessed",
+  "clean_clone_receipt": {
+    "commit": "6748facdd01f9ab1f08f106872355f275c294926",
+    "tree": "75da2c657944660c49ca2e15fdb34877673d3b5c",
+    "harness_log_sha256": "sha256:10601dde03044adad734fd1abfaff136c36249763a705b742aff055a479e2a37",
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "limitations": [
+      "same execution environment",
+      "not witnessed",
+      "does not satisfy the V1 second-environment E4 gate"
+    ]
+  }
 }

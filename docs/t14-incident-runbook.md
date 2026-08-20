@@ -24,3 +24,8 @@ incident entry. Never copy restricted source bytes into an issue or receipt.
 Retain method versions, fixture hashes, calibration packets, decision receipts, incident
 records, and superseded manifests permanently in Git or a content-addressed release archive.
 Quarantine preserves custody; it does not authorize redistribution or delete the audit trail.
+
+The current clean-clone rehearsal is recorded in
+`benchmark/evidence/snapshots/t14-operations.json` as E2 evidence. It passed the full
+harness, but remains unwitnessed and same-environment; it does not close the independent
+recovery or E4 release gate.
