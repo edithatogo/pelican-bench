@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "study_id": "t14-human-calibration-pilot",
+  "manifest": "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json",
+  "manifest_sha256": "577a5d05affa2af06a03f4c9bda3c3902f83323f6e5ae771884880356d9d21c4",
+  "interface_version": "t14-steward-local-v1",
+  "status": "steward-submitted",
+  "rater_role": "benchmark-steward",
+  "responses": [
+    {
+      "episode_id": "repair-pelican-bike-001",
+      "before_alias": "episode-001-before",
+      "after_alias": "episode-001-after",
+      "target_corrected": true,
+      "preservation_score_1_to_5": 4,
+      "introduced_defect": false,
+      "confidence_0_to_100": 90,
+      "uncertain": false,
+      "repeat_observation": false
+    },
+    {
+      "episode_id": "repair-pelican-bike-002",
+      "before_alias": "episode-002-before",
+      "after_alias": "episode-002-after",
+      "target_corrected": true,
+      "preservation_score_1_to_5": 5,
+      "introduced_defect": false,
+      "confidence_0_to_100": 100,
+      "uncertain": false,
+      "repeat_observation": false
+    }
+  ],
+  "privacy": {
+    "direct_identifiers": false,
+    "free_text": false,
+    "rater_hash": null
+  },
+  "limitations": [
+    "This is a two-episode development rehearsal, not the prespecified held-out calibration.",
+    "Agent analysis cannot supply missing ratings or constitute independent approval."
+  ],
+  "submitted_at": "2026-08-20T23:05:13.796754+00:00",
+  "submission_nonce": "7a915c0034b27fe2",
+  "response_sha256": "ddf51678dbf80ef0ab83a7bd728b16c8d881b284ef3bc0ab17f7eefaa6550068"
+}

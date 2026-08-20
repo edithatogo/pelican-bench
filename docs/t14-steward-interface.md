@@ -21,6 +21,15 @@ python scripts/validate_t14_rating_template.py \
   benchmark/evidence/snapshots/t14-human-rating-response.json
 ```
 
+The repository-owned rehearsal receipt can then be generated with:
+
+```sh
+PYTHONPATH=src python scripts/analyze_t14_steward_response.py
+```
+
+If the local SVG renderer is unavailable, the receipt records that limitation
+instead of fabricating automatic metrics.
+
 The interface exposes only blinded aliases and before/after fixture renders. It
 does not display source labels, automatic scores, requirements, or agent advice.
 The generated response includes the manifest SHA-256 and a response SHA-256;

@@ -16,7 +16,10 @@
     "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json",
     "benchmark/evidence/snapshots/t14-human-rating-response-template.json",
     "scripts/t14_steward_app.py",
-    "docs/t14-steward-interface.md"
+    "docs/t14-steward-interface.md",
+    "benchmark/evidence/snapshots/t14-human-rating-response.json",
+    "benchmark/evidence/snapshots/t14-steward-analysis.json",
+    "scripts/analyze_t14_steward_response.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -41,5 +44,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-20T14:00:00Z"
+  "updated_at": "2026-08-20T23:12:05Z"
 }
