@@ -6,7 +6,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from datetime import datetime, timezone
+import os
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,8 +31,15 @@ def main() -> int:
     parser.add_argument("--response", type=Path, default=DEFAULT_RESPONSE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
+    # Homebrew's Cairo may be installed but not linked into the process search path.
+    # Add the standard Apple Silicon prefix before importing cairocffi/CairoSVG.
+    cairo_lib = Path("/opt/homebrew/opt/cairo/lib")
+    if cairo_lib.is_dir():
+        existing = os.environ.get("DYLD_LIBRARY_PATH", "")
+        os.environ["DYLD_LIBRARY_PATH"] = f"{cairo_lib}:{existing}" if existing else str(cairo_lib)
     try:
         from pelicanbench.repair import score_repair_render
+
         render_error = None
     except (ImportError, OSError) as exc:
         score_repair_render = None
@@ -43,34 +51,52 @@ def main() -> int:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if response.get("manifest_sha256") != digest(manifest_path):
         raise ValueError("response manifest_sha256 does not match the frozen manifest")
-    tasks = {row["repair_id"]: row for row in json.loads(
-        (ROOT / "benchmark/fixtures/repair/tasks.json").read_text(encoding="utf-8")
-    )}
+    tasks = {
+        row["repair_id"]: row
+        for row in json.loads(
+            (ROOT / "benchmark/fixtures/repair/tasks.json").read_text(encoding="utf-8")
+        )
+    }
     rows = []
     for rating in response["responses"]:
         task = tasks[rating["episode_id"]]
         before = (ROOT / task["before"]).read_text(encoding="utf-8")
         after = (ROOT / task["after_reference"]).read_text(encoding="utf-8")
-        metric = score_repair_render(before, after, size=manifest["canvas_size"]) if score_repair_render else None
-        rows.append({
-            "episode_id": rating["episode_id"],
-            "human": {key: rating[key] for key in (
-                "target_corrected", "preservation_score_1_to_5", "introduced_defect",
-                "confidence_0_to_100", "uncertain", "repeat_observation",
-            )},
-            "automatic_render_metrics": None if metric is None else {
-                "diff_pixel_fraction": metric.diff_pixel_fraction,
-                "foreground_retention_fraction": metric.foreground_retention_fraction,
-                "added_ink_fraction": metric.added_ink_fraction,
-                "edit_locality": metric.edit_locality,
-                "introduced_components": metric.introduced_components,
-            },
-        })
+        metric = (
+            score_repair_render(before, after, size=manifest["canvas_size"])
+            if score_repair_render
+            else None
+        )
+        rows.append(
+            {
+                "episode_id": rating["episode_id"],
+                "human": {
+                    key: rating[key]
+                    for key in (
+                        "target_corrected",
+                        "preservation_score_1_to_5",
+                        "introduced_defect",
+                        "confidence_0_to_100",
+                        "uncertain",
+                        "repeat_observation",
+                    )
+                },
+                "automatic_render_metrics": None
+                if metric is None
+                else {
+                    "diff_pixel_fraction": metric.diff_pixel_fraction,
+                    "foreground_retention_fraction": metric.foreground_retention_fraction,
+                    "added_ink_fraction": metric.added_ink_fraction,
+                    "edit_locality": metric.edit_locality,
+                    "introduced_components": metric.introduced_components,
+                },
+            }
+        )
     output = {
         "schema_version": "1.0.0",
         "study_id": response["study_id"],
         "status": "rehearsal-only-insufficient-sample",
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "manifest_sha256": response["manifest_sha256"],
         "response_sha256": response["response_sha256"],
         "response_file_sha256": digest(args.response),
@@ -81,7 +107,9 @@ def main() -> int:
             "e3_calibration": False,
             "score_compatibility": "none-until-normative-release",
         },
-        "automatic_metrics_status": "unavailable-in-current-runtime" if render_error else "computed",
+        "automatic_metrics_status": "unavailable-in-current-runtime"
+        if render_error
+        else "computed",
         "automatic_metrics_error": render_error,
         "limitations": [
             "Two development episodes are not the prespecified 72/24 development/held-out design.",

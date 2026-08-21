@@ -3,15 +3,21 @@
 
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 import sys
 from pathlib import Path
 
 REQUIRED = {
-    "episode_id", "before_alias", "after_alias", "target_corrected",
-    "preservation_score_1_to_5", "introduced_defect", "confidence_0_to_100",
-    "uncertain", "repeat_observation",
+    "episode_id",
+    "before_alias",
+    "after_alias",
+    "target_corrected",
+    "preservation_score_1_to_5",
+    "introduced_defect",
+    "confidence_0_to_100",
+    "uncertain",
+    "repeat_observation",
 }
 SENSITIVE = {"name", "email", "phone", "address", "ip", "user_agent", "participant_id"}
 
@@ -24,8 +30,10 @@ def _canonical_hash(payload: dict) -> str:
 
 
 def main() -> int:
-    path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(
-        "benchmark/evidence/snapshots/t14-human-rating-response-template.json"
+    path = (
+        Path(sys.argv[1])
+        if len(sys.argv) > 1
+        else Path("benchmark/evidence/snapshots/t14-human-rating-response-template.json")
     )
     payload = json.loads(path.read_text(encoding="utf-8"))
     if payload.get("schema_version") != "1.0.0":
@@ -49,12 +57,16 @@ def main() -> int:
         seen.add(episode_id)
         preservation = row["preservation_score_1_to_5"]
         if preservation is not None and (
-            not isinstance(preservation, int) or isinstance(preservation, bool) or not 1 <= preservation <= 5
+            not isinstance(preservation, int)
+            or isinstance(preservation, bool)
+            or not 1 <= preservation <= 5
         ):
             raise ValueError(f"response {index} has invalid preservation score")
         confidence = row["confidence_0_to_100"]
         if confidence is not None and (
-            not isinstance(confidence, int) or isinstance(confidence, bool) or not 0 <= confidence <= 100
+            not isinstance(confidence, int)
+            or isinstance(confidence, bool)
+            or not 0 <= confidence <= 100
         ):
             raise ValueError(f"response {index} has invalid confidence")
         for field in ("target_corrected", "introduced_defect", "uncertain", "repeat_observation"):
@@ -65,7 +77,9 @@ def main() -> int:
         raise ValueError("privacy.direct_identifiers must be false")
     if "response_sha256" in payload and payload["response_sha256"] != _canonical_hash(payload):
         raise ValueError("response_sha256 does not match the canonical response payload")
-    print(f"T14 response template valid: {len(responses)} episode(s), status={payload.get('status')}")
+    print(
+        f"T14 response template valid: {len(responses)} episode(s), status={payload.get('status')}"
+    )
     return 0
 
 

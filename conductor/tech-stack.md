@@ -2,7 +2,7 @@
 
 ## Normative core
 
-- Python 3.13 and 3.14 for schemas, orchestration, analysis, Hugging Face integration and reference scorers.
+- Python 3.14 for schemas, orchestration, analysis, Hugging Face integration and reference scorers.
 - Rust 2024 as the planned hardened parsing, geometry, sandbox boundary and WebAssembly implementation.
 - Mojo as an experimental acceleration and conformance lane, never the sole normative scorer before stability.
 - JSON Schema, JSON-LD, JSONL and Parquet or Arrow-compatible records for durable interfaces.
@@ -17,7 +17,7 @@ Pydantic v2, defusedxml, CairoSVG, Pillow, JSON Schema, NumPy, optional SciPy, s
 - `uv.lock` is required for public benchmark releases once a complete registry resolution is available.
 - `constraints/reference-environment.txt` is a snapshot of the installed development closure and is not a substitute for a resolver lock.
 - OCI digests and release SBOMs bind published runs to concrete environments.
-- Python 3.13 and 3.14 are exercised in remote CI; a clean-clone verification is required locally before packaging.
+- Python 3.14 is exercised in remote CI; a clean-clone verification is required locally before packaging.
 
 ## Infrastructure
 

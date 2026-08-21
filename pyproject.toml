@@ -7,14 +7,13 @@ name = "pelicanbench"
 version = "0.4.0a1"
 description = "A longitudinal, compositional and agentic visual-generation benchmark."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 license = {text = "Apache-2.0"}
 authors = [{name = "Dylan Mordaunt"}]
 keywords = ["benchmark", "multimodal", "svg", "agentic-drawing", "evaluation"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "License :: OSI Approved :: Apache Software License",
-  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
@@ -103,6 +102,8 @@ exclude_lines = [
 ]
 
 [tool.ruff]
+# Keep the formatter's syntax target at the oldest grammar it can safely
+# normalize; the package/runtime support contract remains Python 3.14+.
 target-version = "py313"
 line-length = 100
 extend-exclude = [".agents/plugins/conductor"]
@@ -115,7 +116,7 @@ ignore = ["E501"]
 known-first-party = ["pelicanbench"]
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.14"
 strict = true
 packages = ["pelicanbench"]
 warn_unreachable = true
@@ -127,7 +128,7 @@ module = ["cairosvg", "defusedxml", "defusedxml.*", "jsonschema", "jsonschema.*"
 ignore_missing_imports = true
 
 [tool.pyright]
-pythonVersion = "3.13"
+pythonVersion = "3.14"
 typeCheckingMode = "strict"
 include = ["src"]
 exclude = [".agents/plugins/conductor", "artifacts", "dist"]
