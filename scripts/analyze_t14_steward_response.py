@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -30,6 +31,12 @@ def main() -> int:
     parser.add_argument("--response", type=Path, default=DEFAULT_RESPONSE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
+    # Homebrew's Cairo may be installed but not linked into the process search path.
+    # Add the standard Apple Silicon prefix before importing cairocffi/CairoSVG.
+    cairo_lib = Path("/opt/homebrew/opt/cairo/lib")
+    if cairo_lib.is_dir():
+        existing = os.environ.get("DYLD_LIBRARY_PATH", "")
+        os.environ["DYLD_LIBRARY_PATH"] = f"{cairo_lib}:{existing}" if existing else str(cairo_lib)
     try:
         from pelicanbench.repair import score_repair_render
         render_error = None
