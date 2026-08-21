@@ -16,7 +16,10 @@ Each added repair episode must be project-original and include:
 
 The intake must reject duplicate identifiers, missing hashes, unsafe SVG, unbounded dimensions,
 and episodes whose intended correction cannot be described independently of source labels.
-The steward then freezes the manifest before any blinded ratings begin.
+The steward then freezes the manifest before any blinded ratings begin. Under D041, that
+steward-dependent step is deferred for the current work period: agents may prepare and
+validate a candidate manifest, but cannot freeze it as a normative sample or supply human
+ratings.
 
 ## Recovery rehearsal intake
 
@@ -35,6 +38,8 @@ the witnessed or second-environment release gate.
 
 ## Current decision state
 
-- Calibration: authorized by D039, blocked on eligible episode intake and the steward's ratings.
+- Calibration: authorized by D039, with steward action deferred under D041. Agents may
+  perform eligible-episode intake preparation, schema checks, and draft analysis; the gate
+  remains blocked until the later roadmap sample is frozen and rated by the steward.
 - Recovery: clean-clone passed, blocked on witnessed independent rehearsal.
 - T14/P3: remains partial; no gate may be promoted from agent advice or fixture evidence.
