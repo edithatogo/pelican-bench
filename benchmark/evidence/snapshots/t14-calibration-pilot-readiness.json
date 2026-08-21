@@ -5,6 +5,21 @@
   "status": "blocked-insufficient-sample",
   "authorization": "D039",
   "decision_maker": "benchmark-steward",
+  "current_workflow": "agent-panel-development-only",
+  "human_calibration_roadmap": {
+    "status": "deferred-for-later-consideration",
+    "reason": "The steward has deferred additional human rating work while agents perform bounded development analysis.",
+    "revisit_condition": "Reconsider only after the agent development analysis is complete and a fresh human-calibration decision is recorded.",
+    "sole_decision_maker": "benchmark-steward"
+  },
+  "agent_development_analysis": {
+    "status": "authorized-advisory-only",
+    "allowed_inputs": "project-original-repair-fixtures-only",
+    "may_create_human_ratings": false,
+    "may_establish_e3_evidence": false,
+    "may_change_score_compatibility": false,
+    "promotion_effect": "none"
+  },
   "candidate_episode_count": 2,
   "recommended_target": 96,
   "recommended_development_count": 72,
@@ -24,7 +39,7 @@
     }
   ],
   "blocker": "The repository has two project-original repair episodes; a 72/24 development/held-out calibration sample cannot be frozen without additional eligible project-original episodes.",
-  "next_action": "Add or authorize additional project-original repair episodes, regenerate the hash-bound manifest, then freeze aliases and the held-out split before rating.",
+  "next_action": "Run bounded agent-panel development analysis over the existing project-original repair fixtures; keep the 72/24 human-calibration sample and later steward decision on the roadmap.",
   "claims": {
     "human_ratings_present": true,
     "agent_ratings_present": false,
