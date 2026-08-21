@@ -28,7 +28,7 @@ The stable release gate therefore remains open until all of the following exist:
 
 ```bash
 python scripts/generate_reference_environment.py
-uv lock --python 3.13
+uv lock --python 3.14
 bash scripts/verify_clean_clone.sh HEAD artifacts/clean-clone-receipt.json
 ```
 
