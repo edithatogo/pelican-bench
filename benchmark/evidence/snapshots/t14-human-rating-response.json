@@ -14,7 +14,7 @@
       "target_corrected": true,
       "preservation_score_1_to_5": 4,
       "introduced_defect": false,
-      "confidence_0_to_100": 90,
+      "confidence_0_to_100": 80,
       "uncertain": false,
       "repeat_observation": false
     },
@@ -25,7 +25,7 @@
       "target_corrected": true,
       "preservation_score_1_to_5": 5,
       "introduced_defect": false,
-      "confidence_0_to_100": 100,
+      "confidence_0_to_100": 95,
       "uncertain": false,
       "repeat_observation": false
     }
@@ -39,7 +39,7 @@
     "This is a two-episode development rehearsal, not the prespecified held-out calibration.",
     "Agent analysis cannot supply missing ratings or constitute independent approval."
   ],
-  "submitted_at": "2026-08-20T23:05:13.796754+00:00",
-  "submission_nonce": "7a915c0034b27fe2",
-  "response_sha256": "ddf51678dbf80ef0ab83a7bd728b16c8d881b284ef3bc0ab17f7eefaa6550068"
+  "submitted_at": "2026-08-21T20:00:36.085950+00:00",
+  "submission_nonce": "1483689b3ede446b",
+  "response_sha256": "ab6f4015c59254f4e0c8b809c6aa68a6ff6ba19bed46ee075dd132a5a5e47ba8"
 }

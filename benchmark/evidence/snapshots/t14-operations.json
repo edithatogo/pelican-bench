@@ -9,7 +9,7 @@
   "publication_policy": "diagnostic-only-until-human-calibration",
   "agent_panel_role": "advice-only",
   "evidence_level": "E2",
-  "human_calibration_status": "authorized-but-not-collected",
+  "human_calibration_status": "rehearsal-collected-insufficient-sample",
   "recovery_rehearsal_status": "clean-clone-passed-unwitnessed",
   "clean_clone_receipt": {
     "commit": "6748facdd01f9ab1f08f106872355f275c294926",
