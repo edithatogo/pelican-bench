@@ -36,6 +36,9 @@ The rehearsal receipt must identify:
 The current clean-clone receipt satisfies only same-environment E2 evidence. It cannot close
 the witnessed or second-environment release gate.
 
+The future packet format and fail-closed validation vocabulary are maintained in
+[`docs/t14-witnessed-recovery-rehearsal-template.md`](t14-witnessed-recovery-rehearsal-template.md).
+
 ## Current decision state
 
 - Calibration: authorized by D039, with steward action deferred under D041. Agents may
