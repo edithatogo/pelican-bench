@@ -8,6 +8,10 @@ source of human evidence; the steward's submitted file is the authoritative
 input and must still be reviewed and hash-bound.
 """
 
+# The interface intentionally uses typographic ranges (for example, 1-5) in
+# its user-facing HTML; Ruff's ambiguous-unicode check is not applicable here.
+# ruff: noqa: RUF001
+
 from __future__ import annotations
 
 import argparse
@@ -16,10 +20,9 @@ import http.server
 import json
 import secrets
 import socketserver
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlparse
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "benchmark/evidence/snapshots/t14-blinded-pilot-manifest.json"
@@ -39,9 +42,12 @@ def load_manifest(path: Path) -> tuple[dict, str, list[dict]]:
     episodes = payload.get("episodes")
     if not isinstance(episodes, list) or not episodes:
         raise ValueError("manifest has no episodes")
-    tasks = {row["repair_id"]: row for row in json.loads(
-        (ROOT / "benchmark/fixtures/repair/tasks.json").read_text(encoding="utf-8")
-    )}
+    tasks = {
+        row["repair_id"]: row
+        for row in json.loads(
+            (ROOT / "benchmark/fixtures/repair/tasks.json").read_text(encoding="utf-8")
+        )
+    }
     for episode in episodes:
         task = tasks.get(episode.get("episode_id"))
         if not task:
@@ -137,48 +143,94 @@ INSTRUCTIONS = r"""<!doctype html>
 class Handler(http.server.BaseHTTPRequestHandler):
     server_version = "T14Steward/1.0"
 
-    def do_GET(self) -> None:  # noqa: N802
+    def do_GET(self) -> None:
         route = urlparse(self.path).path
         if route == "/":
             body = HTML.replace("__EPISODES__", json.dumps(self.server.public_episodes))
-            self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
             self.wfile.write(body.encode())
             return
         if route == "/instructions":
-            self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers()
-            self.wfile.write(INSTRUCTIONS.encode()); return
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(INSTRUCTIONS.encode())
+            return
         parts = route.strip("/").split("/")
-        if len(parts) == 3 and parts[0] == "asset" and parts[1].isdigit() and parts[2] in {"before", "after"}:
+        if (
+            len(parts) == 3
+            and parts[0] == "asset"
+            and parts[1].isdigit()
+            and parts[2] in {"before", "after"}
+        ):
             index = int(parts[1])
             if index < len(self.server.episodes):
                 path = Path(self.server.episodes[index]["_" + parts[2]])
-                self.send_response(200); self.send_header("Content-Type", "image/svg+xml"); self.end_headers()
-                self.wfile.write(path.read_bytes()); return
+                self.send_response(200)
+                self.send_header("Content-Type", "image/svg+xml")
+                self.end_headers()
+                self.wfile.write(path.read_bytes())
+                return
         self.send_error(404)
 
-    def do_POST(self) -> None:  # noqa: N802
-        if urlparse(self.path).path != "/submit": self.send_error(404); return
+    def do_POST(self) -> None:
+        if urlparse(self.path).path != "/submit":
+            self.send_error(404)
+            return
         try:
-            length = int(self.headers.get("Content-Length", "0")); data = json.loads(self.rfile.read(length))
-            expected = {e["episode_id"] for e in self.server.episodes}; rows = data.get("responses", [])
-            if {r.get("episode_id") for r in rows} != expected or len(rows) != len(expected): raise ValueError("episode set does not match manifest")
-            payload = response_template(self.server.manifest, self.server.manifest_hash, self.server.episodes); payload["responses"] = rows
-            payload["submitted_at"] = datetime.now(timezone.utc).isoformat(); payload["submission_nonce"] = secrets.token_hex(8)
-            canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(); payload["response_sha256"] = sha256_bytes(canonical)
-            self.server.output.parent.mkdir(parents=True, exist_ok=True); self.server.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-            self.send_response(200); self.send_header("Content-Type", "application/json"); self.end_headers(); self.wfile.write(b'{"message":"Hash-bound response saved. Review it before treating it as evidence."}')
+            length = int(self.headers.get("Content-Length", "0"))
+            data = json.loads(self.rfile.read(length))
+            expected = {e["episode_id"] for e in self.server.episodes}
+            rows = data.get("responses", [])
+            if {r.get("episode_id") for r in rows} != expected or len(rows) != len(expected):
+                raise ValueError("episode set does not match manifest")
+            payload = response_template(
+                self.server.manifest, self.server.manifest_hash, self.server.episodes
+            )
+            payload["responses"] = rows
+            payload["submitted_at"] = datetime.now(UTC).isoformat()
+            payload["submission_nonce"] = secrets.token_hex(8)
+            canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+            payload["response_sha256"] = sha256_bytes(canonical)
+            self.server.output.parent.mkdir(parents=True, exist_ok=True)
+            self.server.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(
+                b'{"message":"Hash-bound response saved. Review it before treating it as evidence."}'
+            )
         except (ValueError, KeyError, json.JSONDecodeError) as exc:
             self.send_error(400, str(exc))
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__); parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST); parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT); parser.add_argument("--port", type=int, default=8765)
-    args = parser.parse_args(); manifest, manifest_hash, episodes = load_manifest(args.manifest.resolve())
-    Handler.manifest = manifest; Handler.manifest_hash = manifest_hash; Handler.episodes = episodes; Handler.output = args.output.resolve(); Handler.public_episodes = [{k: e[k] for k in ("episode_id", "before_alias", "after_alias")} for e in episodes]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--port", type=int, default=8765)
+    args = parser.parse_args()
+    manifest, manifest_hash, episodes = load_manifest(args.manifest.resolve())
+    Handler.manifest = manifest
+    Handler.manifest_hash = manifest_hash
+    Handler.episodes = episodes
+    Handler.output = args.output.resolve()
+    Handler.public_episodes = [
+        {k: e[k] for k in ("episode_id", "before_alias", "after_alias")} for e in episodes
+    ]
     with socketserver.TCPServer(("127.0.0.1", args.port), Handler) as server:
-        server.manifest = manifest; server.manifest_hash = manifest_hash; server.episodes = episodes; server.output = args.output.resolve(); server.public_episodes = Handler.public_episodes
-        print(f"T14 steward interface: http://127.0.0.1:{args.port}/"); print(f"Output: {server.output}"); server.serve_forever()
+        server.manifest = manifest
+        server.manifest_hash = manifest_hash
+        server.episodes = episodes
+        server.output = args.output.resolve()
+        server.public_episodes = Handler.public_episodes
+        print(f"T14 steward interface: http://127.0.0.1:{args.port}/")
+        print(f"Output: {server.output}")
+        server.serve_forever()
     return 0
 
 
-if __name__ == "__main__": raise SystemExit(main())
+if __name__ == "__main__":
+    raise SystemExit(main())
