@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "study_id": "t14-human-calibration-pilot",
-  "repository_revision": "8cd663024392f2342b6a9511ffdb2b6c8558c045",
+  "repository_revision": "9e76055b37be2a3fd4a721c8a5ea86e07c0634b2",
   "status": "blocked-insufficient-sample",
   "authorization": "D039",
   "decision_maker": "benchmark-steward",
@@ -26,7 +26,7 @@
   "blocker": "The repository has two project-original repair episodes; a 72/24 development/held-out calibration sample cannot be frozen without additional eligible project-original episodes.",
   "next_action": "Add or authorize additional project-original repair episodes, regenerate the hash-bound manifest, then freeze aliases and the held-out split before rating.",
   "claims": {
-    "human_ratings_present": false,
+    "human_ratings_present": true,
     "agent_ratings_present": false,
     "e3_calibration": false,
     "score_compatibility": "none-until-normative-release"
