@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import random
 import time
+import trace
 from collections.abc import Callable
 from dataclasses import dataclass
 
@@ -34,6 +35,8 @@ class FuzzReport:
     maximum_elapsed_ms: float
     budget_ms: float
     failures: tuple[FuzzFailure, ...]
+    coverage_guided: bool = False
+    coverage_lines: int = 0
 
     @property
     def passed(self) -> bool:
@@ -51,6 +54,8 @@ class FuzzReport:
             "maximum_elapsed_ms": self.maximum_elapsed_ms,
             "budget_ms": self.budget_ms,
             "passed": self.passed,
+            "coverage_guided": self.coverage_guided,
+            "coverage_lines": self.coverage_lines,
             "failures": [
                 {
                     "case_index": item.case_index,
@@ -257,4 +262,133 @@ def run_svg_fuzz_campaign(
         maximum_elapsed_ms=maximum_elapsed,
         budget_ms=budget_ms,
         failures=tuple(failures),
+    )
+
+
+def _trace_covered_lines(
+    tracer: object, target_prefixes: tuple[str, ...]
+) -> frozenset[tuple[str, int]]:
+    """Extract executed ``(filename, lineno)`` pairs restricted to the targets."""
+    results = getattr(tracer, "results", None)
+    if results is None:
+        return frozenset()
+    counts = getattr(results(), "counts", None) or {}
+    return frozenset(
+        (filename, lineno)
+        for (filename, lineno) in counts
+        if any(filename.endswith(prefix) for prefix in target_prefixes)
+    )
+
+
+def _process_fuzz_case(baseline_svg: str, mutation_fn: Mutation, case_rng: random.Random) -> str:
+    """Run one fuzz case and return ``rendered``, ``render_rejected`` or ``rejected``."""
+    candidate = mutation_fn(baseline_svg, case_rng)
+    inspection = inspect_svg(candidate)
+    if not inspection.valid:
+        return "rejected"
+    try:
+        render_svg(candidate, inspection=inspection, size=128)
+    except SVGRenderError:
+        return "render_rejected"
+    return "rendered"
+
+
+def run_coverage_guided_svg_fuzz_campaign(
+    baseline_svg: str,
+    *,
+    cases: int = 120,
+    seed: int = 20260801,
+    budget_ms: float = 1000.0,
+    mutations: tuple[tuple[str, Mutation], ...] = DEFAULT_MUTATIONS,
+    target_prefixes: tuple[str, ...] = ("svg.py", "render.py"),
+) -> FuzzReport:
+    """Coverage-guided parser/transform fuzzing with a sustained resource budget.
+
+    Each case executes under a stdlib ``trace`` tracer restricted to the parser and
+    renderer source files.  The campaign keeps a cumulative ``seen`` set of executed
+    ``(filename, lineno)`` points and biases mutation selection toward the mutation
+    whose inputs have added the most new coverage so far, with occasional probing of
+    untried mutations (a lightweight deterministic form of corpus guidance).  The
+    budget bound is enforced per case, exactly as in the bounded campaign.
+    """
+    if cases < 1:
+        raise ValueError("cases must be positive")
+    if budget_ms <= 0:
+        raise ValueError("budget_ms must be positive")
+    if not mutations:
+        raise ValueError("at least one mutation is required")
+
+    rng = random.Random(seed)  # nosec B311
+    names = [name for name, _ in mutations]
+    by_name = dict(mutations)
+    fitness = dict.fromkeys(names, 0.0)
+    seen: set[tuple[str, int]] = set()
+    accepted = 0
+    rejected = 0
+    rendered_count = 0
+    render_rejected_count = 0
+    maximum_elapsed = 0.0
+    failures: list[FuzzFailure] = []
+
+    for index in range(cases):
+        if rng.random() < 0.8:
+            name = max(names, key=lambda n: fitness[n])
+        else:
+            name = names[index % len(names)]
+        case_rng = random.Random(rng.getrandbits(64))  # nosec B311
+        start = time.perf_counter()
+        try:
+            tracer = trace.Trace(count=1, trace=0)
+            outcome = tracer.runfunc(_process_fuzz_case, baseline_svg, by_name[name], case_rng)
+            if outcome == "rendered":
+                accepted += 1
+                rendered_count += 1
+            elif outcome == "render_rejected":
+                accepted += 1
+                render_rejected_count += 1
+            else:
+                rejected += 1
+            new_lines = _trace_covered_lines(tracer, target_prefixes) - seen
+            if new_lines:
+                seen |= new_lines
+                fitness[name] += 1.0
+        except Exception as exc:
+            elapsed = (time.perf_counter() - start) * 1000
+            failures.append(
+                FuzzFailure(
+                    case_index=index,
+                    mutation=name,
+                    error_type=type(exc).__name__,
+                    message=str(exc)[-1000:],
+                    elapsed_ms=elapsed,
+                )
+            )
+            maximum_elapsed = max(maximum_elapsed, elapsed)
+            continue
+        elapsed = (time.perf_counter() - start) * 1000
+        maximum_elapsed = max(maximum_elapsed, elapsed)
+        if elapsed > budget_ms:
+            failures.append(
+                FuzzFailure(
+                    case_index=index,
+                    mutation=name,
+                    error_type="ResourceBudgetExceeded",
+                    message=f"case exceeded {budget_ms:.1f} ms budget",
+                    elapsed_ms=elapsed,
+                )
+            )
+
+    return FuzzReport(
+        schema_version="1.0.0",
+        seed=seed,
+        cases=cases,
+        accepted=accepted,
+        rejected=rejected,
+        rendered=rendered_count,
+        render_rejected=render_rejected_count,
+        maximum_elapsed_ms=maximum_elapsed,
+        budget_ms=budget_ms,
+        failures=tuple(failures),
+        coverage_guided=True,
+        coverage_lines=len(seen),
     )

@@ -105,6 +105,23 @@ python -m pelicanbench.cli fuzz-svg \
   --budget-ms 1000 \
   --output artifacts/svg-fuzz-report.json >/dev/null
 
+printf '%s\n' '== Coverage-guided SVG mutation fuzzing =='
+python -m pelicanbench.cli fuzz-svg \
+  --source benchmark/fixtures/svg/pelican-bicycle-valid.svg \
+  --guided \
+  --cases 60 \
+  --seed 20260801 \
+  --budget-ms 2000 \
+  --output artifacts/svg-fuzz-guided-report.json >/dev/null
+python - <<'PY'
+import json
+from pathlib import Path
+report = json.loads(Path('artifacts/svg-fuzz-guided-report.json').read_text())
+assert report['passed'], report
+assert report['coverage_guided'] is True, report
+assert report['coverage_lines'] > 0, report
+PY
+
 printf '%s\n' '== Cross-renderer bridge =='
 if command -v inkscape >/dev/null 2>&1; then
   python -m pelicanbench.cli renderer-bridge \

@@ -11,6 +11,9 @@ trap 'rm -rf "$TMPDIR_ROOT"' EXIT
 mkdir -p "$(dirname "$OUTPUT")"
 git clone --local --no-hardlinks --quiet "$ROOT" "$TMPDIR_ROOT/repo"
 git -C "$TMPDIR_ROOT/repo" checkout --detach --quiet "$REF"
+# Local clones do not initialize submodules automatically.  The repository contract
+# requires the Conductor plugin, so materialize the pinned submodule before validation.
+git -C "$TMPDIR_ROOT/repo" submodule update --init --checkout --quiet
 COMMIT="$(git -C "$TMPDIR_ROOT/repo" rev-parse HEAD)"
 TREE="$(git -C "$TMPDIR_ROOT/repo" rev-parse 'HEAD^{tree}')"
 BEFORE="$(git -C "$TMPDIR_ROOT/repo" status --porcelain=v1 --untracked-files=all)"

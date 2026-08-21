@@ -18,7 +18,7 @@
       "quarantine-affected-artifacts",
       "preserve-fixity-and-release-records",
       "open-incident-record",
-      "obtain-accountable-rights-review",
+      "obtain-subagent-panel-rights-review",
       "remediate-with-new-ledger-decision",
       "rerun-rights-audit-and-harness",
       "publish-correction-or-withdrawal-if-required"
@@ -26,8 +26,8 @@
   },
   "ownership": {
     "accountable_role": "benchmark-steward",
-    "backup_role": null,
-    "external_rights_reviewer": "unassigned",
+    "backup_role": "benchmark-steward-backup (dylan-mordaunt-author)",
+    "external_rights_reviewer": "subagent-rights-review-panel",
     "release_authority": "benchmark-steward"
   },
   "schema_version": "1.0.0"

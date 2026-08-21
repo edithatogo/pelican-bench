@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "study_id": "t14-human-calibration-pilot",
+  "status": "development-only",
+  "method_version": "render-repair-v1",
+  "canvas_size": 128,
+  "background": "#ffffff",
+  "held_out": false,
+  "human_rating_status": "not-collected",
+  "automatic_scores_exposed": false,
+  "source_labels_exposed": false,
+  "episodes": [
+    {
+      "episode_id": "repair-pelican-bike-001",
+      "before_alias": "episode-001-before",
+      "after_alias": "episode-001-after",
+      "before_render_sha256": "sha256:6aa8c22a0fb70dcb073bb6636ef5542e42c6ada077cf4b299b8a042181c7fb03",
+      "after_render_sha256": "sha256:7a646dcdb50078432625861418a1add25c300fe95e59d7fe1bc9c44f89ef389e"
+    },
+    {
+      "episode_id": "repair-pelican-bike-002",
+      "before_alias": "episode-002-before",
+      "after_alias": "episode-002-after",
+      "before_render_sha256": "sha256:6aa8c22a0fb70dcb073bb6636ef5542e42c6ada077cf4b299b8a042181c7fb03",
+      "after_render_sha256": "sha256:e548b64949e2a7f27f249526c671967fc1ca513c5bdae557b4b1bfb9c04c4e1b"
+    }
+  ],
+  "limitations": [
+    "Two episodes are insufficient for the prespecified development/held-out calibration design.",
+    "The two episodes share the same rendered before state and are not independent strata.",
+    "This manifest is a rehearsal aid only and cannot support P2 promotion or E3 claims."
+  ]
+}

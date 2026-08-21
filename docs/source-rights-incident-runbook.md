@@ -1,8 +1,10 @@
 # Source-rights incident runbook
 
 The benchmark steward owns the source registry, rights ledger, publication freeze and incident
-closure. No backup steward or external rights reviewer is currently appointed; that resilience
-gap remains explicit and prevents a claim of independently validated operational maturity.
+closure. Rights review is performed by a panel of separate subagent runs with distinct
+evidence chains; the steward (the single human developer) makes the final decision from the
+panel's options and recommendations. No independent human review or external legal authority
+is required to close an incident or a phase checkpoint.
 
 ## Trigger and containment
 
@@ -12,8 +14,9 @@ affected artifacts without deleting them, preserve release manifests and fixity,
 incident record. Restricted bytes must not be copied into a public issue.
 
 The steward may contain repository distribution immediately. A disputed rights interpretation,
-permission grant or legal conclusion requires accountable external review; an automated audit
-or agent recommendation cannot supply that authority.
+permission grant or legal conclusion is resolved by the steward after a subagent-panel rights
+review; an automated audit or agent recommendation cannot substitute for the steward's
+decision, but no external reviewer is required.
 
 ## Resolution and recovery
 

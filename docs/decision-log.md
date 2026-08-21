@@ -316,3 +316,62 @@ other versions.
 
 **Rationale:** shape-based coercion can silently change identifiers, fixity or rights meaning.
 Exact version handling makes migrations reviewable and preserves historical analysis semantics.
+
+## D036 — Rights review runs through a subagent panel; the single human developer decides
+
+**Options:** require an external human rights reviewer; rely on an authorial self-review; route
+every contested artifact to a panel of independent subagent runs and have the single human
+developer make the final decision from their options and recommendations.
+
+**Decision:** rights review is performed by a panel of separate subagent runs with distinct
+evidence chains, and the benchmark steward (the single human developer) makes the final
+decision from the panel's options and recommendations. No independent human reviewer is
+required; external source-owner or legal authority is not a precondition for closing T01 P3.
+
+**Rationale:** the project operates a single-developer model; gating T01 P3 on an external
+human reviewer or legal authority would hold the programme hostage to an unavailable resource.
+Subagent-panel review provides reproducible, independently-checked evidence, while final
+decision authority stays unambiguously with the human developer rather than with automation.
+
+## D037 — Retain historical artifacts fail-closed pending rights determination
+
+**Options:** promote agent-panel recommendations as rights clearance; retain uncertain
+artifacts while recording their dispositions; or remove all historical references.
+
+**Decision:** retain all mirrored historical artifacts as link-/metadata-only or quarantined
+pending a rights determination. Agent analysis may inventory, hash, classify, and draft
+dispositions, but cannot constitute independent legal/source-rights approval or authorize
+redistribution. RB-05-C1 remains planned until every artifact has a recorded
+permission/redistribution decision with redacted, hash-bound evidence. Any ambiguity remains
+non-distributable; T04/P3 must not be promoted. This decision supersedes D036 wherever D036
+would treat agent-panel evidence as rights clearance or permit phase promotion.
+
+**Rationale:** reproducible agent evidence improves traceability but does not establish source
+authority, permission, or redistribution rights.
+
+## D038 — One human decision-maker with agent-panel advice for T14
+
+**Options:** distribute decisions across multiple human approvers; let agents decide
+normative or release questions; or route each human-dependent decision through an agent panel
+to one accountable human.
+
+**Decision:** the benchmark steward (the user) is the sole human decision-maker for T14.
+Every human-dependent choice is first packaged and reviewed by separately run agents, whose
+findings, options, risks, and recommendation are returned to the steward. The steward's
+recorded decision is required before the choice is normative or release-affecting. Agent
+advice does not constitute human-judgement data, independent approval, or release authority.
+
+**Rationale:** a single accountable decision owner avoids conflicting approvals while
+preserving adversarial, reproducible agent analysis before each decision.
+
+## D039 — Authorize the bounded T14 calibration pilot
+
+**Decision:** authorize a bounded, blinded T14 calibration pilot over project-original repair
+fixtures only. The agent panel recommends the sample, rubric, exclusions, analysis, and
+score-compatibility treatment; the benchmark steward is the sole human rater and
+decision-maker. Agent outputs are advisory and cannot be represented as human ratings,
+independent approval, or E3 evidence. Until the steward's ratings and hash-bound analysis are
+complete, T14 remains P2-partial and score compatibility remains
+`none-until-normative-release`.
+
+**Decision receipt:** `13d48c64ec74b0a120f18fba1619037d90fc377968d2b83fb7868967cfeb84f9`.

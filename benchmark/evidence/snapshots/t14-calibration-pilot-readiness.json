@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "study_id": "t14-human-calibration-pilot",
+  "repository_revision": "8cd663024392f2342b6a9511ffdb2b6c8558c045",
+  "status": "blocked-insufficient-sample",
+  "authorization": "D039",
+  "decision_maker": "benchmark-steward",
+  "candidate_episode_count": 2,
+  "recommended_target": 96,
+  "recommended_development_count": 72,
+  "recommended_held_out_count": 24,
+  "available_project_original_fixtures": [
+    {
+      "repair_id": "repair-pelican-bike-001",
+      "tasks_sha256": "2dcdd600bd428324432f7d122c0a4456bf8a9a9c244eb5acf472bfd24fbcf3ac",
+      "before_sha256": "2f82c28a3c9d8d008dba1c280e30d38a5f4141dcb8126e5f6be6da624cd02487",
+      "after_sha256": "42a1a008f96ce9dc9e9724ababde0b8ca05d884decd91508aabfbc5d7ff2e1dc"
+    },
+    {
+      "repair_id": "repair-pelican-bike-002",
+      "tasks_sha256": "2dcdd600bd428324432f7d122c0a4456bf8a9a9c244eb5acf472bfd24fbcf3ac",
+      "before_sha256": "2f82c28a3c9d8d008dba1c280e30d38a5f4141dcb8126e5f6be6da624cd02487",
+      "after_sha256": "45b791c67d492e778ea3179c3c0de900c0c69765621e69959ba9b2291fe78a5a"
+    }
+  ],
+  "blocker": "The repository has two project-original repair episodes; a 72/24 development/held-out calibration sample cannot be frozen without additional eligible project-original episodes.",
+  "next_action": "Add or authorize additional project-original repair episodes, regenerate the hash-bound manifest, then freeze aliases and the held-out split before rating.",
+  "claims": {
+    "human_ratings_present": false,
+    "agent_ratings_present": false,
+    "e3_calibration": false,
+    "score_compatibility": "none-until-normative-release"
+  }
+}

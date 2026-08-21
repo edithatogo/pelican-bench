@@ -46,5 +46,42 @@
       }
     ],
     "task_id": "pb:heritage-pelican-bike-v1"
+  },
+  {
+    "after_reference": "benchmark/fixtures/svg/pelican-bicycle-valid.svg",
+    "before": "benchmark/fixtures/svg/pelican-bicycle-broken.svg",
+    "repair_id": "repair-pelican-bike-002",
+    "requirements": [
+      {
+        "defect_id": "structural-bicycle",
+        "description": "Repair the incomplete bicycle structure and restore a supported riding scene.",
+        "preserve_roles": [
+          "animal",
+          "bill"
+        ],
+        "target_roles": [
+          "wheel",
+          "frame",
+          "riding",
+          "contact",
+          "pedal",
+          "grip"
+        ]
+      },
+      {
+        "defect_id": "under-specified-pelican",
+        "description": "Restore the missing anatomy and control contacts without removing the bird or bill.",
+        "preserve_roles": [
+          "animal",
+          "bill"
+        ],
+        "target_roles": [
+          "pouch",
+          "wing",
+          "foot"
+        ]
+      }
+    ],
+    "task_id": "pb:heritage-pelican-bike-v2"
   }
 ]

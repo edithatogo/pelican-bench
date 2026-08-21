@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "study_id": "t14-human-calibration-pilot",
+  "status": "rehearsal-only-insufficient-sample",
+  "created_at": "2026-08-20T23:47:32.100460+00:00",
+  "manifest_sha256": "577a5d05affa2af06a03f4c9bda3c3902f83323f6e5ae771884880356d9d21c4",
+  "response_sha256": "ddf51678dbf80ef0ab83a7bd728b16c8d881b284ef3bc0ab17f7eefaa6550068",
+  "response_file_sha256": "6e992ce60733339a418c2c106019d5ca21fe5c20fa63b010e613f61f53824232",
+  "episode_count": 2,
+  "rows": [
+    {
+      "episode_id": "repair-pelican-bike-001",
+      "human": {
+        "target_corrected": true,
+        "preservation_score_1_to_5": 4,
+        "introduced_defect": false,
+        "confidence_0_to_100": 90,
+        "uncertain": false,
+        "repeat_observation": false
+      },
+      "automatic_render_metrics": null
+    },
+    {
+      "episode_id": "repair-pelican-bike-002",
+      "human": {
+        "target_corrected": true,
+        "preservation_score_1_to_5": 5,
+        "introduced_defect": false,
+        "confidence_0_to_100": 100,
+        "uncertain": false,
+        "repeat_observation": false
+      },
+      "automatic_render_metrics": null
+    }
+  ],
+  "claims": {
+    "human_calibration_complete": false,
+    "e3_calibration": false,
+    "score_compatibility": "none-until-normative-release"
+  },
+  "automatic_metrics_status": "unavailable-in-current-runtime",
+  "automatic_metrics_error": "render runtime unavailable: No module named 'cairosvg'",
+  "limitations": [
+    "Two development episodes are not the prespecified 72/24 development/held-out design.",
+    "This receipt reports association only and does not establish metric validity or promotion.",
+    "The ratings are steward responses, not agent ratings or independent review."
+  ]
+}

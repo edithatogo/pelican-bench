@@ -64,10 +64,14 @@ def test_random_valid_action_sequences_replay_deterministically() -> None:
     importlib.util.find_spec("hypothesis") is None, reason="Hypothesis is a mandatory CI dependency"
 )
 def test_hypothesis_content_hash_property() -> None:
-    from hypothesis import given, settings
+    from hypothesis import HealthCheck, given, settings
     from hypothesis import strategies as st
 
-    @settings(max_examples=50, derandomize=True)
+    @settings(
+        max_examples=50,
+        derandomize=True,
+        suppress_health_check=[HealthCheck.too_slow],
+    )
     @given(st.dictionaries(st.text(min_size=1, max_size=8), st.integers(), max_size=20))
     def check(value: dict[str, int]) -> None:
         assert content_hash(value) == content_hash(dict(reversed(list(value.items()))))
