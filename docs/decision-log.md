@@ -375,3 +375,16 @@ complete, T14 remains P2-partial and score compatibility remains
 `none-until-normative-release`.
 
 **Decision receipt:** `13d48c64ec74b0a120f18fba1619037d90fc377968d2b83fb7868967cfeb84f9`.
+
+## D040 — Accept the bounded T14 rehearsal and retain the release gates
+
+**Decision:** merge the recorded two-episode steward rehearsal as E2,
+non-promotional evidence. Retain it as a completed development rehearsal and authorize
+additional project-original episode intake for the prespecified 72/24 calibration. Until
+that sample is frozen and rated, T14 remains P2/P3 partial and score compatibility remains
+`none-until-normative-release`. Accept the clean-clone rehearsal as E2 evidence only and
+require a witnessed second-environment recovery rehearsal before T14/P3 promotion or
+stable-release claims.
+
+**Decision owner:** benchmark steward. Agent analysis remains advisory and cannot supply
+normative calibration, independent approval, or witnessed recovery evidence.

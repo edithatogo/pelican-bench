@@ -12,9 +12,9 @@
   "human_calibration_status": "rehearsal-collected-insufficient-sample",
   "recovery_rehearsal_status": "clean-clone-passed-unwitnessed",
   "clean_clone_receipt": {
-    "commit": "6748facdd01f9ab1f08f106872355f275c294926",
-    "tree": "75da2c657944660c49ca2e15fdb34877673d3b5c",
-    "harness_log_sha256": "sha256:10601dde03044adad734fd1abfaff136c36249763a705b742aff055a479e2a37",
+    "commit": "9e76055b37be2a3fd4a721c8a5ea86e07c0634b2",
+    "tree": "7efed2e196a8546e36f402ab83fb8771b347e302",
+    "harness_log_sha256": "sha256:f91512aacff55b876c906aee8b11f19473e3e7f3a3c6ae0f7f70650c59036e73",
     "python": "3.14.5",
     "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
     "limitations": [
