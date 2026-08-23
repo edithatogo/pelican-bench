@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import random
 import time
 import trace
@@ -140,7 +141,7 @@ def _duplicate_ids(svg: str, rng: random.Random) -> str:
 
 
 def _transform_extremes(svg: str, rng: random.Random) -> str:
-    scale = rng.choice((0, 1e-9, 1e6, -1, 3.14159))
+    scale = rng.choice((0, 1e-9, 1e6, -1, math.pi))
     rotate = rng.randint(-100_000, 100_000)
     return _before_close(
         svg,

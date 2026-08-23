@@ -659,11 +659,19 @@ def _configuration_findings(root: Path) -> list[Finding]:
                     f"coverage fail_under is {threshold:g}; expected at least 90",
                 )
             )
-        mypy = value.get("tool", {}).get("mypy", {})
-        if mypy.get("strict") is not True:
+        dev_dependencies = {
+            str(dep).split("[")[0].split(">")[0].split("=")[0].strip().lower()
+            for dep in value.get("project", {}).get("optional-dependencies", {}).get("dev", [])
+        }
+        if "basedpyright" not in dev_dependencies or "ty" not in dev_dependencies:
             findings.append(
                 _finding(
-                    "CFG003", "error", "typing", root, pyproject, "mypy strict mode is disabled"
+                    "CFG003",
+                    "error",
+                    "typing",
+                    root,
+                    pyproject,
+                    "routine type gate (ty) and canonical gate (basedpyright) must be declared",
                 )
             )
         pyright = value.get("tool", {}).get("pyright", {})

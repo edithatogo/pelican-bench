@@ -58,11 +58,7 @@ def timeline_summary(observations: Iterable[HistoricalObservation]) -> dict[str,
     values = list(observations)
     models = Counter(item.model_id or "unknown" for item in values)
     rights = Counter(item.rights_status for item in values)
-    dated = [
-        datetime.fromisoformat(item.observed_at.replace("Z", "+00:00"))
-        for item in values
-        if item.observed_at
-    ]
+    dated = [datetime.fromisoformat(item.observed_at) for item in values if item.observed_at]
     return {
         "observations": len(values),
         "models": dict(sorted(models.items())),

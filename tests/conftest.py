@@ -1,10 +1,24 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pytest
+from hypothesis import settings
 
-from pelicanbench.taskgen import heritage_task, load_grammar
+settings.register_profile("dev", max_examples=50, deadline=None)
+settings.register_profile(
+    "ci",
+    max_examples=1000,
+    deadline=None,
+    print_blob=True,
+)
+settings.load_profile(os.environ.get("HYPOTHESIS_PROFILE", "dev"))
+
+from pelicanbench.taskgen import (  # ruff: ignore[module-import-not-at-top-of-file]
+    heritage_task,
+    load_grammar,
+)
 
 
 @pytest.fixture(scope="session")

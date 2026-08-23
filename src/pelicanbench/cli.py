@@ -6,7 +6,7 @@ import json
 import os
 from dataclasses import asdict
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, cast
 
 import typer
 
@@ -84,6 +84,7 @@ from .runner import run_benchmark
 from .semantic import StaticSemanticAssessor
 from .simon_corpus import fetch_atom, parse_simon_atom, write_simon_atom_corpus
 from .study_freeze import (
+    FreezeType,
     authorization_commitments,
     build_study_freeze,
     load_study_freeze,
@@ -814,7 +815,7 @@ def build_study_freeze_command(
         root,
         tuple(input or ()),
         study_id="pelicanbench-v1",
-        freeze_type=freeze_type,  # type: ignore[arg-type]
+        freeze_type=cast(FreezeType, freeze_type),
         task_identity_commitment=commitment,
         ledger_head=ledger,
         generated_at=generated_at,

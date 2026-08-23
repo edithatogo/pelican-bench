@@ -10,7 +10,7 @@ input and must still be reviewed and hash-bound.
 
 # The interface intentionally uses typographic ranges (for example, 1-5) in
 # its user-facing HTML; Ruff's ambiguous-unicode check is not applicable here.
-# ruff: noqa: RUF001
+# ruff: file-ignore[ambiguous-unicode-character-string]
 
 from __future__ import annotations
 

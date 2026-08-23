@@ -165,6 +165,8 @@ python scripts/generate_release_manifest.py \
   --artifact artifacts/sbom-a.spdx.json >/dev/null
 
 printf '%s\n' '== Deterministic publication hand-off =='
+uv build --quiet --out-dir "${PB_TMPDIR}/dist"
+ls "${PB_TMPDIR}/dist"/*.whl >/dev/null
 python -m pelicanbench.cli publication-bundle \
   --output "${PB_TMPDIR}/publication-a" \
   --artifact artifacts/scorer-challenge-report.json \
@@ -207,9 +209,13 @@ if command -v mypy >/dev/null 2>&1; then
 else
   printf '%s\n' 'Mypy lane skipped: executable unavailable.'
 fi
-if command -v pyright >/dev/null 2>&1; then
+if command -v basedpyright >/dev/null 2>&1; then
   printf '%s\n' '== Pyright =='
-  pyright src/pelicanbench/adapters.py src/pelicanbench/verification.py || true
+  basedpyright src/pelicanbench/adapters.py src/pelicanbench/verification.py
+  printf '%s\n' '== Pyright public-API type completeness =='
+  verify_score="$(basedpyright --verifytypes pelicanbench 2>/dev/null | awk '/Type completeness score/ {gsub(/%/,"",$4); print $4}')"
+  echo "type completeness score: ${verify_score}%"
+  awk -v s="${verify_score}" 'BEGIN { exit (s+0 < 90) }' || { echo 'pyright --verifytypes: completeness below 90%'; exit 1; }
 else
   printf '%s\n' 'Pyright lane skipped: executable unavailable.'
 fi

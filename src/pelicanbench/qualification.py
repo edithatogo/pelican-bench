@@ -297,7 +297,7 @@ def evaluate_judge_qualification(
     by_cell = {item.cell_id: item for item in outcome_values}
     grouped: dict[tuple[str, str], list[str]] = defaultdict(list)
     for cell in cells.values():
-        grouped[(cell.judge_id, cell.role)].append(cell.cell_id)
+        grouped[cell.judge_id, cell.role].append(cell.cell_id)
     results: list[JudgeQualificationResult] = []
     for (judge_id, role), cell_ids in sorted(grouped.items()):
         expected = len(cell_ids)

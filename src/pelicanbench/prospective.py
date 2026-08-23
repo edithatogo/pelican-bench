@@ -124,7 +124,7 @@ def build_prospective_pilot_plan(
         all_models.update(models)
         stage_cells: list[ProspectiveCell] = []
         for model_id in models:
-            status = "ready" if qualification.get(model_id, False) else "qualification-required"
+            status = "ready" if qualification.get(model_id) else "qualification-required"
             for task in stage_tasks:
                 for replicate in range(1, replicates + 1):
                     seed = _stable_seed(base_seed, stage_id, model_id, task.task_id, replicate)

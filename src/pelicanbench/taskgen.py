@@ -6,10 +6,10 @@ import itertools
 import random
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from .io import content_hash, read_json
-from .models import BenchmarkTask, EntitySpec, RelationSpec
+from .models import BenchmarkTask, EntitySpec, RelationSpec, TrackName
 
 HERITAGE_PROMPT = "Generate an SVG of a pelican riding a bicycle"
 
@@ -110,7 +110,7 @@ def build_task(
         "prompt_template",
         (
             "Generate an SVG of a {animal} {relation_phrase} {mobile_object}, "
-            "viewed from the {viewpoint}, in a {style} style."
+            "viewed from the {viewpoint}, in a {style} style."  # ruff: ignore[missing-f-string-syntax] -- .format() template
         ),
     )
     prompt = str(template).format(
@@ -176,7 +176,7 @@ def build_task(
         prompt_id=prompt_id,
         condition_id=condition_id,
         benchmark_release=release,
-        track=track,  # type: ignore[arg-type]
+        track=cast(TrackName, track),
         prompt=prompt,
         animal=animal_entity,
         mobile_object=object_entity,

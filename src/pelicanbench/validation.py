@@ -1133,10 +1133,27 @@ def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
                         "pyproject.toml",
                     )
                 )
-            if tool.get("mypy", {}).get("strict") is not True:
+            optional_deps = config.get("project", {}).get("optional-dependencies", {})
+            dev_dependencies = {
+                str(dep).split("[")[0].split(">")[0].split("=")[0].strip().lower()
+                for dep in optional_deps.get("dev", [])
+            }
+            if "basedpyright" not in dev_dependencies or "ty" not in dev_dependencies:
                 findings.append(
                     ValidationFinding(
-                        "error", "mypy-not-strict", "mypy strict mode is required", "pyproject.toml"
+                        "error",
+                        "routine-type-gate-missing",
+                        "dev extras must include basedpyright and ty",
+                        "pyproject.toml",
+                    )
+                )
+            if any(dep.startswith("mypy") for dep in optional_deps.get("dev", [])):
+                findings.append(
+                    ValidationFinding(
+                        "error",
+                        "mypy-still-declared",
+                        "mypy must not be a routine dependency; use ty and basedpyright",
+                        "pyproject.toml",
                     )
                 )
             if tool.get("pyright", {}).get("typeCheckingMode") != "strict":
@@ -1178,7 +1195,7 @@ def _validate_quality_configuration(project: Path) -> list[ValidationFinding]:
         ".github/workflows/quality.yml": (
             "ruff check",
             "ruff format --check",
-            "mypy",
+            "ty check",
             "pyright",
             "vale-action",
         ),

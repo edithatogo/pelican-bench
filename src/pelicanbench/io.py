@@ -8,7 +8,7 @@ import os
 import tempfile
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
 
 def canonical_json(value: Any) -> str:
@@ -31,14 +31,14 @@ def file_hash(path: str | Path) -> str:
 
 
 def read_json(path: str | Path) -> Any:
-    return cast(Any, json.loads(Path(path).read_text(encoding="utf-8")))
+    return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
 def read_jsonl(path: str | Path) -> list[Any]:
     output: list[Any] = []
     for line in Path(path).read_text(encoding="utf-8").splitlines():
         if line.strip():
-            output.append(cast(Any, json.loads(line)))
+            output.append(json.loads(line))
     return output
 
 

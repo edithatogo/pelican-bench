@@ -11,6 +11,7 @@ import hashlib
 import json
 import subprocess  # nosec B404
 import xml.etree.ElementTree as ET  # nosec B405
+from operator import attrgetter
 from pathlib import Path
 from typing import Any, Literal, cast
 
@@ -260,7 +261,7 @@ def build_repository_verification_receipt(
         seed=seed,
         result=overall,
         checks=tuple(checks),
-        artifacts=tuple(sorted(artifacts, key=lambda item: item.path)),
+        artifacts=tuple(sorted(artifacts, key=attrgetter("path"))),
         quality_metrics=quality,
     )
 

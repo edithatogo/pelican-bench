@@ -265,7 +265,7 @@ def inter_rater_agreement(votes: Iterable[PairwiseVote]) -> AgreementReport:
             category = "left"
         elif vote.winner == vote.right_id:
             category = "right"
-        grouped[(vote.task_id, vote.left_id, vote.right_id, vote.criterion)].append(category)
+        grouped[vote.task_id, vote.left_id, vote.right_id, vote.criterion].append(category)
     comparisons = 0
     agreements = 0
     category_counts: Counter[str] = Counter()

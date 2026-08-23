@@ -12,8 +12,11 @@ pytestmark = pytest.mark.unit
 def test_quality_configuration_is_fail_closed(root: Path) -> None:
     pyproject = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
     assert pyproject["tool"]["coverage"]["report"]["fail_under"] >= 90
-    assert pyproject["tool"]["mypy"]["strict"] is True
     assert pyproject["tool"]["pyright"]["typeCheckingMode"] == "strict"
+    dev = pyproject["project"]["optional-dependencies"]["dev"]
+    assert any(item.startswith("basedpyright") for item in dev)
+    assert any(item.startswith("ty") for item in dev)
+    assert not any(item.startswith("mypy") for item in dev)
 
     codecov = (root / "codecov.yml").read_text(encoding="utf-8")
     assert "target: 90%" in codecov

@@ -37,7 +37,7 @@ def test_static_and_toolchain_receipts_are_machine_readable(root: Path, tmp_path
     toolchain = _run(root, "scripts/toolchain_preflight.py", "--output", str(toolchain_path))
     assert toolchain.returncode == 0
     tools = json.loads(toolchain_path.read_text(encoding="utf-8"))["tools"]
-    assert {item["tool"] for item in tools} >= {"ruff", "mypy", "pyright", "vale"}
+    assert {item["tool"] for item in tools} >= {"ruff", "ty", "basedpyright", "vale"}
 
 
 def test_contract_and_agent_flow_crosses_real_components(root: Path) -> None:

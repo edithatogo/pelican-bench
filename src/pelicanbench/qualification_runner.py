@@ -42,7 +42,18 @@ def run_fixture_model_qualification(
             }
             write_json(path, value)
             executed += 1
-        outcomes.append(ModelQualificationOutcome(**value))
+        outcomes.append(
+            ModelQualificationOutcome(
+                cell_id=str(value["cell_id"]),
+                retained=bool(value["retained"]),
+                eventual_success=bool(value["eventual_success"]),
+                valid_svg=bool(value["valid_svg"]),
+                secure_render=bool(value["secure_render"]),
+                first_attempt_success=bool(value["first_attempt_success"]),
+                attempts=int(value["attempts"] or 1),
+                error_type=None if value["error_type"] is None else str(value["error_type"]),
+            )
+        )
     results = [item.as_dict() for item in evaluate_model_qualification(selected_plan, outcomes)]
     payload = {
         "schema_version": "1.0.0",

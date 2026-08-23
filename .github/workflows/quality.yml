@@ -35,10 +35,10 @@ jobs:
         run: ruff check src tests scripts hf
       - name: Ruff formatting
         run: ruff format --check src tests scripts hf
-      - name: mypy strict typing
-        run: mypy src/pelicanbench
-      - name: Pyright strict typing
-        run: pyright src/pelicanbench/adapters.py src/pelicanbench/verification.py || true
+      - name: ty fast typing
+        run: ty check src/pelicanbench
+      - name: basedpyright canonical typing
+        run: basedpyright src/pelicanbench/adapters.py src/pelicanbench/verification.py
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:

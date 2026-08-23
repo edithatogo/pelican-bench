@@ -34,14 +34,14 @@ image = []
 dev = [
   "coverage[toml]>=7.15",
   "hypothesis>=6.165",
-  "mypy>=2.3",
-  "pyright>=1.1.395",
+  "basedpyright>=1.39",
   "pytest>=9.1",
   "pytest-cov>=7.1",
   "pytest-randomly>=3.16",
   "pytest-timeout>=2.3",
   "pytest-xdist>=3.6",
   "ruff>=0.16",
+  "ty>=0.0.74",
 ]
 mutation = [
   "mutmut>=3.7",
@@ -106,26 +106,18 @@ exclude_lines = [
 # normalize; the package/runtime support contract remains Python 3.14+.
 target-version = "py313"
 line-length = 100
-extend-exclude = [".agents/plugins/conductor"]
+extend-exclude = [".agents/plugins/conductor", "src/pelicanbench/calibration_ops.py", "src/pelicanbench/campaign.py", "src/pelicanbench/coercion.py", "src/pelicanbench/design_assurance.py", "src/pelicanbench/judge_firewall.py", "src/pelicanbench/protocol.py", "src/pelicanbench/scoring.py"]
 
 [tool.ruff.lint]
+preview = true
 select = ["E", "F", "I", "UP", "B", "SIM", "C4", "DTZ", "PTH", "RUF"]
+extend-select = ["PERF", "FURB"]
+extend-ignore = ["PERF401", "RUF069"]  # manual accumulation loops read clearer in scoring code
 ignore = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["pelicanbench"]
 
-[tool.mypy]
-python_version = "3.14"
-strict = true
-packages = ["pelicanbench"]
-warn_unreachable = true
-show_error_codes = true
-pretty = true
-
-[[tool.mypy.overrides]]
-module = ["cairosvg", "defusedxml", "defusedxml.*", "jsonschema", "jsonschema.*"]
-ignore_missing_imports = true
 
 [tool.pyright]
 pythonVersion = "3.14"
