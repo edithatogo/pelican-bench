@@ -246,10 +246,11 @@ if command -v mojo >/dev/null 2>&1; then
 else
   printf '%s\n' 'Mojo lane skipped: compiler unavailable.'
 fi
-if command -v rustup >/dev/null 2>&1 && rustup toolchain list 2>/dev/null | grep -q nightly; then
-  printf '%s\n' '== Nightly Rust conformance =='
-  cargo +nightly clippy --workspace --all-targets -- -D warnings
-  cargo +nightly test --workspace >/dev/null
+NIGHTLY_TOOLCHAIN="${NIGHTLY_TOOLCHAIN:-$(command -v rustup >/dev/null 2>&1 && rustup toolchain list 2>/dev/null | grep -o '^nightly[^ ]*' | head -1 || true)}"
+if [[ -n "$NIGHTLY_TOOLCHAIN" ]]; then
+  printf '%s\n' "== Nightly Rust conformance ($NIGHTLY_TOOLCHAIN) =="
+  rustup run "$NIGHTLY_TOOLCHAIN" cargo clippy --workspace --all-targets -- -D warnings
+  rustup run "$NIGHTLY_TOOLCHAIN" cargo test --workspace >/dev/null
 else
   printf '%s\n' 'Nightly Rust lane skipped: nightly toolchain unavailable.'
 fi
