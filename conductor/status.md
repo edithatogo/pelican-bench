@@ -5,7 +5,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | Track | Capability | P0 | P1 | P2 | P3 | Evidence | Current constraint |
 |---|---|---:|---:|---:|---:|---:|---|
 | T00 | Foundation, governance and Conductor | complete | complete | complete | complete | E2 | Local Conductor, evidence governance, first-party ecosystem contracts, and operational procedures are E2 fixture-verified; authenticated remote issue/project synchronization and independent operational use remain outstanding. |
-| T01 | History, prior art, source registry and rights | complete | complete | complete | partial | E1 | Repository-owned rights controls are harness-verified; historical artifacts remain link-/metadata-only or quarantined under D037. Agent analysis cannot constitute independent legal/source-rights approval; RB-05-C1 remains planned and T01/T04 P3 cannot be promoted until every artifact has a redacted, hash-bound permission/redistribution decision. |
+| T01 | History, prior art, source registry and rights | complete | complete | complete | partial | E2 | Repository-owned rights controls are harness-verified and the accepted independent rights-review packet (D042) records hash-bound dispositions for every sourced artifact with no mirrored third-party bytes; RB-05-C1 is complete. Empirical E3+ use of rights-cleared historical artifacts, remote publication and sustained operational drift controls remain outstanding. |
 | T02 | Benchmark constitution, schemas and provenance | complete | complete | complete | partial | E2 | Contract operations and recovery invariants are fixture-verified; a backup contract steward and an independent archive-recovery rehearsal against a tagged release remain outstanding. |
 | T03 | Animal, mobile-object and interface ontologies | complete | complete | complete | planned | E2 | Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding. |
 | T04 | Simon corpus NLP, NER and idea coverage | complete | complete | complete | partial | E2 | Corpus hardening, lifecycle and incident controls are fixture-verified; independent source/rights review, a backup corpus custodian and validated coverage against the complete source archive remain outstanding. |
@@ -32,7 +32,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 - Tracks: 22.
 - Phases: 88.
 - Phase states: complete 53, partial 17, planned 18.
-- Track evidence: E1 5, E2 17.
+- Track evidence: E1 4, E2 18.
 - Planned GitHub work items: 22 parent tracks + 88 phase issues + 5 release blockers = 115.
 
 ## Release blockers
@@ -43,7 +43,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | RB-02: Prospective V1 pilot | partial | E2 | 3 |
 | RB-03: Human and judge calibration | partial | E2 | 4 |
 | RB-04: Independent reproducibility and remote publication | partial | E2 | 4 |
-| RB-05: Rights and research governance | partial | E1 | 2 |
+| RB-05: Rights and research governance | partial | E1 | 1 |
 
 ## Verification contract
 

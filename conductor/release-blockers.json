@@ -327,10 +327,11 @@
       "closure_criteria": [
         {
           "evidence": [
-            "data/sources/rights-ledger.json"
+            "data/sources/rights-ledger.json",
+            "docs/rights-review-packet-t01-2026-08-19.md"
           ],
           "id": "RB-05-C1",
-          "status": "planned",
+          "status": "complete",
           "text": "Settle permission and redistribution status for every mirrored historical artifact."
         },
         {
