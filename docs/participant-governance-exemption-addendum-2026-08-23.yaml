@@ -1,0 +1,24 @@
+# Steward determination addendum — exemption scope for recruited panels
+# Extends participant-governance-determination-2026-08-23.yaml (RB-05-C3) to RB-03-C1.
+determination_id: "participant-governance-exemption-addendum-2026-08-23"
+parent_determination: "participant-governance-exemption-2026-08-23"
+packet_id: "participant-governance-rb05c3-2026-08-23"
+criterion: "RB-03-C1"
+decision: "exempt"
+scope: >-
+  The exemption applies to the staged blind-first human calibration study in full,
+  including all four proposed panels (general-public, illustration/design,
+  ornithology/avian-anatomy, mobile-object mechanics) as scoped in
+  docs/human-evaluation-protocol.md at protocol_sha256
+  b1d666083e925f105f4c59cf0516b1fa00ecf80a2a9dbe1dc8d74ee4cec6f6be.
+rationale: >-
+  Panel membership does not change the activity's character: raters across all panels
+  view machine-generated SVG renders, provide no personal data beyond a salted one-way
+  rater hash, and are exposed to no health, deception or sensitive-topic content. The
+  NZ/VUW scheme's human-research-subject criteria are therefore not met for any panel.
+conditions:
+  - "Consent template and privacy-minimised exchange apply to every panel without exception."
+  - "Expert-panel eligibility filters remain frozen per the protocol before outcome analysis."
+  - "Material protocol changes require re-determination under the parent determination's terms."
+recorded_by: "benchmark-steward"
+recorded_at: "2026-08-23T00:00:00Z"

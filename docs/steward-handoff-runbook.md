@@ -8,12 +8,13 @@ artifacts with `PATH="$PWD/.venv/bin:$PATH" bash scripts/harness.sh` first.
 Staged bundle: `artifacts/publication-handoff/` — 45 files,
 `sha256:7d2ea92658d7e59fcd1f205939f32aeaae90aa870ad2b3d4c8fd97589f435509`.
 
-## RB-03-C1 — confirm exemption scope (decision only)
+## RB-03-C1 — CLOSED
 
-The NZ/VUW exemption (`participant-governance-determination-2026-08-23.yaml`) is
-recorded. **Steward action:** one-line confirmation that the exemption covers the
-recruited panels (general public plus expert panels). The preparer then flips
-RB-05-C3-style evidence into RB-03-C1 and regenerates views.
+The steward confirmed the NZ/VUW exemption extends to all four recruited panels;
+recorded as hash-bound addendum
+[`participant-governance-exemption-addendum-2026-08-23.yaml`](participant-governance-exemption-addendum-2026-08-23.yaml)
+(sha256 28b0c68860f1e0695069cfa89f6c445e6c5cef61e32c4c55196568f24a1d6e6d).
+RB-03-C1 is complete. No further governance action is required before recruitment.
 
 ## RB-04-C1/C2/C3 — remote publication (actions only)
 
@@ -60,6 +61,11 @@ come back as JSONL; analysis, effect estimation and result drafting are preparer
 
 ## RB-01-C4 / RB-02-C4 — independent challenge and uncertainty reporting
 
-**Steward actions:** nominate an independent challenger for the scorer challenge bundle;
-accept their findings report. Uncertainty reporting (C4) executes locally once pilot
-data exists — no steward input beyond RB-02 go.
+The challenger starting pack is staged at `artifacts/scorer-challenge-baseline.json`
+(baseline submission `baseline:sha256:fdc785b5...`, all META challenges passing under
+`svg-multilayer/0.2.0`). The challenger receives this plus repository access and
+attempts to find a critical exploit; their findings report is the closure evidence.
+
+**Steward actions:** nominate an independent challenger and accept their findings
+report. Uncertainty reporting (RB-02-C4) executes locally once pilot data exists —
+no steward input beyond the RB-02 go.

@@ -32,3 +32,21 @@ def test_vale_policy_is_repository_local(root: Path) -> None:
     assert "StylesPath = .github/styles" in config
     styles = {path.name for path in (root / ".github/styles/PelicanBench").glob("*.yml")}
     assert styles >= {"Terminology.yml", "Maturity.yml", "Editorial.yml"}
+
+
+def test_harness_uses_ty_and_basedpyright_not_mypy(root: Path) -> None:
+    harness = (root / "scripts/harness.sh").read_text(encoding="utf-8")
+    assert "ty check src/pelicanbench" in harness
+    assert "basedpyright src/pelicanbench/adapters.py" in harness
+    assert "--verifytypes pelicanbench" in harness
+    # mypy was retired from the routine gate; its lane must not return silently.
+    assert "mypy src/pelicanbench" not in harness
+    assert "== Mypy ==" not in harness
+
+
+def test_harness_optional_conformance_lanes_are_conditional(root: Path) -> None:
+    harness = (root / "scripts/harness.sh").read_text(encoding="utf-8")
+    # Optional lanes must skip cleanly when the optional toolchain is absent.
+    assert "Nightly Rust lane skipped" in harness
+    assert "Free-threaded lane skipped" in harness
+    assert "command -v python3.14t" in harness

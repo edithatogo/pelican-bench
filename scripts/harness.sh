@@ -203,11 +203,11 @@ if command -v ruff >/dev/null 2>&1; then
 else
   printf '%s\n' 'Ruff lane skipped: executable unavailable.'
 fi
-if command -v mypy >/dev/null 2>&1; then
-  printf '%s\n' '== Mypy =='
-  mypy src/pelicanbench
+if command -v ty >/dev/null 2>&1; then
+  printf '%s\n' '== Ty (fast type check) =='
+  ty check src/pelicanbench
 else
-  printf '%s\n' 'Mypy lane skipped: executable unavailable.'
+  printf '%s\n' 'Ty lane skipped: executable unavailable.'
 fi
 if command -v basedpyright >/dev/null 2>&1; then
   printf '%s\n' '== Pyright =='

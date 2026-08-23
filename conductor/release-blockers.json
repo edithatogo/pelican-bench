@@ -167,10 +167,13 @@
       "closure_criteria": [
         {
           "evidence": [
-            "docs/human-evaluation-protocol.md"
+            "docs/human-evaluation-protocol.md",
+            "docs/participant-governance-packet-rb05c3-2026-08-23.md",
+            "docs/participant-governance-determination-2026-08-23.yaml",
+            "docs/participant-governance-exemption-addendum-2026-08-23.yaml"
           ],
           "id": "RB-03-C1",
-          "status": "planned",
+          "status": "complete",
           "text": "Complete governance and consent review appropriate to the recruited sample."
         },
         {
