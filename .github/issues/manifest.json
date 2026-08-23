@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-08-01T00:00:00Z",
-  "hierarchy": "22 parent track issues with 88 native phase sub-issues, 22 nested work-package issues, plus 5 cross-track release blockers",
+  "hierarchy": "22 parent track issues with 88 native phase sub-issues, 26 nested work-package issues, plus 5 cross-track release blockers",
   "release_blockers": [
     {
       "body": "## Cross-track release blocker\n\n**Blocker:** RB-01 — Measurement validity\n**State:** `partial`\n**Evidence level:** `E2`\n**Linked tracks:** T06, T07, T17\n\nPrevent source metadata, invisible geometry and implementation choices from masquerading as rendered semantic quality.\n\n## Closure criteria\n\n- [x] **RB-01-C1** All semantic dimensions are derived from the canonical render or blinded human assessment. (`complete`)\n- [x] **RB-01-C2** The normative metamorphic suite passes, and the canonical fixture has no material CairoSVG-to-Inkscape rendering difference. (`complete`)\n- [ ] **RB-01-C3** Automatic semantic dimensions are calibrated against blinded human judgements. (`planned`)\n- [ ] **RB-01-C4** An independent scorer challenge finds no known critical exploit. (`planned`)\n\n## Current evidence\n\n- `benchmark/fixtures/adversarial/semantic-label-injection.svg`\n- `benchmark/fixtures/adversarial/visible-judge-prompt-injection.svg`\n- `benchmark/judges/firewall-policy.json`\n- `src/pelicanbench/judge_firewall.py`\n- `src/pelicanbench/metamorphic.py`\n- `src/pelicanbench/render.py`\n- `src/pelicanbench/render_bridge.py`\n- `src/pelicanbench/scoring.py`\n- `src/pelicanbench/semantic.py`\n- `tests/test_assurance_render_bridge.py`\n- `tests/test_judge_firewall.py`\n- `tests/test_metamorphic.py`\n- `tests/test_svg_scoring.py`\n\n## Criterion evidence\n\n- **RB-01-C1:** `src/pelicanbench/judge_firewall.py`\n- **RB-01-C1:** `src/pelicanbench/scoring.py`\n- **RB-01-C1:** `src/pelicanbench/semantic.py`\n- **RB-01-C1:** `tests/test_judge_firewall.py`\n- **RB-01-C1:** `tests/test_svg_scoring.py`\n- **RB-01-C2:** `src/pelicanbench/metamorphic.py`\n- **RB-01-C2:** `src/pelicanbench/render_bridge.py`\n- **RB-01-C2:** `tests/test_metamorphic.py`\n- **RB-01-C2:** `tests/test_assurance_render_bridge.py`\n- **RB-01-C3:** `docs/human-evaluation-protocol.md`\n- **RB-01-C3:** `src/pelicanbench/calibration.py`\n- **RB-01-C4:** `docs/scorer-challenge.md`\n\nThis issue is managed from `conductor/release-blockers.json`.\n",
@@ -454,7 +454,7 @@
     {
       "blocker": "Source-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.",
       "evidence_level": "E2",
-      "parent_body": "## Conductor track\n\n**Track:** T07 — Semantic judges and human calibration\n**Specification:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md)\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 3\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
+      "parent_body": "## Conductor track\n\n**Track:** T07 — Semantic judges and human calibration\n**Specification:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/spec.md)\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 5\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 53,
       "parent_title": "[T07] Semantic judges and human calibration",
       "path": "conductor/tracks/t07-semantic-judges-and-human-calibration",
@@ -482,7 +482,7 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Nested work packages:** 3\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Nested work packages:** 4\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
           "issue_number": 51,
           "phase": "P2",
           "status": "partial",
@@ -514,16 +514,35 @@
               "phase": "P2",
               "status": "planned",
               "title": "[T07-P2-W03] Collect empirical human and automatic-judge calibration evidence"
+            },
+            {
+              "body": "## Conductor work package\n\n**Package:** T07-P2-W04 — Build the production human-calibration study Space\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P2\n**State:** `planned`\n**Evidence level:** `E0`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\nHarden the reference Gradio interface into a governed production study: versioned consent gate before Stage 1, salted one-way rater hashing, server-side response schema validation, silent duplicate assignments, withdrawal/erasure handling and append-only writes to a private dataset store.\n\n## Acceptance criteria\n\n- [ ] Consent gate blocks Stage 1 without an accepted consent version.\n- [ ] No prohibited identifier field reaches the response store.\n- [ ] Withdrawal erases the reporting participant's rows within the window.\n\n## Evidence\n\n- `hf/human-calibration/app.py`\n- `docs/human-evaluation-protocol.md`\n- `docs/participant-governance-packet-rb05c3-2026-08-23.md`\n- `docs/steward-handoff-runbook.md`\n\n## Current constraint\n\nRequires steward go-ahead for Space scaffolding; recruitment remains gated on pilot outputs (RB-02-C1).\n\nThis issue is generated from the track's `metadata.json`.\n",
+              "evidence_level": "E0",
+              "id": "T07-P2-W04",
+              "issue_number": null,
+              "phase": "P2",
+              "status": "planned",
+              "title": "[T07-P2-W04] Build the production human-calibration study Space"
             }
           ]
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nSource-independent assessment, staged blind-first human calibration, deterministic sampling, privacy-minimised exchange and judge qualification planning are E2 fixture-verified; participant governance, recruitment and empirical judge calibration remain outstanding.\n",
           "issue_number": 52,
           "phase": "P3",
           "status": "planned",
           "title": "[T07/P3] Hardened: Semantic judges and human calibration",
-          "work_packages": []
+          "work_packages": [
+            {
+              "body": "## Conductor work package\n\n**Package:** T07-P3-W01 — Operate the governed public calibration collection and close calibration criteria\n**Track:** T07 — Semantic judges and human calibration\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E0`\n**Plan:** [`conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md`](../blob/main/conductor/tracks/t07-semantic-judges-and-human-calibration/plan.md)\n\nRun stratified collection through the deployed Space after RB-02-C1 outputs exist, analyse with analyse-human-evaluation and analyse-human-calibration-jsonl, and attach results to RB-01-C3 and RB-03-C2/C3/C4.\n\n## Acceptance criteria\n\n- [ ] Prespecified stratified sample is collected.\n- [ ] Rater, judge-family and task effects are estimated with uncertainty.\n- [ ] Calibration, disagreement and sensitivity results are published.\n\n## Evidence\n\n- `docs/human-evaluation-protocol.md`\n- `docs/participant-governance-determination-2026-08-23.yaml`\n- `docs/steward-handoff-runbook.md`\n\n## Current constraint\n\nRequires deployed Space, prospective model outputs (RB-02-C1) and recruitment go.\n\nThis issue is generated from the track's `metadata.json`.\n",
+              "evidence_level": "E0",
+              "id": "T07-P3-W01",
+              "issue_number": null,
+              "phase": "P3",
+              "status": "planned",
+              "title": "[T07-P3-W01] Operate the governed public calibration collection and close calibration criteria"
+            }
+          ]
         }
       ],
       "summary": "Use atomic scene questions, diverse judge families, blinded pairwise ratings and calibration/drift audits.",
@@ -723,7 +742,7 @@
     {
       "blocker": "Hub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.",
       "evidence_level": "E2",
-      "parent_body": "## Conductor track\n\n**Track:** T11 — Hugging Face execution and publication\n**Specification:** [`conductor/tracks/t11-hugging-face-execution-and-publication/spec.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/spec.md)\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 2\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
+      "parent_body": "## Conductor track\n\n**Track:** T11 — Hugging Face execution and publication\n**Specification:** [`conductor/tracks/t11-hugging-face-execution-and-publication/spec.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/spec.md)\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 3\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 79,
       "parent_title": "[T11] Hugging Face execution and publication",
       "path": "conductor/tracks/t11-hugging-face-execution-and-publication",
@@ -778,12 +797,22 @@
           ]
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.\n",
+          "body": "## Conductor phase\n\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nHub dataset/Space publication and first-party model execution are locally specified and fixture-verified, but remote repositories remain absent and the candidate Qwen adapters have not completed an SVG canary.\n",
           "issue_number": 78,
           "phase": "P3",
           "status": "planned",
           "title": "[T11/P3] Hardened: Hugging Face execution and publication",
-          "work_packages": []
+          "work_packages": [
+            {
+              "body": "## Conductor work package\n\n**Package:** T11-P3-W01 — Deploy the public calibration Space and private response dataset\n**Track:** T11 — Hugging Face execution and publication\n**Phase:** P3\n**State:** `blocked`\n**Evidence level:** `E0`\n**Plan:** [`conductor/tracks/t11-hugging-face-execution-and-publication/plan.md`](../blob/main/conductor/tracks/t11-hugging-face-execution-and-publication/plan.md)\n\nCreate the Hugging Face Space hosting the production study app and the private dataset repository that receives responses via a stored token outside the repository.\n\n## Acceptance criteria\n\n- [ ] Space serves the hardened study app.\n- [ ] Response dataset is private and append-only.\n- [ ] Token material never appears in the repository.\n\n## Evidence\n\n- `hf/human-calibration/app.py`\n- `scripts/setup_huggingface.py`\n- `docs/steward-handoff-runbook.md`\n\n## Current constraint\n\nRequires authenticated Hugging Face publication by the steward.\n\nThis issue is generated from the track's `metadata.json`.\n",
+              "evidence_level": "E0",
+              "id": "T11-P3-W01",
+              "issue_number": null,
+              "phase": "P3",
+              "status": "blocked",
+              "title": "[T11-P3-W01] Deploy the public calibration Space and private response dataset"
+            }
+          ]
         }
       ],
       "summary": "Publish benchmark datasets, Spaces, OpenEnv environments, model registries, verified results and scheduled Jobs.",
@@ -1174,7 +1203,7 @@
     {
       "blocker": "Privacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.",
       "evidence_level": "E1",
-      "parent_body": "## Conductor track\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Specification:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/spec.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/spec.md)\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n**Evidence level:** `E1`\n**Nested work packages:** 0\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
+      "parent_body": "## Conductor track\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Specification:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/spec.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/spec.md)\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n**Evidence level:** `E1`\n**Nested work packages:** 1\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 122,
       "parent_title": "[T18] Accessibility and human-in-the-loop creation",
       "path": "conductor/tracks/t18-accessibility-and-human-in-the-loop-creation",
@@ -1210,12 +1239,22 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPrivacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E1`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n**Nested work packages:** 1\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nPrivacy-minimised human-rating exchange is E2 fixture-verified; accessibility co-design, participant governance and real human-in-the-loop studies remain outstanding.\n",
           "issue_number": 121,
           "phase": "P3",
           "status": "planned",
           "title": "[T18/P3] Hardened: Accessibility and human-in-the-loop creation",
-          "work_packages": []
+          "work_packages": [
+            {
+              "body": "## Conductor work package\n\n**Package:** T18-P3-W01 — Co-design and audit accessibility of the public study interface\n**Track:** T18 — Accessibility and human-in-the-loop creation\n**Phase:** P3\n**State:** `planned`\n**Evidence level:** `E0`\n**Plan:** [`conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md`](../blob/main/conductor/tracks/t18-accessibility-and-human-in-the-loop-creation/plan.md)\n\nApply the accessibility protocol to the production study UI: co-design review, keyboard and screen-reader paths, and participant-facing accessibility statement before recruitment opens.\n\n## Acceptance criteria\n\n- [ ] Accessibility co-design review is recorded.\n- [ ] The interface passes the protocol's accessibility checks.\n\n## Evidence\n\n- `docs/accessibility-protocol.md`\n- `hf/human-calibration/app.py`\n\n## Current constraint\n\nRequires participant co-design involvement.\n\nThis issue is generated from the track's `metadata.json`.\n",
+              "evidence_level": "E0",
+              "id": "T18-P3-W01",
+              "issue_number": null,
+              "phase": "P3",
+              "status": "planned",
+              "title": "[T18-P3-W01] Co-design and audit accessibility of the public study interface"
+            }
+          ]
         }
       ],
       "summary": "Evaluate whether language-driven graphical creation improves control and access for users facing interface barriers.",
