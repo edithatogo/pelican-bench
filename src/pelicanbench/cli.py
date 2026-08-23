@@ -685,6 +685,10 @@ def run_openai_compatible_command(
         str | None, typer.Option(help="Environment variable containing endpoint token")
     ] = None,
     allow_unqualified: Annotated[bool, typer.Option("--allow-unqualified")] = False,
+    timeout_seconds: Annotated[
+        int,
+        typer.Option(min=30, max=1800, help="Per-request read timeout in seconds"),
+    ] = 120,
     seed: int = 20260801,
 ) -> None:
     entries = {item.model_id: item for item in load_registry(registry)}
@@ -707,6 +711,7 @@ def run_openai_compatible_command(
         assistant_prefill=profile.assistant_prefill,
         temperature=profile.temperature,
         max_tokens=profile.max_tokens,
+        timeout_seconds=profile.timeout_seconds or timeout_seconds,
     )
     result = run_benchmark(
         load_tasks(tasks),

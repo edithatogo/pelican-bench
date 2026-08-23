@@ -28,14 +28,18 @@
       "first_user_prefix": "",
       "max_tokens": 12000,
       "model_ids": [
-        "provider/model-to-be-pinned"
+        "meta/llama-3.3-70b-instruct",
+        "mistralai/mistral-nemotron",
+        "deepseek-ai/deepseek-v4-flash-0731",
+        "nvidia/llama-3.3-nemotron-super-49b-v1"
       ],
-      "notes": "Provider-neutral template populated only after model and endpoint qualification.",
+      "notes": "Provider-neutral profile for NVIDIA NIM integrate.api.nvidia.com student-tier pilot; model set prespecified 2026-08-23 before pilot data.",
       "profile_id": "generic-svg-openai-v1",
       "source": "pelicanbench",
       "status": "experimental",
       "system_prompt": "Return one complete, self-contained SVG document and no explanatory prose. Do not embed raster images, scripts, external resources, hidden text, or metadata intended to influence an evaluator.",
-      "temperature": 0.0
+      "temperature": 0.0,
+      "timeout_seconds": 600
     }
   ],
   "schema_version": "1.0.0"

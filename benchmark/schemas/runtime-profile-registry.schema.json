@@ -70,6 +70,20 @@
           "minimum": 0.0,
           "title": "Temperature",
           "type": "number"
+        },
+        "timeout_seconds": {
+          "anyOf": [
+            {
+              "maximum": 1800,
+              "minimum": 30,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Seconds"
         }
       },
       "required": [
