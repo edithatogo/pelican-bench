@@ -213,8 +213,15 @@ if command -v basedpyright >/dev/null 2>&1; then
   printf '%s\n' '== Pyright =='
   basedpyright src/pelicanbench/adapters.py src/pelicanbench/verification.py
   printf '%s\n' '== Pyright public-API type completeness =='
-  verify_score="$(basedpyright --verifytypes pelicanbench 2>/dev/null | awk '/Type completeness score/ {gsub(/%/,"",$4); print $4}')"
+  # basedpyright exits non-zero whenever completeness < 100%; under pipefail the
+  # pipeline must not abort the harness, so tolerate its status and judge the score.
+  verify_score="$( (basedpyright --verifytypes pelicanbench 2>/dev/null | awk '/Type completeness score/ {gsub(/%/,"",$4); print $4}') || true )"
   echo "type completeness score: ${verify_score}%"
+  if [[ -z "$verify_score" ]]; then
+    echo 'pyright --verifytypes produced no completeness score; underlying error:' >&2
+    basedpyright --verifytypes pelicanbench >&2 || true
+    exit 1
+  fi
   awk -v s="${verify_score}" 'BEGIN { exit (s+0 < 90) }' || { echo 'pyright --verifytypes: completeness below 90%'; exit 1; }
 else
   printf '%s\n' 'Pyright lane skipped: executable unavailable.'
