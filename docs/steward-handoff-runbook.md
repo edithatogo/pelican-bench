@@ -6,7 +6,7 @@ action only the benchmark steward can take, with exact commands. Regenerate all 
 artifacts with `PATH="$PWD/.venv/bin:$PATH" bash scripts/harness.sh` first.
 
 Staged bundle: `artifacts/publication-handoff/` — 45 files,
-`sha256:7d2ea92658d7e59fcd1f205939f32aeaae90aa870ad2b3d4c8fd97589f435509`.
+`sha256:87fc5e0aebde8343d783659e3f0155deb8d9cb8f29e0ddcdc5c537e1830cae74`.
 
 ## RB-03-C1 — CLOSED
 
