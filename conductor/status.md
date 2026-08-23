@@ -43,7 +43,7 @@ Status is generated from track metadata. `complete` means that the declared phas
 | RB-02: Prospective V1 pilot | partial | E2 | 3 |
 | RB-03: Human and judge calibration | partial | E2 | 4 |
 | RB-04: Independent reproducibility and remote publication | partial | E2 | 4 |
-| RB-05: Rights and research governance | partial | E1 | 1 |
+| RB-05: Rights and research governance | complete | E1 | 0 |
 
 ## Verification contract
 

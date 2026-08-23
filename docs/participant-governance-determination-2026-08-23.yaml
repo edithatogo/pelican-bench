@@ -1,0 +1,19 @@
+# Steward determination — participant governance exemption
+# Recorded by the benchmark steward (sole human decision-maker) on 2026-08-23.
+determination_id: "participant-governance-exemption-2026-08-23"
+packet_id: "participant-governance-rb05c3-2026-08-23"
+criterion: "RB-05-C3"
+decision: "exempt"
+scheme: "New Zealand / Victoria University of Wellington ethics scheme"
+rationale: >-
+  The staged blind-first calibration study does not involve human research
+  subjects in the sense covered by the NZ/VUW scheme: participants rate
+  machine-generated SVG renders and provide no personal data beyond a salted
+  one-way rater hash; no health, deception or sensitive-topic exposure is
+  involved. The activity is therefore exempt from full ethical review.
+conditions:
+  - "Recruitment must use only the prepared consent template and privacy-minimised exchange."
+  - "The exemption applies to the calibration study as scoped in docs/human-evaluation-protocol.md at protocol_sha256 b1d666083e925f105f4c59cf0516b1fa00ecf80a2a9dbe1dc8d74ee4cec6f6be; material protocol changes require re-determination."
+  - "Adverse-event arrangements must remain active for the duration of the study."
+recorded_by: "benchmark-steward"
+recorded_at: "2026-08-23T00:00:00Z"

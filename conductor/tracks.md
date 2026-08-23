@@ -33,6 +33,6 @@ PelicanBench has 22 capability tracks, 88 maturity phases and 5 cross-track rele
 | RB-02: Prospective V1 pilot | partial | E2 | T08, T09, T10 |
 | RB-03: Human and judge calibration | partial | E2 | T07, T09, T18 |
 | RB-04: Independent reproducibility and remote publication | partial | E2 | T10, T11, T12, T20 |
-| RB-05: Rights and research governance | partial | E1 | T01, T04, T05, T18, T19 |
+| RB-05: Rights and research governance | complete | E1 | T01, T04, T05, T18, T19 |
 
 The blocker definitions and closure evidence are authoritative in [`release-blockers.json`](release-blockers.json).

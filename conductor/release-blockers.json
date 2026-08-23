@@ -345,10 +345,12 @@
         },
         {
           "evidence": [
-            "docs/human-evaluation-protocol.md"
+            "docs/human-evaluation-protocol.md",
+            "docs/participant-governance-packet-rb05c3-2026-08-23.md",
+            "docs/participant-governance-determination-2026-08-23.yaml"
           ],
           "id": "RB-05-C3",
-          "status": "planned",
+          "status": "complete",
           "text": "Complete human-participant governance before recruitment."
         },
         {
@@ -392,7 +394,7 @@
         "T18",
         "T19"
       ],
-      "status": "partial",
+      "status": "complete",
       "summary": "Resolve third-party corpus permissions and document governance before distributing historical artifacts or recruiting participants.",
       "title": "Rights and research governance"
     }
