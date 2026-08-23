@@ -239,6 +239,22 @@ if command -v mojo >/dev/null 2>&1; then
 else
   printf '%s\n' 'Mojo lane skipped: compiler unavailable.'
 fi
+if command -v rustup >/dev/null 2>&1 && rustup toolchain list 2>/dev/null | grep -q nightly; then
+  printf '%s\n' '== Nightly Rust conformance =='
+  cargo +nightly clippy --workspace --all-targets -- -D warnings
+  cargo +nightly test --workspace >/dev/null
+else
+  printf '%s\n' 'Nightly Rust lane skipped: nightly toolchain unavailable.'
+fi
+if [[ "${SKIP_FREETHREADED:-}" != "1" ]]; then
+  FT_PYTHON="${FT_PYTHON:-$(command -v python3.14t || true)}"
+  if [[ -n "$FT_PYTHON" ]]; then
+    printf '%s\n' '== Free-threaded Python conformance =='
+    "$FT_PYTHON" -m pytest -q tests/unit tests/integration -o addopts= -p no:randomly
+  else
+    printf '%s\n' 'Free-threaded lane skipped: install with `uv python install 3.14+freethreaded`.'
+  fi
+fi
 if command -v entire >/dev/null 2>&1; then
   printf '%s\n' '== Entire provenance =='
   entire status
