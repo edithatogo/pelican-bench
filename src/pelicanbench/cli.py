@@ -719,6 +719,16 @@ def run_openai_compatible_command(
     )
     tasks_loaded = load_tasks(tasks)
     manifests: list[dict[str, object]] = []
+    planned_outputs = [
+        output if replicates == 1 else output / f"replicate-{index:02d}"
+        for index in range(1, replicates + 1)
+    ]
+    for planned in planned_outputs:
+        if planned.exists() and any(planned.iterdir()):
+            raise typer.BadParameter(
+                f"refusing to overwrite existing run output directory: {planned}"
+            )
+
     for replicate_index in range(1, replicates + 1):
         replicate_output = (
             output if replicates == 1 else output / f"replicate-{replicate_index:02d}"
