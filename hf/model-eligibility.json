@@ -146,6 +146,66 @@
         "heritage-svg",
         "compositional-svg"
       ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "deepseek/deepseek-v3.2",
+      "notes": "OpenRouter contingency route for the deepseek pilot cell; qualification canary pending.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "openrouter-free",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "blocked",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "openai/gpt-oss-120b",
+      "notes": "Groq free-tier route; new model family for diversity; qualification canary pending. Re-profiled to groq-svg-v1 after 413 token-cap finding.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "groq-free",
+      "runtime_profile": "groq-svg-v1",
+      "status": "blocked",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "qwen/qwen3.6-27b",
+      "notes": "Groq free-tier route; qwen family candidate; qualification canary pending. Re-profiled to groq-svg-v1 after 413 token-cap finding.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "groq-free",
+      "runtime_profile": "groq-svg-v1",
+      "status": "blocked",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
     }
   ],
   "policy": {
