@@ -4,8 +4,8 @@
   "agent_id": "t14-panel-measurement-20260827-a-final",
   "role": "t14-calibration-adviser-measurement-design",
   "conflict_declaration": "none",
-  "candidate_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
-  "manifest_sha256": "232a695dc1ea9885b886016b79ad68063b62b6eb8b825d2b76200ab43d05308c",
+  "candidate_revision": "271946be084637400d8324b4f104e2a286f47076",
+  "manifest_sha256": "64d1d1d6ba2841d5f9c70d81fc4e192bfad8143537cf928544c8615ddd4b3060",
   "verification": {
     "manifest_digest": "pass",
     "deterministic_build_check": "pass",
@@ -30,6 +30,12 @@
     "A later normative receipt must bind exact renderer dependency versions."
   ],
   "recommendation": "accept-candidate-scaffold-revise-before-freeze",
+  "exact_revision_addendum": {
+    "episode_semantics_unchanged": true,
+    "candidate_asset_diff_from_ea9a3c0": "none",
+    "manifest_change": "generator_source_sha256-only",
+    "prior_recommendation_unchanged": true
+  },
   "boundaries": {
     "normative_sample_frozen": false,
     "human_ratings_supplied": false,

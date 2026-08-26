@@ -4,8 +4,8 @@
   "agent_id": "t14-statistics-panel-c-20260827",
   "role": "t14-calibration-statistics-adviser",
   "conflict_declaration": "none",
-  "candidate_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
-  "manifest_sha256": "232a695dc1ea9885b886016b79ad68063b62b6eb8b825d2b76200ab43d05308c",
+  "candidate_revision": "271946be084637400d8324b4f104e2a286f47076",
+  "manifest_sha256": "64d1d1d6ba2841d5f9c70d81fc4e192bfad8143537cf928544c8615ddd4b3060",
   "verification": {
     "deterministic_build_check": "pass",
     "candidate_validator": "pass",
@@ -40,5 +40,12 @@
     "Do not revise allocation or thresholds using proposed-held-out outcomes."
   ],
   "recommendation": "accept-candidate-preparation-revise-before-normative-freeze",
-  "receipt_sha256": "52e2bcb59100c92ce27271c61cb93ceeb20abe7c092065779058e2f63dfafec6"
+  "exact_revision_addendum": {
+    "candidate_asset_diff_from_ea9a3c0": "none",
+    "manifest_change": "generator_source_sha256-only",
+    "allocation_and_counts_unchanged": true,
+    "prior_recommendation_unchanged": true
+  },
+  "original_receipt_sha256": "52e2bcb59100c92ce27271c61cb93ceeb20abe7c092065779058e2f63dfafec6",
+  "exact_revision_receipt_sha256": "c7b4089c2b584a37f8f41980fe8c776ff11765d505029466096996ac1eadb683"
 }
