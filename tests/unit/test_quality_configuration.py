@@ -50,3 +50,12 @@ def test_harness_optional_conformance_lanes_are_conditional(root: Path) -> None:
     assert "Nightly Rust lane skipped" in harness
     assert "Free-threaded lane skipped" in harness
     assert "command -v python3.14t" in harness
+    assert "\"$FT_PYTHON\" -c 'import pytest'" in harness
+    assert "interpreter found but pytest is unavailable" in harness
+    assert "CI=1 entire status --json" in harness
+    assert "\n  entire status\n" not in harness
+
+
+def test_test_taxonomy_allows_concurrent_unit_execution(root: Path) -> None:
+    runner = (root / "scripts/run_test_matrix.py").read_text(encoding="utf-8")
+    assert 'CATEGORY_TIMEOUT_SECONDS = {"unit": 600}' in runner

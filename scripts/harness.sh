@@ -256,16 +256,18 @@ else
 fi
 if [[ "${SKIP_FREETHREADED:-}" != "1" ]]; then
   FT_PYTHON="${FT_PYTHON:-$(command -v python3.14t || true)}"
-  if [[ -n "$FT_PYTHON" ]]; then
+  if [[ -n "$FT_PYTHON" ]] && "$FT_PYTHON" -c 'import pytest' >/dev/null 2>&1; then
     printf '%s\n' '== Free-threaded Python conformance =='
     "$FT_PYTHON" -m pytest -q tests/unit tests/integration -o addopts= -p no:randomly
+  elif [[ -n "$FT_PYTHON" ]]; then
+    printf '%s\n' 'Free-threaded lane skipped: interpreter found but pytest is unavailable.'
   else
     printf '%s\n' 'Free-threaded lane skipped: install with `uv python install 3.14+freethreaded`.'
   fi
 fi
 if command -v entire >/dev/null 2>&1; then
   printf '%s\n' '== Entire provenance =='
-  entire status
+  CI=1 entire status --json
 else
   printf '%s\n' 'Entire runtime check skipped: CLI unavailable; project settings are validated.'
 fi

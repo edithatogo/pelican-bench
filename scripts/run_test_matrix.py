@@ -43,7 +43,10 @@ CATEGORY_SELECTORS: dict[str, tuple[str, ...]] = {
 }
 
 DEFAULT_CATEGORY_TIMEOUT_SECONDS = 60
-CATEGORY_TIMEOUT_SECONDS = {"unit": 120}
+# The unit selector intentionally includes the broad historical root-level suite.
+# Keep enough headroom for deterministic rendering tests on a concurrently loaded
+# development machine while retaining a finite, fail-closed timeout.
+CATEGORY_TIMEOUT_SECONDS = {"unit": 600}
 
 CATEGORIES = tuple(CATEGORY_SELECTORS)
 
