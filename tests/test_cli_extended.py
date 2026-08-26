@@ -170,7 +170,11 @@ def test_ecosystem_pilot_and_publication_commands(tmp_path: Path, root: Path):
         ],
     )
     assert planned.exit_code == 0, planned.output
-    assert json.loads(plan.read_text())["cell_count"] == 297
+    plan_payload = json.loads(plan.read_text())
+    assert plan_payload["model_count"] == 7
+    assert plan_payload["cell_count"] == 693
+    assert plan_payload["ready_cell_count"] == 495
+    assert plan_payload["qualification_required_cell_count"] == 198
 
     bundle = tmp_path / "publication"
     published = runner.invoke(

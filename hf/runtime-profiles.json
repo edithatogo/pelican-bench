@@ -32,7 +32,8 @@
         "mistralai/mistral-nemotron",
         "deepseek-ai/deepseek-v4-flash-0731",
         "nvidia/llama-3.3-nemotron-super-49b-v1",
-        "deepseek/deepseek-v3.2"
+        "deepseek/deepseek-v3.2",
+        "deepseek/deepseek-v4-flash-0731"
       ],
       "notes": "Provider-neutral profile; NIM student-tier pilot model set prespecified 2026-08-23. 2026-08-24: cross-provider contingency routes added (OpenRouter deepseek-chat-v3.2, Groq gpt-oss-120b / qwen3.6-27b) for qualification canaries.",
       "profile_id": "generic-svg-openai-v1",
