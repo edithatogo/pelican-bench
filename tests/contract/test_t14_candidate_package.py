@@ -14,16 +14,11 @@ SPEC.loader.exec_module(MODULE)
 
 def test_candidate_asset_resolution_rejects_traversal() -> None:
     with pytest.raises(ValueError, match="resolves outside candidate root"):
-        MODULE.resolve_candidate_asset(
-            Path("benchmark/fixtures/repair/candidate/../../tasks.json")
-        )
+        MODULE.resolve_candidate_asset(Path("benchmark/fixtures/repair/candidate/../../tasks.json"))
 
 
 def test_candidate_asset_resolution_accepts_committed_asset() -> None:
     resolved = MODULE.resolve_candidate_asset(
-        Path(
-            "benchmark/fixtures/repair/candidate/assets/"
-            "repair-t14-candidate-01-01-before.svg"
-        )
+        Path("benchmark/fixtures/repair/candidate/assets/repair-t14-candidate-01-01-before.svg")
     )
     assert resolved.is_file()

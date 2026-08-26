@@ -9814,7 +9814,7 @@
     "authorization_revision": "8dda8a4ecb07c18e9647cb6d97686ec625cbd458",
     "external_source_material": false,
     "generator": "scripts/build_t14_candidate_episodes.py",
-    "generator_source_sha256": "7012cf0f10f70fdbf962dfa34a926471cef27224d56e5439599a8e72b9c0d849",
+    "generator_source_sha256": "3fdb644100a5f79c23b551830483481f18523b57b8278f1e34c7cc8a21286cb6",
     "origin": "project-original-deterministic-svg-generator",
     "rights_status": "project-original"
   },

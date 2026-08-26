@@ -44,7 +44,9 @@ SCENES = (
     Scene("scene-07", "warm-cream", "step-through-cycle", "#f6e8cd", "#cf7042", "#384a52", 8, 1),
     Scene("scene-08", "cool-blue", "tricycle", "#dbe8ea", "#bd633f", "#263e49", -2, -5),
     Scene("scene-09", "golden", "cargo-cycle", "#f2df8c", "#e1773e", "#304b55", 4, 3),
-    Scene("scene-10", "neutral-gray", "step-through-cycle", "#e1e8ec", "#f08a43", "#253740", -7, -1),
+    Scene(
+        "scene-10", "neutral-gray", "step-through-cycle", "#e1e8ec", "#f08a43", "#253740", -7, -1
+    ),
     Scene("scene-11", "teal", "bicycle", "#bdd7d2", "#ca6842", "#31434b", 2, 5),
     Scene("scene-12", "warm-cream", "cargo-cycle", "#f7ecd3", "#d87542", "#293f48", 7, -4),
 )
@@ -117,7 +119,9 @@ def _svg(scene: Scene, defect: str | None) -> str:
         ]
     )
     if defect != "missing-eye":
-        pieces.append(f'<circle data-role="eye" cx="{280 + dx}" cy="{79 + dy}" r="5" fill="{scene.wheel}"/>')
+        pieces.append(
+            f'<circle data-role="eye" cx="{280 + dx}" cy="{79 + dy}" r="5" fill="{scene.wheel}"/>'
+        )
     pieces.append(
         f'<path data-role="gular pouch" d="M{299 + dx} {105 + dy} Q{350 + dx} {151 + dy} {397 + dx} {98 + dy} Q{345 + dx} {123 + dy} {299 + dx} {105 + dy} Z" fill="#f2aa72" stroke="{scene.wheel}" stroke-width="4"/>'
     )
@@ -162,14 +166,11 @@ def _selected_held_out_groups() -> set[str]:
         palette_counts = Counter(scene.palette_family for scene in held_out)
         vehicle_counts = Counter(scene.vehicle for scene in held_out)
         categorical_deviation = sum(
-            (palette_counts[key] - value / 4) ** 2
-            for key, value in palette_totals.items()
-        ) + sum(
-            (vehicle_counts[key] - value / 4) ** 2 for key, value in vehicle_totals.items()
+            (palette_counts[key] - value / 4) ** 2 for key, value in palette_totals.items()
+        ) + sum((vehicle_counts[key] - value / 4) ** 2 for key, value in vehicle_totals.items())
+        shift_imbalance = abs(sum(scene.shift_x for scene in held_out) / 3 - all_shift_x) + abs(
+            sum(scene.shift_y for scene in held_out) / 3 - all_shift_y
         )
-        shift_imbalance = abs(
-            sum(scene.shift_x for scene in held_out) / 3 - all_shift_x
-        ) + abs(sum(scene.shift_y for scene in held_out) / 3 - all_shift_y)
         identity = ",".join(sorted(held_ids))
         tie_break = hashlib.sha256(f"t14-72-24-v1\0{identity}".encode()).hexdigest()
         ranked.append(((-distinct, categorical_deviation, shift_imbalance, tie_break), held_out))
@@ -185,9 +186,7 @@ def _payload(
     held_out_groups = _selected_held_out_groups()
     for scene_index, scene in enumerate(SCENES, start=1):
         partition = (
-            "proposed-held-out"
-            if scene.scene_id in held_out_groups
-            else "proposed-development"
+            "proposed-held-out" if scene.scene_id in held_out_groups else "proposed-development"
         )
         for defect_index, (defect, severity, description) in enumerate(DEFECTS, start=1):
             repair_id = f"repair-t14-candidate-{scene_index:02d}-{defect_index:02d}"
@@ -318,9 +317,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    expected = _expected_files(
-        args.output, reuse_recorded_render_hashes=args.check
-    )
+    expected = _expected_files(args.output, reuse_recorded_render_hashes=args.check)
     if args.check:
         missing_or_changed = [
             str(path.relative_to(ROOT))
@@ -335,7 +332,11 @@ def main() -> int:
                 if path.is_file() and path not in expected
             ]
         if missing_or_changed or unexpected:
-            print(json.dumps({"missing_or_changed": missing_or_changed, "unexpected": unexpected}, indent=2))
+            print(
+                json.dumps(
+                    {"missing_or_changed": missing_or_changed, "unexpected": unexpected}, indent=2
+                )
+            )
             return 1
         print("T14 candidate episodes deterministic: 96 episodes, 72/24 proposed split")
         return 0

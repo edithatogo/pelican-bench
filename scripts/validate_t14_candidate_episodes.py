@@ -149,10 +149,15 @@ def main() -> int:
         operation = row.get("operation")
         if operation in {"add", "reconnect"}:
             require(target_roles <= observed_roles["after_reference"], "repair target absent after")
-            require(not target_roles <= observed_roles["before"], "repair target already complete before")
+            require(
+                not target_roles <= observed_roles["before"],
+                "repair target already complete before",
+            )
         elif operation == "remove":
             require(target_roles <= observed_roles["before"], "removal target absent before")
-            require(not target_roles & observed_roles["after_reference"], "removal target remains after")
+            require(
+                not target_roles & observed_roles["after_reference"], "removal target remains after"
+            )
         elif operation == "move":
             require(
                 target_roles <= observed_roles["before"] & observed_roles["after_reference"],
