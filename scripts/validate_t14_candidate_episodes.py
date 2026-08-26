@@ -12,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "benchmark/fixtures/repair/candidate/manifest.json"
+CANDIDATE_ROOT = MANIFEST.parent.resolve()
 sys.path.insert(0, str(ROOT / "src"))
 
 from pelicanbench.render import render_svg  # ruff: ignore[module-import-not-at-top-of-file]
@@ -21,6 +22,24 @@ from pelicanbench.svg import inspect_svg  # ruff: ignore[module-import-not-at-to
 def require(condition: object, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def resolve_candidate_asset(relative: Path) -> Path:
+    require(
+        relative.parts[:4] == ("benchmark", "fixtures", "repair", "candidate"),
+        f"asset path escapes candidate prefix: {relative}",
+    )
+    source_path = ROOT / relative
+    path = source_path.resolve()
+    require(
+        CANDIDATE_ROOT in path.parents,
+        f"asset resolves outside candidate root: {relative}",
+    )
+    require(
+        path.is_file() and not source_path.is_symlink(),
+        f"unsafe asset path: {relative}",
+    )
+    return path
 
 
 @cache
@@ -97,8 +116,7 @@ def main() -> int:
                 relative.parts[:4] == ("benchmark", "fixtures", "repair", "candidate"),
                 f"{path_key} escapes candidate root",
             )
-            path = ROOT / relative
-            require(path.is_file() and not path.is_symlink(), f"unsafe asset path: {relative}")
+            path = resolve_candidate_asset(relative)
             raw = path.read_bytes()
             require(
                 hashlib.sha256(raw).hexdigest() == row.get(byte_hash_key),
