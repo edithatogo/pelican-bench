@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "status": "agent-advice-only",
+  "agent_id": "t14-statistics-panel-c-20260827",
+  "role": "t14-calibration-statistics-adviser",
+  "conflict_declaration": "none",
+  "candidate_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
+  "manifest_sha256": "232a695dc1ea9885b886016b79ad68063b62b6eb8b825d2b76200ab43d05308c",
+  "verification": {
+    "deterministic_build_check": "pass",
+    "candidate_validator": "pass",
+    "selected_proposed_held_out_groups": ["scene-10", "scene-11", "scene-12"],
+    "development_episodes": 72,
+    "held_out_episodes": 24,
+    "development_scene_groups": 9,
+    "held_out_scene_groups": 3,
+    "defect_family_allocation": "9/3-each",
+    "moderate_allocation": "36/12",
+    "severe_allocation": "36/12"
+  },
+  "supported_claims": [
+    "Deterministic project-original candidate preparation",
+    "Exact byte and canonical-render commitments",
+    "Proposed whole-scene 72/24 allocation",
+    "Exact defect-family and severity count balance",
+    "No cross-partition sharing of a scene reference"
+  ],
+  "unsupported_claims": [
+    "Normative sample freeze or population representativeness",
+    "Ninety-six independent scene observations",
+    "Stable held-out uncertainty from three scene clusters",
+    "Independent severity or vehicle-family effects",
+    "Guaranteed outcome support for AUC",
+    "Human calibration, E3 evidence, promotion, release or publication readiness"
+  ],
+  "required_before_freeze": [
+    "Use scene group as the resampling and uncertainty unit.",
+    "Add or explicitly waive visually distinct vehicle and scene-template diversity.",
+    "Add predeclared under-repair, over-edit, introduced-defect, boundary and invalid cases.",
+    "Do not revise allocation or thresholds using proposed-held-out outcomes."
+  ],
+  "recommendation": "accept-candidate-preparation-revise-before-normative-freeze",
+  "receipt_sha256": "52e2bcb59100c92ce27271c61cb93ceeb20abe7c092065779058e2f63dfafec6"
+}

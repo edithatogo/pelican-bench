@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "status": "agent-advice-only",
+  "agent_id": "t14-governance-panel-b",
+  "role": "t14-calibration-governance-provenance-adviser",
+  "conflict_declaration": "none",
+  "candidate_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
+  "validator_fix_revision": "7150a75fc4ea5c15f2a4b2b572b5599f94d8aae2",
+  "manifest_sha256": "232a695dc1ea9885b886016b79ad68063b62b6eb8b825d2b76200ab43d05308c",
+  "verification": {
+    "manifest_digest": "pass",
+    "generator_commitment": "pass",
+    "deterministic_build_check": "pass",
+    "candidate_validator": "pass",
+    "optimized_python_validator": "pass",
+    "resolved_path_containment": "pass",
+    "path_containment_tests": "2-passed",
+    "project_original_declaration": "present",
+    "external_source_material": false
+  },
+  "findings": [
+    "All 96 episodes are candidate-development-only and the proposed split is not frozen.",
+    "Byte, render, operation, preservation and introduced-defect annotations are present.",
+    "Whole-scene allocation prevents related variants crossing candidate partitions.",
+    "Project-original provenance is repository evidence rather than independent legal clearance.",
+    "Source filenames, roles and defect fields disclose targets and cannot be a blinded rating surface.",
+    "The package represents 12 shared scene references rather than 96 independent scenes."
+  ],
+  "recommendation": "authorize-candidate-preparation-only",
+  "boundaries": {
+    "normative_sample_frozen": false,
+    "human_ratings_supplied": false,
+    "agent_outputs_are_ratings": false,
+    "score_promoted": false,
+    "publication_authorized": false,
+    "release_authorized": false,
+    "merge_authorized": false,
+    "evidence_level_effect": "none-beyond-local-E2-candidate-preparation"
+  },
+  "original_receipt_sha256": "028e883273c37f203ce50fc1205fb03dfb5c66df37c81fdddbdaca99da8c20ac"
+}

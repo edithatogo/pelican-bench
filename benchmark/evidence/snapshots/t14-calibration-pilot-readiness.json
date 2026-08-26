@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "study_id": "t14-human-calibration-pilot",
-  "repository_revision": "9e76055b37be2a3fd4a721c8a5ea86e07c0634b2",
-  "status": "blocked-insufficient-sample",
+  "repository_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
+  "status": "candidate-prepared-not-frozen",
   "authorization": "D039",
   "decision_maker": "benchmark-steward",
   "current_workflow": "agent-panel-development-only",
@@ -20,10 +20,32 @@
     "may_change_score_compatibility": false,
     "promotion_effect": "none"
   },
-  "candidate_episode_count": 2,
+  "candidate_episode_count": 96,
   "recommended_target": 96,
   "recommended_development_count": 72,
   "recommended_held_out_count": 24,
+  "candidate_package": {
+    "status": "candidate-development-only",
+    "manifest": "benchmark/fixtures/repair/candidate/manifest.json",
+    "manifest_sha256": "232a695dc1ea9885b886016b79ad68063b62b6eb8b825d2b76200ab43d05308c",
+    "candidate_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
+    "scene_groups": 12,
+    "defect_families": 8,
+    "proposed_development_count": 72,
+    "proposed_held_out_count": 24,
+    "split_status": "proposed-not-frozen",
+    "human_ratings_present": false,
+    "promotion_effect": "none"
+  },
+  "agent_panel": {
+    "status": "complete-advice-only",
+    "measurement_packet": "benchmark/evidence/advisory/t14/measurement-design.json",
+    "governance_packet": "benchmark/evidence/advisory/t14/governance-provenance.json",
+    "statistics_packet": "benchmark/evidence/advisory/t14/statistics-sampling.json",
+    "recommendation": "accept-candidate-preparation-revise-before-normative-freeze",
+    "ratings_created": false,
+    "promotion_effect": "none"
+  },
   "available_project_original_fixtures": [
     {
       "repair_id": "repair-pelican-bike-001",
@@ -38,8 +60,8 @@
       "after_sha256": "45b791c67d492e778ea3179c3c0de900c0c69765621e69959ba9b2291fe78a5a"
     }
   ],
-  "blocker": "The repository has two project-original repair episodes; a 72/24 development/held-out calibration sample cannot be frozen without additional eligible project-original episodes.",
-  "next_action": "Run bounded agent-panel development analysis over the existing project-original repair fixtures; keep the 72/24 human-calibration sample and later steward decision on the roadmap.",
+  "blocker": "The 96-episode project-original package and proposed 72/24 scene-group split are prepared but not normative or freeze-ready. Human calibration, a steward decision, and the witnessed independent recovery rehearsal remain outstanding.",
+  "next_action": "Retain the agent-panel packets as advice, address any remaining intake limitations, and return the candidate package to the benchmark steward only when a fresh freeze decision is requested.",
   "claims": {
     "human_ratings_present": true,
     "agent_ratings_present": false,

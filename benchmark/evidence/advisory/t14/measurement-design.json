@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "status": "agent-advice-only",
+  "agent_id": "t14-panel-measurement-20260827-a-final",
+  "role": "t14-calibration-adviser-measurement-design",
+  "conflict_declaration": "none",
+  "candidate_revision": "ea9a3c04cef930b9351a76a708249c549cc870ff",
+  "manifest_sha256": "232a695dc1ea9885b886016b79ad68063b62b6eb8b825d2b76200ab43d05308c",
+  "verification": {
+    "manifest_digest": "pass",
+    "deterministic_build_check": "pass",
+    "candidate_validator": "pass",
+    "episode_count": 96,
+    "proposed_split": "72/24-across-9/3-whole-scene-groups",
+    "external_calls": false,
+    "repository_edits": false
+  },
+  "resolved_findings": [
+    "Declared target and preservation roles now match inspected SVG roles.",
+    "Operation-aware add, move, reconnect and remove predicates are present.",
+    "Every episode has a canonical 512-pixel opaque-white render commitment.",
+    "Bird identity is pelican and palette labels describe visible palette changes.",
+    "Moderate and severe candidate labels are balanced 48/48."
+  ],
+  "remaining_risks": [
+    "Move predicates do not yet prove target-specific corrected coordinates.",
+    "Vehicle-family labels remain metadata-only over shared vehicle geometry.",
+    "Severity is unvalidated and confounded with defect family.",
+    "The 96 rows contain 12 independent scene clusters and three proposed held-out clusters.",
+    "A later normative receipt must bind exact renderer dependency versions."
+  ],
+  "recommendation": "accept-candidate-scaffold-revise-before-freeze",
+  "boundaries": {
+    "normative_sample_frozen": false,
+    "human_ratings_supplied": false,
+    "score_promoted": false,
+    "release_authorized": false
+  }
+}
