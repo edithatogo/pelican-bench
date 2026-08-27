@@ -100,6 +100,20 @@ def test_validation_rejects_stale_generated_views(root: Path, tmp_path: Path):
     assert "stale-issue-manifest" in codes
 
 
+def test_validation_rejects_retired_mypy_dependency(root: Path, tmp_path: Path):
+    project = _copy_repository(root, tmp_path / "repo")
+    pyproject = project / "pyproject.toml"
+    text = pyproject.read_text(encoding="utf-8")
+    pyproject.write_text(
+        text.replace('  "ty>=0.0.74",', '  "ty>=0.0.74",\n  "mypy>=1.0",'),
+        encoding="utf-8",
+    )
+
+    codes = {item.code for item in validate_repository(project)}
+
+    assert "mypy-still-declared" in codes
+
+
 def test_validation_rejects_inconsistent_blockers_and_broken_exploit_refs(
     root: Path, tmp_path: Path
 ):
