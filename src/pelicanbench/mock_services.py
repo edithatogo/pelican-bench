@@ -14,6 +14,7 @@ from collections import deque
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from typing import Any
 
 from .semantic import AtomicQuestion, JudgeAnswer
 
@@ -296,8 +297,8 @@ class ScriptedOpenAIService:
                         return
                 self._write(owner._next_response())
 
-            def log_message(self, _format: str, *args: object) -> None:
-                del args
+            def log_message(self, format: str, *args: Any) -> None:
+                del format, args
 
         self._server = _MockHTTPServer(("127.0.0.1", 0), Handler)
         self._thread = threading.Thread(target=self._server.serve_forever, daemon=True)

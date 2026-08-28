@@ -388,3 +388,26 @@ stable-release claims.
 
 **Decision owner:** benchmark steward. Agent analysis remains advisory and cannot supply
 normative calibration, independent approval, or witnessed recovery evidence.
+
+## D041 — Defer the steward-dependent T14 calibration step
+
+**Options:** require the benchmark steward to continue rating episodes now; let agents
+produce ratings that stand in for human calibration; or have agents complete the
+repository-owned preparation and analysis while placing the steward-dependent step on a
+later roadmap.
+
+**Decision:** pause steward action for the current T14 work period. A panel of agents may
+intake and inventory eligible project-original episodes, prepare the blinded 72/24 sample,
+run fixture and schema validation, and draft a hash-bound decision packet. Agent outputs
+remain advisory and cannot be recorded as human ratings, independent approval, normative
+calibration, E3 evidence, or a release decision. The benchmark steward remains the sole
+human rater and decision-maker when the deferred roadmap item is reopened. Until the
+sample is frozen and steward-rated, T14 remains P2/P3 partial and score compatibility
+remains `none-until-normative-release`.
+
+**Later roadmap item:** reopen the steward rating and decision packet after agent-owned
+preparation is complete; then obtain the steward's hash-bound ratings and decision before
+considering normative calibration, T14/P3 promotion, or score compatibility changes.
+
+**Rationale:** this keeps current progress agent-led without misrepresenting agent analysis
+as human judgement or allowing an accountable gate to be silently waived.

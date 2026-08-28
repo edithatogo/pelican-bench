@@ -24,6 +24,7 @@ jobs:
           python-version: '3.14'
           cache: pip
       - run: python -m pip install --upgrade pip
+      - run: python -m pip install uv==0.11.8
       - run: python -m pip install -e '.[dev,analysis]'
       - name: Dependency-free static audit
         run: python scripts/static_audit.py --output artifacts/static-audit.json
@@ -35,10 +36,20 @@ jobs:
         run: ruff check src tests scripts hf
       - name: Ruff formatting
         run: ruff format --check src tests scripts hf
-      - name: mypy strict typing
-        run: mypy src/pelicanbench
-      - name: Pyright strict typing
-        run: pyright src/pelicanbench/adapters.py src/pelicanbench/verification.py || true
+      - name: ty fast typing
+        run: ty check src/pelicanbench
+      - name: basedpyright canonical typing
+        run: basedpyright src/pelicanbench/adapters.py src/pelicanbench/verification.py
+      - name: Nightly Rust conformance
+        run: |
+          rustup toolchain install nightly --profile minimal --component clippy
+          cargo +nightly clippy --workspace --all-targets -- -D warnings
+      - name: Free-threaded Python conformance
+        run: |
+          uv python install 3.14+freethreaded
+          uv venv --python 3.14+freethreaded .venv-ft
+          uv pip install --python .venv-ft/bin/python -e '.[dev]'
+          .venv-ft/bin/python -m pytest -q tests/unit tests/integration -o addopts= -p no:randomly
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:

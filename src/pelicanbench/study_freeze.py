@@ -51,7 +51,7 @@ def _valid_sha256(value: str) -> bool:
 
 def _validate_timestamp(value: str, *, field: str) -> None:
     try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value)
     except ValueError as error:
         raise ValueError(f"{field} must be an ISO-8601 timestamp") from error
     if parsed.tzinfo is None or parsed.utcoffset() is None:

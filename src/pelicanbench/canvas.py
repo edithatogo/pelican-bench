@@ -5,6 +5,7 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass, field
 from html import escape
+from itertools import starmap
 from typing import Any
 
 from .io import content_hash
@@ -108,7 +109,7 @@ class CanvasEnvironment:
                 {"action": deepcopy(action), "state_hash": self.state()["state_hash"]}
             )
             return self.state()
-        if kind not in {"checkpoint"}:
+        if kind != "checkpoint":
             self.history.append(before)
         self.events.append({"action": deepcopy(action), "state_hash": self.state()["state_hash"]})
         return self.state()
@@ -152,9 +153,9 @@ class CanvasEnvironment:
             text = escape(str(item.get("text", "")))
             return f"<{item['tag']} {serialised}>{text}</{item['tag']}>"
 
-        body: list[str] = [render(element_id, item) for element_id, item in grouped.get(None, [])]
+        body: list[str] = list(starmap(render, grouped.get(None, [])))
         for group in group_names:
-            members = "".join(render(element_id, item) for element_id, item in grouped[group])
+            members = "".join(starmap(render, grouped[group]))
             body.append(f'<g id="{escape(group, quote=True)}">{members}</g>')
         return (
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.width}" height="{self.height}" '

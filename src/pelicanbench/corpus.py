@@ -18,23 +18,26 @@ ENTITY_PATTERNS: dict[str, tuple[str, ...]] = {
     "AGENTIC": ("agent", "inspected", "contact sheet", "reference", "revision", "preserved"),
 }
 RELATION_PATTERNS = {
-    "failed_contact": re.compile(r"(?:did not|not) contact", re.I),
-    "disconnected_component": re.compile(r"disconnected", re.I),
-    "improvement": re.compile(r"improv(?:e|ed|ement)", re.I),
-    "regression": re.compile(r"introduced|extra|regress", re.I),
-    "role_mismatch": re.compile(r"rather than|represented .* rather than", re.I),
+    "failed_contact": re.compile(r"(?:did not|not) contact", re.IGNORECASE),
+    "disconnected_component": re.compile(r"disconnected", re.IGNORECASE),
+    "improvement": re.compile(r"improv(?:e|ed|ement)", re.IGNORECASE),
+    "regression": re.compile(r"introduced|extra|regress", re.IGNORECASE),
+    "role_mismatch": re.compile(r"rather than|represented .* rather than", re.IGNORECASE),
 }
 CATEGORY_PATTERNS = {
-    "anatomy": re.compile(r"bill|pouch|wing|feet|foot|anatom", re.I),
-    "mechanics": re.compile(r"wheel|frame|pedal|handlebar|saddle|cabin", re.I),
-    "interaction": re.compile(r"contact|riding|driving|driver|relation|above|on top", re.I),
-    "agentic": re.compile(r"agent|contact sheet|reference|revision|inspect", re.I),
+    "anatomy": re.compile(r"bill|pouch|wing|feet|foot|anatom", re.IGNORECASE),
+    "mechanics": re.compile(r"wheel|frame|pedal|handlebar|saddle|cabin", re.IGNORECASE),
+    "interaction": re.compile(
+        r"contact|riding|driving|driver|relation|above|on top", re.IGNORECASE
+    ),
+    "agentic": re.compile(r"agent|contact sheet|reference|revision|inspect", re.IGNORECASE),
 }
 
 
 def _spans(text: str, term: str) -> list[tuple[int, int]]:
     return [
-        (match.start(), match.end()) for match in re.finditer(rf"\b{re.escape(term)}\b", text, re.I)
+        (match.start(), match.end())
+        for match in re.finditer(rf"\b{re.escape(term)}\b", text, re.IGNORECASE)
     ]
 
 

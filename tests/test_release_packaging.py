@@ -208,7 +208,7 @@ def test_build_release_package_happy_path(tmp_path: Path, monkeypatch):
         command = " ".join(args)
         if "status" in command:
             return ""
-        if "HEAD^{tree}" in command:
+        if "HEAD^{tree}" in command:  # ruff: ignore[missing-f-string-syntax] -- literal git ref syntax
             return tree
         return commit
 

@@ -167,10 +167,13 @@
       "closure_criteria": [
         {
           "evidence": [
-            "docs/human-evaluation-protocol.md"
+            "docs/human-evaluation-protocol.md",
+            "docs/participant-governance-packet-rb05c3-2026-08-23.md",
+            "docs/participant-governance-determination-2026-08-23.yaml",
+            "docs/participant-governance-exemption-addendum-2026-08-23.yaml"
           ],
           "id": "RB-03-C1",
-          "status": "planned",
+          "status": "complete",
           "text": "Complete governance and consent review appropriate to the recruited sample."
         },
         {
@@ -327,10 +330,11 @@
       "closure_criteria": [
         {
           "evidence": [
-            "data/sources/rights-ledger.json"
+            "data/sources/rights-ledger.json",
+            "docs/rights-review-packet-t01-2026-08-19.md"
           ],
           "id": "RB-05-C1",
-          "status": "planned",
+          "status": "complete",
           "text": "Settle permission and redistribution status for every mirrored historical artifact."
         },
         {
@@ -344,10 +348,12 @@
         },
         {
           "evidence": [
-            "docs/human-evaluation-protocol.md"
+            "docs/human-evaluation-protocol.md",
+            "docs/participant-governance-packet-rb05c3-2026-08-23.md",
+            "docs/participant-governance-determination-2026-08-23.yaml"
           ],
           "id": "RB-05-C3",
-          "status": "planned",
+          "status": "complete",
           "text": "Complete human-participant governance before recruitment."
         },
         {
@@ -391,7 +397,7 @@
         "T18",
         "T19"
       ],
-      "status": "partial",
+      "status": "complete",
       "summary": "Resolve third-party corpus permissions and document governance before distributing historical artifacts or recruiting participants.",
       "title": "Rights and research governance"
     }

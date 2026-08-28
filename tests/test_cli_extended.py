@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import shutil
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from typer.testing import CliRunner
@@ -10,6 +11,37 @@ from typer.testing import CliRunner
 from pelicanbench.cli import app
 
 runner = CliRunner()
+
+
+def _patch_openai_compatible_run(monkeypatch, calls: list[tuple[Path, int]]) -> None:
+    entry = SimpleNamespace(
+        model_id="fixture/model",
+        eligible=True,
+        eligibility_blockers=(),
+        revision="fixture-revision",
+    )
+    profile = SimpleNamespace(
+        profile_id="fixture-profile",
+        system_prompt="system",
+        first_user_prefix="",
+        assistant_prefill="",
+        temperature=0.0,
+        max_tokens=256,
+        timeout_seconds=45,
+    )
+    monkeypatch.setattr("pelicanbench.cli.load_registry", lambda _path: [entry])
+    monkeypatch.setattr("pelicanbench.cli.load_runtime_profiles", lambda _path: object())
+    monkeypatch.setattr(
+        "pelicanbench.cli.runtime_profile_for_model", lambda _profiles, _model_id: profile
+    )
+    monkeypatch.setattr("pelicanbench.cli.load_tasks", lambda _path: (object(),))
+
+    def fake_run_benchmark(_tasks, _adapter, *, output_directory, seed, **_kwargs):
+        calls.append((Path(output_directory), seed))
+        manifest = SimpleNamespace(model_dump=lambda **_kwargs: {"run_id": f"run-{len(calls)}"})
+        return SimpleNamespace(manifest=manifest)
+
+    monkeypatch.setattr("pelicanbench.cli.run_benchmark", fake_run_benchmark)
 
 
 def test_validate_and_json_readiness_commands(root: Path):
@@ -55,6 +87,65 @@ def test_generate_prespecified_pilot_command(tmp_path: Path, root: Path):
     assert len(output.read_text().splitlines()) == 33
     commitment = json.loads((tmp_path / "pilot-commitment.json").read_text())
     assert commitment["task_count"] == 33
+
+
+def test_run_openai_compatible_replicate_waves(tmp_path: Path, monkeypatch):
+    calls: list[tuple[Path, int]] = []
+    _patch_openai_compatible_run(monkeypatch, calls)
+    output = tmp_path / "run"
+
+    result = runner.invoke(
+        app,
+        [
+            "run-openai-compatible",
+            "--endpoint",
+            "https://example.invalid/v1",
+            "--model-id",
+            "fixture/model",
+            "--output",
+            str(output),
+            "--replicates",
+            "2",
+            "--seed",
+            "17",
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    assert calls == [
+        (output / "replicate-01", 17),
+        (output / "replicate-02", 2_000_017),
+    ]
+    assert '"replicate_index": 1' in result.output
+    assert '"replicate_seed": 2000017' in result.output
+
+
+def test_run_openai_compatible_refuses_nonempty_replicate(tmp_path: Path, monkeypatch):
+    calls: list[tuple[Path, int]] = []
+    _patch_openai_compatible_run(monkeypatch, calls)
+    output = tmp_path / "run"
+    occupied = output / "replicate-02"
+    occupied.mkdir(parents=True)
+    (occupied / "retained.json").write_text("{}\n", encoding="utf-8")
+
+    result = runner.invoke(
+        app,
+        [
+            "run-openai-compatible",
+            "--endpoint",
+            "https://example.invalid/v1",
+            "--model-id",
+            "fixture/model",
+            "--output",
+            str(output),
+            "--replicates",
+            "2",
+        ],
+    )
+
+    assert result.exit_code != 0
+    assert "refusing to overwrite existing run output directory" in result.output
+    assert calls == []
 
 
 @pytest.mark.skipif(shutil.which("inkscape") is None, reason="Inkscape not installed")
@@ -170,7 +261,11 @@ def test_ecosystem_pilot_and_publication_commands(tmp_path: Path, root: Path):
         ],
     )
     assert planned.exit_code == 0, planned.output
-    assert json.loads(plan.read_text())["cell_count"] == 297
+    plan_payload = json.loads(plan.read_text())
+    assert plan_payload["model_count"] == 7
+    assert plan_payload["cell_count"] == 693
+    assert plan_payload["ready_cell_count"] == 495
+    assert plan_payload["qualification_required_cell_count"] == 198
 
     bundle = tmp_path / "publication"
     published = runner.invoke(

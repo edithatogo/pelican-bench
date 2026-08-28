@@ -328,7 +328,13 @@ class OpenAICompatibleAdapter(ModelAdapter):
 
     def generate(self, task: BenchmarkTask, *, seed: int) -> GenerationResult:
         payload = self._payload(task, seed=seed)
-        headers = {"Content-Type": "application/json", "Accept": "application/json"}
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            # Some CDNs (e.g. Groq fronting Cloudflare) reject the default
+            # Python-urllib user agent with error 1010.
+            "User-Agent": "pelicanbench-openai-compatible/0.2",
+        }
         if self.api_key_environment:
             token = os.getenv(self.api_key_environment)
             if token:

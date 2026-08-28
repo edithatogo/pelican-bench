@@ -59,6 +59,7 @@ class RuntimePromptProfile(BaseModel):
     )
     max_tokens: int = Field(default=12000, ge=1)
     temperature: float = Field(default=0.0, ge=0.0)
+    timeout_seconds: int | None = Field(default=None, ge=30, le=1800)
     source: str
     status: Literal["active", "experimental", "blocked", "retired"] = "experimental"
     notes: str = ""

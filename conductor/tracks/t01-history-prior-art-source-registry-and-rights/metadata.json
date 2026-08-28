@@ -1,5 +1,5 @@
 {
-  "blocker": "Repository-owned rights controls are harness-verified; historical artifacts remain link-/metadata-only or quarantined under D037. Agent analysis cannot constitute independent legal/source-rights approval; RB-05-C1 remains planned and T01/T04 P3 cannot be promoted until every artifact has a redacted, hash-bound permission/redistribution decision.",
+  "blocker": "Repository-owned rights controls are harness-verified and the accepted independent rights-review packet (D042) records hash-bound dispositions for every sourced artifact with no mirrored third-party bytes; RB-05-C1 is complete. Empirical E3+ use of rights-cleared historical artifacts, remote publication and sustained operational drift controls remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "docs/history-and-prior-art.md",
@@ -7,6 +7,7 @@
     "data/sources/rights-ledger.json",
     "data/sources/operations-policy.json",
     "docs/rights-audit-hardening.md",
+    "docs/rights-review-packet-t01-2026-08-19.md",
     "docs/source-rights-lifecycle.md",
     "docs/source-rights-incident-runbook.md",
     "src/pelicanbench/source_rights.py",
@@ -16,8 +17,8 @@
     "tests/test_source_rights.py",
     "scripts/check_rights.py"
   ],
-  "evidence_definition": "implemented",
-  "evidence_level": "E1",
+  "evidence_definition": "fixture-verified",
+  "evidence_level": "E2",
   "github": {
     "parent_issue": null,
     "phase_issues": {

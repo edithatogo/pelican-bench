@@ -11,8 +11,8 @@ from pathlib import Path
 
 TOOLS = {
     "ruff": {"kind": "executable", "required_in_ci": True},
-    "mypy": {"kind": "module", "required_in_ci": True},
-    "pyright": {"kind": "executable", "required_in_ci": True},
+    "ty": {"kind": "executable", "required_in_ci": True},
+    "basedpyright": {"kind": "executable", "required_in_ci": True},
     "vale": {"kind": "executable", "required_in_ci": True},
     "hypothesis": {"kind": "module", "required_in_ci": True},
     "mutmut": {"kind": "executable", "required_in_ci": False},

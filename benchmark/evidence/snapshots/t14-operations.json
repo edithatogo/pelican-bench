@@ -8,8 +8,11 @@
   "retention": "permanent",
   "publication_policy": "diagnostic-only-until-human-calibration",
   "agent_panel_role": "advice-only",
+  "current_workflow": "agent-panel-development-only",
+  "human_calibration_roadmap": "deferred-for-later-consideration",
   "evidence_level": "E2",
-  "human_calibration_status": "rehearsal-collected-insufficient-sample",
+  "human_calibration_status": "rehearsal-retained-human-work-deferred",
+  "agent_development_analysis_status": "advisory-only-no-promotion-effect",
   "recovery_rehearsal_status": "clean-clone-passed-unwitnessed",
   "clean_clone_receipt": {
     "commit": "9e76055b37be2a3fd4a721c8a5ea86e07c0634b2",

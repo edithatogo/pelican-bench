@@ -279,7 +279,7 @@ def superiority_probabilities(
             else:
                 z = difference / standard_error
                 probability = 0.5 * (1 + math.erf(z / math.sqrt(2)))
-            output[(left.model_id, right.model_id)] = probability
+            output[left.model_id, right.model_id] = probability
     return output
 
 

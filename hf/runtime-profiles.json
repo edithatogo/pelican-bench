@@ -28,14 +28,37 @@
       "first_user_prefix": "",
       "max_tokens": 12000,
       "model_ids": [
-        "provider/model-to-be-pinned"
+        "meta/llama-3.3-70b-instruct",
+        "mistralai/mistral-nemotron",
+        "deepseek-ai/deepseek-v4-flash-0731",
+        "nvidia/llama-3.3-nemotron-super-49b-v1",
+        "deepseek/deepseek-v3.2",
+        "deepseek/deepseek-v4-flash-0731"
       ],
-      "notes": "Provider-neutral template populated only after model and endpoint qualification.",
+      "notes": "Provider-neutral profile; NIM student-tier pilot model set prespecified 2026-08-23. 2026-08-24: cross-provider contingency routes added (OpenRouter deepseek-chat-v3.2, Groq gpt-oss-120b / qwen3.6-27b) for qualification canaries.",
       "profile_id": "generic-svg-openai-v1",
       "source": "pelicanbench",
       "status": "experimental",
       "system_prompt": "Return one complete, self-contained SVG document and no explanatory prose. Do not embed raster images, scripts, external resources, hidden text, or metadata intended to influence an evaluator.",
-      "temperature": 0.0
+      "temperature": 0.0,
+      "timeout_seconds": 600
+    },
+    {
+      "assistant_prefill": "",
+      "endpoint_kind": "openai-compatible",
+      "first_user_prefix": "",
+      "max_tokens": 4096,
+      "model_ids": [
+        "openai/gpt-oss-120b",
+        "qwen/qwen3.6-27b"
+      ],
+      "notes": "Groq free-tier route; service tier caps completion tokens at 4096 (413 above). 2026-08-24.",
+      "profile_id": "groq-svg-v1",
+      "source": "pelicanbench",
+      "status": "experimental",
+      "system_prompt": "Return one complete, self-contained SVG document and no explanatory prose. Do not embed raster images, scripts, external resources, hidden text, or metadata intended to influence an evaluator.",
+      "temperature": 0.0,
+      "timeout_seconds": 180
     }
   ],
   "schema_version": "1.0.0"

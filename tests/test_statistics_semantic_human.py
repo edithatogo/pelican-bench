@@ -147,5 +147,5 @@ def test_interaction_shrinkage_reliability_and_superiority():
     assert reliability.mean_replicates == pytest.approx(3)
     assert 0 <= reliability.reliability <= 1
     probabilities = superiority_probabilities(estimates)
-    assert probabilities[("m1", "m2")] > 0.5
-    assert probabilities[("m2", "m1")] < 0.5
+    assert probabilities["m1", "m2"] > 0.5
+    assert probabilities["m2", "m1"] < 0.5

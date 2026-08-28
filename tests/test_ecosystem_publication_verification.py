@@ -71,12 +71,23 @@ def test_first_party_runtime_profiles_are_explicit(root: Path):
 def test_pilot_plan_retains_qualification_gates(root: Path):
     tasks = load_tasks(root / "benchmark/tasks/v1-pilot.jsonl")
     models = load_registry(root / "hf/model-eligibility.json")
+    selected = [
+        model
+        for model in models
+        if model.status not in {"blocked", "retired"}
+        and any(task.track in model.tracks for task in tasks)
+    ]
+    eligible_count = sum(1 for item in selected if item.eligible)
+    unqualified_count = len(selected) - eligible_count
     plan = build_pilot_execution_plan(tasks, models, replicates=3, base_seed=9)
     assert plan.task_count == 33
-    assert plan.model_count == 3
-    assert plan.cell_count == 297
-    assert plan.ready_cell_count == 99
-    assert plan.qualification_required_cell_count == 198
+    assert plan.model_count == len(selected) == 7
+    assert plan.cell_count == 33 * len(selected) * 3 == 693
+    assert plan.ready_cell_count == 33 * eligible_count * 3
+    assert plan.qualification_required_cell_count == 33 * unqualified_count * 3
+    assert not (
+        {model.model_id for model in models if model.status == "blocked"} & set(plan.model_status)
+    )
     repeated = build_pilot_execution_plan(list(reversed(tasks)), models, replicates=3, base_seed=9)
     first = {(item.model_id, item.task_id, item.replicate): item.seed for item in plan.cells}
     second = {(item.model_id, item.task_id, item.replicate): item.seed for item in repeated.cells}

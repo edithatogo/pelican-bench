@@ -101,7 +101,7 @@ def _validate_factorial_panel(
     expected = {(animal, obj) for animal in animals for obj in objects}
     grouped: dict[tuple[str, str], list[BenchmarkTask]] = defaultdict(list)
     for task in tasks:
-        grouped[(task.animal.id, task.mobile_object.id)].append(task)
+        grouped[task.animal.id, task.mobile_object.id].append(task)
     missing = sorted(expected - set(grouped))
     unexpected = sorted(set(grouped) - expected)
     wrong_replicates = sorted(

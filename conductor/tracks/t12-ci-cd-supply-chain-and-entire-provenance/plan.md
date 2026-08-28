@@ -29,6 +29,7 @@
 - [x] Task: Generate a dependency-aware SPDX SBOM and content-addressed release manifest.
 - [x] Task: Generate a repository-standards verification receipt with explicit pass, fail and skipped checks.
 - [x] Task: Generate deterministic source/full-history archives, Git bundle, publication archive, QA receipt and top-level checksums.
+- [x] Review fix: Reconcile contingency-model runtime and pilot-plan contracts, widen the bounded unit-taxonomy budget for concurrent workloads, preflight the optional free-threaded test environment, and make Entire status non-interactive. Evidence: full `scripts/harness.sh` (`HARNESS_OK`). Commits: `b63afd2`, `9b63ea6`.
 - [ ] Task: Run remote GitHub CI, release attestations and Entire CLI provenance.
 - [ ] Task: Verify the published release from an independent clean clone.
 

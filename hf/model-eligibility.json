@@ -22,25 +22,6 @@
       ]
     },
     {
-      "access_type": "provider-adapter",
-      "base_model": null,
-      "evaluation_role": "candidate",
-      "first_party": false,
-      "inference_provider_status": "unknown",
-      "license_status": "review-required",
-      "minimum_output_tokens": 12000,
-      "model_id": "provider/model-to-be-pinned",
-      "notes": "Template populated only after revision, access, licence, and canary review.",
-      "provenance_sources": [],
-      "remote_code_required": false,
-      "revision": "unresolved",
-      "runtime_profile": null,
-      "status": "blocked",
-      "tracks": [
-        "heritage-svg"
-      ]
-    },
-    {
       "access_type": "local-openai-compatible",
       "base_model": "Qwen/Qwen3-4B",
       "evaluation_role": "candidate",
@@ -81,6 +62,166 @@
       "revision": "unresolved-pin-required",
       "runtime_profile": "qwen3-hermes-no-think-v1",
       "status": "candidate",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "provider-adapter",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "nim-hosted",
+      "license_status": "open",
+      "minimum_output_tokens": 12000,
+      "model_id": "meta/llama-3.3-70b-instruct",
+      "notes": "Meta Llama 3.3 70B instruct. Served via NVIDIA NIM integrate.api.nvidia.com (student tier); family-diversity selection prespecified before pilot data; canary smoke-tested 2026-08-23.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "nim-integrate-api-2026-08-23",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "eligible",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "provider-adapter",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "nim-hosted",
+      "license_status": "open",
+      "minimum_output_tokens": 12000,
+      "model_id": "mistralai/mistral-nemotron",
+      "notes": "Mistral Small post-trained with NVIDIA Nemotron techniques. Served via NVIDIA NIM integrate.api.nvidia.com (student tier); family-diversity selection prespecified before pilot data; canary smoke-tested 2026-08-23.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "nim-integrate-api-2026-08-23",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "eligible",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "provider-adapter",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "nim-hosted",
+      "license_status": "open",
+      "minimum_output_tokens": 12000,
+      "model_id": "deepseek-ai/deepseek-v4-flash-0731",
+      "notes": "DeepSeek V4 Flash 284B MoE (13B active). Served via NVIDIA NIM integrate.api.nvidia.com (student tier); family-diversity selection prespecified before pilot data; canary smoke-tested 2026-08-23.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "nim-integrate-api-2026-08-23",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "eligible",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "provider-adapter",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "nim-hosted",
+      "license_status": "open",
+      "minimum_output_tokens": 12000,
+      "model_id": "nvidia/llama-3.3-nemotron-super-49b-v1",
+      "notes": "NVIDIA Nemotron Super 49B post-trained from Llama 3.3. Served via NVIDIA NIM integrate.api.nvidia.com (student tier); family-diversity selection prespecified before pilot data; canary smoke-tested 2026-08-23.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "nim-integrate-api-2026-08-23",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "eligible",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "deepseek/deepseek-v3.2",
+      "notes": "OpenRouter contingency route for the deepseek pilot cell; qualification canary pending.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "openrouter-free",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "blocked",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "openai/gpt-oss-120b",
+      "notes": "Groq free-tier route; new model family for diversity; qualification canary pending. Re-profiled to groq-svg-v1 after 413 token-cap finding.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "groq-free",
+      "runtime_profile": "groq-svg-v1",
+      "status": "blocked",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "qwen/qwen3.6-27b",
+      "notes": "Groq free-tier route; qwen family candidate; qualification canary pending. Re-profiled to groq-svg-v1 after 413 token-cap finding.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "groq-free",
+      "runtime_profile": "groq-svg-v1",
+      "status": "blocked",
+      "tracks": [
+        "heritage-svg",
+        "compositional-svg"
+      ]
+    },
+    {
+      "access_type": "api",
+      "base_model": null,
+      "evaluation_role": "candidate",
+      "first_party": false,
+      "inference_provider_status": "available",
+      "license_status": "open",
+      "minimum_output_tokens": 0,
+      "model_id": "deepseek/deepseek-v4-flash-0731",
+      "notes": "OpenRouter route for the NIM deepseek cell (same model, alternate provider) per prespecification amendment A1. Canary 30/30 scored 2026-08-24.",
+      "provenance_sources": [],
+      "remote_code_required": false,
+      "revision": "openrouter-free",
+      "runtime_profile": "generic-svg-openai-v1",
+      "status": "blocked",
       "tracks": [
         "heritage-svg",
         "compositional-svg"

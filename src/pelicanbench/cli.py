@@ -6,7 +6,7 @@ import json
 import os
 from dataclasses import asdict
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, cast
 
 import typer
 
@@ -84,6 +84,7 @@ from .runner import run_benchmark
 from .semantic import StaticSemanticAssessor
 from .simon_corpus import fetch_atom, parse_simon_atom, write_simon_atom_corpus
 from .study_freeze import (
+    FreezeType,
     authorization_commitments,
     build_study_freeze,
     load_study_freeze,
@@ -684,8 +685,16 @@ def run_openai_compatible_command(
         str | None, typer.Option(help="Environment variable containing endpoint token")
     ] = None,
     allow_unqualified: Annotated[bool, typer.Option("--allow-unqualified")] = False,
+    timeout_seconds: Annotated[
+        int,
+        typer.Option(min=30, max=1800, help="Per-request read timeout in seconds"),
+    ] = 120,
+    replicates: Annotated[
+        int, typer.Option(min=1, max=100, help="Number of replicate waves to execute")
+    ] = 1,
     seed: int = 20260801,
 ) -> None:
+
     entries = {item.model_id: item for item in load_registry(registry)}
     if model_id not in entries:
         raise typer.BadParameter(f"model is absent from registry: {model_id}")
@@ -706,17 +715,40 @@ def run_openai_compatible_command(
         assistant_prefill=profile.assistant_prefill,
         temperature=profile.temperature,
         max_tokens=profile.max_tokens,
+        timeout_seconds=profile.timeout_seconds or timeout_seconds,
     )
-    result = run_benchmark(
-        load_tasks(tasks),
-        adapter,
-        output_directory=output,
-        seed=seed,
-        benchmark_commit="working-tree",
-        environment_digest="openai-compatible",
-        continue_on_error=True,
-    )
-    typer.echo(json.dumps(result.manifest.model_dump(mode="json"), indent=2, sort_keys=True))
+    tasks_loaded = load_tasks(tasks)
+    manifests: list[dict[str, object]] = []
+    planned_outputs = [
+        output if replicates == 1 else output / f"replicate-{index:02d}"
+        for index in range(1, replicates + 1)
+    ]
+    for planned in planned_outputs:
+        if planned.exists() and any(planned.iterdir()):
+            raise typer.BadParameter(
+                f"refusing to overwrite existing run output directory: {planned}"
+            )
+
+    for replicate_index in range(1, replicates + 1):
+        replicate_output = (
+            output if replicates == 1 else output / f"replicate-{replicate_index:02d}"
+        )
+        replicate_seed = seed if replicate_index == 1 else seed + 1_000_000 * replicate_index
+        result = run_benchmark(
+            tasks_loaded,
+            adapter,
+            output_directory=replicate_output,
+            seed=replicate_seed,
+            benchmark_commit="working-tree",
+            environment_digest="openai-compatible",
+            continue_on_error=True,
+        )
+        manifest = result.manifest.model_dump(mode="json")
+        manifest["replicate_index"] = replicate_index
+        manifest["replicate_seed"] = replicate_seed
+        manifests.append(manifest)
+        typer.echo(json.dumps(manifest, indent=2, sort_keys=True), err=True)
+    typer.echo(json.dumps({"replicates": manifests}, indent=2, sort_keys=True))
 
 
 @app.command("build-model-blinding")
@@ -814,7 +846,7 @@ def build_study_freeze_command(
         root,
         tuple(input or ()),
         study_id="pelicanbench-v1",
-        freeze_type=freeze_type,  # type: ignore[arg-type]
+        freeze_type=cast(FreezeType, freeze_type),
         task_identity_commitment=commitment,
         ledger_head=ledger,
         generated_at=generated_at,

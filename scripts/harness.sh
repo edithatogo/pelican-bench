@@ -165,6 +165,8 @@ python scripts/generate_release_manifest.py \
   --artifact artifacts/sbom-a.spdx.json >/dev/null
 
 printf '%s\n' '== Deterministic publication hand-off =='
+uv build --quiet --out-dir "${PB_TMPDIR}/dist"
+ls "${PB_TMPDIR}/dist"/*.whl >/dev/null
 python -m pelicanbench.cli publication-bundle \
   --output "${PB_TMPDIR}/publication-a" \
   --artifact artifacts/scorer-challenge-report.json \
@@ -201,15 +203,26 @@ if command -v ruff >/dev/null 2>&1; then
 else
   printf '%s\n' 'Ruff lane skipped: executable unavailable.'
 fi
-if command -v mypy >/dev/null 2>&1; then
-  printf '%s\n' '== Mypy =='
-  mypy src/pelicanbench
+if command -v ty >/dev/null 2>&1; then
+  printf '%s\n' '== Ty (fast type check) =='
+  ty check src/pelicanbench
 else
-  printf '%s\n' 'Mypy lane skipped: executable unavailable.'
+  printf '%s\n' 'Ty lane skipped: executable unavailable.'
 fi
-if command -v pyright >/dev/null 2>&1; then
+if command -v basedpyright >/dev/null 2>&1; then
   printf '%s\n' '== Pyright =='
-  pyright src/pelicanbench/adapters.py src/pelicanbench/verification.py || true
+  basedpyright src/pelicanbench/adapters.py src/pelicanbench/verification.py
+  printf '%s\n' '== Pyright public-API type completeness =='
+  # basedpyright exits non-zero whenever completeness < 100%; under pipefail the
+  # pipeline must not abort the harness, so tolerate its status and judge the score.
+  verify_score="$( (basedpyright --verifytypes pelicanbench 2>/dev/null | awk '/Type completeness score/ {gsub(/%/,"",$4); print $4}') || true )"
+  echo "type completeness score: ${verify_score}%"
+  if [[ -z "$verify_score" ]]; then
+    echo 'pyright --verifytypes produced no completeness score; underlying error:' >&2
+    basedpyright --verifytypes pelicanbench >&2 || true
+    exit 1
+  fi
+  awk -v s="${verify_score}" 'BEGIN { exit (s+0 < 90) }' || { echo 'pyright --verifytypes: completeness below 90%'; exit 1; }
 else
   printf '%s\n' 'Pyright lane skipped: executable unavailable.'
 fi
@@ -233,9 +246,28 @@ if command -v mojo >/dev/null 2>&1; then
 else
   printf '%s\n' 'Mojo lane skipped: compiler unavailable.'
 fi
+NIGHTLY_TOOLCHAIN="${NIGHTLY_TOOLCHAIN:-$(command -v rustup >/dev/null 2>&1 && rustup toolchain list 2>/dev/null | grep -o '^nightly[^ ]*' | head -1 || true)}"
+if [[ -n "$NIGHTLY_TOOLCHAIN" ]]; then
+  printf '%s\n' "== Nightly Rust conformance ($NIGHTLY_TOOLCHAIN) =="
+  rustup run "$NIGHTLY_TOOLCHAIN" cargo clippy --workspace --all-targets -- -D warnings
+  rustup run "$NIGHTLY_TOOLCHAIN" cargo test --workspace >/dev/null
+else
+  printf '%s\n' 'Nightly Rust lane skipped: nightly toolchain unavailable.'
+fi
+if [[ "${SKIP_FREETHREADED:-}" != "1" ]]; then
+  FT_PYTHON="${FT_PYTHON:-$(command -v python3.14t || true)}"
+  if [[ -n "$FT_PYTHON" ]] && "$FT_PYTHON" -c 'import pytest' >/dev/null 2>&1; then
+    printf '%s\n' '== Free-threaded Python conformance =='
+    "$FT_PYTHON" -m pytest -q tests/unit tests/integration -o addopts= -p no:randomly
+  elif [[ -n "$FT_PYTHON" ]]; then
+    printf '%s\n' 'Free-threaded lane skipped: interpreter found but pytest is unavailable.'
+  else
+    printf '%s\n' 'Free-threaded lane skipped: install with `uv python install 3.14+freethreaded`.'
+  fi
+fi
 if command -v entire >/dev/null 2>&1; then
   printf '%s\n' '== Entire provenance =='
-  entire status
+  CI=1 entire status --json
 else
   printf '%s\n' 'Entire runtime check skipped: CLI unavailable; project settings are validated.'
 fi

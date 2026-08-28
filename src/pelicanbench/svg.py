@@ -303,10 +303,18 @@ def inspect_svg(
         inherited_opacity: float,
         inherited_transform: tuple[float, ...],
     ) -> None:
-        nonlocal path_characters, external_references, event_attributes
-        nonlocal attribute_count, declared_labelled_elements, visible_labelled_elements
-        nonlocal visible_shape_count, hidden_shape_count, off_canvas_shape_count
-        nonlocal group_count, transform_count
+        nonlocal \
+            path_characters, \
+            external_references, \
+            event_attributes, \
+            attribute_count, \
+            declared_labelled_elements, \
+            visible_labelled_elements, \
+            visible_shape_count, \
+            hidden_shape_count, \
+            off_canvas_shape_count, \
+            group_count, \
+            transform_count
 
         tag = _local_name(element.tag)
         tag_counts[tag] += 1
