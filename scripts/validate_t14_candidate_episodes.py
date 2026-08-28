@@ -5,10 +5,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
+import re
 import sys
 from collections import Counter, defaultdict
 from functools import cache
 from pathlib import Path
+
+from defusedxml import ElementTree as ET  # nosec B405
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "benchmark/fixtures/repair/candidate/manifest.json"
@@ -40,6 +44,55 @@ def resolve_candidate_asset(relative: Path) -> Path:
         f"unsafe asset path: {relative}",
     )
     return path
+
+
+def wheel_geometry(svg: str) -> dict[str, tuple[float, float, float]]:
+    """Return unique, finite circle geometry for the two declared wheels."""
+    root = ET.fromstring(svg)
+    geometry: dict[str, tuple[float, float, float]] = {}
+    for element in root.iter():
+        role = element.attrib.get("data-role")
+        if role not in {"front-wheel", "rear-wheel"}:
+            continue
+        require(role not in geometry, f"duplicate {role} geometry")
+        try:
+            values = tuple(float(element.attrib[key]) for key in ("cx", "cy", "r"))
+        except (KeyError, ValueError) as exc:
+            raise ValueError(f"invalid {role} geometry") from exc
+        require(all(math.isfinite(value) for value in values), f"non-finite {role} geometry")
+        require(values[2] > 0, f"non-positive {role} radius")
+        geometry[role] = values
+    require(set(geometry) == {"front-wheel", "rear-wheel"}, "wheel geometry incomplete")
+    return geometry
+
+
+def pedal_contact_geometry(svg: str) -> tuple[tuple[float, float], tuple[float, float]]:
+    """Return the pedal centre and the terminal point of the declared foot-contact path."""
+    root = ET.fromstring(svg)
+    pedal: tuple[float, float] | None = None
+    endpoint: tuple[float, float] | None = None
+    for element in root.iter():
+        role = element.attrib.get("data-role")
+        if role == "pedal":
+            require(pedal is None, "duplicate pedal geometry")
+            try:
+                pedal = (float(element.attrib["cx"]), float(element.attrib["cy"]))
+            except (KeyError, ValueError) as exc:
+                raise ValueError("invalid pedal geometry") from exc
+        elif role == "foot pedal contact":
+            require(endpoint is None, "duplicate foot-contact geometry")
+            numbers = tuple(
+                float(value)
+                for value in re.findall(r"-?(?:\d+(?:\.\d*)?|\.\d+)", element.attrib.get("d", ""))
+            )
+            require(len(numbers) >= 2 and len(numbers) % 2 == 0, "invalid foot-contact path")
+            endpoint = (numbers[-2], numbers[-1])
+    require(pedal is not None and endpoint is not None, "pedal-contact geometry incomplete")
+    require(
+        all(math.isfinite(value) for point in (pedal, endpoint) for value in point),
+        "non-finite pedal-contact geometry",
+    )
+    return pedal, endpoint
 
 
 @cache
@@ -107,6 +160,7 @@ def main() -> int:
         )
         groups[str(row.get("scene_group_id"))].append(row)
         observed_roles: dict[str, set[str]] = {}
+        observed_svg: dict[str, str] = {}
         for path_key, byte_hash_key, render_hash_key in (
             ("before", "before_sha256", "before_render_sha256"),
             ("after_reference", "after_sha256", "after_render_sha256"),
@@ -123,6 +177,7 @@ def main() -> int:
                 f"byte commitment mismatch: {relative}",
             )
             svg = raw.decode("utf-8")
+            observed_svg[path_key] = svg
             roles, render_hash, nonblank, errors = inspect_and_render(svg)
             require(not errors, f"unsafe SVG {relative}: {errors}")
             observed_roles[path_key] = set(roles)
@@ -163,6 +218,32 @@ def main() -> int:
                 target_roles <= observed_roles["before"] & observed_roles["after_reference"],
                 "move target must exist in both states",
             )
+            if row.get("defect_family") == "displaced-rear-wheel":
+                before_wheels = wheel_geometry(observed_svg["before"])
+                after_wheels = wheel_geometry(observed_svg["after_reference"])
+                require(
+                    before_wheels["rear-wheel"][1] != before_wheels["front-wheel"][1],
+                    "rear wheel is not displaced before repair",
+                )
+                require(
+                    after_wheels["rear-wheel"][1] == after_wheels["front-wheel"][1],
+                    "rear wheel is not aligned after repair",
+                )
+                require(
+                    before_wheels["rear-wheel"] != after_wheels["rear-wheel"],
+                    "rear-wheel geometry is unchanged",
+                )
+            elif row.get("defect_family") == "missing-pedal-contact":
+                before_pedal, before_foot = pedal_contact_geometry(observed_svg["before"])
+                after_pedal, after_foot = pedal_contact_geometry(observed_svg["after_reference"])
+                require(before_pedal == after_pedal, "pedal moved during contact repair")
+                require(before_foot != after_foot, "foot-contact geometry is unchanged")
+                require(
+                    math.dist(after_pedal, after_foot) < math.dist(before_pedal, before_foot),
+                    "foot endpoint is not closer to pedal after repair",
+                )
+            else:
+                raise ValueError(f"unsupported move defect family: {row.get('defect_family')}")
         else:
             raise ValueError(f"unsupported operation: {operation}")
         require(row.get("before_sha256") != row.get("after_sha256"), "repair has no byte edit")
