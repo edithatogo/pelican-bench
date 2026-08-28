@@ -30,6 +30,9 @@ created only after a fresh benchmark-steward freeze decision.
 
 Three exact-commit advisory reviews are retained under `benchmark/evidence/advisory/t14/`.
 They accept the package as local candidate preparation while recommending revisions before
-any normative freeze: target-specific geometry checks for move repairs, genuinely distinct
-vehicle/scene geometry or an explicit waiver, independent severity manipulation, and
-predeclared under-repair, over-edit, introduced-defect, boundary, and invalid cases.
+any normative freeze. The later validator hardening in `de9a13d` addresses the
+target-specific move concern without altering candidate assets: displaced rear wheels must
+be vertically realigned, and repaired foot endpoints must move closer to an unchanged pedal.
+The remaining recommendations are genuinely distinct vehicle/scene geometry or an explicit
+waiver, independent severity manipulation, and predeclared under-repair, over-edit,
+introduced-defect, boundary, and invalid cases.

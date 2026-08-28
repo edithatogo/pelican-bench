@@ -45,6 +45,11 @@ the packet.
   Agent ratings and fixture evidence do not satisfy the human-calibration requirement.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
+- [x] Review Fixes: Prove target-specific geometry for both move-repair families without
+  changing candidate assets or the proposed allocation. Displaced rear wheels must align
+  with the front wheel after repair; foot endpoints must move closer to an unchanged pedal.
+  Evidence: `scripts/validate_t14_candidate_episodes.py`,
+  `tests/contract/test_t14_candidate_package.py`. Commit: `de9a13d`.
 - [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
