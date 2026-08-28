@@ -3,8 +3,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src
 export SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1785628800}"
-if [[ "$(uname -s)" == "Darwin" && -d /opt/homebrew/lib ]]; then
-  export DYLD_FALLBACK_LIBRARY_PATH="/opt/homebrew/lib:/usr/local/lib:/usr/lib${DYLD_FALLBACK_LIBRARY_PATH:+:${DYLD_FALLBACK_LIBRARY_PATH}}"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  PB_DYLD_PATHS="/opt/homebrew/opt/cairo/lib:/opt/homebrew/lib:/usr/local/opt/cairo/lib:/usr/local/lib:/usr/lib"
+  export DYLD_FALLBACK_LIBRARY_PATH="${PB_DYLD_PATHS}${DYLD_FALLBACK_LIBRARY_PATH:+:${DYLD_FALLBACK_LIBRARY_PATH}}"
 fi
 
 cleanup() {
@@ -28,6 +29,8 @@ python scripts/generate_issue_manifest.py --check
 python scripts/generate_conductor_docs.py --check
 python scripts/sync_conductor_install.py --check
 python scripts/check_rights.py
+python scripts/build_t14_candidate_episodes.py --check
+python scripts/validate_t14_candidate_episodes.py
 python -m pelicanbench.cli release-readiness --profile v0.4-alpha
 
 printf '%s\n' '== First-party ecosystem and model qualification audit =='

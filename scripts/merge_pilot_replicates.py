@@ -27,20 +27,13 @@ def load_jsonl(path: Path) -> list[dict]:
     return out
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=Path, default=Path("artifacts/nim-pilot"))
-    parser.add_argument("--replicates", type=int, default=3)
-    parser.add_argument(
-        "--out", type=Path, default=Path("artifacts/nim-pilot/replicate-agreement-summary.json")
-    )
-    args = parser.parse_args()
-
+def build_summary(root: Path, *, replicates: int = 3, minimum_wave_coverage: float = 0.8) -> dict:
+    """Apply the prespecified wave-coverage and complete-case rules."""
     models: dict[str, dict] = {}
-    for model_dir in sorted(p for p in args.root.iterdir() if p.is_dir()):
+    for model_dir in sorted(p for p in root.iterdir() if p.is_dir()):
         per_replicate: list[dict[str, float | None]] = []
         failures_total = 0
-        for rep in range(1, args.replicates + 1):
+        for rep in range(1, replicates + 1):
             rdir = model_dir / f"replicate-{rep:02d}"
             rows = load_jsonl(rdir / "results.jsonl")
             fails = load_jsonl(rdir / "failures.jsonl")
@@ -53,17 +46,32 @@ def main() -> int:
             per_replicate.append(scores)
 
         task_ids = sorted({t for scores in per_replicate for t in scores})
+        wave_detail = []
+        for index, scores in enumerate(per_replicate, start=1):
+            tasks_scored = sum(value is not None for value in scores.values())
+            coverage = tasks_scored / len(task_ids) if task_ids else 0.0
+            wave_detail.append(
+                {
+                    "replicate": index,
+                    "tasks_scored": tasks_scored,
+                    "coverage": round(coverage, 6),
+                    "eligible": bool(task_ids and coverage >= minimum_wave_coverage),
+                }
+            )
+        eligible_indexes = [index for index, detail in enumerate(wave_detail) if detail["eligible"]]
         tasks_out = []
-        valid_scores: list[float] = []  # all replicates scored
+        valid_scores: list[float] = []
         any_scores: list[float] = []
         for tid in task_ids:
             vals = [scores.get(tid) for scores in per_replicate]
-            present = [v for v in vals if v is not None]
-            complete = len(present) == args.replicates
+            eligible_vals = [vals[index] for index in eligible_indexes]
+            present = [v for v in eligible_vals if v is not None]
+            complete = bool(eligible_indexes) and len(present) == len(eligible_indexes)
             entry = {
                 "task_id": tid,
                 "scores": vals,
                 "replicates_scored": len(present),
+                "eligible_replicates_expected": len(eligible_indexes),
                 "complete": complete,
             }
             if complete:
@@ -77,6 +85,10 @@ def main() -> int:
 
         models[model_dir.name] = {
             "replicate_waves_found": sum(1 for s in per_replicate if s),
+            "replicate_wave_detail": wave_detail,
+            "eligible_replicate_waves": len(eligible_indexes),
+            "minimum_wave_coverage": minimum_wave_coverage,
+            "analysable": len(eligible_indexes) >= 2,
             "tasks": len(task_ids),
             "tasks_complete_all_replicates": sum(1 for t in tasks_out if t.get("complete")),
             "failures_total": failures_total,
@@ -96,16 +108,37 @@ def main() -> int:
             "task_detail": tasks_out,
         }
 
-    payload = {
+    return {
         "schema_version": "1",
-        "replicates_expected": args.replicates,
+        "replicates_expected": replicates,
+        "minimum_wave_coverage": minimum_wave_coverage,
         "models": models,
     }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=Path, default=Path("artifacts/nim-pilot"))
+    parser.add_argument("--replicates", type=int, default=3)
+    parser.add_argument("--minimum-wave-coverage", type=float, default=0.8)
+    parser.add_argument(
+        "--out", type=Path, default=Path("artifacts/nim-pilot/replicate-agreement-summary.json")
+    )
+    args = parser.parse_args()
+    if not 0 < args.minimum_wave_coverage <= 1:
+        parser.error("--minimum-wave-coverage must be in (0, 1]")
+    payload = build_summary(
+        args.root,
+        replicates=args.replicates,
+        minimum_wave_coverage=args.minimum_wave_coverage,
+    )
+    args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(f"wrote {args.out}")
-    for name, m in models.items():
+    for name, m in payload["models"].items():
         print(
             f"  {name}: waves={m['replicate_waves_found']} "
+            f"eligible={m['eligible_replicate_waves']} analysable={m['analysable']} "
             f"complete={m['tasks_complete_all_replicates']}/{m['tasks']} "
             f"failures={m['failures_total']} mean={m['model_mean_complete_cases']}"
         )

@@ -19,7 +19,15 @@
     "docs/t14-steward-interface.md",
     "benchmark/evidence/snapshots/t14-human-rating-response.json",
     "benchmark/evidence/snapshots/t14-steward-analysis.json",
-    "scripts/analyze_t14_steward_response.py"
+    "scripts/analyze_t14_steward_response.py",
+    "benchmark/fixtures/repair/candidate/manifest.json",
+    "scripts/build_t14_candidate_episodes.py",
+    "scripts/validate_t14_candidate_episodes.py",
+    "tests/contract/test_t14_candidate_package.py",
+    "docs/t14-candidate-episode-preparation.md",
+    "benchmark/evidence/advisory/t14/measurement-design.json",
+    "benchmark/evidence/advisory/t14/governance-provenance.json",
+    "benchmark/evidence/advisory/t14/statistics-sampling.json"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -44,5 +52,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-20T23:12:05Z"
+  "updated_at": "2026-08-26T21:12:00Z"
 }

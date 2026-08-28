@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320">
+<rect width="480" height="320" fill="#ffffff"/>
+<path d="M24 276 H456" stroke="#c8d4d8" stroke-width="5"/>
+<circle data-role="front-wheel" cx="347" cy="254" r="48" fill="none" stroke="#283845" stroke-width="9"/>
+<circle data-role="rear-wheel" cx="139" cy="254" r="48" fill="none" stroke="#283845" stroke-width="9"/>
+<path data-role="frame" d="M139 254 L229 254 L299 186 L347 254 L229 254 L191 190" fill="none" stroke="#d9903d" stroke-width="10" stroke-linejoin="round"/>
+<path data-role="handlebar" d="M299 186 L328 147 L354 147" fill="none" stroke="#283845" stroke-width="8" stroke-linecap="round"/>
+<circle data-role="pedal" cx="229" cy="254" r="13" fill="#d9903d" stroke="#283845" stroke-width="5"/>
+<path data-role="frame-brace" d="M191 190 L299 186" stroke="#d9903d" stroke-width="10"/>
+<ellipse data-role="animal body pelican" cx="217" cy="130" rx="70" ry="49" fill="#d8e7eb" stroke="#283845" stroke-width="6"/>
+<circle data-role="animal head" cx="277" cy="90" r="34" fill="#d8e7eb" stroke="#283845" stroke-width="6"/>
+<path data-role="bill" d="M305 81 L412 98 L307 108 Z" fill="#d9903d" stroke="#283845" stroke-width="5"/>
+<circle data-role="eye" cx="287" cy="81" r="5" fill="#283845"/>
+<path data-role="gular pouch" d="M306 107 Q357 153 404 100 Q352 125 306 107 Z" fill="#f2aa72" stroke="#283845" stroke-width="4"/>
+<path data-role="wing" d="M185 117 Q222 90 253 135 Q214 163 185 117 Z" fill="#a9cbd0" stroke="#283845" stroke-width="5"/>
+<path data-role="foot pedal contact" d="M209 166 L219 207 L264 246" fill="none" stroke="#283845" stroke-width="8" stroke-linecap="round"/>
+</svg>
