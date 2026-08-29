@@ -80,8 +80,8 @@
       "after_sha256": "45b791c67d492e778ea3179c3c0de900c0c69765621e69959ba9b2291fe78a5a"
     }
   ],
-  "blocker": "D043 procedural self-custody inputs are hash-bound and explicitly non-independent. A role-separated synthetic advisory panel and later exact-hash steward freeze decision remain pending. Human calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
-  "next_action": "Complete the synthetic advisory panel, bind its redacted packets, and return benchmark/evidence/advisory/t14/pending-freeze-decision.json to the steward without freezing it.",
+  "blocker": "D043 procedural self-custody inputs and the role-separated synthetic advisory panel are hash-bound and explicitly non-independent. Exact-current full-harness observation and a later exact-hash steward freeze decision remain pending. Human calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
+  "next_action": "Run the full harness on the final panel-bound commit and retain an external exact-commit receipt without freezing or changing the normative sample.",
   "claims": {
     "human_ratings_present": true,
     "agent_ratings_present": false,

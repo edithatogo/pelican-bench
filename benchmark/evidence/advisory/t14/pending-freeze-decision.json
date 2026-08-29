@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
-  "status": "panel-remediation-in-progress-no-freeze-effect",
+  "status": "synthetic-panel-bound-current-harness-pending-no-freeze-effect",
   "study_id": "t14-human-calibration-v1",
-  "reviewed_repository_commit": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
-  "reviewed_repository_tree": "90b35f2a0d33a12379b260043251154a59744b6b",
+  "reviewed_repository_commit": "3cbe4255b057f12975f312826db0332482183fc2",
+  "reviewed_repository_tree": "5ec96cd9c82f881264b2219240b187f4f632a5f0",
   "normative_manifest": {
     "path": "benchmark/fixtures/repair/candidate/manifest.json",
     "sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
@@ -29,6 +29,11 @@
     "measurement_design_sha256": "b9ca3a2e60bbadc8b342980482080deef7f14d6e00ff83f950fc092467e0e64a",
     "statistics_sha256": "298a6a4a766c0ea767d7d0f183ac898a29c38f622cf1222b03514fb6e91aa8e0",
     "governance_sha256": "78c177f309f51cac767410418bba921bf2f4d81357c9881ac8fc4926c7d46f84"
+  },
+  "procedural_panel_packets": {
+    "measurement_design_sha256": "15d382b9d66c50d502981024f0023c0e8b7f4c0df72f40961a2e9c62b7833054",
+    "statistics_sha256": "30c9a3b905de909336ddc827a88a30543abae943487069ef0df58a2fed06ebe7",
+    "governance_sha256": "d6056a33897213e776ea038d1a55be7222973290e949d7ca04883f73bca61dc0"
   },
   "pending_required_inputs": {
     "secret_bound_alias_manifest_sha256": "ba3aa847157b35bb4028f9cbf0d7683081f616ba2d637df5a676a4294ce216d5",

@@ -31,7 +31,7 @@ def require_sha256(value: object, message: str) -> None:
 def main() -> int:
     packet = json.loads(PACKET.read_text())
     require(
-        packet["status"] == "panel-remediation-in-progress-no-freeze-effect",
+        packet["status"] == "synthetic-panel-bound-current-harness-pending-no-freeze-effect",
         "packet status drift",
     )
     require(
@@ -49,6 +49,27 @@ def main() -> int:
     }
     for key, path in panel_paths.items():
         require(packet["panel_packets"][key] == digest(path), f"panel commitment drift: {key}")
+    procedural_panel_paths = {
+        "measurement_design_sha256": "benchmark/evidence/advisory/t14/procedural-panel-design.json",
+        "statistics_sha256": "benchmark/evidence/advisory/t14/procedural-panel-statistics.json",
+        "governance_sha256": "benchmark/evidence/advisory/t14/procedural-panel-governance.json",
+    }
+    for key, path in procedural_panel_paths.items():
+        require(
+            packet["procedural_panel_packets"][key] == digest(path),
+            f"procedural panel commitment drift: {key}",
+        )
+        panel = json.loads((ROOT / path).read_text())
+        require(
+            panel["reviewed_commit"] == packet["reviewed_repository_commit"], "panel commit drift"
+        )
+        require(panel["reviewed_tree"] == packet["reviewed_repository_tree"], "panel tree drift")
+        classification = panel["classification"]
+        require(classification["synthetic"] is True, "panel synthetic label drift")
+        require(classification["human"] is False, "panel human overclaim")
+        require(classification["independent"] is False, "panel independence overclaim")
+        require(classification["normative"] is False, "panel normative overclaim")
+        require(classification["gate_effect"] == "none", "panel gate-effect overclaim")
     receipt = json.loads(HARNESS_RECEIPT.read_text())
     require(receipt["receipt_kind"] == "local-execution-observation", "harness receipt kind drift")
     require(receipt["terminal_result"] == "HARNESS_OK", "harness receipt result drift")
@@ -191,7 +212,7 @@ def main() -> int:
         "pending packet overclaims authority",
     )
     print(
-        "T14 pending freeze packet valid: procedural custody and local harness bound; steward decision absent"
+        "T14 pending freeze packet valid: procedural custody and synthetic panel bound; current harness and steward decision absent"
     )
     return 0
 
