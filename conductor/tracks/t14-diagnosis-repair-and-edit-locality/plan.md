@@ -82,7 +82,7 @@ the packet.
   `df4ea22`, `3cbe425`, `9f70877`.
 - [x] Review Fixes: Scope the secret-scanner exception to the exact historical fingerprint of
   the public one-way custody commitment. The custody secret remains absent and no pattern-wide
-  exception is permitted. Commit: pending.
+  exception is permitted. Commit: `4699364`.
 - [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
