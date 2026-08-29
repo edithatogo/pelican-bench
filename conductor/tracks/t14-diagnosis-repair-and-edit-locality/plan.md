@@ -58,7 +58,11 @@ the packet.
   `benchmark/evidence/advisory/t14/procedural-panel-design.json`,
   `benchmark/evidence/advisory/t14/procedural-panel-statistics.json`, and
   `benchmark/evidence/advisory/t14/procedural-panel-governance.json`.
-  Freeze and every downstream gate remain pending. Commit: `88142cd`.
+  At panel completion, freeze and every downstream gate remained pending. Commit: `88142cd`.
+- [x] Task: Record D044 exact-hash freeze as procedural, non-independent E2 preparation.
+  Evidence: `benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json` and
+  `benchmark/evidence/advisory/t14/pending-freeze-decision.json`. Ratings, promotion,
+  attestation, release, publication, and unblinding remain unauthorized. Commit: `6ecd9e7`.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without
