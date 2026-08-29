@@ -89,7 +89,7 @@ the packet.
   Commit: `f942352`.
 - [x] Review Fixes: Add malformed permission, authority-route, rating-field, unknown-assignment,
   and ledger-tamper coverage for the authorization-gated frozen rating workflow after the full
-  harness exposed a 89.80 percent aggregate coverage regression. Commit: pending.
+  harness exposed a 89.80 percent aggregate coverage regression. Commit: `6bcf57b`.
 - [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
 - [x] Task: Prepare the authorization-gated frozen rating interface, assignment-only response
   validator, hash-chained external ledger, and inactive post-freeze runbooks. Validation-only
