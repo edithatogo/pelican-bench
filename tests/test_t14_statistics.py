@@ -55,10 +55,7 @@ def make_bound_envelope(tmp_path: Path):
                 "partition": "held-out",
                 "target_correction": outcome,
                 "no_new_defect": outcome,
-                "target_correction_score": float(outcome),
-                "no_new_defect_score": float(outcome),
                 "preservation_rating": float(index),
-                "edit_locality": float(index),
                 "valid": True,
                 "invalid_reason": None,
                 "duplicate_of": None,
@@ -70,11 +67,33 @@ def make_bound_envelope(tmp_path: Path):
         duplicate["duplicate_of"] = rows[index]["row_id"]
         rows.append(duplicate)
     locked_ids = sorted(row["repair_id"] for row in held_out)
+    method = {"method_id": "synthetic-test-scorer", "revision": "v1", "source_sha256": "b" * 64}
+    score_manifest = {
+        "schema_version": "1.0.0",
+        "status": "locked-automatic-score-inputs",
+        "candidate_manifest_sha256": module.file_sha256(candidate_path),
+        "method": method,
+        "method_commitment_sha256": module.canonical_sha256(method),
+        "entries": [
+            {
+                "episode_id": episode["repair_id"],
+                "before_sha256": episode["before_sha256"],
+                "after_sha256": episode["after_sha256"],
+                "target_correction_score": float(index % 2),
+                "no_new_defect_score": float(index % 2),
+                "edit_locality": float(index),
+            }
+            for index, episode in enumerate(held_out)
+        ],
+    }
+    score_manifest_path = tmp_path / "scores.json"
+    score_manifest_path.write_text(json.dumps(score_manifest), encoding="utf-8")
     envelope = {
         "schema_version": "1.0.0",
         "status": "collected-ratings-bound-to-frozen-t14",
         "plan_sha256": module.file_sha256(plan_path),
         "candidate_manifest_sha256": module.file_sha256(candidate_path),
+        "score_manifest_sha256": module.file_sha256(score_manifest_path),
         "freeze": {
             "status": "normative-sample-frozen",
             "receipt_sha256": "a" * 64,
@@ -84,12 +103,20 @@ def make_bound_envelope(tmp_path: Path):
         "collection": {
             "workload_complete": True,
             "development_locked_before_held_out": True,
-            "duplicate_consistency": 1.0,
             "missingness_contingency_invoked": False,
         },
         "rows": rows,
     }
-    return module, envelope, plan, candidate, plan_path, candidate_path
+    return (
+        module,
+        envelope,
+        plan,
+        candidate,
+        score_manifest,
+        plan_path,
+        candidate_path,
+        score_manifest_path,
+    )
 
 
 def test_auc_and_spearman_are_tie_aware_and_fail_on_degenerate_margins() -> None:
@@ -226,14 +253,18 @@ def test_stopping_is_conjunctive_and_retains_missingness_denominator() -> None:
 
 
 def test_end_to_end_analysis_receipt_is_bound_and_complete(tmp_path: Path) -> None:
-    module, envelope, plan, candidate, plan_path, candidate_path = make_bound_envelope(tmp_path)
+    module, envelope, plan, candidate, scores, plan_path, candidate_path, scores_path = (
+        make_bound_envelope(tmp_path)
+    )
 
     receipt = module.analyze_envelope(
         envelope,
         plan,
         candidate,
+        scores,
         plan_path=plan_path,
         candidate_path=candidate_path,
+        score_manifest_path=scores_path,
     )
 
     assert receipt["denominators"] == {
@@ -250,11 +281,54 @@ def test_end_to_end_analysis_receipt_is_bound_and_complete(tmp_path: Path) -> No
         == 6
     )
     assert receipt["duplicate_rows_are_repeated_measures"] is True
+    assert receipt["duplicate_consistency"]["value"] == 1.0
     assert receipt["receipt_sha256"] == module.canonical_sha256(
         {key: value for key, value in receipt.items() if key != "receipt_sha256"}
     )
     assert receipt["normative_sample_frozen_by_analysis"] is False
     assert receipt["score_promotion"] is False
+
+
+def test_duplicate_consistency_is_computed_not_caller_supplied(tmp_path: Path) -> None:
+    module, envelope, plan, candidate, scores, plan_path, candidate_path, scores_path = (
+        make_bound_envelope(tmp_path)
+    )
+    envelope["rows"][-1]["preservation_rating"] = -1.0
+
+    receipt = module.analyze_envelope(
+        envelope,
+        plan,
+        candidate,
+        scores,
+        plan_path=plan_path,
+        candidate_path=candidate_path,
+        score_manifest_path=scores_path,
+    )
+
+    assert receipt["duplicate_consistency"]["denominator"] == 3
+    assert receipt["duplicate_consistency"]["exact_agreements"] == 2
+    assert receipt["duplicate_consistency"]["value"] == pytest.approx(2 / 3)
+    assert "duplicate-consistency" in receipt["stopping"]["failures"]
+
+
+def test_score_manifest_is_content_and_candidate_bound(tmp_path: Path) -> None:
+    module, envelope, plan, candidate, scores, plan_path, candidate_path, scores_path = (
+        make_bound_envelope(tmp_path)
+    )
+    scores["entries"][0]["before_sha256"] = "0" * 64
+    scores_path.write_text(json.dumps(scores), encoding="utf-8")
+    envelope["score_manifest_sha256"] = module.file_sha256(scores_path)
+
+    with pytest.raises(ValueError, match="before hash"):
+        module.analyze_envelope(
+            envelope,
+            plan,
+            candidate,
+            scores,
+            plan_path=plan_path,
+            candidate_path=candidate_path,
+            score_manifest_path=scores_path,
+        )
 
 
 @pytest.mark.parametrize(
@@ -269,7 +343,9 @@ def test_end_to_end_analysis_receipt_is_bound_and_complete(tmp_path: Path) -> No
 def test_analysis_envelope_fails_closed_on_binding_and_completeness_drift(
     tmp_path: Path, mutation, message: str
 ) -> None:
-    module, envelope, plan, candidate, plan_path, candidate_path = make_bound_envelope(tmp_path)
+    module, envelope, plan, candidate, _scores, plan_path, candidate_path, _scores_path = (
+        make_bound_envelope(tmp_path)
+    )
     changed = deepcopy(envelope)
     mutation(changed)
 

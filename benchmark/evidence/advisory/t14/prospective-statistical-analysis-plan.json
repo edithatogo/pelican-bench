@@ -7,7 +7,7 @@
         "method": "sha256-over-exact-file-bytes; plan excluded to avoid circularity",
         "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
         "implementation_source_sha256": {
-            "scripts/analyze_t14_prospective_statistics.py": "a3a88b98e8ec87743a7f50273071e3115ea175e680d76f37d8bd754ef60da530",
+            "scripts/analyze_t14_prospective_statistics.py": "e868d596423fac602433a108e307cc7d7dfb0ea4f4336a60c6cda2c3719e4678",
             "scripts/validate_t14_prospective_statistics.py": "9fd832389ce0b0d81c17b3fea40428d65dde14751be8ae8d907789d3ab860d63",
             "src/pelicanbench/t14_statistics.py": "62cae96da011730cefb95a49c4561bb74434789a25011118cb912dce03a10075"
         }
@@ -67,6 +67,9 @@
         "held_out_policy": "open-once-after-development-model-and-thresholds-are-locked",
         "degenerate_bootstrap_policy": "conditionally compute the interval over valid whole-scene-cluster replicates only; always report requested, valid and one-class-or-nonfinite replicate counts and fractions over the requested denominator; fail closed when the degenerate fraction exceeds 0.10 or the valid fraction is below 0.90",
         "analysis_input_contract": "strict freeze-bound envelope; exactly 24 locked held-out base assignments are the confirmatory denominator; all rows reconcile to candidate episode, scene and partition; both target-correction and no-new-defect endpoints are mandatory; duplicate rows are repeated measures and excluded from the independent denominator",
+        "duplicate_consistency_statistic": "proportion of linked duplicate/base pairs with exact simultaneous agreement on valid, target-correction, no-new-defect and preservation-rating fields; computed by analysis code and never accepted from the caller",
+        "automatic_input_binding": "endpoint scores and edit-locality are accepted only from a separately content-addressed locked score manifest; its exact method commitment, candidate manifest hash, episode IDs, and candidate before/after hashes must validate",
+        "freeze_receipt_verification": "analysis validates the freeze status, receipt-hash syntax, assignment content hash and candidate assignment; verification of the accountable external freeze receipt bytes remains a pre-analysis steward custody gate and is not claimed by this repository-only analyzer",
         "duplicates": "estimate-test-retest-only-and-never-increase-independent-sample-size",
         "single_rater": "do-not-claim-inter-rater-agreement-or-independent-human-validation"
     },

@@ -32,6 +32,7 @@ ENVELOPE_KEYS = {
     "status",
     "plan_sha256",
     "candidate_manifest_sha256",
+    "score_manifest_sha256",
     "freeze",
     "collection",
     "rows",
@@ -40,7 +41,6 @@ FREEZE_KEYS = {"status", "receipt_sha256", "assignment_sha256", "held_out_episod
 COLLECTION_KEYS = {
     "workload_complete",
     "development_locked_before_held_out",
-    "duplicate_consistency",
     "missingness_contingency_invoked",
 }
 ROW_KEYS = {
@@ -50,13 +50,27 @@ ROW_KEYS = {
     "partition",
     "target_correction",
     "no_new_defect",
-    "target_correction_score",
-    "no_new_defect_score",
     "preservation_rating",
-    "edit_locality",
     "valid",
     "invalid_reason",
     "duplicate_of",
+}
+SCORE_MANIFEST_KEYS = {
+    "schema_version",
+    "status",
+    "candidate_manifest_sha256",
+    "method",
+    "method_commitment_sha256",
+    "entries",
+}
+SCORE_METHOD_KEYS = {"method_id", "revision", "source_sha256"}
+SCORE_ENTRY_KEYS = {
+    "episode_id",
+    "before_sha256",
+    "after_sha256",
+    "target_correction_score",
+    "no_new_defect_score",
+    "edit_locality",
 }
 
 
@@ -132,7 +146,6 @@ def validate_envelope(
         isinstance(collection["development_locked_before_held_out"], bool),
         "invalid held-out lock flag",
     )
-    require(_finite_number(collection["duplicate_consistency"]), "invalid duplicate consistency")
     require(
         isinstance(collection["missingness_contingency_invoked"], bool), "invalid missingness flag"
     )
@@ -157,9 +170,6 @@ def validate_envelope(
         )
         require(row["scene_cluster"] == candidate_row["scene_group_id"], "candidate scene mismatch")
         require(isinstance(row["valid"], bool), "valid flag must be boolean")
-        require(_finite_number(row["target_correction_score"]), "invalid target score")
-        require(_finite_number(row["no_new_defect_score"]), "invalid new-defect score")
-        require(_finite_number(row["edit_locality"]), "invalid edit locality")
         if row["valid"]:
             require(row["target_correction"] in {0, 1}, "target endpoint must be binary")
             require(row["no_new_defect"] in {0, 1}, "new-defect endpoint must be binary")
@@ -197,6 +207,79 @@ def validate_envelope(
             "invalid_or_omitted": sum(not row["valid"] for row in base_by_episode.values()),
         },
     )
+
+
+def validate_score_manifest(
+    score_manifest: dict[str, Any],
+    envelope: dict[str, Any],
+    candidate: dict[str, Any],
+    locked_episode_ids: set[str],
+    *,
+    score_manifest_path: Path,
+    candidate_path: Path,
+) -> dict[str, dict[str, Any]]:
+    """Bind every automatic input to a method and candidate artifact hashes."""
+    require(set(score_manifest) == SCORE_MANIFEST_KEYS, "score manifest schema drift")
+    require(score_manifest["schema_version"] == "1.0.0", "score manifest version drift")
+    require(score_manifest["status"] == "locked-automatic-score-inputs", "score manifest unlocked")
+    require(
+        envelope["score_manifest_sha256"] == file_sha256(score_manifest_path),
+        "score manifest content binding drift",
+    )
+    require(
+        score_manifest["candidate_manifest_sha256"] == file_sha256(candidate_path),
+        "score manifest candidate binding drift",
+    )
+    method = score_manifest["method"]
+    require(
+        isinstance(method, dict) and set(method) == SCORE_METHOD_KEYS, "score method schema drift"
+    )
+    require(
+        re.fullmatch(r"[0-9a-f]{64}", str(method["source_sha256"])), "invalid method source hash"
+    )
+    require(
+        score_manifest["method_commitment_sha256"] == canonical_sha256(method),
+        "score method commitment drift",
+    )
+    candidate_rows = {str(row["repair_id"]): row for row in candidate["episodes"]}
+    entries: dict[str, dict[str, Any]] = {}
+    for entry in score_manifest["entries"]:
+        require(
+            isinstance(entry, dict) and set(entry) == SCORE_ENTRY_KEYS, "score entry schema drift"
+        )
+        episode_id = str(entry["episode_id"])
+        require(
+            episode_id in locked_episode_ids and episode_id not in entries, "score episode drift"
+        )
+        source = candidate_rows[episode_id]
+        require(entry["before_sha256"] == source["before_sha256"], "score before hash drift")
+        require(entry["after_sha256"] == source["after_sha256"], "score after hash drift")
+        for field in ("target_correction_score", "no_new_defect_score", "edit_locality"):
+            require(_finite_number(entry[field]), f"invalid score input: {field}")
+        entries[episode_id] = entry
+    require(
+        set(entries) == locked_episode_ids, "score manifest does not complete locked denominator"
+    )
+    return entries
+
+
+def duplicate_exact_consistency(
+    base_rows: list[dict[str, Any]], duplicates: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Exact all-field agreement over linked duplicate response pairs."""
+    fields = ("valid", "target_correction", "no_new_defect", "preservation_rating")
+    base_by_row_id = {row["row_id"]: row for row in base_rows}
+    agreements = [
+        all(row[field] == base_by_row_id[row["duplicate_of"]][field] for field in fields)
+        for row in duplicates
+    ]
+    return {
+        "statistic": "proportion-of-linked-pairs-with-exact-agreement-on-all-prespecified-fields",
+        "fields": list(fields),
+        "denominator": len(agreements),
+        "exact_agreements": sum(agreements),
+        "value": sum(agreements) / len(agreements),
+    }
 
 
 def _endpoint_analysis(
@@ -244,13 +327,26 @@ def analyze_envelope(
     envelope: dict[str, Any],
     plan: dict[str, Any],
     candidate: dict[str, Any],
+    score_manifest: dict[str, Any],
     *,
     plan_path: Path,
     candidate_path: Path,
+    score_manifest_path: Path,
 ) -> dict[str, Any]:
     base_rows, duplicates, denominator = validate_envelope(
         envelope, plan, candidate, plan_path=plan_path, candidate_path=candidate_path
     )
+    locked_ids = {row["episode_id"] for row in base_rows}
+    score_entries = validate_score_manifest(
+        score_manifest,
+        envelope,
+        candidate,
+        locked_ids,
+        score_manifest_path=score_manifest_path,
+        candidate_path=candidate_path,
+    )
+    base_rows = [{**row, **score_entries[row["episode_id"]]} for row in base_rows]
+    duplicate_consistency = duplicate_exact_consistency(base_rows, duplicates)
     endpoints = {
         endpoint: _endpoint_analysis(base_rows, endpoint, plan)
         for endpoint in ("target_correction", "no_new_defect")
@@ -325,7 +421,7 @@ def analyze_envelope(
             "auc_lower_bound": min(auc_lowers) if len(auc_lowers) == 2 else -1,
             "spearman": preservation_point if preservation_point is not None else -2,
             "spearman_lower_bound": preservation_interval["lower"] if preservation_interval else -2,
-            "duplicate_consistency": envelope["collection"]["duplicate_consistency"],
+            "duplicate_consistency": duplicate_consistency["value"],
             "bootstrap_within_degeneracy_policy": bootstrap_policy_passed,
             "development_locked_before_held_out": envelope["collection"][
                 "development_locked_before_held_out"
@@ -341,9 +437,12 @@ def analyze_envelope(
             "candidate_manifest_sha256": envelope["candidate_manifest_sha256"],
             "freeze_receipt_sha256": envelope["freeze"]["receipt_sha256"],
             "assignment_sha256": envelope["freeze"]["assignment_sha256"],
+            "score_manifest_sha256": envelope["score_manifest_sha256"],
+            "score_method_commitment_sha256": score_manifest["method_commitment_sha256"],
         },
         "denominators": denominator,
         "duplicate_rows_are_repeated_measures": True,
+        "duplicate_consistency": duplicate_consistency,
         "endpoint_results": endpoints,
         "preservation_locality": {
             "point": preservation_point,
@@ -366,12 +465,20 @@ def main() -> int:
     parser.add_argument("input", type=Path, help="strict freeze-bound T14 analysis envelope")
     parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
     parser.add_argument("--candidate", type=Path, default=DEFAULT_CANDIDATE)
+    parser.add_argument("--score-manifest", type=Path, required=True)
     args = parser.parse_args()
     envelope = json.loads(args.input.read_text(encoding="utf-8"))
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     candidate = json.loads(args.candidate.read_text(encoding="utf-8"))
+    score_manifest = json.loads(args.score_manifest.read_text(encoding="utf-8"))
     report = analyze_envelope(
-        envelope, plan, candidate, plan_path=args.plan, candidate_path=args.candidate
+        envelope,
+        plan,
+        candidate,
+        score_manifest,
+        plan_path=args.plan,
+        candidate_path=args.candidate,
+        score_manifest_path=args.score_manifest,
     )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
