@@ -29,6 +29,9 @@ T14 exact-hash packet frozen as procedural non-independent E2 preparation; ratin
 The external exact-commit harness receipt remains restricted and is checked by its recorded
 SHA-256 commitment; the recheck does not disclose its contents or custody secrets. A clean
 `git status --short` is useful review evidence but is not itself part of the frozen sample.
+The repository secret scanner narrowly ignores the exact historical fingerprint of the
+public `key_commitment_sha256` value. This exception does not match the custody secret or any
+other value, path, line, or commit.
 
 ## Fail-closed amendment procedure
 
