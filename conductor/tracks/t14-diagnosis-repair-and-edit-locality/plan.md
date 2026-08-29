@@ -53,6 +53,9 @@ the packet.
   with the front wheel after repair; foot endpoints must move closer to an unchanged pedal.
   Evidence: `scripts/validate_t14_candidate_episodes.py`,
   `tests/contract/test_t14_candidate_package.py`. Commit: `de9a13d`.
+- [x] Review Fixes: Apply the repository formatter to the pending-freeze validator after the
+  full harness rejected its initial layout. Focused validator, contract test, Ruff check,
+  and Ruff format check pass. Commit: `ea5b6d4`.
 - [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
