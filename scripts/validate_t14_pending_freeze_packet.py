@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the incomplete T14 freeze packet without giving it freeze effect."""
+"""Validate the T14 exact-hash decision packet and its bounded authority effect."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ PACKET = ROOT / "benchmark/evidence/advisory/t14/pending-freeze-decision.json"
 HARNESS_RECEIPT = ROOT / "benchmark/evidence/advisory/t14/exact-commit-local-harness-receipt.json"
 CUSTODY_RECEIPT = ROOT / "benchmark/evidence/advisory/t14/procedural-custody-receipt.json"
 CUSTODY_VERIFICATION = ROOT / "benchmark/evidence/advisory/t14/procedural-custody-verification.json"
+FREEZE_RECEIPT = ROOT / "benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json"
 
 
 def digest(relative: str) -> str:
@@ -31,7 +32,7 @@ def require_sha256(value: object, message: str) -> None:
 def main() -> int:
     packet = json.loads(PACKET.read_text())
     require(
-        packet["status"] == "synthetic-panel-bound-current-harness-pending-no-freeze-effect",
+        packet["status"] == "frozen-procedural-non-independent-e2",
         "packet status drift",
     )
     require(
@@ -86,14 +87,45 @@ def main() -> int:
         all(value is False for value in receipt["authority_effect"].values()),
         "local harness receipt overclaims authority",
     )
+    freeze = json.loads(FREEZE_RECEIPT.read_text())
+    require(freeze["receipt_kind"] == "exact-hash-steward-freeze-decision", "freeze kind drift")
+    require(freeze["study_id"] == packet["study_id"], "freeze study drift")
+    require(freeze["decision"] == "freeze-exact-bytes", "freeze decision drift")
+    require(freeze["decision_maker"] == "benchmark-steward", "freeze decision maker drift")
+    require(freeze["decision_at"] == packet["decision_at"], "freeze decision time drift")
     require(
-        packet["pending_required_inputs"]["exact_commit_full_harness_receipt_sha256"]
-        == hashlib.sha256(HARNESS_RECEIPT.read_bytes()).hexdigest(),
-        "harness receipt commitment drift",
+        packet["pending_required_inputs"]["steward_freeze_decision_receipt_sha256"]
+        == hashlib.sha256(FREEZE_RECEIPT.read_bytes()).hexdigest(),
+        "freeze receipt commitment drift",
     )
     require(
-        packet["pending_required_inputs"]["steward_freeze_decision_receipt_sha256"] is None,
-        "steward decision added without packet transition",
+        packet["pending_required_inputs"]["exact_commit_full_harness_receipt_sha256"]
+        == freeze["tested_repository"]["exact_current_harness_receipt_sha256"],
+        "exact-current harness commitment drift",
+    )
+    require_sha256(
+        freeze["tested_repository"]["exact_current_harness_receipt_sha256"],
+        "exact-current harness hash format drift",
+    )
+    require(
+        packet["pending_required_inputs"]["exact_commit_full_harness_receipt_location"]
+        == "restricted-local-external-to-git",
+        "exact-current harness location drift",
+    )
+    require(
+        freeze["tested_repository"]["commit"] == "a07e52bde7ee103afa999fa9c7ecc19cc4479571",
+        "freeze tested commit drift",
+    )
+    require(
+        freeze["tested_repository"]["tree"] == "da4aca7752b98f3cdf3f81862c26691ed86ec2f3",
+        "freeze tested tree drift",
+    )
+    require(freeze["tested_repository"]["harness_result"] == "HARNESS_OK", "harness failed")
+    require(freeze["classification"]["evidence_level"] == "E2", "freeze evidence overclaim")
+    require(freeze["classification"]["independent"] is False, "freeze independence overclaim")
+    require(
+        freeze["classification"]["human_ratings_present"] is False,
+        "freeze human-rating overclaim",
     )
     custody = json.loads(CUSTODY_RECEIPT.read_text())
     require(custody["schema_version"] == "1.0.0", "custody schema drift")
@@ -197,11 +229,59 @@ def main() -> int:
     require(verification["held_out_duplicate_assignment_count"] >= 3, "held-out duplicates sparse")
     require(verification["restricted_contents_disclosed"] is False, "restricted contents disclosed")
     require(verification["independence_claimed"] is False, "custody verification overclaims")
+    frozen = freeze["frozen_commitments"]
+    require(
+        frozen["candidate_manifest_sha256"] == packet["normative_manifest"]["sha256"],
+        "freeze candidate drift",
+    )
+    require(
+        frozen["diagnostic_manifest_sha256"] == packet["diagnostic_manifest"]["sha256"],
+        "freeze diagnostic drift",
+    )
+    require(frozen["protocol_sha256"] == packet["protocol_sha256"], "freeze protocol drift")
+    require(
+        frozen["analysis_plan_sha256"] == packet["analysis_plan_sha256"], "freeze analysis drift"
+    )
+    require(
+        frozen["blinding_duplicate_rule_sha256"] == packet["blinding_duplicate_rule_sha256"],
+        "freeze blinding drift",
+    )
+    require(
+        frozen["procedural_custody_receipt_sha256"]
+        == packet["pending_required_inputs"]["accountable_custodian_receipt_sha256"],
+        "freeze custody drift",
+    )
+    require(
+        frozen["renderer_toolchain_lock_sha256"] == packet["renderer_toolchain_lock_sha256"],
+        "freeze renderer drift",
+    )
+    require(
+        frozen["procedural_custody_verification_sha256"]
+        == packet["procedural_custody_verification_sha256"],
+        "freeze custody verification drift",
+    )
+    require(
+        frozen["procedural_panel_design_sha256"]
+        == packet["procedural_panel_packets"]["measurement_design_sha256"],
+        "freeze design panel drift",
+    )
+    require(
+        frozen["procedural_panel_statistics_sha256"]
+        == packet["procedural_panel_packets"]["statistics_sha256"],
+        "freeze statistics panel drift",
+    )
+    require(
+        frozen["procedural_panel_governance_sha256"]
+        == packet["procedural_panel_packets"]["governance_sha256"],
+        "freeze governance panel drift",
+    )
+    require(packet["decision"] == "freeze-exact-bytes", "packet freeze decision drift")
+    require(packet["normative_manifest"]["frozen"] is True, "normative manifest not frozen")
+    require(packet["freeze_effect"] is True, "freeze effect absent")
     require(
         all(
             packet[key] is False
             for key in (
-                "freeze_effect",
                 "ratings_authorized",
                 "score_promotion",
                 "release_authorized",
@@ -209,11 +289,29 @@ def main() -> int:
                 "unblinding_authorized",
             )
         ),
-        "pending packet overclaims authority",
+        "freeze packet overclaims downstream authority",
+    )
+    require(freeze["authority_effect"]["freeze"] is True, "freeze receipt effect absent")
+    require(
+        set(freeze["authority_effect"])
+        == {
+            "freeze",
+            "ratings",
+            "score_promotion",
+            "attestation",
+            "release",
+            "publication",
+            "unblinding",
+        },
+        "freeze authority key drift",
+    )
+    require(
+        all(value is False for key, value in freeze["authority_effect"].items() if key != "freeze"),
+        "freeze receipt overclaims downstream authority",
     )
     print(
-        "T14 pending freeze packet valid: procedural custody and synthetic panel bound; "
-        "current harness and steward decision absent"
+        "T14 exact-hash packet frozen as procedural non-independent E2 preparation; "
+        "ratings and downstream gates remain unauthorized"
     )
     return 0
 

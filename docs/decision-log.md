@@ -456,3 +456,19 @@ unblind.
 machinery without misrepresenting organisational independence or human judgement. A later
 exact-hash steward decision remains necessary before freeze, and later human or external
 evidence remains necessary for empirical, independent, promotion, or release claims.
+
+## D044 — Freeze the exact T14 procedural E2 preparation bytes
+
+**Decision:** freeze the exact candidate, diagnostic, renderer, protocol, analysis,
+allocation, procedural-custody, and synthetic-panel commitments recorded in
+`benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json`. The tested source
+state is commit `a07e52b` with local full-harness result `HARNESS_OK`. The freeze is
+procedural, non-independent E2 preparation only.
+
+**Explicit exclusions:** this decision does not authorize ratings, score promotion,
+attestation, release, publication, or unblinding. It does not create human judgement,
+empirical calibration, independent custody, E3 evidence, or E4 reproduction.
+
+**Amendment rule:** changing any frozen commitment requires a new prospective version, new
+custody artifacts, new panel review, and a separate steward decision. Changes after outcome
+exposure additionally require sensitivity analysis or a fresh validation wave.

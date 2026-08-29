@@ -1,5 +1,5 @@
 {
-  "blocker": "D043 procedural self-custody inputs and the role-separated synthetic advisory panel are hash-bound and explicitly non-independent. Exact-current full-harness observation and a later exact-hash steward freeze decision remain pending. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.",
+  "blocker": "D044 freezes the exact T14 bytes as procedural, non-independent E2 preparation. Ratings remain unauthorized. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, release, publication, and unblinding remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "benchmark/fixtures/repair",
@@ -63,7 +63,8 @@
     "benchmark/evidence/advisory/t14/procedural-panel-design.json",
     "benchmark/evidence/advisory/t14/procedural-panel-statistics.json",
     "benchmark/evidence/advisory/t14/procedural-panel-governance.json",
-    "docs/decision-log.md"
+    "docs/decision-log.md",
+    "benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -88,5 +89,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-29T00:50:00Z"
+  "updated_at": "2026-08-29T04:59:02Z"
 }

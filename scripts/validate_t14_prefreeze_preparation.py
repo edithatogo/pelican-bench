@@ -72,7 +72,7 @@ def main() -> int:
         "local toolchain observation overclaims an external gate",
     )
     print(
-        "T14 prefreeze preparation valid: procedural custody bound; freeze and later gates pending"
+        "T14 prefreeze protocol valid: procedural custody bound; decision authority checked separately"
     )
     return 0
 
