@@ -10,13 +10,15 @@ import pytest
 
 from pelicanbench.t14_custody import build_restricted_custody_artifacts, canonical_bytes
 from pelicanbench.t14_rating import (
+    FrozenRatingSession,
     HashChainedRatingLedger,
     load_frozen_rating_session,
     validate_rating_authorization,
+    validate_rating_row,
 )
 
 
-def _prepared_session(tmp_path: Path, root: Path):
+def _prepared_session(tmp_path: Path, root: Path) -> tuple[FrozenRatingSession, dict[str, Path]]:
     candidate_path = root / "benchmark/fixtures/repair/candidate/manifest.json"
     candidate_raw = candidate_path.read_bytes()
     candidate = json.loads(candidate_raw)
@@ -65,11 +67,17 @@ def _prepared_session(tmp_path: Path, root: Path):
         alias_path=alias_path,
         assignment_path=schedule_path,
     )
-    return session
+    return session, {
+        "packet": packet_path,
+        "freeze": freeze_path,
+        "candidate": candidate_path,
+        "alias": alias_path,
+        "assignment": schedule_path,
+    }
 
 
 def test_frozen_rating_session_exposes_assignment_aliases_only(tmp_path: Path, root: Path) -> None:
-    session = _prepared_session(tmp_path, root)
+    session, _ = _prepared_session(tmp_path, root)
     assert len(session.assignments) == 106
     assert len(session.public_assignments) == 106
     assert all(set(row) == {"assignment_alias"} for row in session.public_assignments)
@@ -77,7 +85,7 @@ def test_frozen_rating_session_exposes_assignment_aliases_only(tmp_path: Path, r
 
 
 def test_rating_authorization_is_exactly_scoped(tmp_path: Path, root: Path) -> None:
-    session = _prepared_session(tmp_path, root)
+    session, _ = _prepared_session(tmp_path, root)
     receipt = {
         "receipt_kind": "t14-rating-authorization",
         "study_id": session.study_id,
@@ -107,6 +115,82 @@ def test_rating_authorization_is_exactly_scoped(tmp_path: Path, root: Path) -> N
     path.write_text(json.dumps(receipt), encoding="utf-8")
     with pytest.raises(ValueError, match="qualification assignment limit"):
         validate_rating_authorization(path, session)
+
+    receipt["rating_route"] = "complete"
+    receipt["assignment_limit"] = 106
+    path.write_text(json.dumps(receipt), encoding="utf-8")
+    assert validate_rating_authorization(path, session)["rating_route"] == "complete"
+    receipt["assignment_limit"] = 105
+    path.write_text(json.dumps(receipt), encoding="utf-8")
+    with pytest.raises(ValueError, match="complete-wave assignment limit"):
+        validate_rating_authorization(path, session)
+    receipt["rating_route"] = "unknown"
+    path.write_text(json.dumps(receipt), encoding="utf-8")
+    with pytest.raises(ValueError, match="route drift"):
+        validate_rating_authorization(path, session)
+
+
+def test_frozen_session_rejects_permission_and_authority_drift(tmp_path: Path, root: Path) -> None:
+    _, paths = _prepared_session(tmp_path, root)
+    paths["alias"].chmod(0o644)
+    with pytest.raises(ValueError, match="permissions are too broad"):
+        load_frozen_rating_session(
+            root=root,
+            packet_path=paths["packet"],
+            freeze_receipt_path=paths["freeze"],
+            candidate_path=paths["candidate"],
+            alias_path=paths["alias"],
+            assignment_path=paths["assignment"],
+        )
+    paths["alias"].chmod(0o600)
+    packet = json.loads(paths["packet"].read_text())
+    packet["status"] = "pending"
+    paths["packet"].write_text(json.dumps(packet), encoding="utf-8")
+    with pytest.raises(ValueError, match="not procedurally frozen"):
+        load_frozen_rating_session(
+            root=root,
+            packet_path=paths["packet"],
+            freeze_receipt_path=paths["freeze"],
+            candidate_path=paths["candidate"],
+            alias_path=paths["alias"],
+            assignment_path=paths["assignment"],
+        )
+    packet["status"] = "frozen-procedural-non-independent-e2"
+    packet["ratings_authorized"] = True
+    paths["packet"].write_text(json.dumps(packet), encoding="utf-8")
+    with pytest.raises(ValueError, match="authority state drift"):
+        load_frozen_rating_session(
+            root=root,
+            packet_path=paths["packet"],
+            freeze_receipt_path=paths["freeze"],
+            candidate_path=paths["candidate"],
+            alias_path=paths["alias"],
+            assignment_path=paths["assignment"],
+        )
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ({"assignment_alias": ""}, "assignment alias"),
+        ({"target_corrected": "yes"}, "target_corrected"),
+        ({"preservation_score_1_to_5": True}, "preservation score"),
+        ({"preservation_score_1_to_5": 6}, "preservation score"),
+        ({"confidence_0_to_100": True}, "confidence"),
+        ({"confidence_0_to_100": 101}, "confidence"),
+    ],
+)
+def test_rating_rows_fail_closed(mutation: dict[str, object], message: str) -> None:
+    row: dict[str, object] = {
+        "assignment_alias": "assignment-a",
+        "target_corrected": True,
+        "preservation_score_1_to_5": 4,
+        "introduced_defect": False,
+        "confidence_0_to_100": 80,
+        "uncertain": False,
+    }
+    with pytest.raises(ValueError, match=message):
+        validate_rating_row(row | mutation)
 
 
 def test_rating_ledger_is_append_only_hash_chained_and_private(tmp_path: Path) -> None:
@@ -140,6 +224,11 @@ def test_rating_ledger_is_append_only_hash_chained_and_private(tmp_path: Path) -
     assert path.parent.stat().st_mode & 0o777 == 0o700
     with pytest.raises(ValueError, match="already has"):
         ledger.append(ledger.latest_rows()[0], saved_at="2026-08-29T00:02:00Z")
+    with pytest.raises(ValueError, match="not in the frozen session"):
+        ledger.append(
+            ledger.latest_rows()[0] | {"assignment_alias": "assignment-unknown"},
+            saved_at="2026-08-29T00:02:00Z",
+        )
     lines = path.read_text().splitlines()
     event = json.loads(lines[0])
     event["confidence_0_to_100"] = 99
