@@ -50,6 +50,7 @@
     "benchmark/evidence/advisory/t14/statistics-final.json",
     "benchmark/evidence/advisory/t14/governance-final.json",
     "benchmark/evidence/advisory/t14/pending-freeze-decision.json",
+    "benchmark/evidence/advisory/t14/exact-commit-local-harness-receipt.json",
     "scripts/validate_t14_pending_freeze_packet.py",
     "tests/contract/test_t14_pending_freeze_packet.py"
   ],

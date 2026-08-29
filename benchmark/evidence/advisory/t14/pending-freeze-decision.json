@@ -33,7 +33,7 @@
     "secret_bound_alias_manifest_sha256": null,
     "restricted_duplicate_schedule_sha256": null,
     "accountable_custodian_receipt_sha256": null,
-    "exact_commit_full_harness_receipt_sha256": null,
+    "exact_commit_full_harness_receipt_sha256": "2a6acf640e6e59bb42464e01f2b4bf8bfb3944d6bb99e0623fc54464d68cde95",
     "steward_freeze_decision_receipt_sha256": null
   },
   "decision": "pending-steward-review-after-custody-inputs",

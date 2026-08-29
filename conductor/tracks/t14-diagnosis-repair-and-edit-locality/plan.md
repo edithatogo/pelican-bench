@@ -43,6 +43,9 @@ the packet.
   Route the study design, sampling, analysis, and score-compatibility options through the
   T14 agent panel; return the panel packet to the benchmark steward for the final decision.
   Agent ratings and fixture evidence do not satisfy the human-calibration requirement.
+  The exact-clean-commit local harness observation for `ca6882a` is retained at
+  `benchmark/evidence/advisory/t14/exact-commit-local-harness-receipt.json`; it is E2 local
+  evidence only and has no custody, freeze, hosted-CI, attestation, or release effect.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without
