@@ -1,8 +1,8 @@
 # T14 remaining-gate decision packet (2026-08-29)
 
-**Status:** recommended preparation slate approved by the benchmark steward;
-implementation preparation only. No normative freeze, human rating, score promotion,
-attestation, release, publication, or unblinding is authorized by this packet.
+**Status:** preparation decisions completed and superseded for freeze state by D044. D044
+freezes the regenerated exact bytes as procedural, non-independent E2 preparation. No human
+rating, score promotion, attestation, release, publication, or unblinding is authorized.
 
 **Repository basis:** `988281cd88abff929371bd58138f97c1da4acc99`
 (`origin/main` after PR #174).

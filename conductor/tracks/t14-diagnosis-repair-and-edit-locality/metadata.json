@@ -64,7 +64,8 @@
     "benchmark/evidence/advisory/t14/procedural-panel-statistics.json",
     "benchmark/evidence/advisory/t14/procedural-panel-governance.json",
     "docs/decision-log.md",
-    "benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json"
+    "benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json",
+    "docs/t14-freeze-integrity-and-amendment.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

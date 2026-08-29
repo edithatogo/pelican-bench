@@ -39,7 +39,7 @@ the packet.
 - [x] Task: Separate declared edit-target and preservation metrics from visual benchmark semantics.
 - [x] Task: Retain deterministic repair fixtures and regression tests.
 - [x] Task: Add render-based defect and preservation assessments. Evidence: `src/pelicanbench/repair.py` (`score_repair_render`, `RenderRepairScore`), regression coverage in `tests/test_longitudinal_repair_trajectory.py`; full `scripts/harness.sh` (`HARNESS_OK`). Commit: `c1ab131`.
-- [~] Task: Calibrate edit locality and introduced-defect measures against human judgement. Decision packet: `docs/t14-human-calibration-decision-packet.md`; readiness snapshot: `benchmark/evidence/snapshots/t14-calibration-pilot-readiness.json`. Pilot authorized by D039. The steward's two-episode rehearsal is retained as E2, non-promotional evidence; response and analysis receipts are `benchmark/evidence/snapshots/t14-human-rating-response.json` and `benchmark/evidence/snapshots/t14-steward-analysis.json`. D042 reopens repository-owned preparation and approves redesign of a still-unfrozen 96-episode package as 24 four-episode scene clusters with a proposed 18/6 cluster split, crossed severity and visibly distinct geometry, plus a separate 40-case non-normative diagnostic suite. Replacement candidate and diagnostic manifests have been generated and locally validated; fresh panel re-review and a later exact-hash steward freeze decision remain outstanding. Nothing is frozen, rated, promoted, independently validated, or release-authorized, so normative calibration remains outstanding.
+- [~] Task: Calibrate edit locality and introduced-defect measures against human judgement. Decision packet: `docs/t14-human-calibration-decision-packet.md`; readiness snapshot: `benchmark/evidence/snapshots/t14-calibration-pilot-readiness.json`. Pilot authorized by D039. The steward's two-episode rehearsal is retained as E2, non-promotional evidence; response and analysis receipts are `benchmark/evidence/snapshots/t14-human-rating-response.json` and `benchmark/evidence/snapshots/t14-steward-analysis.json`. D042 reopened repository-owned preparation and approved redesign of the 96-episode package as 24 four-episode scene clusters with an 18/6 cluster split, crossed severity and visibly distinct geometry, plus a separate 40-case non-normative diagnostic suite. D044 subsequently froze the regenerated exact bytes as procedural, non-independent E2 preparation. No new ratings, promotion, independent validation, attestation, release, publication, or unblinding are authorized, so empirical calibration remains outstanding.
   Route the study design, sampling, analysis, and score-compatibility options through the
   T14 agent panel; return the panel packet to the benchmark steward for the final decision.
   Agent ratings and fixture evidence do not satisfy the human-calibration requirement.
@@ -63,6 +63,9 @@ the packet.
   Evidence: `benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json` and
   `benchmark/evidence/advisory/t14/pending-freeze-decision.json`. Ratings, promotion,
   attestation, release, publication, and unblinding remain unauthorized. Commit: `6ecd9e7`.
+- [x] Task: Document the non-mutating freeze-integrity recheck and fail-closed amendment
+  procedure. Evidence: `docs/t14-freeze-integrity-and-amendment.md`. The procedure cannot
+  authorize ratings or any downstream gate. Commit: pending.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without
