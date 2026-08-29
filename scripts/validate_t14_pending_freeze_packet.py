@@ -212,7 +212,8 @@ def main() -> int:
         "pending packet overclaims authority",
     )
     print(
-        "T14 pending freeze packet valid: procedural custody and synthetic panel bound; current harness and steward decision absent"
+        "T14 pending freeze packet valid: procedural custody and synthetic panel bound; "
+        "current harness and steward decision absent"
     )
     return 0
 
