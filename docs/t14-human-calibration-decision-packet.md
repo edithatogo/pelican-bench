@@ -78,9 +78,10 @@ are complete.
 
 ## Evidence and promotion gates
 
-- [ ] Panel packets cover design, metric validity, governance/privacy, and statistical power.
-- [ ] The steward records one decision and any conditions.
-- [ ] If authorized, the protocol and sample are frozen before collection.
+- [x] Panel packets cover design, metric validity, governance/privacy, and statistical power.
+- [x] The steward records the D044 procedural E2 freeze decision and its conditions.
+- [x] The protocol and exact 96-episode sample are frozen as procedural, non-independent E2
+  preparation before collection.
 - [ ] Human ratings are collected under the approved governance and blinded stages.
 - [ ] Results include agreement, uncertainty, adjudication, missingness, and held-out
   alignment of automatic metrics with human outcomes.
@@ -91,15 +92,17 @@ are complete.
   by the steward before rating and must not be tuned on held-out results.
 - [ ] Only after those results pass the stated thresholds may T14/P2 be promoted.
 
-Current status is **authorized / E2**. No fixture, agent-panel, or synthetic result closes the
-human-calibration gate.
+Current status is **procedurally frozen / E2 / ratings not authorized**. D044 binds 96
+project-original episodes in 24 scene clusters, the 18/6 whole-cluster allocation, 10
+duplicate assignments, the protocol, prospective analysis, renderer lock, custody receipts,
+and advisory packets. No fixture, agent-panel, or synthetic result closes the human-
+calibration gate.
 
-The current readiness snapshot is blocked because only two eligible project-original repair
-episodes are present. No development/held-out split is frozen until additional eligible
-episodes are added or explicitly authorized by the steward.
-
-The two-episode blind manifest is available for interface rehearsal only. It is explicitly
-not a held-out sample and cannot support calibration promotion.
+The earlier two-episode blind manifest and response remain historical rehearsal evidence
+only. The authorization-gated frozen interface consumes the restricted 106-assignment
+schedule without exposing source identifiers, duplicate identity, allocation, or scores.
+Collection cannot begin until the benchmark steward supplies a separate, exact-hash rating
+authorization receipt.
 
 ## Panel recommendation returned to the steward
 

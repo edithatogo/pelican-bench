@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "status": "observed-local-prefreeze-lock",
+  "observed_at": "2026-08-29T00:22:51Z",
+  "repository_revision": "8eb9ece",
+  "canonical_render": {
+    "method": "render_svg-v1",
+    "canvas_px": 512,
+    "background": "opaque-white",
+    "render_source": "src/pelicanbench/render.py",
+    "render_source_sha256": "223c3c8b63f3807ed70c256b9befb6c7346f5100a1cf63deb7a6b3b565182b02"
+  },
+  "toolchain": {
+    "python": "3.14.5",
+    "cairosvg": "2.9.0",
+    "cairocffi": "1.7.1",
+    "cairo": "1.18.4",
+    "pyproject_sha256": "feb09f763e52a47897db12da2e7824968c714b5e79d1c3054383f658bee46d3b",
+    "uv_lock_sha256": "13eeca3e64bdf1fdac44434d0a8af03153f0842b380f86949f62da3b9610b94e"
+  },
+  "boundaries": {
+    "environment_independently_reproduced": false,
+    "operational_attestation": false,
+    "freeze_effect": false,
+    "release_effect": false
+  }
+}

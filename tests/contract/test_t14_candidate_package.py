@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -66,3 +67,28 @@ def test_pedal_contact_geometry_extracts_endpoint() -> None:
     )
     assert pedal == (20.0, 30.0)
     assert endpoint == (18.0, 29.0)
+
+
+def test_candidate_design_is_clustered_crossed_and_unfrozen() -> None:
+    manifest = json.loads(
+        (
+            Path(__file__).resolve().parents[2]
+            / "benchmark/fixtures/repair/candidate/manifest.json"
+        ).read_text()
+    )
+    assert manifest["episode_count"] == 96
+    assert manifest["scene_group_count"] == 24
+    assert manifest["episodes_per_scene_group"] == 4
+    assert manifest["split_policy"]["development_count"] == 72
+    assert manifest["split_policy"]["held_out_count"] == 24
+    assert manifest["normative_sample_frozen"] is False
+    for family in {row["defect_family"] for row in manifest["episodes"]}:
+        rows = [row for row in manifest["episodes"] if row["defect_family"] == family]
+        assert [row["severity"] for row in rows].count("moderate") == 6
+        assert [row["severity"] for row in rows].count("severe") == 6
+
+
+def test_scene_geometry_signature_uses_visible_geometry() -> None:
+    first = '<svg xmlns="http://www.w3.org/2000/svg"><path data-role="ground" d="M0 9L9 9"/><circle data-role="front-wheel" cx="8" cy="8" r="2"/><circle data-role="rear-wheel" cx="2" cy="8" r="2"/><path data-role="frame" d="M2 8L8 8"/></svg>'
+    second = first.replace('cx="8" cy="8"', 'cx="9" cy="8"', 1)
+    assert MODULE.scene_geometry_signature(first) != MODULE.scene_geometry_signature(second)

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "status": "agent-advice-only",
+  "agent_id": "t14-panel-measurement-design-d042-final-20260829",
+  "evidence_revision": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
+  "independence_claimed": false,
+  "bindings": {
+    "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "diagnostic_manifest_sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
+    "prospective_analysis_plan_sha256": "cc68919c9f5cd11e76c173f0d8caf2aff2e380210dddcc85ea419ea16a990c4b",
+    "blinding_duplicate_plan_sha256": "8d0c886078d1653393d2f63e6f9062854260e45e293985be03e1f275443a229d",
+    "renderer_toolchain_lock_sha256": "83118c55c4e48315001814ab9c9cffa57dacb231ac428c2446a227d0ce2b7c11"
+  },
+  "findings": {
+    "marginal_incomplete_block_balance": "pass",
+    "family_by_vehicle_balance": "pass-three-per-family-per-vehicle",
+    "held_out_factor_coverage": "pass-all-vehicles-layouts-and-variants",
+    "geometry_and_severity": "pass",
+    "diagnostic_semantics_and_zero_overlap": "pass",
+    "pairwise_block_balance": "not-claimed",
+    "topology_specific_held_out_claims": "prohibited-sparse-design"
+  },
+  "recommendation": "design-acceptable-for-prefreeze-packet-preparation",
+  "gate_actions_taken": false
+}

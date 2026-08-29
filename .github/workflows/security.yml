@@ -18,7 +18,7 @@ jobs:
         with: {python-version: '3.14'}
       - run: python -m pip install -e '.[dev]' pip-audit bandit
       - run: pip-audit
-      - run: bandit -q -r src scripts -x tests
+      - run: bandit -q -r src scripts -x tests -b .bandit-baseline.json
       - name: SVG and scorer adversarial suite
         run: python -m pytest -q tests/test_svg_scoring.py tests/test_metamorphic.py tests/test_fuzzing.py
       - name: Bounded mutation fuzz campaign

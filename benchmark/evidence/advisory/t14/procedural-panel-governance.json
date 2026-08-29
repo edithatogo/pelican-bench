@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "panel_role": "governance-security",
+  "reviewed_commit": "3cbe4255b057f12975f312826db0332482183fc2",
+  "reviewed_tree": "5ec96cd9c82f881264b2219240b187f4f632a5f0",
+  "classification": {
+    "synthetic": true,
+    "human": false,
+    "independent": false,
+    "normative": false,
+    "gate_effect": "none"
+  },
+  "scope": {
+    "restricted_artifacts_accessed": false,
+    "keychain_accessed": false
+  },
+  "findings": {
+    "custody_receipt_binding": "pass",
+    "verification_receipt_binding": "pass",
+    "negative_semantic_rebinding_tests": "pass",
+    "restricted_directory_mode": "0700",
+    "restricted_file_mode": "0600",
+    "secret_entropy_guidance": "pass-with-explicit-non-attestation",
+    "agent_addressable_blocker": null
+  },
+  "retained_boundary": "Procedural same-operator evidence does not establish human judgement, independent custody, E3 calibration, or E4 reproduction.",
+  "recommendation": "accept-governance-remediation-with-no-gate-effect"
+}

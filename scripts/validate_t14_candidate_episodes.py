@@ -95,6 +95,33 @@ def pedal_contact_geometry(svg: str) -> tuple[tuple[float, float], tuple[float, 
     return pedal, endpoint
 
 
+def scene_geometry_signature(svg: str) -> tuple[tuple[str, str], ...]:
+    """Describe visible scene geometry without trusting manifest labels."""
+    root = ET.fromstring(svg)
+    geometry = []
+    for element in root.iter():
+        role = element.attrib.get("data-role", "")
+        if role in {
+            "front-wheel",
+            "rear-wheel",
+            "auxiliary-wheel",
+            "frame",
+            "ground",
+            "cargo-platform",
+        }:
+            values = "|".join(
+                element.attrib.get(key, "")
+                for key in ("cx", "cy", "r", "x", "y", "width", "height", "d")
+            )
+            require(values.strip("|") != "", f"missing visible geometry for {role}")
+            geometry.append((role, values))
+    require(
+        {"front-wheel", "rear-wheel", "frame", "ground"} <= {role for role, _ in geometry},
+        "scene geometry incomplete",
+    )
+    return tuple(sorted(geometry))
+
+
 @cache
 def inspect_and_render(svg: str) -> tuple[frozenset[str], str, bool, tuple[str, ...]]:
     inspection = inspect_svg(svg)
@@ -251,17 +278,21 @@ def main() -> int:
             row.get("before_render_sha256") != row.get("after_render_sha256"),
             "repair has no visible canonical edit",
         )
-    require(len(groups) == payload.get("scene_group_count") == 12, "need 12 scene groups")
+    require(len(groups) == payload.get("scene_group_count") == 24, "need 24 scene groups")
     group_partitions = Counter()
     for rows in groups.values():
-        require(len(rows) == 8, "every scene group must contain 8 episodes")
-        require(len({row.get("defect_family") for row in rows}) == 8, "defect family missing")
+        require(len(rows) == 4, "every scene group must contain 4 episodes")
+        require(len({row.get("defect_family") for row in rows}) == 4, "defect family missing")
+        require(
+            Counter(row.get("severity") for row in rows) == {"moderate": 2, "severe": 2},
+            "scene severity must be 2/2",
+        )
         assigned = {row.get("proposed_partition") for row in rows}
         require(len(assigned) == 1, "scene group crosses proposed partitions")
         group_partitions[next(iter(assigned))] += 1
     require(
-        group_partitions == {"proposed-development": 9, "proposed-held-out": 3},
-        "group allocation must be 9/3",
+        group_partitions == {"proposed-development": 18, "proposed-held-out": 6},
+        "group allocation must be 18/6",
     )
     require(
         set(payload["split_policy"]["selected_held_out_groups"])
@@ -280,7 +311,75 @@ def main() -> int:
             allocation == {"proposed-development": 9, "proposed-held-out": 3},
             f"unbalanced defect allocation: {family}",
         )
-    print("T14 candidate package valid: 96 project-original episodes; proposed 72/24 group split")
+        severity = Counter(
+            row.get("severity") for row in episodes if row.get("defect_family") == family
+        )
+        require(severity == {"moderate": 6, "severe": 6}, f"severity not crossed for {family}")
+        moderate = {
+            row.get("severity_parameter")
+            for row in episodes
+            if row.get("defect_family") == family and row.get("severity") == "moderate"
+        }
+        severe = {
+            row.get("severity_parameter")
+            for row in episodes
+            if row.get("defect_family") == family and row.get("severity") == "severe"
+        }
+        require(
+            len(moderate) == len(severe) == 1 and max(moderate) < min(severe),
+            f"severity parameter ordering invalid: {family}",
+        )
+        vehicles = Counter(
+            row.get("vehicle_family") for row in episodes if row.get("defect_family") == family
+        )
+        require(
+            vehicles
+            == {
+                "bicycle": 3,
+                "tricycle": 3,
+                "step-through-cycle": 3,
+                "cargo-cycle": 3,
+            },
+            f"defect family is confounded with vehicle: {family}",
+        )
+    signatures = {}
+    for group, rows in groups.items():
+        reference = resolve_candidate_asset(Path(str(rows[0]["after_reference"]))).read_text()
+        signature = scene_geometry_signature(reference)
+        require(signature not in signatures, f"duplicate visible scene geometry: {group}")
+        signatures[signature] = group
+    vehicle_signatures = defaultdict(set)
+    for rows in groups.values():
+        reference = resolve_candidate_asset(Path(str(rows[0]["after_reference"]))).read_text()
+        vehicle_signatures[str(rows[0].get("vehicle_family"))].add(
+            scene_geometry_signature(reference)
+        )
+    require(
+        set(vehicle_signatures) == {"bicycle", "tricycle", "step-through-cycle", "cargo-cycle"},
+        "vehicle topology coverage drift",
+    )
+    require(
+        all(len(items) == 6 for items in vehicle_signatures.values()),
+        "vehicle geometry is metadata-only",
+    )
+    held_out_rows = [
+        row for row in episodes if row.get("proposed_partition") == "proposed-held-out"
+    ]
+    require(
+        {row.get("vehicle_family") for row in held_out_rows}
+        == {"bicycle", "tricycle", "step-through-cycle", "cargo-cycle"},
+        "held-out vehicle coverage incomplete",
+    )
+    require(
+        {row.get("layout_template_id") for row in held_out_rows}
+        == {"level-wide", "rising-close", "falling-offset"},
+        "held-out layout coverage incomplete",
+    )
+    require(
+        {row.get("geometry_variant") for row in held_out_rows} == {0, 1},
+        "held-out geometry variant coverage incomplete",
+    )
+    print("T14 candidate package valid: 96 episodes; proposed 72/24 split across 18/6 groups")
     return 0
 
 

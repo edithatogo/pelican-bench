@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "panel_role": "measurement-design",
+  "reviewed_commit": "3cbe4255b057f12975f312826db0332482183fc2",
+  "reviewed_tree": "5ec96cd9c82f881264b2219240b187f4f632a5f0",
+  "classification": {
+    "synthetic": true,
+    "human": false,
+    "independent": false,
+    "normative": false,
+    "gate_effect": "none"
+  },
+  "bindings": {
+    "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "diagnostic_manifest_sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
+    "blinding_duplicate_rule_sha256": "a962a653bfcadfc992af37d8805f51f37cd6c8b76f1c5033dccad3208a0dd877",
+    "procedural_custody_receipt_sha256": "0c311866845c126f525121dfdf7c290044b40c7e85421183504a710deb3cc493",
+    "procedural_custody_verification_sha256": "5ea2beef55dd43e3fd430f1d633f72693f3f12956418a8649f29d10209c7ea2d"
+  },
+  "findings": {
+    "candidate_and_diagnostic_design": "pass",
+    "public_custody_state_reconciled": "pass",
+    "duplicate_assignments": 10,
+    "held_out_duplicate_assignments": 4,
+    "minimum_held_out_duplicate_assignments": 3,
+    "verification_semantic_binding": "pass",
+    "focused_validators": "pass"
+  },
+  "risks": [
+    "Restricted-artifact verification is procedural and receipt-backed, not independently reproduced.",
+    "Procedural self-custody cannot establish organisational independence.",
+    "Exact-current full-harness evidence must be observed before any later freeze decision."
+  ],
+  "recommendation": "accept-for-continued-prefreeze-preparation-only"
+}

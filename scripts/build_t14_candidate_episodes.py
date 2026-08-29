@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the non-normative T14 project-original candidate repair episodes."""
+"""Build the unfrozen, project-original T14 repair candidate."""
 
 from __future__ import annotations
 
@@ -11,13 +11,11 @@ from collections import Counter
 from dataclasses import dataclass
 from functools import cache
 from itertools import combinations
-from operator import itemgetter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "benchmark/fixtures/repair/candidate"
 sys.path.insert(0, str(ROOT / "src"))
-
 from pelicanbench.render import render_svg  # ruff: ignore[module-import-not-at-top-of-file]
 from pelicanbench.svg import inspect_svg  # ruff: ignore[module-import-not-at-top-of-file]
 
@@ -25,212 +23,285 @@ from pelicanbench.svg import inspect_svg  # ruff: ignore[module-import-not-at-to
 @dataclass(frozen=True)
 class Scene:
     scene_id: str
-    palette_family: str
     vehicle: str
+    layout: str
+    variant: int
     body: str
     accent: str
-    wheel: str
-    shift_x: int
-    shift_y: int
+    ink: str
 
 
-SCENES = (
-    Scene("scene-01", "warm-cream", "bicycle", "#f5f1df", "#e8793e", "#263238", -8, 0),
-    Scene("scene-02", "warm-cream", "tricycle", "#fff4cf", "#cc5a35", "#24424c", 0, -4),
-    Scene("scene-03", "cool-blue", "bicycle", "#d8e7eb", "#d9903d", "#283845", 7, 2),
-    Scene("scene-04", "golden", "step-through-cycle", "#f4e7a1", "#e0693e", "#31505b", -4, 5),
-    Scene("scene-05", "neutral-gray", "bicycle", "#e7ecef", "#f08b3e", "#1f2d33", 5, -2),
-    Scene("scene-06", "teal", "cargo-cycle", "#b9d4d0", "#d46b45", "#283b42", -6, 4),
-    Scene("scene-07", "warm-cream", "step-through-cycle", "#f6e8cd", "#cf7042", "#384a52", 8, 1),
-    Scene("scene-08", "cool-blue", "tricycle", "#dbe8ea", "#bd633f", "#263e49", -2, -5),
-    Scene("scene-09", "golden", "cargo-cycle", "#f2df8c", "#e1773e", "#304b55", 4, 3),
+VEHICLES = ("bicycle", "tricycle", "step-through-cycle", "cargo-cycle")
+LAYOUTS = ("level-wide", "rising-close", "falling-offset")
+PALETTES = (
+    ("#f5f1df", "#e8793e", "#263238"),
+    ("#d8e7eb", "#d9903d", "#283845"),
+    ("#f4e7a1", "#e0693e", "#31505b"),
+    ("#b9d4d0", "#d46b45", "#283b42"),
+)
+SCENES = tuple(
     Scene(
-        "scene-10", "neutral-gray", "step-through-cycle", "#e1e8ec", "#f08a43", "#253740", -7, -1
-    ),
-    Scene("scene-11", "teal", "bicycle", "#bdd7d2", "#ca6842", "#31434b", 2, 5),
-    Scene("scene-12", "warm-cream", "cargo-cycle", "#f7ecd3", "#d87542", "#293f48", 7, -4),
+        f"scene-{i + 1:02d}",
+        VEHICLES[i % 4],
+        LAYOUTS[(i // 4) % 3],
+        i // 12,
+        *PALETTES[(i * 3 + i // 4) % 4],
+    )
+    for i in range(24)
 )
-
-
 DEFECTS = (
-    ("missing-front-wheel", "severe", "Restore the missing front wheel without changing the bird."),
-    ("displaced-rear-wheel", "severe", "Realign the rear wheel with the vehicle frame."),
-    ("broken-frame", "severe", "Reconnect the broken load-bearing frame segment."),
-    ("missing-eye", "moderate", "Restore the bird's visible eye without changing its bill."),
-    ("missing-wing", "moderate", "Restore the visible wing while preserving body and bill."),
-    ("missing-pedal-contact", "moderate", "Restore explicit foot-to-pedal contact."),
-    ("missing-steering-contact", "moderate", "Restore explicit wing-to-handle contact."),
-    ("interaction-occlusion", "severe", "Remove the obstruction hiding the riding interaction."),
+    ("missing-front-wheel", "add", ("front", "wheel")),
+    ("displaced-rear-wheel", "move", ("rear", "wheel")),
+    ("broken-frame", "reconnect", ("frame", "brace")),
+    ("missing-eye", "add", ("eye",)),
+    ("missing-wing", "add", ("wing",)),
+    ("missing-pedal-contact", "move", ("foot", "pedal", "contact")),
+    ("missing-steering-contact", "reconnect", ("riding", "grip", "contact")),
+    ("interaction-occlusion", "remove", ("obstruction",)),
 )
-
-DEFECT_OPERATIONS = {
-    "missing-front-wheel": ("add", ["front", "wheel"]),
-    "displaced-rear-wheel": ("move", ["rear", "wheel"]),
-    "broken-frame": ("reconnect", ["frame", "brace"]),
-    "missing-eye": ("add", ["eye"]),
-    "missing-wing": ("add", ["wing"]),
-    "missing-pedal-contact": ("move", ["foot", "pedal", "contact"]),
-    "missing-steering-contact": ("reconnect", ["riding", "grip", "contact"]),
-    "interaction-occlusion": ("remove", ["obstruction"]),
+PARAMETERS = {
+    "missing-front-wheel": (24, 48),
+    "displaced-rear-wheel": (24, 48),
+    "broken-frame": (22, 58),
+    "missing-eye": (3, 6),
+    "missing-wing": (34, 68),
+    "missing-pedal-contact": (31, 66),
+    "missing-steering-contact": (30, 72),
+    "interaction-occlusion": (60, 110),
 }
 
 
-def _sha256(value: str) -> str:
-    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+def _sha(value: str) -> str:
+    return hashlib.sha256(value.encode()).hexdigest()
 
 
 @cache
-def _render_hash(value: str) -> str:
+def _render(value: str) -> str:
     return render_svg(value).render_hash
 
 
-def _svg(scene: Scene, defect: str | None) -> str:
-    dx, dy = scene.shift_x, scene.shift_y
-    rear_x, front_x, wheel_y = 132 + dx, 340 + dx, 252 + dy
-    rear_y = wheel_y + 38 if defect == "displaced-rear-wheel" else wheel_y
-    pieces = [
+def _parameter(defect: str, severity: str) -> int:
+    return PARAMETERS[defect][severity == "severe"]
+
+
+def _defect_block(scene_index: int) -> tuple[int, ...]:
+    """Return a complementary BIB block: every family occurs 3x per vehicle."""
+    vehicle = scene_index % 4
+    replicate = scene_index // 4
+    start = vehicle + 2 * (replicate // 2)
+    first = {(start + offset) % 8 for offset in range(4)}
+    block = first if replicate % 2 == 0 else set(range(8)) - first
+    return tuple(sorted(block))
+
+
+def _severity_assignment() -> dict[tuple[int, int], str]:
+    """Choose two severe cells per group and six per family, deterministically."""
+    blocks = [_defect_block(index) for index in range(24)]
+    counts = [0] * 8
+    selected: dict[int, tuple[int, int]] = {}
+
+    def visit(group: int) -> bool:
+        if group == 24:
+            return counts == [6] * 8
+        remaining = Counter(defect for block in blocks[group:] for defect in block)
+        if any(counts[d] > 6 or counts[d] + remaining[d] < 6 for d in range(8)):
+            return False
+        for pair in combinations(blocks[group], 2):
+            if any(counts[d] == 6 for d in pair):
+                continue
+            for defect in pair:
+                counts[defect] += 1
+            selected[group] = pair
+            if visit(group + 1):
+                return True
+            for defect in pair:
+                counts[defect] -= 1
+        return False
+
+    if not visit(0):
+        raise RuntimeError("no balanced severity assignment")
+    return {
+        (group, defect): "severe" if defect in selected[group] else "moderate"
+        for group, block in enumerate(blocks)
+        for defect in block
+    }
+
+
+def _selected_held_out_groups(severity: dict[tuple[int, int], str]) -> set[str]:
+    """Exhaustively select six groups from design factors, without outcomes."""
+    ranked = []
+    for chosen in combinations(range(24), 6):
+        family = Counter(d for group in chosen for d in _defect_block(group))
+        if set(family.values()) != {3} or len(family) != 8:
+            continue
+        vehicles = Counter(SCENES[g].vehicle for g in chosen)
+        layouts = Counter(SCENES[g].layout for g in chosen)
+        variants = Counter(SCENES[g].variant for g in chosen)
+        severe = Counter(d for g in chosen for d in _defect_block(g) if severity[g, d] == "severe")
+        coverage_penalty = (
+            len(VEHICLES) - len(vehicles) + len(LAYOUTS) - len(layouts) + 2 - len(variants)
+        )
+        balance = sum((vehicles[key] - 1.5) ** 2 for key in VEHICLES)
+        balance += sum((layouts[key] - 2) ** 2 for key in LAYOUTS)
+        balance += sum((variants[key] - 3) ** 2 for key in (0, 1))
+        severity_imbalance = sum(abs(severe[d] - 1.5) for d in range(8))
+        identity = ",".join(f"{g:02d}" for g in chosen)
+        tie = hashlib.sha256(f"t14-72-24-v3\0{identity}".encode()).hexdigest()
+        ranked.append(((coverage_penalty, balance, severity_imbalance, tie), chosen))
+    if not ranked:
+        raise RuntimeError("no balanced held-out allocation")
+    return {SCENES[index].scene_id for index in min(ranked)[1]}
+
+
+def _layout(s: Scene) -> tuple[int, int, int, int, int]:
+    n = LAYOUTS.index(s.layout)
+    dx = (-18, 4, 20)[n] + s.variant * 5
+    dy = (0, -13, 10)[n] + s.variant * 3
+    rear = 128 + dx
+    return rear, rear + (202, 184, 218)[n], 250 + dy, dx, dy
+
+
+def _svg(s: Scene, defect: str | None, severity: str = "moderate") -> str:
+    rear, front, wy, _dx, dy = _layout(s)
+    p = _parameter(defect, severity) if defect else 0
+    ry = wy + p if defect == "displaced-rear-wheel" else wy
+    mid = (rear + front) // 2
+    fy = 188 + dy
+    bx = mid - 10
+    by = 128 + dy
+    q = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320">',
         '<rect width="480" height="320" fill="#ffffff"/>',
-        '<path d="M24 276 H456" stroke="#c8d4d8" stroke-width="5"/>',
+        f'<path data-role="ground" d="M20 {280 + dy // 4} L460 {276 - dy // 4}" stroke="#c8d4d8" stroke-width="5"/>',
     ]
-    if defect != "missing-front-wheel":
-        pieces.append(
-            f'<circle data-role="front-wheel" cx="{front_x}" cy="{wheel_y}" r="48" fill="none" stroke="{scene.wheel}" stroke-width="9"/>'
+    if defect == "missing-front-wheel" and severity == "moderate":
+        q.append(
+            f'<path data-role="component-damaged" d="M{front - p} {wy} A48 48 0 0 1 {front} {wy - p}" fill="none" stroke="{s.ink}" stroke-width="9"/>'
         )
-    pieces.append(
-        f'<circle data-role="rear-wheel" cx="{rear_x}" cy="{rear_y}" r="48" fill="none" stroke="{scene.wheel}" stroke-width="9"/>'
-    )
-    pieces.extend(
-        [
-            f'<path data-role="frame" d="M{rear_x} {wheel_y} L{222 + dx} {wheel_y} L{292 + dx} {184 + dy} L{front_x} {wheel_y} L{222 + dx} {wheel_y} L{184 + dx} {188 + dy}" fill="none" stroke="{scene.accent}" stroke-width="10" stroke-linejoin="round"/>',
-            f'<path data-role="handlebar" d="M{292 + dx} {184 + dy} L{321 + dx} {145 + dy} L{347 + dx} {145 + dy}" fill="none" stroke="{scene.wheel}" stroke-width="8" stroke-linecap="round"/>',
-            f'<circle data-role="pedal" cx="{222 + dx}" cy="{wheel_y}" r="13" fill="{scene.accent}" stroke="{scene.wheel}" stroke-width="5"/>',
-        ]
-    )
-    if defect != "broken-frame":
-        pieces.append(
-            f'<path data-role="frame-brace" d="M{184 + dx} {188 + dy} L{292 + dx} {184 + dy}" stroke="{scene.accent}" stroke-width="10"/>'
+    elif defect != "missing-front-wheel":
+        q.append(
+            f'<circle data-role="front-wheel" cx="{front}" cy="{wy}" r="48" fill="none" stroke="{s.ink}" stroke-width="9"/>'
         )
-    pieces.extend(
-        [
-            f'<ellipse data-role="animal body pelican" cx="{210 + dx}" cy="{128 + dy}" rx="70" ry="49" fill="{scene.body}" stroke="{scene.wheel}" stroke-width="6"/>',
-            f'<circle data-role="animal head" cx="{270 + dx}" cy="{88 + dy}" r="34" fill="{scene.body}" stroke="{scene.wheel}" stroke-width="6"/>',
-            f'<path data-role="bill" d="M{298 + dx} {79 + dy} L{405 + dx} {96 + dy} L{300 + dx} {106 + dy} Z" fill="{scene.accent}" stroke="{scene.wheel}" stroke-width="5"/>',
-        ]
+    q.append(
+        f'<circle data-role="rear-wheel" cx="{rear}" cy="{ry}" r="48" fill="none" stroke="{s.ink}" stroke-width="9"/>'
     )
-    if defect != "missing-eye":
-        pieces.append(
-            f'<circle data-role="eye" cx="{280 + dx}" cy="{79 + dy}" r="5" fill="{scene.wheel}"/>'
+    if s.vehicle == "tricycle":
+        q.append(
+            f'<circle data-role="auxiliary-wheel" cx="{rear - 34}" cy="{wy + 8}" r="34" fill="none" stroke="{s.ink}" stroke-width="7"/>'
         )
-    pieces.append(
-        f'<path data-role="gular pouch" d="M{299 + dx} {105 + dy} Q{350 + dx} {151 + dy} {397 + dx} {98 + dy} Q{345 + dx} {123 + dy} {299 + dx} {105 + dy} Z" fill="#f2aa72" stroke="{scene.wheel}" stroke-width="4"/>'
+    frame = (
+        f"M{rear} {wy} L{mid} {wy} Q{mid + 18} {fy + 35} {front - 38} {fy} L{front} {wy}"
+        if s.vehicle == "step-through-cycle"
+        else f"M{rear} {wy} L{mid} {wy} L{front - 48} {fy} L{front} {wy} L{mid} {wy} L{rear + 50} {fy + 4}"
     )
-    if defect != "missing-wing":
-        pieces.append(
-            f'<path data-role="wing" d="M{178 + dx} {115 + dy} Q{215 + dx} {88 + dy} {246 + dx} {133 + dy} Q{207 + dx} {161 + dy} {178 + dx} {115 + dy} Z" fill="#a9cbd0" stroke="{scene.wheel}" stroke-width="5"/>'
+    q += [
+        f'<path data-role="frame" d="{frame}" fill="none" stroke="{s.accent}" stroke-width="10"/>',
+        f'<path data-role="handlebar" d="M{front - 48} {fy} L{front - 20} {145 + dy} L{front + 8} {145 + dy}" fill="none" stroke="{s.ink}" stroke-width="8"/>',
+        f'<circle data-role="pedal" cx="{mid}" cy="{wy}" r="13" fill="{s.accent}" stroke="{s.ink}" stroke-width="5"/>',
+    ]
+    if s.vehicle == "cargo-cycle":
+        q.append(
+            f'<rect data-role="cargo-platform" x="{rear - 38}" y="{fy - 22}" width="92" height="24" fill="{s.accent}" stroke="{s.ink}" stroke-width="5"/>'
         )
-    foot_end_x = 257 + dx if defect != "missing-pedal-contact" else 184 + dx
-    foot_end_y = 244 + dy if defect != "missing-pedal-contact" else 224 + dy
-    pieces.append(
-        f'<path data-role="foot pedal contact" d="M{202 + dx} {164 + dy} L{212 + dx} {205 + dy} L{foot_end_x} {foot_end_y}" fill="none" stroke="{scene.wheel}" stroke-width="8" stroke-linecap="round"/>'
+    if defect == "broken-frame":
+        q.append(
+            f'<path data-role="frame-damaged" d="M{rear + 50} {fy + 4} L{mid - p // 2} {fy} M{mid + p // 2} {fy} L{front - 48} {fy}" stroke="{s.accent}" stroke-width="10"/>'
+        )
+    else:
+        q.append(
+            f'<path data-role="frame-brace" d="M{rear + 50} {fy + 4} L{front - 48} {fy}" stroke="{s.accent}" stroke-width="10"/>'
+        )
+    q += [
+        f'<ellipse data-role="animal body pelican" cx="{bx}" cy="{by}" rx="{66 + s.variant * 4}" ry="49" fill="{s.body}" stroke="{s.ink}" stroke-width="6"/>',
+        f'<circle data-role="animal head" cx="{bx + 60}" cy="{88 + dy}" r="34" fill="{s.body}" stroke="{s.ink}" stroke-width="6"/>',
+        f'<path data-role="bill" d="M{bx + 88} {79 + dy} L{bx + 190} {96 + dy} L{bx + 90} {106 + dy} Z" fill="{s.accent}" stroke="{s.ink}" stroke-width="5"/>',
+    ]
+    if defect == "missing-eye" and severity == "moderate":
+        q.append(
+            f'<circle data-role="component-damaged" cx="{bx + 70}" cy="{79 + dy}" r="1" fill="{s.ink}"/>'
+        )
+    elif defect != "missing-eye":
+        q.append(f'<circle data-role="eye" cx="{bx + 70}" cy="{79 + dy}" r="5" fill="{s.ink}"/>')
+    q.append(
+        f'<path data-role="gular pouch" d="M{bx + 89} {105 + dy} Q{bx + 140} {151 + dy} {bx + 187} {98 + dy} Q{bx + 135} {123 + dy} {bx + 89} {105 + dy} Z" fill="#f2aa72" stroke="{s.ink}" stroke-width="4"/>'
     )
-    if defect != "missing-steering-contact":
-        pieces.append(
-            f'<path data-role="riding grip contact" d="M{244 + dx} {133 + dy} Q{286 + dx} {135 + dy} {326 + dx} {148 + dy}" fill="none" stroke="{scene.wheel}" stroke-width="8" stroke-linecap="round"/>'
+    if defect == "missing-wing" and severity == "moderate":
+        q.append(
+            f'<path data-role="component-damaged" d="M{bx - 32} {115 + dy} Q{bx} {100 + dy} {bx + p // 2} {133 + dy}" fill="none" stroke="{s.ink}" stroke-width="5"/>'
+        )
+    elif defect != "missing-wing":
+        q.append(
+            f'<path data-role="wing" d="M{bx - 32} {115 + dy} Q{bx + 5} {88 + dy} {bx + 36} {133 + dy} Q{bx - 3} {161 + dy} {bx - 32} {115 + dy} Z" fill="#a9cbd0" stroke="{s.ink}" stroke-width="5"/>'
+        )
+    footx = mid + 8 if defect != "missing-pedal-contact" else mid - p
+    footy = wy - 3 if defect != "missing-pedal-contact" else wy - p // 3
+    q.append(
+        f'<path data-role="foot pedal contact" d="M{bx - 8} {164 + dy} L{mid - 10} {205 + dy} L{footx} {footy}" fill="none" stroke="{s.ink}" stroke-width="8"/>'
+    )
+    if defect == "missing-steering-contact":
+        q.append(
+            f'<path data-role="steering-incomplete" d="M{bx + 34} {133 + dy} Q{bx + 52} {135 + dy} {front - p} {148 + dy}" fill="none" stroke="{s.ink}" stroke-width="8"/>'
+        )
+    else:
+        q.append(
+            f'<path data-role="riding grip contact" d="M{bx + 34} {133 + dy} Q{bx + 76} {135 + dy} {front - 14} {148 + dy}" fill="none" stroke="{s.ink}" stroke-width="8"/>'
         )
     if defect == "interaction-occlusion":
-        pieces.append(
-            f'<rect data-role="obstruction" x="{174 + dx}" y="{151 + dy}" width="142" height="105" rx="8" fill="#6d7780"/>'
+        q.append(
+            f'<rect data-role="obstruction" x="{mid - p // 2}" y="{151 + dy}" width="{p}" height="{p * 3 // 4}" rx="8" fill="#6d7780"/>'
         )
-    pieces.append("</svg>")
-    return "\n".join(pieces) + "\n"
+    return "\n".join([*q, "</svg>"]) + "\n"
 
 
-def _selected_held_out_groups() -> set[str]:
-    """Select three groups without outcomes, using a prespecified exhaustive rule."""
-    palette_totals = Counter(scene.palette_family for scene in SCENES)
-    vehicle_totals = Counter(scene.vehicle for scene in SCENES)
-    all_shift_x = sum(scene.shift_x for scene in SCENES) / len(SCENES)
-    all_shift_y = sum(scene.shift_y for scene in SCENES) / len(SCENES)
-    ranked: list[tuple[tuple[object, ...], tuple[Scene, ...]]] = []
-    for held_out in combinations(SCENES, 3):
-        held_ids = {scene.scene_id for scene in held_out}
-        development = tuple(scene for scene in SCENES if scene.scene_id not in held_ids)
-        if {scene.palette_family for scene in development} != set(palette_totals):
-            continue
-        if {scene.vehicle for scene in development} != set(vehicle_totals):
-            continue
-        distinct = len({scene.palette_family for scene in held_out}) + len(
-            {scene.vehicle for scene in held_out}
-        )
-        palette_counts = Counter(scene.palette_family for scene in held_out)
-        vehicle_counts = Counter(scene.vehicle for scene in held_out)
-        categorical_deviation = sum(
-            (palette_counts[key] - value / 4) ** 2 for key, value in palette_totals.items()
-        ) + sum((vehicle_counts[key] - value / 4) ** 2 for key, value in vehicle_totals.items())
-        shift_imbalance = abs(sum(scene.shift_x for scene in held_out) / 3 - all_shift_x) + abs(
-            sum(scene.shift_y for scene in held_out) / 3 - all_shift_y
-        )
-        identity = ",".join(sorted(held_ids))
-        tie_break = hashlib.sha256(f"t14-72-24-v1\0{identity}".encode()).hexdigest()
-        ranked.append(((-distinct, categorical_deviation, shift_imbalance, tie_break), held_out))
-    selected = min(ranked, key=itemgetter(0))[1]
-    return {scene.scene_id for scene in selected}
+def _payload(recorded: dict[str, str] | None = None) -> tuple[dict[str, object], dict[Path, str]]:
+    assets = {}
+    episodes = []
+    severity_assignment = _severity_assignment()
+    held = _selected_held_out_groups(severity_assignment)
+    for si, s in enumerate(SCENES):
+        for di in _defect_block(si):
+            defect, operation, targets = DEFECTS[di]
+            severity = severity_assignment[si, di]
+            p = _parameter(defect, severity)
+            rid = f"repair-t14-candidate-{si + 1:02d}-{di + 1:02d}"
+            br = Path("assets") / f"{rid}-before.svg"
+            ar = Path("assets") / f"{rid}-after.svg"
+            before, after = _svg(s, defect, severity), _svg(s, None)
+            assets[br] = before
+            assets[ar] = after
+            bh, ah = _sha(before), _sha(after)
 
+            def get(value: str, digest: str) -> str:
+                return (recorded or {}).get(digest, _render(value))
 
-def _payload(
-    *, recorded_render_hashes: dict[str, str] | None = None
-) -> tuple[dict[str, object], dict[Path, str]]:
-    assets: dict[Path, str] = {}
-    episodes: list[dict[str, object]] = []
-    held_out_groups = _selected_held_out_groups()
-    for scene_index, scene in enumerate(SCENES, start=1):
-        partition = (
-            "proposed-held-out" if scene.scene_id in held_out_groups else "proposed-development"
-        )
-        for defect_index, (defect, severity, description) in enumerate(DEFECTS, start=1):
-            repair_id = f"repair-t14-candidate-{scene_index:02d}-{defect_index:02d}"
-            before_rel = Path("assets") / f"{repair_id}-before.svg"
-            after_rel = Path("assets") / f"{repair_id}-after.svg"
-            before = _svg(scene, defect)
-            after = _svg(scene, None)
-            before_sha256 = _sha256(before)
-            after_sha256 = _sha256(after)
-            before_roles = sorted(inspect_svg(before).features["declared_role_counts"])
-            after_roles = sorted(inspect_svg(after).features["declared_role_counts"])
-            operation, target_roles = DEFECT_OPERATIONS[defect]
-            before_render_hash = (
-                recorded_render_hashes.get(before_sha256, "missing-recorded-render-hash")
-                if recorded_render_hashes is not None
-                else _render_hash(before)
-            )
-            after_render_hash = (
-                recorded_render_hashes.get(after_sha256, "missing-recorded-render-hash")
-                if recorded_render_hashes is not None
-                else _render_hash(after)
-            )
-            assets[before_rel] = before
-            assets[after_rel] = after
+            partition = "proposed-held-out" if s.scene_id in held else "proposed-development"
+
+            def roles(value: str) -> list[str]:
+                return sorted(inspect_svg(value).features["declared_role_counts"])
+
             episodes.append(
                 {
-                    "repair_id": repair_id,
-                    "task_id": f"pb:t14-candidate:{scene.scene_id}:{defect}",
+                    "repair_id": rid,
+                    "task_id": f"pb:t14-candidate:{s.scene_id}:{defect}",
                     "status": "candidate-development-only",
-                    "scene_group_id": scene.scene_id,
+                    "scene_group_id": s.scene_id,
+                    "geometry_template_id": s.vehicle,
+                    "layout_template_id": s.layout,
+                    "geometry_variant": s.variant,
                     "bird_family": "pelican",
-                    "palette_family": scene.palette_family,
-                    "vehicle_family": scene.vehicle,
+                    "vehicle_family": s.vehicle,
                     "defect_family": defect,
                     "severity": severity,
+                    "severity_parameter": p,
                     "operation": operation,
-                    "sampling_cell_id": f"{scene.palette_family}:{scene.vehicle}:{defect}:{severity}",
+                    "sampling_cell_id": f"{s.scene_id}:{defect}:{severity}",
                     "proposed_partition": partition,
-                    "before": f"benchmark/fixtures/repair/candidate/{before_rel.as_posix()}",
-                    "after_reference": f"benchmark/fixtures/repair/candidate/{after_rel.as_posix()}",
-                    "before_sha256": before_sha256,
-                    "after_sha256": after_sha256,
-                    "before_render_sha256": before_render_hash,
-                    "after_render_sha256": after_render_hash,
+                    "before": f"benchmark/fixtures/repair/candidate/{br}",
+                    "after_reference": f"benchmark/fixtures/repair/candidate/{ar}",
+                    "before_sha256": bh,
+                    "after_sha256": ah,
+                    "before_render_sha256": get(before, bh),
+                    "after_render_sha256": get(after, ah),
                     "canonical_render": {
                         "method": "render_svg-v1",
                         "canvas_px": 512,
@@ -244,23 +315,23 @@ def _payload(
                         "introduced_defect_expectation": "none",
                     },
                     "expected_predicates": {
-                        "before_declared_roles": before_roles,
-                        "after_declared_roles": after_roles,
-                        "target_roles": target_roles,
-                        "shared_reference_group": scene.scene_id,
+                        "before_declared_roles": roles(before),
+                        "after_declared_roles": roles(after),
+                        "target_roles": list(targets),
+                        "shared_reference_group": s.scene_id,
                     },
                     "requirements": [
                         {
                             "defect_id": defect,
-                            "description": description,
+                            "description": f"Repair {defect}.",
                             "preserve_roles": ["animal", "bill", "frame"],
-                            "target_roles": target_roles,
+                            "target_roles": list(targets),
                         }
                     ],
                 }
             )
-    manifest: dict[str, object] = {
-        "schema_version": "1.0.0",
+    manifest = {
+        "schema_version": "2.0.0",
         "status": "candidate-development-only",
         "normative_sample_frozen": False,
         "human_ratings_present": False,
@@ -272,21 +343,21 @@ def _payload(
             "generator": "scripts/build_t14_candidate_episodes.py",
             "external_source_material": False,
             "rights_status": "project-original",
-            "authorization_revision": "8dda8a4ecb07c18e9647cb6d97686ec625cbd458",
             "generator_source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         },
         "split_policy": {
             "status": "proposed-not-frozen",
             "unit": "scene-group",
-            "namespace": "t14-72-24-v1",
-            "rule": "exhaustive 9/3 group allocation: preserve development coverage, maximize held-out categorical coverage, minimize categorical and x/y shift imbalance, SHA-256 tie-break",
-            "leakage_control": "all defect variants and references from a scene remain in one partition",
-            "selected_held_out_groups": sorted(held_out_groups),
+            "namespace": "t14-72-24-v3",
+            "rule": "exhaustive six-of-24 outcome-free allocation: exact 9/3 family balance; maximize vehicle, layout and variant coverage; minimize factor and severity imbalance; SHA-256 tie-break",
+            "leakage_control": "all variants from a scene remain in one partition",
+            "selected_held_out_groups": sorted(held),
             "development_count": 72,
             "held_out_count": 24,
         },
         "episode_count": 96,
-        "scene_group_count": 12,
+        "scene_group_count": 24,
+        "episodes_per_scene_group": 4,
         "defect_family_count": 8,
         "episodes": episodes,
     }
@@ -294,56 +365,48 @@ def _payload(
 
 
 def _expected_files(output: Path, *, reuse_recorded_render_hashes: bool = False) -> dict[Path, str]:
-    recorded_render_hashes: dict[str, str] | None = None
-    manifest_path = output / "manifest.json"
-    if reuse_recorded_render_hashes and manifest_path.is_file():
-        recorded = json.loads(manifest_path.read_text(encoding="utf-8"))
-        recorded_render_hashes = {}
-        for episode in recorded.get("episodes", []):
-            recorded_render_hashes[str(episode["before_sha256"])] = str(
-                episode["before_render_sha256"]
-            )
-            recorded_render_hashes[str(episode["after_sha256"])] = str(
-                episode["after_render_sha256"]
-            )
-    manifest, assets = _payload(recorded_render_hashes=recorded_render_hashes)
-    result = {output / path: value for path, value in assets.items()}
-    result[output / "manifest.json"] = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
+    recorded = None
+    mp = output / "manifest.json"
+    if reuse_recorded_render_hashes and mp.is_file():
+        recorded = {}
+        for r in json.loads(mp.read_text())["episodes"]:
+            recorded[r["before_sha256"]] = r["before_render_sha256"]
+            recorded[r["after_sha256"]] = r["after_render_sha256"]
+    manifest, assets = _payload(recorded)
+    result = {output / p: v for p, v in assets.items()}
+    result[mp] = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     return result
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--check", action="store_true")
-    args = parser.parse_args()
-    expected = _expected_files(args.output, reuse_recorded_render_hashes=args.check)
-    if args.check:
-        missing_or_changed = [
-            str(path.relative_to(ROOT))
-            for path, content in expected.items()
-            if not path.exists() or path.read_text(encoding="utf-8") != content
+    p = argparse.ArgumentParser()
+    p.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    p.add_argument("--check", action="store_true")
+    a = p.parse_args()
+    expected = _expected_files(a.output, reuse_recorded_render_hashes=a.check)
+    if a.check:
+        changed = [
+            str(x.relative_to(ROOT))
+            for x, v in expected.items()
+            if not x.is_file() or x.read_text() != v
         ]
-        unexpected = []
-        if args.output.exists():
-            unexpected = [
-                str(path.relative_to(ROOT))
-                for path in args.output.rglob("*")
-                if path.is_file() and path not in expected
-            ]
-        if missing_or_changed or unexpected:
-            print(
-                json.dumps(
-                    {"missing_or_changed": missing_or_changed, "unexpected": unexpected}, indent=2
-                )
-            )
+        unexpected = [
+            str(x.relative_to(ROOT))
+            for x in a.output.rglob("*")
+            if x.is_file() and x not in expected
+        ]
+        if changed or unexpected:
+            print(json.dumps({"missing_or_changed": changed, "unexpected": unexpected}, indent=2))
             return 1
-        print("T14 candidate episodes deterministic: 96 episodes, 72/24 proposed split")
+        print("T14 candidate deterministic: 96 episodes; proposed 72/24 split across 18/6 groups")
         return 0
-    for path, content in expected.items():
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding="utf-8")
-    print(f"Wrote {len(expected) - 1} SVG assets and manifest to {args.output}")
+    for x, v in expected.items():
+        x.parent.mkdir(parents=True, exist_ok=True)
+        x.write_text(v)
+    for path in a.output.rglob("*"):
+        if path.is_file() and path not in expected:
+            path.unlink()
+    print(f"Wrote {len(expected) - 1} SVG assets and candidate manifest")
     return 0
 
 

@@ -411,3 +411,64 @@ considering normative calibration, T14/P3 promotion, or score compatibility chan
 
 **Rationale:** this keeps current progress agent-led without misrepresenting agent analysis
 as human judgement or allowing an accountable gate to be silently waived.
+
+## D042 — Approve the T14 pre-freeze redesign and retain accountable gates
+
+**Options:** freeze the existing 96-episode candidate with explicit construct and cluster
+waivers; defer calibration; or redesign the fixed-size candidate before a later exact-hash
+freeze while separating adversarial diagnostics from the normative sample.
+
+**Decision:** approve the recommended D-T14-01 through D-T14-09 preparation slate in
+`docs/t14-gate-decision-packet-2026-08-29.md`. Keep exactly 96 proposed normative episodes
+as 24 four-episode scene clusters, with a proposed 18/6 whole-cluster development/held-out
+allocation; cross moderate and severe manipulations within defect family; prepare visibly
+distinct geometry; and prepare a separate 40-case non-normative diagnostic suite. Use
+cluster-level inference and fail closed on sparse endpoints or any unmet promotion gate.
+Agents may regenerate, validate, simulate, dry-run, and prepare hash-bound packets.
+
+This decision supersedes D041 only to reopen repository-owned redesign preparation. It does
+not freeze the sample, create or authorize human ratings, promote a score, establish
+independence, attest, release, publish, or unblind. A fresh steward decision over the exact
+reviewed hashes is required for freeze; accountable humans or independent actors must
+perform rating, custody, witnessed recovery, and external challenge work; and each external
+mutation requires its own later explicit authorization.
+
+**Rationale:** redesign improves independent scene support and construct validity without
+increasing the planned normative rating count. Separating diagnostics preserves the
+confirmatory estimand while ensuring failure modes are exercised. Fail-closed boundaries
+keep preparation from being misreported as empirical or independent evidence.
+
+## D043 — Accept procedural self-custody and authorize a synthetic advisory panel
+
+**Options:** wait for an independent human custodian; use benchmark-steward procedural
+self-custody with explicit non-independence; or replace accountable custody and human
+judgement claims with agent outputs.
+
+**Decision:** the benchmark steward accepts procedural self-custody under the identifier
+`benchmark-steward` and authorizes a role-separated subagent panel for synthetic,
+non-normative advice. The study-specific secret and restricted mappings remain local and
+outside the repository. Agent outputs may challenge the design, statistics, governance,
+and operational packet, but they are not human ratings, independent custody, E3 evidence,
+E4 reproduction, a freeze decision, or authority to promote, attest, release, publish, or
+unblind.
+
+**Rationale:** procedural blinding and adversarial agent review can test the complete local
+machinery without misrepresenting organisational independence or human judgement. A later
+exact-hash steward decision remains necessary before freeze, and later human or external
+evidence remains necessary for empirical, independent, promotion, or release claims.
+
+## D044 — Freeze the exact T14 procedural E2 preparation bytes
+
+**Decision:** freeze the exact candidate, diagnostic, renderer, protocol, analysis,
+allocation, procedural-custody, and synthetic-panel commitments recorded in
+`benchmark/evidence/advisory/t14/procedural-freeze-decision-receipt.json`. The tested source
+state is commit `a07e52b` with local full-harness result `HARNESS_OK`. The freeze is
+procedural, non-independent E2 preparation only.
+
+**Explicit exclusions:** this decision does not authorize ratings, score promotion,
+attestation, release, publication, or unblinding. It does not create human judgement,
+empirical calibration, independent custody, E3 evidence, or E4 reproduction.
+
+**Amendment rule:** changing any frozen commitment requires a new prospective version, new
+custody artifacts, new panel review, and a separate steward decision. Changes after outcome
+exposure additionally require sensitivity analysis or a fresh validation wave.

@@ -19,6 +19,14 @@ REQUIRED = {
     "uncertain",
     "repeat_observation",
 }
+FROZEN_REQUIRED = {
+    "assignment_alias",
+    "target_corrected",
+    "preservation_score_1_to_5",
+    "introduced_defect",
+    "confidence_0_to_100",
+    "uncertain",
+}
 SENSITIVE = {"name", "email", "phone", "address", "ip", "user_agent", "participant_id"}
 
 
@@ -36,7 +44,7 @@ def main() -> int:
         else Path("benchmark/evidence/snapshots/t14-human-rating-response-template.json")
     )
     payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "1.0.0":
+    if payload.get("schema_version") not in {"1.0.0", "2.0.0"}:
         raise ValueError("unsupported schema_version")
     responses = payload.get("responses")
     if not isinstance(responses, list) or not responses:
@@ -48,10 +56,13 @@ def main() -> int:
         prohibited = SENSITIVE & {str(key).lower() for key in row}
         if prohibited:
             raise ValueError(f"response {index} contains prohibited fields: {sorted(prohibited)}")
-        missing = REQUIRED - set(row)
+        required = FROZEN_REQUIRED if payload.get("schema_version") == "2.0.0" else REQUIRED
+        missing = required - set(row)
         if missing:
             raise ValueError(f"response {index} missing fields: {sorted(missing)}")
-        episode_id = row["episode_id"]
+        if payload.get("schema_version") == "2.0.0" and set(row) != FROZEN_REQUIRED:
+            raise ValueError(f"response {index} contains non-blinded or unknown fields")
+        episode_id = row.get("assignment_alias", row.get("episode_id"))
         if not isinstance(episode_id, str) or not episode_id or episode_id in seen:
             raise ValueError(f"response {index} has duplicate or invalid episode_id")
         seen.add(episode_id)
@@ -69,7 +80,10 @@ def main() -> int:
             or not 0 <= confidence <= 100
         ):
             raise ValueError(f"response {index} has invalid confidence")
-        for field in ("target_corrected", "introduced_defect", "uncertain", "repeat_observation"):
+        boolean_fields = ["target_corrected", "introduced_defect", "uncertain"]
+        if "repeat_observation" in required:
+            boolean_fields.append("repeat_observation")
+        for field in boolean_fields:
             if row[field] is not None and not isinstance(row[field], bool):
                 raise ValueError(f"response {index} field {field} must be boolean or null")
     privacy = payload.get("privacy")
@@ -77,6 +91,18 @@ def main() -> int:
         raise ValueError("privacy.direct_identifiers must be false")
     if "response_sha256" in payload and payload["response_sha256"] != _canonical_hash(payload):
         raise ValueError("response_sha256 does not match the canonical response payload")
+    if payload.get("schema_version") == "2.0.0":
+        expected = 106 if payload.get("status") == "steward-submitted" else None
+        if payload.get("status") == "qualification-submitted":
+            expected = payload.get("assignment_limit")
+            if (
+                not isinstance(expected, int)
+                or isinstance(expected, bool)
+                or not 8 <= expected <= 12
+            ):
+                raise ValueError("qualification assignment limit is invalid")
+        if expected is None or len(responses) != expected:
+            raise ValueError("frozen response assignment count drift")
     print(
         f"T14 response template valid: {len(responses)} episode(s), status={payload.get('status')}"
     )

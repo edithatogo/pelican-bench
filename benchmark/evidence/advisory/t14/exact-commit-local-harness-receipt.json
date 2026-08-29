@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_kind": "local-execution-observation",
+  "study_id": "t14-human-calibration-v1",
+  "tested_repository_commit": "ca6882ad0e966459fda2ffa4d6b647e0a9ab551f",
+  "tested_repository_tree": "40465cb4315a2b2e9f6c366adac276d3a2f8215f",
+  "working_tree_clean_at_start": true,
+  "command": [
+    "bash",
+    "scripts/harness.sh"
+  ],
+  "harness_script_sha256": "38a284ae74c1e7947ddd735d4d5788c208aaeccb4c7393257982197af3273bd0",
+  "receipt_created_at": "2026-08-29T03:20:04Z",
+  "exit_status": 0,
+  "terminal_result": "HARNESS_OK",
+  "python_tests": {
+    "passed": 370,
+    "skipped": 2,
+    "coverage_percent": 90.33
+  },
+  "static_audit": {
+    "errors": 0,
+    "warnings": 42,
+    "warning_class": "line-length"
+  },
+  "unavailable_optional_lanes": [
+    "inkscape-renderer-bridge",
+    "mojo-compiler",
+    "free-threaded-pytest"
+  ],
+  "t14_validators": [
+    "candidate-determinism-and-package",
+    "separate-diagnostic-determinism-and-package",
+    "prospective-statistical-plan",
+    "prefreeze-preparation",
+    "pending-freeze-packet"
+  ],
+  "authority_effect": {
+    "hosted_ci": false,
+    "independent_attestation": false,
+    "freeze": false,
+    "ratings": false,
+    "score_promotion": false,
+    "release": false,
+    "publication": false,
+    "unblinding": false
+  },
+  "notes": "This content-addressed receipt records one successful local run against the exact clean commit. It is not hosted CI, independent reproduction, custody evidence, a freeze decision, or an attestation. Raw output remains in the originating local terminal session."
+}

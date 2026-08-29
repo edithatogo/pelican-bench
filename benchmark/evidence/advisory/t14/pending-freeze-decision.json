@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "status": "frozen-procedural-non-independent-e2",
+  "study_id": "t14-human-calibration-v1",
+  "reviewed_repository_commit": "3cbe4255b057f12975f312826db0332482183fc2",
+  "reviewed_repository_tree": "5ec96cd9c82f881264b2219240b187f4f632a5f0",
+  "normative_manifest": {
+    "path": "benchmark/fixtures/repair/candidate/manifest.json",
+    "sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "episodes": 96,
+    "scene_clusters": 24,
+    "frozen": true
+  },
+  "diagnostic_manifest": {
+    "path": "benchmark/fixtures/repair/diagnostic/manifest.json",
+    "sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
+    "cases": 40,
+    "normative_eligible": false
+  },
+  "renderer_toolchain_lock_sha256": "83118c55c4e48315001814ab9c9cffa57dacb231ac428c2446a227d0ce2b7c11",
+  "protocol_sha256": "9c185da27f6a7482cd04bdbec43c1756c608fd15e83387e93f907c7a8d50ff50",
+  "analysis_plan_sha256": "cc68919c9f5cd11e76c173f0d8caf2aff2e380210dddcc85ea419ea16a990c4b",
+  "blinding_duplicate_rule_sha256": "a962a653bfcadfc992af37d8805f51f37cd6c8b76f1c5033dccad3208a0dd877",
+  "allocation_generator_sha256": "6f32c75fe18ba580623fc68f039bdb7a03b9e641c1f77c13029e3baf2826d5a6",
+  "procedural_custody_verification_sha256": "5ea2beef55dd43e3fd430f1d633f72693f3f12956418a8649f29d10209c7ea2d",
+  "development_clusters": 18,
+  "held_out_clusters": 6,
+  "panel_packets": {
+    "measurement_design_sha256": "b9ca3a2e60bbadc8b342980482080deef7f14d6e00ff83f950fc092467e0e64a",
+    "statistics_sha256": "298a6a4a766c0ea767d7d0f183ac898a29c38f622cf1222b03514fb6e91aa8e0",
+    "governance_sha256": "78c177f309f51cac767410418bba921bf2f4d81357c9881ac8fc4926c7d46f84"
+  },
+  "procedural_panel_packets": {
+    "measurement_design_sha256": "15d382b9d66c50d502981024f0023c0e8b7f4c0df72f40961a2e9c62b7833054",
+    "statistics_sha256": "30c9a3b905de909336ddc827a88a30543abae943487069ef0df58a2fed06ebe7",
+    "governance_sha256": "d6056a33897213e776ea038d1a55be7222973290e949d7ca04883f73bca61dc0"
+  },
+  "pending_required_inputs": {
+    "secret_bound_alias_manifest_sha256": "ba3aa847157b35bb4028f9cbf0d7683081f616ba2d637df5a676a4294ce216d5",
+    "restricted_duplicate_schedule_sha256": "fba10009aee137f913202396100dd4b05460fae349e3caa7462a449427c4517c",
+    "accountable_custodian_receipt_sha256": "0c311866845c126f525121dfdf7c290044b40c7e85421183504a710deb3cc493",
+    "exact_commit_full_harness_receipt_sha256": "7203149a77c07761ba9242c31bbb1009602dd760707839444e4dcacd95370d89",
+    "exact_commit_full_harness_receipt_location": "restricted-local-external-to-git",
+    "steward_freeze_decision_receipt_sha256": "115b8a96303b6f0173080ffc9a38da1cde39c6ef2d7248dad0b838cd7dfec658"
+  },
+  "decision": "freeze-exact-bytes",
+  "decision_maker": "benchmark-steward",
+  "decision_at": "2026-08-29T04:59:02Z",
+  "freeze_effect": true,
+  "ratings_authorized": false,
+  "score_promotion": false,
+  "release_authorized": false,
+  "publication_authorized": false,
+  "unblinding_authorized": false
+}
