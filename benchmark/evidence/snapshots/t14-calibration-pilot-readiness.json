@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "study_id": "t14-human-calibration-pilot",
-  "repository_revision": "8eb9eced059dc3bfda6b7a7999ea67ff3fe4611f",
+  "repository_revision": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
   "status": "candidate-prepared-not-frozen",
   "authorization": "D039",
   "decision_maker": "benchmark-steward",
@@ -51,18 +51,18 @@
     "diagnostic_manifest": "benchmark/fixtures/repair/diagnostic/manifest.json",
     "diagnostic_manifest_sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
     "prospective_analysis_plan": "benchmark/evidence/advisory/t14/prospective-statistical-analysis-plan.json",
-    "prospective_analysis_plan_sha256": "2890555deaf694acad8f7c17b04daa5c0296b73495f48b558441fdd186f9df02",
+    "prospective_analysis_plan_sha256": "cc68919c9f5cd11e76c173f0d8caf2aff2e380210dddcc85ea419ea16a990c4b",
     "diagnostics_normative_eligible": false,
     "freeze_requires_fresh_steward_decision": true,
     "human_ratings_authorized": false,
     "promotion_effect": "none"
   },
   "agent_panel": {
-    "status": "fresh-rerun-required-after-review-fixes",
-    "measurement_packet": "benchmark/evidence/advisory/t14/measurement-design.json",
-    "governance_packet": "benchmark/evidence/advisory/t14/governance-provenance.json",
-    "statistics_packet": "benchmark/evidence/advisory/t14/statistics-sampling.json",
-    "recommendation": "accept-candidate-preparation-revise-before-normative-freeze",
+    "status": "fresh-exact-revision-advice-complete",
+    "measurement_packet": "benchmark/evidence/advisory/t14/measurement-design-final.json",
+    "governance_packet": "benchmark/evidence/advisory/t14/governance-final.json",
+    "statistics_packet": "benchmark/evidence/advisory/t14/statistics-final.json",
+    "recommendation": "prefreeze-preparation-acceptable-stop-at-accountable-gates",
     "ratings_created": false,
     "promotion_effect": "none"
   },
@@ -80,8 +80,8 @@
       "after_sha256": "45b791c67d492e778ea3179c3c0de900c0c69765621e69959ba9b2291fe78a5a"
     }
   ],
-  "blocker": "The redesigned candidate, diagnostics, and prospective analysis plan exist as local fixture-verified preparation only. Fresh panel review, freeze, human ratings, empirical calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
-  "next_action": "Rerun the advisory panel against the exact committed manifests and return an exact-hash freeze packet to the steward without freezing it.",
+  "blocker": "Repository-owned prefreeze preparation and fresh agent advice are complete. An accountable custodian must create the secret-bound alias manifest, duplicate schedule, and custody receipt before the pending exact-hash packet can be returned for a steward freeze decision. Human calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
+  "next_action": "Obtain accountable custody inputs, attach the exact-commit harness receipt, and return benchmark/evidence/advisory/t14/pending-freeze-decision.json to the steward without freezing it.",
   "claims": {
     "human_ratings_present": true,
     "agent_ratings_present": false,

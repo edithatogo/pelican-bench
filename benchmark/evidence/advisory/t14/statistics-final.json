@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "status": "agent-advice-only",
+  "agent_id": "t14-statistics-closure-42f721a",
+  "evidence_revision": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
+  "bindings": {
+    "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "prospective_analysis_plan_sha256": "cc68919c9f5cd11e76c173f0d8caf2aff2e380210dddcc85ea419ea16a990c4b",
+    "analysis_source_sha256": "e868d596423fac602433a108e307cc7d7dfb0ea4f4336a60c6cda2c3719e4678"
+  },
+  "verification": {
+    "real_candidate_binding": "pass",
+    "locked_held_out_denominator": "pass-24-base-assignments",
+    "two_endpoint_auc_and_spearman": "pass",
+    "cluster_bootstrap": "pass-maximum-0.10-degeneracy-minimum-0.90-valid",
+    "loco_and_conservative_sensitivity": "pass",
+    "randomisation_sensitivity": "pass",
+    "duplicate_consistency": "computed-exact-linked-pair-agreement",
+    "automatic_scores": "bound-score-manifest-and-method-required",
+    "end_to_end_receipt": "content-addressed-fail-closed"
+  },
+  "agent_addressable_blockers": [],
+  "accountable_condition": "external-freeze-receipt-bytes-and-custody-must-be-verified",
+  "recommendation": "statistics-ready-for-prefreeze-packet-presentation-not-freeze-execution",
+  "gate_actions_taken": false
+}

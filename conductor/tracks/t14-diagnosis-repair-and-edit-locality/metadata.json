@@ -45,7 +45,13 @@
     "docs/t14-external-scorer-challenge-template.md",
     "docs/t14-rating-custody-template.md",
     "docs/t14-release-attestation-dry-run-template.md",
-    "docs/t14-gate-template-index.md"
+    "docs/t14-gate-template-index.md",
+    "benchmark/evidence/advisory/t14/measurement-design-final.json",
+    "benchmark/evidence/advisory/t14/statistics-final.json",
+    "benchmark/evidence/advisory/t14/governance-final.json",
+    "benchmark/evidence/advisory/t14/pending-freeze-decision.json",
+    "scripts/validate_t14_pending_freeze_packet.py",
+    "tests/contract/test_t14_pending_freeze_packet.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -70,5 +76,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-29T00:40:00Z"
+  "updated_at": "2026-08-29T00:50:00Z"
 }

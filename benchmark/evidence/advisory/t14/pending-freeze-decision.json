@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "status": "incomplete-pending-accountable-inputs",
+  "study_id": "t14-human-calibration-v1",
+  "reviewed_repository_commit": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
+  "reviewed_repository_tree": "90b35f2a0d33a12379b260043251154a59744b6b",
+  "normative_manifest": {
+    "path": "benchmark/fixtures/repair/candidate/manifest.json",
+    "sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "episodes": 96,
+    "scene_clusters": 24,
+    "frozen": false
+  },
+  "diagnostic_manifest": {
+    "path": "benchmark/fixtures/repair/diagnostic/manifest.json",
+    "sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
+    "cases": 40,
+    "normative_eligible": false
+  },
+  "renderer_toolchain_lock_sha256": "83118c55c4e48315001814ab9c9cffa57dacb231ac428c2446a227d0ce2b7c11",
+  "protocol_sha256": "9c185da27f6a7482cd04bdbec43c1756c608fd15e83387e93f907c7a8d50ff50",
+  "analysis_plan_sha256": "cc68919c9f5cd11e76c173f0d8caf2aff2e380210dddcc85ea419ea16a990c4b",
+  "blinding_duplicate_rule_sha256": "8d0c886078d1653393d2f63e6f9062854260e45e293985be03e1f275443a229d",
+  "allocation_generator_sha256": "6f32c75fe18ba580623fc68f039bdb7a03b9e641c1f77c13029e3baf2826d5a6",
+  "development_clusters": 18,
+  "held_out_clusters": 6,
+  "panel_packets": {
+    "measurement_design_sha256": "b9ca3a2e60bbadc8b342980482080deef7f14d6e00ff83f950fc092467e0e64a",
+    "statistics_sha256": "298a6a4a766c0ea767d7d0f183ac898a29c38f622cf1222b03514fb6e91aa8e0",
+    "governance_sha256": "78c177f309f51cac767410418bba921bf2f4d81357c9881ac8fc4926c7d46f84"
+  },
+  "pending_required_inputs": {
+    "secret_bound_alias_manifest_sha256": null,
+    "restricted_duplicate_schedule_sha256": null,
+    "accountable_custodian_receipt_sha256": null,
+    "exact_commit_full_harness_receipt_sha256": null,
+    "steward_freeze_decision_receipt_sha256": null
+  },
+  "decision": "pending-steward-review-after-custody-inputs",
+  "decision_maker": "benchmark-steward",
+  "decision_at": null,
+  "freeze_effect": false,
+  "ratings_authorized": false,
+  "score_promotion": false,
+  "release_authorized": false,
+  "publication_authorized": false,
+  "unblinding_authorized": false
+}
