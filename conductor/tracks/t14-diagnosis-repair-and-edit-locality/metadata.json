@@ -1,5 +1,5 @@
 {
-  "blocker": "T14 P3 hardening budgets, lifecycle policy, incident response, and archive controls are fixture-verified; source-independent visual repair calibration, a witnessed recovery rehearsal, and the stable-release checkpoint remain outstanding. Human-dependent decisions route through a panel of agents for advice and return to the benchmark steward as the sole human decision-maker.",
+  "blocker": "D042 prefreeze preparation is fixture-verified; an accountable custodian must create the alias manifest and duplicate schedule before a steward freeze decision. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "benchmark/fixtures/repair",
@@ -27,7 +27,25 @@
     "docs/t14-candidate-episode-preparation.md",
     "benchmark/evidence/advisory/t14/measurement-design.json",
     "benchmark/evidence/advisory/t14/governance-provenance.json",
-    "benchmark/evidence/advisory/t14/statistics-sampling.json"
+    "benchmark/evidence/advisory/t14/statistics-sampling.json",
+    "benchmark/fixtures/repair/diagnostic/manifest.json",
+    "scripts/build_t14_diagnostic_episodes.py",
+    "scripts/validate_t14_diagnostic_episodes.py",
+    "tests/contract/test_t14_diagnostic_package.py",
+    "benchmark/evidence/advisory/t14/prospective-statistical-analysis-plan.json",
+    "scripts/validate_t14_prospective_statistics.py",
+    "scripts/analyze_t14_prospective_statistics.py",
+    "src/pelicanbench/t14_statistics.py",
+    "tests/test_t14_statistics.py",
+    "benchmark/evidence/advisory/t14/blinding-duplicate-plan.json",
+    "benchmark/evidence/advisory/t14/renderer-toolchain-lock.json",
+    "scripts/validate_t14_prefreeze_preparation.py",
+    "docs/t14-gate-decision-packet-2026-08-29.md",
+    "docs/t14-freeze-decision-template.md",
+    "docs/t14-external-scorer-challenge-template.md",
+    "docs/t14-rating-custody-template.md",
+    "docs/t14-release-attestation-dry-run-template.md",
+    "docs/t14-gate-template-index.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -52,5 +70,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-26T21:12:00Z"
+  "updated_at": "2026-08-29T00:22:51Z"
 }

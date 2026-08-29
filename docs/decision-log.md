@@ -411,3 +411,29 @@ considering normative calibration, T14/P3 promotion, or score compatibility chan
 
 **Rationale:** this keeps current progress agent-led without misrepresenting agent analysis
 as human judgement or allowing an accountable gate to be silently waived.
+
+## D042 — Approve the T14 pre-freeze redesign and retain accountable gates
+
+**Options:** freeze the existing 96-episode candidate with explicit construct and cluster
+waivers; defer calibration; or redesign the fixed-size candidate before a later exact-hash
+freeze while separating adversarial diagnostics from the normative sample.
+
+**Decision:** approve the recommended D-T14-01 through D-T14-09 preparation slate in
+`docs/t14-gate-decision-packet-2026-08-29.md`. Keep exactly 96 proposed normative episodes
+as 24 four-episode scene clusters, with a proposed 18/6 whole-cluster development/held-out
+allocation; cross moderate and severe manipulations within defect family; prepare visibly
+distinct geometry; and prepare a separate 40-case non-normative diagnostic suite. Use
+cluster-level inference and fail closed on sparse endpoints or any unmet promotion gate.
+Agents may regenerate, validate, simulate, dry-run, and prepare hash-bound packets.
+
+This decision supersedes D041 only to reopen repository-owned redesign preparation. It does
+not freeze the sample, create or authorize human ratings, promote a score, establish
+independence, attest, release, publish, or unblind. A fresh steward decision over the exact
+reviewed hashes is required for freeze; accountable humans or independent actors must
+perform rating, custody, witnessed recovery, and external challenge work; and each external
+mutation requires its own later explicit authorization.
+
+**Rationale:** redesign improves independent scene support and construct validity without
+increasing the planned normative rating count. Separating diagnostics preserves the
+confirmatory estimand while ensuring failure modes are exercised. Fail-closed boundaries
+keep preparation from being misreported as empirical or independent evidence.

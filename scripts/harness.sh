@@ -34,6 +34,7 @@ python scripts/validate_t14_candidate_episodes.py
 python scripts/build_t14_diagnostic_episodes.py --check
 python scripts/validate_t14_diagnostic_episodes.py
 python scripts/validate_t14_prospective_statistics.py
+python scripts/validate_t14_prefreeze_preparation.py
 python -m pelicanbench.cli release-readiness --profile v0.4-alpha
 
 printf '%s\n' '== First-party ecosystem and model qualification audit =='

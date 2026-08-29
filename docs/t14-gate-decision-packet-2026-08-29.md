@@ -1,8 +1,8 @@
 # T14 remaining-gate decision packet (2026-08-29)
 
-**Status:** steward decision requested; advisory only; no normative freeze, human
-rating, score promotion, attestation, release, publication, or unblinding is
-authorized by this packet.
+**Status:** recommended preparation slate approved by the benchmark steward;
+implementation preparation only. No normative freeze, human rating, score promotion,
+attestation, release, publication, or unblinding is authorized by this packet.
 
 **Repository basis:** `988281cd88abff929371bd58138f97c1da4acc99`
 (`origin/main` after PR #174).
@@ -26,7 +26,7 @@ or score-promotion claims.
 
 ## Panel recommendation
 
-The independent design, statistics, and governance reviews agree that the
+The separately run design, statistics, and governance agent reviews agree that the
 candidate should be revised before freeze, remain exactly 96 normative
 episodes, retain a whole-cluster 72/24 split, cross severity within defect
 family, and gain a separate non-normative diagnostic package. The panel
@@ -308,3 +308,28 @@ D-T14-09 A
 The response must not be interpreted as ratings, a completed freeze, score
 promotion, independent evidence, attestation, release, publication, or
 unblinding.
+
+## Steward decision recorded
+
+On 2026-08-29 the benchmark steward approved the recommendations in this packet and
+authorized agents to address all repository-owned preparation. The approved slate is:
+
+```text
+D-T14-01 A
+D-T14-02 A
+D-T14-03 A
+D-T14-04 A
+D-T14-05 A
+D-T14-06 A
+D-T14-07 A+B contingency
+D-T14-08 A (agents prepare; independent actors execute)
+D-T14-09 A
+```
+
+The canonical UTF-8 bytes between the code fences, including the final newline, have
+SHA-256 `6cd05bf97eed4d1e286be462c589e8fa6af79b77606a82f86044a5ea65de764b`.
+Approval authorizes redesign and packet
+preparation, not execution of the later accountable gates. In particular, D-T14-05 A
+requires a new exact-hash freeze decision after regeneration, validation, and panel
+re-review; D-T14-08 reserves challenge and recovery execution to independent actors; and
+D-T14-09 keeps T14 non-normative and unreleased.

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "status": "prefreeze-protocol-only",
+  "study_id": "t14-human-calibration-v1",
+  "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+  "alias_rule": {
+    "algorithm": "HMAC-SHA256",
+    "domain": "pelicanbench:t14-human-calibration-v1:episode-alias:v1",
+    "input": "canonical repair_id UTF-8 bytes",
+    "display": "episode- plus first 16 lowercase hexadecimal HMAC characters",
+    "study_specific_secret_required": true,
+    "secret_must_not_be_committed": true,
+    "mapping_custody": "restricted-custodian-artifact"
+  },
+  "duplicate_rule": {
+    "rate": 0.1,
+    "source_episode_count": 96,
+    "duplicate_assignment_count": 10,
+    "selection": "sort HMAC-SHA256 under duplicate-selection domain and take first 10",
+    "selection_domain": "pelicanbench:t14-human-calibration-v1:duplicate-selection:v1",
+    "order": "sort all 106 assignments by HMAC-SHA256 under assignment-order domain",
+    "order_domain": "pelicanbench:t14-human-calibration-v1:assignment-order:v1",
+    "duplicate_aliases_are_distinct": true,
+    "duplicate_source_identity_is_blinded": true,
+    "interpretation": "repeated-measure-not-independent-episode"
+  },
+  "custody_gate": {
+    "status": "pending-accountable-custodian",
+    "alias_manifest_present": false,
+    "duplicate_schedule_present": false,
+    "freeze_effect": false,
+    "ratings_authorized": false,
+    "unblinding_authorized": false
+  }
+}

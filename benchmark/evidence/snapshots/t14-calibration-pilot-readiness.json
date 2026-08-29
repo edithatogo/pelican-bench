@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0.0",
   "study_id": "t14-human-calibration-pilot",
-  "repository_revision": "271946be084637400d8324b4f104e2a286f47076",
+  "repository_revision": "19e43a7",
   "status": "candidate-prepared-not-frozen",
   "authorization": "D039",
   "decision_maker": "benchmark-steward",
-  "current_workflow": "agent-panel-development-only",
+  "current_workflow": "approved-redesign-preparation-only",
   "human_calibration_roadmap": {
-    "status": "deferred-for-later-consideration",
-    "reason": "The steward has deferred additional human rating work while agents perform bounded development analysis.",
-    "revisit_condition": "Reconsider only after the agent development analysis is complete and a fresh human-calibration decision is recorded.",
+    "status": "rating-deferred-redesign-approved",
+    "reason": "D042 authorizes repository-owned redesign preparation but does not authorize ratings or freeze.",
+    "revisit_condition": "Reconsider only after regenerated assets pass validation and panel re-review and the steward records a fresh exact-hash freeze decision.",
     "sole_decision_maker": "benchmark-steward"
   },
   "agent_development_analysis": {
@@ -25,11 +25,11 @@
   "recommended_development_count": 72,
   "recommended_held_out_count": 24,
   "candidate_package": {
-    "status": "candidate-development-only",
+    "status": "redesigned-candidate-generated-not-frozen",
     "manifest": "benchmark/fixtures/repair/candidate/manifest.json",
-    "manifest_sha256": "64d1d1d6ba2841d5f9c70d81fc4e192bfad8143537cf928544c8615ddd4b3060",
-    "candidate_revision": "271946be084637400d8324b4f104e2a286f47076",
-    "scene_groups": 12,
+    "manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "candidate_revision": "19e43a7",
+    "scene_groups": 24,
     "defect_families": 8,
     "proposed_development_count": 72,
     "proposed_held_out_count": 24,
@@ -37,8 +37,28 @@
     "human_ratings_present": false,
     "promotion_effect": "none"
   },
+  "approved_redesign": {
+    "authorization": "D042",
+    "status": "generated-locally-awaiting-panel-review-not-frozen",
+    "normative_episode_target": 96,
+    "scene_cluster_target": 24,
+    "episodes_per_cluster": 4,
+    "proposed_development_clusters": 18,
+    "proposed_held_out_clusters": 6,
+    "proposed_development_episodes": 72,
+    "proposed_held_out_episodes": 24,
+    "diagnostic_case_target": 40,
+    "diagnostic_manifest": "benchmark/fixtures/repair/diagnostic/manifest.json",
+    "diagnostic_manifest_sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
+    "prospective_analysis_plan": "benchmark/evidence/advisory/t14/prospective-statistical-analysis-plan.json",
+    "prospective_analysis_plan_sha256": "875978de0e60dd75e02dd94b056f822f4124a0e195d159fe072725d57efa7363",
+    "diagnostics_normative_eligible": false,
+    "freeze_requires_fresh_steward_decision": true,
+    "human_ratings_authorized": false,
+    "promotion_effect": "none"
+  },
   "agent_panel": {
-    "status": "complete-advice-only",
+    "status": "fresh-rerun-required-after-review-fixes",
     "measurement_packet": "benchmark/evidence/advisory/t14/measurement-design.json",
     "governance_packet": "benchmark/evidence/advisory/t14/governance-provenance.json",
     "statistics_packet": "benchmark/evidence/advisory/t14/statistics-sampling.json",
@@ -60,8 +80,8 @@
       "after_sha256": "45b791c67d492e778ea3179c3c0de900c0c69765621e69959ba9b2291fe78a5a"
     }
   ],
-  "blocker": "The 96-episode project-original package and proposed 72/24 scene-group split are prepared but not normative or freeze-ready. Human calibration, a steward decision, and the witnessed independent recovery rehearsal remain outstanding.",
-  "next_action": "Retain the agent-panel packets as advice, address any remaining intake limitations, and return the candidate package to the benchmark steward only when a fresh freeze decision is requested.",
+  "blocker": "The redesigned candidate, diagnostics, and prospective analysis plan exist as local fixture-verified preparation only. Fresh panel review, freeze, human ratings, empirical calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
+  "next_action": "Rerun the advisory panel against the exact committed manifests and return an exact-hash freeze packet to the steward without freezing it.",
   "claims": {
     "human_ratings_present": true,
     "agent_ratings_present": false,
