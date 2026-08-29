@@ -22,6 +22,9 @@ other agents may validate the resulting hashes but cannot assert the custodian's
 - Create a new study-specific secret with at least 32 bytes of entropy and retain it in an
   approved secret store. Do not paste it into chat, a shell argument, a repository file, or
   terminal output.
+- Generate the secret with an operating-system CSPRNG. The receipt proves only key
+  commitment and minimum byte length; it cannot attest entropy. Weak user-selected secrets
+  remain vulnerable to offline guessing and are prohibited.
 - Use a non-personal custodian identifier where policy permits.
 
 Set the secret in an environment variable without placing its value on the command line,

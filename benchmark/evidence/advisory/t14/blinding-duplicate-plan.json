@@ -25,9 +25,12 @@
     "interpretation": "repeated-measure-not-independent-episode"
   },
   "custody_gate": {
-    "status": "pending-accountable-custodian",
-    "alias_manifest_present": false,
-    "duplicate_schedule_present": false,
+    "status": "procedural-self-custody-bound-not-independent",
+    "custodian_id": "benchmark-steward",
+    "custody_receipt_sha256": "0c311866845c126f525121dfdf7c290044b40c7e85421183504a710deb3cc493",
+    "alias_manifest_present": true,
+    "duplicate_schedule_present": true,
+    "independence_claimed": false,
     "freeze_effect": false,
     "ratings_authorized": false,
     "unblinding_authorized": false

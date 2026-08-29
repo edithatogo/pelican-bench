@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "status": "ready-for-steward-review-no-freeze-effect",
+  "status": "panel-remediation-in-progress-no-freeze-effect",
   "study_id": "t14-human-calibration-v1",
   "reviewed_repository_commit": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
   "reviewed_repository_tree": "90b35f2a0d33a12379b260043251154a59744b6b",
@@ -20,8 +20,9 @@
   "renderer_toolchain_lock_sha256": "83118c55c4e48315001814ab9c9cffa57dacb231ac428c2446a227d0ce2b7c11",
   "protocol_sha256": "9c185da27f6a7482cd04bdbec43c1756c608fd15e83387e93f907c7a8d50ff50",
   "analysis_plan_sha256": "cc68919c9f5cd11e76c173f0d8caf2aff2e380210dddcc85ea419ea16a990c4b",
-  "blinding_duplicate_rule_sha256": "8d0c886078d1653393d2f63e6f9062854260e45e293985be03e1f275443a229d",
+  "blinding_duplicate_rule_sha256": "a962a653bfcadfc992af37d8805f51f37cd6c8b76f1c5033dccad3208a0dd877",
   "allocation_generator_sha256": "6f32c75fe18ba580623fc68f039bdb7a03b9e641c1f77c13029e3baf2826d5a6",
+  "procedural_custody_verification_sha256": "5ea2beef55dd43e3fd430f1d633f72693f3f12956418a8649f29d10209c7ea2d",
   "development_clusters": 18,
   "held_out_clusters": 6,
   "panel_packets": {

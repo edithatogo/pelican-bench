@@ -59,6 +59,7 @@
     "tests/e2e/test_t14_custody_cli.py",
     "docs/t14-custodian-handoff.md",
     "benchmark/evidence/advisory/t14/procedural-custody-receipt.json",
+    "benchmark/evidence/advisory/t14/procedural-custody-verification.json",
     "docs/decision-log.md"
   ],
   "evidence_definition": "fixture-verified",

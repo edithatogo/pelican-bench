@@ -43,7 +43,10 @@ def main() -> int:
     secret_value = os.environ.get(args.secret_environment)
     if not secret_value:
         raise SystemExit("required custody secret environment variable is unset")
-    output = args.output_directory.expanduser().resolve()
+    requested_output = args.output_directory.expanduser()
+    if requested_output.is_symlink():
+        raise SystemExit("restricted custody output must not be a symbolic link")
+    output = requested_output.resolve()
     try:
         output.relative_to(ROOT.resolve())
     except ValueError:
@@ -52,6 +55,10 @@ def main() -> int:
         raise SystemExit("restricted custody output must be outside the repository")
     if output.exists() and any(output.iterdir()):
         raise SystemExit("restricted custody output directory must be absent or empty")
+    output.mkdir(mode=0o700, parents=True, exist_ok=True)
+    output.chmod(0o700)
+    if output.stat().st_mode & 0o777 != 0o700:
+        raise SystemExit("restricted custody output directory must have mode 0700")
 
     candidate_bytes = CANDIDATE.read_bytes()
     alias_manifest, duplicate_schedule, receipt = build_restricted_custody_artifacts(

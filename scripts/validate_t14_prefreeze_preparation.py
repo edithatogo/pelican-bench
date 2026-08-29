@@ -37,13 +37,18 @@ def main() -> int:
         "duplicate interpretation drift",
     )
     custody = blinding["custody_gate"]
-    require(custody["status"] == "pending-accountable-custodian", "custody gate drift")
+    require(
+        custody["status"] == "procedural-self-custody-bound-not-independent",
+        "custody gate drift",
+    )
+    require(custody["custodian_id"] == "benchmark-steward", "custodian drift")
+    require(custody["independence_claimed"] is False, "custody independence overclaim")
+    require(custody["alias_manifest_present"] is True, "alias custody state drift")
+    require(custody["duplicate_schedule_present"] is True, "duplicate custody state drift")
     require(
         all(
             custody[field] is False
             for field in (
-                "alias_manifest_present",
-                "duplicate_schedule_present",
                 "freeze_effect",
                 "ratings_authorized",
                 "unblinding_authorized",
@@ -66,7 +71,7 @@ def main() -> int:
         not any(renderer["boundaries"].values()),
         "local toolchain observation overclaims an external gate",
     )
-    print("T14 prefreeze preparation valid: custody, freeze, attestation, and release pending")
+    print("T14 prefreeze preparation valid: procedural custody bound; freeze and later gates pending")
     return 0
 
 

@@ -1,0 +1,29 @@
+{
+  "alias_manifest_exactly_regenerated": true,
+  "alias_manifest_sha256": "ba3aa847157b35bb4028f9cbf0d7683081f616ba2d637df5a676a4294ce216d5",
+  "assignment_count": 106,
+  "authority_effect": {
+    "freeze": false,
+    "publication": false,
+    "ratings": false,
+    "release": false,
+    "score_promotion": false,
+    "unblinding": false
+  },
+  "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+  "custody_receipt_exactly_regenerated": true,
+  "custody_receipt_sha256": "0c311866845c126f525121dfdf7c290044b40c7e85421183504a710deb3cc493",
+  "duplicate_assignment_count": 10,
+  "duplicate_schedule_exactly_regenerated": true,
+  "episode_alias_count": 96,
+  "held_out_duplicate_assignment_count": 4,
+  "held_out_duplicate_requirement_met": true,
+  "independence_claimed": false,
+  "key_commitment_verified": true,
+  "minimum_held_out_duplicate_assignment_count": 3,
+  "restricted_contents_disclosed": false,
+  "restricted_duplicate_schedule_sha256": "fba10009aee137f913202396100dd4b05460fae349e3caa7462a449427c4517c",
+  "schema_version": "1.0.0",
+  "study_id": "t14-human-calibration-v1",
+  "verification_kind": "local-procedural-custody-cryptographic-verification"
+}

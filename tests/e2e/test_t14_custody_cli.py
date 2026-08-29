@@ -62,3 +62,4 @@ def test_t14_custody_cli_requires_acknowledgement_and_writes_restricted_files(
         "custody-receipt.json",
     ):
         assert (output / name).stat().st_mode & 0o777 == 0o600
+    assert output.stat().st_mode & 0o777 == 0o700
