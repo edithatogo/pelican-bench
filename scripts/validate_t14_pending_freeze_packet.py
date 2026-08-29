@@ -43,8 +43,14 @@ def main() -> int:
     require(receipt["receipt_kind"] == "local-execution-observation", "harness receipt kind drift")
     require(receipt["terminal_result"] == "HARNESS_OK", "harness receipt result drift")
     require(receipt["exit_status"] == 0, "harness receipt exit status drift")
-    require(receipt["tested_repository_commit"] == "ca6882ad0e966459fda2ffa4d6b647e0a9ab551f", "tested commit drift")
-    require(receipt["tested_repository_tree"] == "40465cb4315a2b2e9f6c366adac276d3a2f8215f", "tested tree drift")
+    require(
+        receipt["tested_repository_commit"] == "ca6882ad0e966459fda2ffa4d6b647e0a9ab551f",
+        "tested commit drift",
+    )
+    require(
+        receipt["tested_repository_tree"] == "40465cb4315a2b2e9f6c366adac276d3a2f8215f",
+        "tested tree drift",
+    )
     require(
         all(value is False for value in receipt["authority_effect"].values()),
         "local harness receipt overclaims authority",
@@ -80,7 +86,9 @@ def main() -> int:
         ),
         "pending packet overclaims authority",
     )
-    print("T14 pending freeze packet valid: local harness bound; accountable inputs and steward decision absent")
+    print(
+        "T14 pending freeze packet valid: local harness bound; accountable inputs and steward decision absent"
+    )
     return 0
 
 
