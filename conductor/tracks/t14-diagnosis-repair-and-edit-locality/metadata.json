@@ -52,7 +52,12 @@
     "benchmark/evidence/advisory/t14/pending-freeze-decision.json",
     "benchmark/evidence/advisory/t14/exact-commit-local-harness-receipt.json",
     "scripts/validate_t14_pending_freeze_packet.py",
-    "tests/contract/test_t14_pending_freeze_packet.py"
+    "tests/contract/test_t14_pending_freeze_packet.py",
+    "src/pelicanbench/t14_custody.py",
+    "scripts/prepare_t14_custody_artifacts.py",
+    "tests/test_t14_custody.py",
+    "tests/e2e/test_t14_custody_cli.py",
+    "docs/t14-custodian-handoff.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

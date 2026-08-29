@@ -46,6 +46,12 @@ the packet.
   The exact-clean-commit local harness observation for `ca6882a` is retained at
   `benchmark/evidence/advisory/t14/exact-commit-local-harness-receipt.json`; it is E2 local
   evidence only and has no custody, freeze, hosted-CI, attestation, or release effect.
+- [x] Task: Provide a fail-closed custodian handoff that generates secret-bound alias,
+  duplicate-schedule, and receipt artifacts only after an accountable acknowledgement,
+  outside the repository, without recording the secret or exercising any gate. Evidence:
+  `src/pelicanbench/t14_custody.py`, `scripts/prepare_t14_custody_artifacts.py`,
+  `tests/test_t14_custody.py`, `tests/e2e/test_t14_custody_cli.py`, and
+  `docs/t14-custodian-handoff.md`. Commit: `caca4f5`.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without
