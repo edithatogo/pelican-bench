@@ -66,10 +66,16 @@ def scene_cluster_bootstrap(
     samples: int,
     seed: int,
     cluster_field: str = "scene_cluster",
+    maximum_degenerate_fraction: float = 0.10,
+    minimum_valid_fraction: float = 0.90,
 ) -> dict[str, Any]:
-    """Bootstrap whole scenes and fail closed if any replicate is degenerate."""
+    """Bootstrap whole scenes and condition intervals on valid replicates."""
     if samples < 1:
         raise ValueError("samples must be positive")
+    if not 0 <= maximum_degenerate_fraction <= 1:
+        raise ValueError("maximum_degenerate_fraction must be within [0,1]")
+    if not 0 <= minimum_valid_fraction <= 1:
+        raise ValueError("minimum_valid_fraction must be within [0,1]")
     grouped: dict[str, list[Mapping[str, Any]]] = defaultdict(list)
     for row in rows:
         grouped[str(row[cluster_field])].append(row)
@@ -88,21 +94,71 @@ def scene_cluster_bootstrap(
             degenerate += 1
         else:
             estimates.append(estimate)
+    valid_fraction = len(estimates) / samples
+    degenerate_fraction = degenerate / samples
+    fail_closed = (
+        degenerate_fraction > maximum_degenerate_fraction or valid_fraction < minimum_valid_fraction
+    )
     report: dict[str, Any] = {
         "requested_replicates": samples,
         "valid_replicates": len(estimates),
         "degenerate_replicates": degenerate,
         "denominator": samples,
-        "fail_closed": degenerate > 0,
+        "valid_fraction": valid_fraction,
+        "degenerate_fraction": degenerate_fraction,
+        "maximum_degenerate_fraction": maximum_degenerate_fraction,
+        "minimum_valid_fraction": minimum_valid_fraction,
+        "interval_conditioning": "valid-whole-scene-cluster-replicates-only",
+        "fail_closed": fail_closed,
         "interval": None,
     }
-    if estimates and not report["fail_closed"]:
+    if estimates and not fail_closed:
         estimates.sort()
+        valid_denominator = len(estimates)
         report["interval"] = {
-            "lower": estimates[int(0.025 * (samples - 1))],
-            "upper": estimates[int(0.975 * (samples - 1))],
+            "lower": estimates[int(0.025 * (valid_denominator - 1))],
+            "upper": estimates[int(0.975 * (valid_denominator - 1))],
+            "denominator": valid_denominator,
         }
     return report
+
+
+def leave_one_scene_cluster_out(
+    rows: Sequence[Mapping[str, Any]],
+    statistic: Callable[[Sequence[Mapping[str, Any]]], float | None],
+    *,
+    cluster_field: str = "scene_cluster",
+) -> dict[str, Any]:
+    """Execute the prespecified leave-one-scene-cluster-out sensitivity."""
+    clusters = sorted({str(row[cluster_field]) for row in rows})
+    estimates = []
+    for omitted in clusters:
+        estimate = statistic([row for row in rows if str(row[cluster_field]) != omitted])
+        estimates.append({"omitted_scene_cluster": omitted, "estimate": estimate})
+    degenerate = sum(item["estimate"] is None for item in estimates)
+    return {
+        "exchangeability_unit": "scene-cluster",
+        "denominator": len(clusters),
+        "valid_estimates": len(clusters) - degenerate,
+        "degenerate_estimates": degenerate,
+        "fail_closed": degenerate > 0,
+        "estimates": estimates,
+    }
+
+
+def conservative_invalid_as_failure(
+    rows: Sequence[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Code invalid human outcomes as failures without changing the denominator."""
+    values: list[dict[str, Any]] = []
+    for source in rows:
+        row = dict(source)
+        if not bool(row["valid"]):
+            row["target_correction"] = 0
+            row["no_new_defect"] = 0
+            row["preservation_rating"] = 0.0
+        values.append(row)
+    return values
 
 
 def randomisation_sensitivity(
@@ -196,7 +252,9 @@ def evaluate_conjunctive_stopping(
         >= float(thresholds["duplicate_consistency"]),
         "invalid-or-omitted-fraction": invalid_fraction
         <= float(thresholds["maximum_invalid_or_omitted_fraction"]),
-        "bootstrap-nondegenerate": int(analysis.get("degenerate_bootstrap_replicates", 1)) == 0,
+        "bootstrap-degeneracy-within-policy": bool(
+            analysis.get("bootstrap_within_degeneracy_policy", False)
+        ),
         "development-lock-before-held-out": bool(
             analysis.get("development_locked_before_held_out", False)
         ),
@@ -214,7 +272,9 @@ def evaluate_conjunctive_stopping(
 
 __all__ = [
     "auc",
+    "conservative_invalid_as_failure",
     "evaluate_conjunctive_stopping",
+    "leave_one_scene_cluster_out",
     "randomisation_sensitivity",
     "scene_cluster_bootstrap",
     "spearman",
