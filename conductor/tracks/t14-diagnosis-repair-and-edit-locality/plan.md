@@ -52,9 +52,13 @@ the packet.
   `src/pelicanbench/t14_custody.py`, `scripts/prepare_t14_custody_artifacts.py`,
   `tests/test_t14_custody.py`, `tests/e2e/test_t14_custody_cli.py`, and
   `docs/t14-custodian-handoff.md`. Commit: `caca4f5`.
-- [~] Task: Bind D043 procedural self-custody inputs and obtain role-separated synthetic
+- [x] Task: Bind D043 procedural self-custody inputs and obtain role-separated synthetic
   design, statistics, and governance advice. The panel is advisory, non-human,
-  non-independent, and non-normative. Freeze and every downstream gate remain pending.
+  non-independent, and non-normative. Evidence:
+  `benchmark/evidence/advisory/t14/procedural-panel-design.json`,
+  `benchmark/evidence/advisory/t14/procedural-panel-statistics.json`, and
+  `benchmark/evidence/advisory/t14/procedural-panel-governance.json`.
+  Freeze and every downstream gate remain pending. Commit: `88142cd`.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without
@@ -65,6 +69,10 @@ the packet.
 - [x] Review Fixes: Apply the repository formatter to the pending-freeze validator after the
   full harness rejected its initial layout. Focused validator, contract test, Ruff check,
   and Ruff format check pass. Commit: `ea5b6d4`.
+- [x] Review Fixes: Reconcile public custody state, prove four held-out duplicates against
+  the minimum of three, enforce exact custody and verification semantics, harden restricted
+  directory permissions, and add negative anti-rebinding tests. Commits: `fddb76d`,
+  `df4ea22`, `3cbe425`.
 - [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
