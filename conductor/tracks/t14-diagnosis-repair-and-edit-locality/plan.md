@@ -93,7 +93,7 @@ the packet.
   mode confirms 96 source episodes, 106 assignments, and 10 duplicates without exposing the
   restricted maps or starting ratings. Evidence: `src/pelicanbench/t14_rating.py`,
   `scripts/t14_frozen_steward_app.py`, `tests/test_t14_rating.py`,
-  `docs/t14-post-freeze-runbooks.md`. Commit: pending.
+  `docs/t14-post-freeze-runbooks.md`. Commit: `d3a12e1`.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
 
