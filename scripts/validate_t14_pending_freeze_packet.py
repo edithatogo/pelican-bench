@@ -128,9 +128,42 @@ def main() -> int:
         "custody verification commitment drift",
     )
     require(verification["study_id"] == packet["study_id"], "custody verification study drift")
+    require(verification["schema_version"] == "1.0.0", "custody verification schema drift")
+    require(
+        verification["verification_kind"] == "local-procedural-custody-cryptographic-verification",
+        "custody verification kind drift",
+    )
     require(
         verification["candidate_manifest_sha256"] == packet["normative_manifest"]["sha256"],
         "custody verification candidate drift",
+    )
+    require(
+        verification["alias_manifest_sha256"] == custody["alias_manifest_sha256"],
+        "custody verification alias drift",
+    )
+    require(
+        verification["restricted_duplicate_schedule_sha256"]
+        == custody["restricted_duplicate_schedule_sha256"],
+        "custody verification schedule drift",
+    )
+    require(
+        verification["custody_receipt_sha256"]
+        == hashlib.sha256(CUSTODY_RECEIPT.read_bytes()).hexdigest(),
+        "custody verification receipt drift",
+    )
+    require(verification["episode_alias_count"] == 96, "custody verification episode count drift")
+    require(
+        verification["duplicate_assignment_count"] == 10, "custody verification duplicate drift"
+    )
+    require(verification["assignment_count"] == 106, "custody verification assignment drift")
+    require(
+        set(verification["authority_effect"])
+        == {"freeze", "ratings", "score_promotion", "release", "publication", "unblinding"},
+        "custody verification authority key drift",
+    )
+    require(
+        all(value is False for value in verification["authority_effect"].values()),
+        "custody verification overclaims authority",
     )
     for field in (
         "key_commitment_verified",
