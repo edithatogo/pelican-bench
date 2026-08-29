@@ -65,7 +65,7 @@ the packet.
   attestation, release, publication, and unblinding remain unauthorized. Commit: `6ecd9e7`.
 - [x] Task: Document the non-mutating freeze-integrity recheck and fail-closed amendment
   procedure. Evidence: `docs/t14-freeze-integrity-and-amendment.md`. The procedure cannot
-  authorize ratings or any downstream gate. Commit: pending.
+  authorize ratings or any downstream gate. Commit: `a07d85b`.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without
