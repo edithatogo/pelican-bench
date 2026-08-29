@@ -130,6 +130,43 @@ def test_rating_authorization_is_exactly_scoped(tmp_path: Path, root: Path) -> N
         validate_rating_authorization(path, session)
 
 
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("receipt_kind", "other", "kind drift"),
+        ("study_id", "other", "study drift"),
+        ("freeze_receipt_sha256", "0" * 64, "freeze binding drift"),
+        ("decision_maker", "other", "decision drift"),
+    ],
+)
+def test_rating_authorization_rejects_binding_drift(
+    tmp_path: Path, root: Path, field: str, value: str, message: str
+) -> None:
+    session, _ = _prepared_session(tmp_path, root)
+    receipt = {
+        "receipt_kind": "t14-rating-authorization",
+        "study_id": session.study_id,
+        "freeze_receipt_sha256": session.freeze_receipt_sha256,
+        "decision_maker": "benchmark-steward",
+        "decision": "authorize-blinded-rating",
+        "rating_route": "qualification",
+        "assignment_limit": 8,
+        "authority_effect": {
+            "ratings": True,
+            "score_promotion": False,
+            "attestation": False,
+            "release": False,
+            "publication": False,
+            "unblinding": False,
+        },
+    }
+    receipt[field] = value
+    path = tmp_path / "authorization-binding-drift.json"
+    path.write_text(json.dumps(receipt), encoding="utf-8")
+    with pytest.raises(ValueError, match=message):
+        validate_rating_authorization(path, session)
+
+
 def test_frozen_session_rejects_permission_and_authority_drift(tmp_path: Path, root: Path) -> None:
     _, paths = _prepared_session(tmp_path, root)
     paths["alias"].chmod(0o644)
@@ -235,6 +272,26 @@ def test_rating_ledger_is_append_only_hash_chained_and_private(tmp_path: Path) -
     lines[0] = json.dumps(event)
     path.write_text("\n".join(lines) + "\n")
     with pytest.raises(ValueError, match="hash drift"):
+        ledger.read()
+
+
+def test_rating_ledger_rejects_chain_drift(tmp_path: Path) -> None:
+    path = tmp_path / "restricted" / "ratings.jsonl"
+    ledger = HashChainedRatingLedger(path, {"assignment-a"})
+    event = ledger.append(
+        {
+            "assignment_alias": "assignment-a",
+            "target_corrected": True,
+            "preservation_score_1_to_5": 4,
+            "introduced_defect": False,
+            "confidence_0_to_100": 80,
+            "uncertain": False,
+        },
+        saved_at="2026-08-29T00:00:00Z",
+    )
+    event["sequence"] = 2
+    path.write_text(json.dumps(event) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="chain drift"):
         ledger.read()
 
 
