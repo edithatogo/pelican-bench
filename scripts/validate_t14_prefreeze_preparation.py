@@ -71,7 +71,9 @@ def main() -> int:
         not any(renderer["boundaries"].values()),
         "local toolchain observation overclaims an external gate",
     )
-    print("T14 prefreeze preparation valid: procedural custody bound; freeze and later gates pending")
+    print(
+        "T14 prefreeze preparation valid: procedural custody bound; freeze and later gates pending"
+    )
     return 0
 
 
