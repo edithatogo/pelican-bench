@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "status": "prospective-advisory-not-frozen",
+  "track_id": "T14",
+  "purpose": "Synthetic-only preparation for a later steward-approved calibration freeze.",
+  "prohibitions": [
+    "human-rating-substitution",
+    "normative-sample-freeze",
+    "held-out-threshold-tuning",
+    "score-promotion",
+    "release",
+    "publication"
+  ],
+  "design": {
+    "episode_count": 96,
+    "scene_cluster_count": 24,
+    "episodes_per_scene_cluster": 4,
+    "resampling_unit": "scene-cluster",
+    "development": {"episodes": 72, "scene_clusters": 18},
+    "held_out": {"episodes": 24, "scene_clusters": 6},
+    "defect_families": 8,
+    "episodes_per_defect_family": 12,
+    "development_per_defect_family": 9,
+    "held_out_per_defect_family": 3,
+    "severity_levels": ["moderate", "severe"],
+    "severity_per_defect_family": {"moderate": 6, "severe": 6},
+    "duplicate_fraction": 0.10,
+    "duplicate_interpretation": "repeated-measure-not-independent-episode"
+  },
+  "class_support": {
+    "binary_endpoints": ["target-correction", "no-new-defect"],
+    "required_classes": ["negative", "positive"],
+    "minimum_held_out_scene_clusters_per_class": 2,
+    "failure_policy": "not-evaluable-no-promotion-new-prospectively-frozen-validation-wave"
+  },
+  "confirmatory_thresholds": {
+    "conjunctive": true,
+    "target_correction_no_new_defect_auc": 0.80,
+    "target_correction_no_new_defect_auc_lower_cluster_bootstrap_bound": 0.70,
+    "preservation_locality_spearman": 0.70,
+    "preservation_locality_spearman_lower_cluster_bootstrap_bound": 0.50,
+    "duplicate_consistency": 0.80,
+    "maximum_invalid_or_omitted_fraction": 0.05
+  },
+  "analysis": {
+    "primary_uncertainty": "scene-cluster-bootstrap-stratified-by-partition",
+    "sensitivity": [
+      "leave-one-scene-cluster-out",
+      "exact-or-randomisation-inference-when-prespecified",
+      "conservative-invalid-as-failure"
+    ],
+    "severity_effect_policy": "estimate-only-when-severity-is-crossed-with-every-defect-family",
+    "held_out_policy": "open-once-after-development-model-and-thresholds-are-locked",
+    "duplicates": "estimate-test-retest-only-and-never-increase-independent-sample-size",
+    "single_rater": "do-not-claim-inter-rater-agreement-or-independent-human-validation"
+  },
+  "stopping": {
+    "rule": "all-gates-conjunctive",
+    "required": [
+      "locked-workload-complete",
+      "invalid-or-omitted-fraction-at-most-threshold",
+      "duplicate-consistency-at-least-threshold",
+      "held-out-class-support-present",
+      "all-scene-clusters-complete-or-missingness-contingency-invoked"
+    ],
+    "no_early_efficacy_stop": true,
+    "permitted_operational_stops": [
+      "privacy-or-safety-incident",
+      "manifest-integrity-failure",
+      "excessive-invalidity",
+      "infeasible-workload"
+    ]
+  },
+  "contingencies": {
+    "missingness": "retain-denominators-and-reasons; report locked-cluster, conservative-failure, and prespecified sensitivity analyses",
+    "one_class_or_sparse_held_out": "report counts; metric not evaluable; no promotion; require new frozen validation wave",
+    "failed_reliability": "no aggregation or promotion; revise interface or rubric and run a new versioned study",
+    "wide_or_degenerate_interval": "report uncertainty; do not substitute an unplanned method to rescue a threshold",
+    "threshold_failure": "retain result; do not retune on held-out; revise metric and use a fresh held-out wave"
+  },
+  "simulation": {
+    "synthetic_only": true,
+    "zero_cost": true,
+    "external_calls": false,
+    "seed": 20260829
+  }
+}
