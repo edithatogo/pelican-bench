@@ -88,6 +88,12 @@ the packet.
   API limit. New security findings remain fail-closed.
   Commit: `f942352`.
 - [x] Task: Provide a local blinded steward-rating interface over the existing manifest and response schema. Evidence: `scripts/t14_steward_app.py`, `docs/t14-steward-interface.md`. The interface is a convenience layer only; it cannot create human ratings, reveal hidden labels, or establish independent/E3 evidence.
+- [x] Task: Prepare the authorization-gated frozen rating interface, assignment-only response
+  validator, hash-chained external ledger, and inactive post-freeze runbooks. Validation-only
+  mode confirms 96 source episodes, 106 assignments, and 10 duplicates without exposing the
+  restricted maps or starting ratings. Evidence: `src/pelicanbench/t14_rating.py`,
+  `scripts/t14_frozen_steward_app.py`, `tests/test_t14_rating.py`,
+  `docs/t14-post-freeze-runbooks.md`. Commit: pending.
 
 **Current limitation:** Current repair metrics are E2 artifact-edit diagnostics, not a validated visual repair score.
 
