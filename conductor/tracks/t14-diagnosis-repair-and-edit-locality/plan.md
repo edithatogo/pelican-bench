@@ -52,6 +52,9 @@ the packet.
   `src/pelicanbench/t14_custody.py`, `scripts/prepare_t14_custody_artifacts.py`,
   `tests/test_t14_custody.py`, `tests/e2e/test_t14_custody_cli.py`, and
   `docs/t14-custodian-handoff.md`. Commit: `caca4f5`.
+- [~] Task: Bind D043 procedural self-custody inputs and obtain role-separated synthetic
+  design, statistics, and governance advice. The panel is advisory, non-human,
+  non-independent, and non-normative. Freeze and every downstream gate remain pending.
 - [x] Review Fixes: Resolve candidate asset paths and prove containment within the candidate
   root before inspection or rendering; add traversal regression coverage. Commit: `7150a75`.
 - [x] Review Fixes: Prove target-specific geometry for both move-repair families without

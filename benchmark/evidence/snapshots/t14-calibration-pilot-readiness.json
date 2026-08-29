@@ -80,8 +80,8 @@
       "after_sha256": "45b791c67d492e778ea3179c3c0de900c0c69765621e69959ba9b2291fe78a5a"
     }
   ],
-  "blocker": "Repository-owned prefreeze preparation and fresh agent advice are complete. An accountable custodian must create the secret-bound alias manifest, duplicate schedule, and custody receipt before the pending exact-hash packet can be returned for a steward freeze decision. Human calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
-  "next_action": "Obtain accountable custody inputs, attach the exact-commit harness receipt, and return benchmark/evidence/advisory/t14/pending-freeze-decision.json to the steward without freezing it.",
+  "blocker": "D043 procedural self-custody inputs are hash-bound and explicitly non-independent. A role-separated synthetic advisory panel and later exact-hash steward freeze decision remain pending. Human calibration, independent challenge, witnessed recovery, promotion, and release remain outstanding.",
+  "next_action": "Complete the synthetic advisory panel, bind its redacted packets, and return benchmark/evidence/advisory/t14/pending-freeze-decision.json to the steward without freezing it.",
   "claims": {
     "human_ratings_present": true,
     "agent_ratings_present": false,

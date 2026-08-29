@@ -1,5 +1,5 @@
 {
-  "blocker": "D042 prefreeze preparation is fixture-verified; an accountable custodian must create the alias manifest and duplicate schedule before a steward freeze decision. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.",
+  "blocker": "D043 procedural self-custody inputs are hash-bound and explicitly non-independent; a role-separated synthetic advisory panel and later exact-hash steward freeze decision remain pending. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "benchmark/fixtures/repair",
@@ -57,7 +57,9 @@
     "scripts/prepare_t14_custody_artifacts.py",
     "tests/test_t14_custody.py",
     "tests/e2e/test_t14_custody_cli.py",
-    "docs/t14-custodian-handoff.md"
+    "docs/t14-custodian-handoff.md",
+    "benchmark/evidence/advisory/t14/procedural-custody-receipt.json",
+    "docs/decision-log.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",

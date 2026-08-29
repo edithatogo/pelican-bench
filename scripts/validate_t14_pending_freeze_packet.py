@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PACKET = ROOT / "benchmark/evidence/advisory/t14/pending-freeze-decision.json"
 HARNESS_RECEIPT = ROOT / "benchmark/evidence/advisory/t14/exact-commit-local-harness-receipt.json"
+CUSTODY_RECEIPT = ROOT / "benchmark/evidence/advisory/t14/procedural-custody-receipt.json"
 
 
 def digest(relative: str) -> str:
@@ -23,7 +24,7 @@ def require(condition: object, message: str) -> None:
 
 def main() -> int:
     packet = json.loads(PACKET.read_text())
-    require(packet["status"] == "incomplete-pending-accountable-inputs", "packet status drift")
+    require(packet["status"] == "ready-for-steward-review-no-freeze-effect", "packet status drift")
     require(
         packet["normative_manifest"]["sha256"] == digest(packet["normative_manifest"]["path"]),
         "candidate commitment drift",
@@ -61,16 +62,35 @@ def main() -> int:
         "harness receipt commitment drift",
     )
     require(
-        all(
-            packet["pending_required_inputs"][key] is None
-            for key in (
-                "secret_bound_alias_manifest_sha256",
-                "restricted_duplicate_schedule_sha256",
-                "accountable_custodian_receipt_sha256",
-                "steward_freeze_decision_receipt_sha256",
-            )
-        ),
-        "accountable input added without packet transition",
+        packet["pending_required_inputs"]["steward_freeze_decision_receipt_sha256"] is None,
+        "steward decision added without packet transition",
+    )
+    custody = json.loads(CUSTODY_RECEIPT.read_text())
+    require(custody["receipt_kind"] == "accountable-custody-generation", "custody kind drift")
+    require(
+        custody["custody_classification"] == "procedural-self-custody-not-independent",
+        "custody classification drift",
+    )
+    require(custody["custodian_id"] == "benchmark-steward", "custodian identity drift")
+    require(custody["secret_recorded"] is False, "custody receipt records secret")
+    require(
+        all(value is False for value in custody["authority_effect"].values()),
+        "custody receipt overclaims authority",
+    )
+    require(
+        packet["pending_required_inputs"]["secret_bound_alias_manifest_sha256"]
+        == custody["alias_manifest_sha256"],
+        "alias commitment drift",
+    )
+    require(
+        packet["pending_required_inputs"]["restricted_duplicate_schedule_sha256"]
+        == custody["restricted_duplicate_schedule_sha256"],
+        "duplicate schedule commitment drift",
+    )
+    require(
+        packet["pending_required_inputs"]["accountable_custodian_receipt_sha256"]
+        == hashlib.sha256(CUSTODY_RECEIPT.read_bytes()).hexdigest(),
+        "custody receipt commitment drift",
     )
     require(
         all(
@@ -87,7 +107,7 @@ def main() -> int:
         "pending packet overclaims authority",
     )
     print(
-        "T14 pending freeze packet valid: local harness bound; accountable inputs and steward decision absent"
+        "T14 pending freeze packet valid: procedural custody and local harness bound; steward decision absent"
     )
     return 0
 

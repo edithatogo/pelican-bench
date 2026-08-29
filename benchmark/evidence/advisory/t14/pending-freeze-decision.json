@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "status": "incomplete-pending-accountable-inputs",
+  "status": "ready-for-steward-review-no-freeze-effect",
   "study_id": "t14-human-calibration-v1",
   "reviewed_repository_commit": "42f721a039ea5bf90ca4e29b4fc218f2a0fc91c8",
   "reviewed_repository_tree": "90b35f2a0d33a12379b260043251154a59744b6b",
@@ -30,9 +30,9 @@
     "governance_sha256": "78c177f309f51cac767410418bba921bf2f4d81357c9881ac8fc4926c7d46f84"
   },
   "pending_required_inputs": {
-    "secret_bound_alias_manifest_sha256": null,
-    "restricted_duplicate_schedule_sha256": null,
-    "accountable_custodian_receipt_sha256": null,
+    "secret_bound_alias_manifest_sha256": "ba3aa847157b35bb4028f9cbf0d7683081f616ba2d637df5a676a4294ce216d5",
+    "restricted_duplicate_schedule_sha256": "fba10009aee137f913202396100dd4b05460fae349e3caa7462a449427c4517c",
+    "accountable_custodian_receipt_sha256": "0c311866845c126f525121dfdf7c290044b40c7e85421183504a710deb3cc493",
     "exact_commit_full_harness_receipt_sha256": "2a6acf640e6e59bb42464e01f2b4bf8bfb3944d6bb99e0623fc54464d68cde95",
     "steward_freeze_decision_receipt_sha256": null
   },

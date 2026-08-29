@@ -950,7 +950,7 @@
       "track_id": "T13"
     },
     {
-      "blocker": "D042 prefreeze preparation is fixture-verified; an accountable custodian must create the alias manifest and duplicate schedule before a steward freeze decision. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.",
+      "blocker": "D043 procedural self-custody inputs are hash-bound and explicitly non-independent; a role-separated synthetic advisory panel and later exact-hash steward freeze decision remain pending. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.",
       "evidence_level": "E2",
       "parent_body": "## Conductor track\n\n**Track:** T14 — Diagnosis, repair and edit locality\n**Specification:** [`conductor/tracks/t14-diagnosis-repair-and-edit-locality/spec.md`](../blob/main/conductor/tracks/t14-diagnosis-repair-and-edit-locality/spec.md)\n**Plan:** [`conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md`](../blob/main/conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md)\n**Evidence level:** `E2`\n**Nested work packages:** 0\n\nThe parent remains open until P3 is complete. Phase issues are the maturity graph; their nested work packages are executable, evidence-specific deliverables.\n",
       "parent_issue": 97,
@@ -980,7 +980,7 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T14 — Diagnosis, repair and edit locality\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md`](../blob/main/conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nD042 prefreeze preparation is fixture-verified; an accountable custodian must create the alias manifest and duplicate schedule before a steward freeze decision. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T14 — Diagnosis, repair and edit locality\n**Phase:** P2\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md`](../blob/main/conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nD043 procedural self-custody inputs are hash-bound and explicitly non-independent; a role-separated synthetic advisory panel and later exact-hash steward freeze decision remain pending. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.\n",
           "issue_number": 95,
           "phase": "P2",
           "status": "partial",
@@ -988,7 +988,7 @@
           "work_packages": []
         },
         {
-          "body": "## Conductor phase\n\n**Track:** T14 — Diagnosis, repair and edit locality\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md`](../blob/main/conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nD042 prefreeze preparation is fixture-verified; an accountable custodian must create the alias manifest and duplicate schedule before a steward freeze decision. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.\n",
+          "body": "## Conductor phase\n\n**Track:** T14 — Diagnosis, repair and edit locality\n**Phase:** P3\n**State:** `partial`\n**Evidence level:** `E2`\n**Plan:** [`conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md`](../blob/main/conductor/tracks/t14-diagnosis-repair-and-edit-locality/plan.md)\n**Nested work packages:** 0\n\n### Exit criterion\n\nComplete the phase tasks and nested work packages with repository evidence, run `scripts/harness.sh`, update Conductor status, and record score-compatibility impact.\n\n### Constraint\n\nD043 procedural self-custody inputs are hash-bound and explicitly non-independent; a role-separated synthetic advisory panel and later exact-hash steward freeze decision remain pending. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, and release remain outstanding.\n",
           "issue_number": 96,
           "phase": "P3",
           "status": "partial",

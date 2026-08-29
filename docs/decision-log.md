@@ -437,3 +437,22 @@ mutation requires its own later explicit authorization.
 increasing the planned normative rating count. Separating diagnostics preserves the
 confirmatory estimand while ensuring failure modes are exercised. Fail-closed boundaries
 keep preparation from being misreported as empirical or independent evidence.
+
+## D043 — Accept procedural self-custody and authorize a synthetic advisory panel
+
+**Options:** wait for an independent human custodian; use benchmark-steward procedural
+self-custody with explicit non-independence; or replace accountable custody and human
+judgement claims with agent outputs.
+
+**Decision:** the benchmark steward accepts procedural self-custody under the identifier
+`benchmark-steward` and authorizes a role-separated subagent panel for synthetic,
+non-normative advice. The study-specific secret and restricted mappings remain local and
+outside the repository. Agent outputs may challenge the design, statistics, governance,
+and operational packet, but they are not human ratings, independent custody, E3 evidence,
+E4 reproduction, a freeze decision, or authority to promote, attest, release, publish, or
+unblind.
+
+**Rationale:** procedural blinding and adversarial agent review can test the complete local
+machinery without misrepresenting organisational independence or human judgement. A later
+exact-hash steward decision remains necessary before freeze, and later human or external
+evidence remains necessary for empirical, independent, promotion, or release claims.
