@@ -9,6 +9,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = ROOT / "scripts/validate_t14_prospective_statistics.py"
 PLAN = ROOT / "benchmark/evidence/advisory/t14/prospective-statistical-analysis-plan.json"
+CANDIDATE = ROOT / "benchmark/fixtures/repair/candidate/manifest.json"
 
 
 def load_module():
@@ -26,11 +27,35 @@ def test_prospective_plan_and_synthetic_allocation_are_valid() -> None:
 
     assert rows == module.synthetic_allocation()
     report = module.validate(plan, rows)
-    assert report["status"] == "valid-prospective-synthetic-only"
+    assert report["status"] == "valid-prospective-allocation-not-frozen"
     assert report["scene_cluster_split"] == {"development": 18, "held-out": 6}
     assert report["normative_sample_frozen"] is False
     assert report["human_ratings_present"] is False
     assert report["score_promotion"] is False
+    for rows_for_scene in {
+        row["scene_cluster"]: [
+            item for item in rows if item["scene_cluster"] == row["scene_cluster"]
+        ]
+        for row in rows
+    }.values():
+        assert sorted(row["severity"] for row in rows_for_scene) == [
+            "moderate",
+            "moderate",
+            "severe",
+            "severe",
+        ]
+
+
+def test_real_candidate_joint_allocation_and_bindings_are_valid() -> None:
+    module = load_module()
+    plan = json.loads(PLAN.read_text(encoding="utf-8"))
+    candidate = json.loads(CANDIDATE.read_text(encoding="utf-8"))
+
+    module.validate_bindings(plan, CANDIDATE)
+    report = module.validate(plan, module.candidate_allocation(candidate))
+
+    assert report["scene_clusters"] == 24
+    assert report["scene_cluster_split"] == {"development": 18, "held-out": 6}
 
 
 @pytest.mark.parametrize(

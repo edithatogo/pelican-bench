@@ -12,7 +12,6 @@
 <path data-role="bill" d="M302 66 L404 83 L304 93 Z" fill="#d9903d" stroke="#283845" stroke-width="5"/>
 <circle data-role="eye" cx="284" cy="66" r="5" fill="#283845"/>
 <path data-role="gular pouch" d="M303 92 Q354 138 401 85 Q349 110 303 92 Z" fill="#f2aa72" stroke="#283845" stroke-width="4"/>
-<path data-role="component-damaged" d="M182 102 Q214 87 231 120" fill="none" stroke="#283845" stroke-width="5"/>
 <path data-role="foot pedal contact" d="M206 151 L214 192 L232 234" fill="none" stroke="#283845" stroke-width="8"/>
 <path data-role="riding grip contact" d="M248 120 Q290 122 302 135" fill="none" stroke="#283845" stroke-width="8"/>
 </svg>

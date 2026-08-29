@@ -2,7 +2,7 @@
 <rect width="480" height="320" fill="#ffffff"/>
 <path data-role="ground" d="M20 280 L460 276" stroke="#c8d4d8" stroke-width="5"/>
 <circle data-role="front-wheel" cx="312" cy="250" r="48" fill="none" stroke="#283b42" stroke-width="9"/>
-<circle data-role="rear-wheel" cx="110" cy="274" r="48" fill="none" stroke="#283b42" stroke-width="9"/>
+<circle data-role="rear-wheel" cx="110" cy="298" r="48" fill="none" stroke="#283b42" stroke-width="9"/>
 <circle data-role="auxiliary-wheel" cx="76" cy="258" r="34" fill="none" stroke="#283b42" stroke-width="7"/>
 <path data-role="frame" d="M110 250 L211 250 L264 188 L312 250 L211 250 L160 192" fill="none" stroke="#d46b45" stroke-width="10"/>
 <path data-role="handlebar" d="M264 188 L292 145 L320 145" fill="none" stroke="#283b42" stroke-width="8"/>

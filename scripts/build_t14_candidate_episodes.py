@@ -7,8 +7,10 @@ import argparse
 import hashlib
 import json
 import sys
+from collections import Counter
 from dataclasses import dataclass
 from functools import cache
+from itertools import combinations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,6 +82,75 @@ def _render(value: str) -> str:
 
 def _parameter(defect: str, severity: str) -> int:
     return PARAMETERS[defect][severity == "severe"]
+
+
+def _defect_block(scene_index: int) -> tuple[int, ...]:
+    """Return a complementary BIB block: every family occurs 3x per vehicle."""
+    vehicle = scene_index % 4
+    replicate = scene_index // 4
+    start = vehicle + 2 * (replicate // 2)
+    first = {(start + offset) % 8 for offset in range(4)}
+    block = first if replicate % 2 == 0 else set(range(8)) - first
+    return tuple(sorted(block))
+
+
+def _severity_assignment() -> dict[tuple[int, int], str]:
+    """Choose two severe cells per group and six per family, deterministically."""
+    blocks = [_defect_block(index) for index in range(24)]
+    counts = [0] * 8
+    selected: dict[int, tuple[int, int]] = {}
+
+    def visit(group: int) -> bool:
+        if group == 24:
+            return counts == [6] * 8
+        remaining = Counter(defect for block in blocks[group:] for defect in block)
+        if any(counts[d] > 6 or counts[d] + remaining[d] < 6 for d in range(8)):
+            return False
+        for pair in combinations(blocks[group], 2):
+            if any(counts[d] == 6 for d in pair):
+                continue
+            for defect in pair:
+                counts[defect] += 1
+            selected[group] = pair
+            if visit(group + 1):
+                return True
+            for defect in pair:
+                counts[defect] -= 1
+        return False
+
+    if not visit(0):
+        raise RuntimeError("no balanced severity assignment")
+    return {
+        (group, defect): "severe" if defect in selected[group] else "moderate"
+        for group, block in enumerate(blocks)
+        for defect in block
+    }
+
+
+def _selected_held_out_groups(severity: dict[tuple[int, int], str]) -> set[str]:
+    """Exhaustively select six groups from design factors, without outcomes."""
+    ranked = []
+    for chosen in combinations(range(24), 6):
+        family = Counter(d for group in chosen for d in _defect_block(group))
+        if set(family.values()) != {3} or len(family) != 8:
+            continue
+        vehicles = Counter(SCENES[g].vehicle for g in chosen)
+        layouts = Counter(SCENES[g].layout for g in chosen)
+        variants = Counter(SCENES[g].variant for g in chosen)
+        severe = Counter(d for g in chosen for d in _defect_block(g) if severity[g, d] == "severe")
+        coverage_penalty = (
+            len(VEHICLES) - len(vehicles) + len(LAYOUTS) - len(layouts) + 2 - len(variants)
+        )
+        balance = sum((vehicles[key] - 1.5) ** 2 for key in VEHICLES)
+        balance += sum((layouts[key] - 2) ** 2 for key in LAYOUTS)
+        balance += sum((variants[key] - 3) ** 2 for key in (0, 1))
+        severity_imbalance = sum(abs(severe[d] - 1.5) for d in range(8))
+        identity = ",".join(f"{g:02d}" for g in chosen)
+        tie = hashlib.sha256(f"t14-72-24-v3\0{identity}".encode()).hexdigest()
+        ranked.append(((coverage_penalty, balance, severity_imbalance, tie), chosen))
+    if not ranked:
+        raise RuntimeError("no balanced held-out allocation")
+    return {SCENES[index].scene_id for index in min(ranked)[1]}
 
 
 def _layout(s: Scene) -> tuple[int, int, int, int, int]:
@@ -185,11 +256,12 @@ def _svg(s: Scene, defect: str | None, severity: str = "moderate") -> str:
 def _payload(recorded: dict[str, str] | None = None) -> tuple[dict[str, object], dict[Path, str]]:
     assets = {}
     episodes = []
-    held = {f"scene-{i:02d}" for i in range(19, 25)}
+    severity_assignment = _severity_assignment()
+    held = _selected_held_out_groups(severity_assignment)
     for si, s in enumerate(SCENES):
-        for di in (i for i in range(8) if i % 2 == si % 2):
+        for di in _defect_block(si):
             defect, operation, targets = DEFECTS[di]
-            severity = "moderate" if (si // 2 + di // 2) % 2 == 0 else "severe"
+            severity = severity_assignment[si, di]
             p = _parameter(defect, severity)
             rid = f"repair-t14-candidate-{si + 1:02d}-{di + 1:02d}"
             br = Path("assets") / f"{rid}-before.svg"
@@ -276,8 +348,8 @@ def _payload(recorded: dict[str, str] | None = None) -> tuple[dict[str, object],
         "split_policy": {
             "status": "proposed-not-frozen",
             "unit": "scene-group",
-            "namespace": "t14-72-24-v2",
-            "rule": "predeclared final six of 24 counterbalanced scene groups",
+            "namespace": "t14-72-24-v3",
+            "rule": "exhaustive six-of-24 outcome-free allocation: exact 9/3 family balance; maximize vehicle, layout and variant coverage; minimize factor and severity imbalance; SHA-256 tie-break",
             "leakage_control": "all variants from a scene remain in one partition",
             "selected_held_out_groups": sorted(held),
             "development_count": 72,
@@ -331,6 +403,9 @@ def main() -> int:
     for x, v in expected.items():
         x.parent.mkdir(parents=True, exist_ok=True)
         x.write_text(v)
+    for path in a.output.rglob("*"):
+        if path.is_file() and path not in expected:
+            path.unlink()
     print(f"Wrote {len(expected) - 1} SVG assets and candidate manifest")
     return 0
 

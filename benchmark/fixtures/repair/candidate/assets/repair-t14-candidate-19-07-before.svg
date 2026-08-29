@@ -14,5 +14,5 @@
 <path data-role="gular pouch" d="M308 95 Q359 141 406 88 Q354 113 308 95 Z" fill="#f2aa72" stroke="#31505b" stroke-width="4"/>
 <path data-role="wing" d="M187 105 Q224 78 255 123 Q216 151 187 105 Z" fill="#a9cbd0" stroke="#31505b" stroke-width="5"/>
 <path data-role="foot pedal contact" d="M211 154 L219 195 L237 237" fill="none" stroke="#31505b" stroke-width="8"/>
-<path data-role="steering-incomplete" d="M253 123 Q271 125 291 138" fill="none" stroke="#31505b" stroke-width="8"/>
+<path data-role="steering-incomplete" d="M253 123 Q271 125 249 138" fill="none" stroke="#31505b" stroke-width="8"/>
 </svg>

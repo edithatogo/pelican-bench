@@ -30,13 +30,20 @@ def sha(v: str) -> str:
 
 
 def mutate(reference: str, defect: str, kind: str, scene: object) -> str:
+    family_index = next(index for index, row in enumerate(B.DEFECTS) if row[0] == defect)
+    x = 12 + family_index * 11
+    role = f"diagnostic-{kind}" + (" residual-defect" if kind == "under-repair" else "")
+    marker = f'<circle data-role="{role}" cx="{x}" cy="18" r="{2 if kind == "decision-boundary" else 5}" fill="#c2185b"/>'
     if kind == "under-repair":
-        return B._svg(scene, defect, "moderate")
+        return B._svg(scene, defect, "moderate").replace("</svg>", marker + "\n</svg>")
     if kind == "introduced-defect":
-        return B._svg(scene, "missing-wing" if defect == "missing-eye" else "missing-eye", "severe")
+        return B._svg(
+            scene, "missing-wing" if defect == "missing-eye" else "missing-eye", "severe"
+        ).replace("</svg>", marker + "\n</svg>")
     if kind == "invalid":
-        return '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320"><rect width="480" height="320" fill="#fff"/></svg>\n'
-    marker = f'<circle data-role="{"over-edit" if kind == "over-edit" else "boundary-artifact"}" cx="{18 if kind == "decision-boundary" else 430}" cy="{18 if kind == "decision-boundary" else 45}" r="{2 if kind == "decision-boundary" else 24}" fill="#c2185b"/>'
+        return f'<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320"><rect width="480" height="320" fill="#fff"/>{marker}</svg>\n'
+    if kind == "over-edit":
+        marker += f'<rect data-role="unrelated-over-edit" x="{390 - family_index}" y="35" width="42" height="42" fill="#7b1fa2"/>'
     return reference.replace("</svg>", marker + "\n</svg>")
 
 
@@ -63,6 +70,7 @@ def expected(output: Path) -> dict[Path, str]:
                     "artifact_render_sha256": render_svg(artifact).render_hash,
                     "expected_validity": kind != "invalid",
                     "expected_outcome": "reject-or-flag",
+                    "semantic_predicate": f"diagnostic-{kind}",
                     "project_original": True,
                 }
             )
@@ -81,7 +89,12 @@ def expected(output: Path) -> dict[Path, str]:
             "origin": "project-original-deterministic-svg-generator",
             "generator": "scripts/build_t14_diagnostic_episodes.py",
             "external_source_material": False,
+            "rights_status": "project-original",
             "generator_source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "candidate_generator": "scripts/build_t14_candidate_episodes.py",
+            "candidate_generator_source_sha256": hashlib.sha256(
+                (ROOT / "scripts/build_t14_candidate_episodes.py").read_bytes()
+            ).hexdigest(),
         },
         "episodes": rows,
     }

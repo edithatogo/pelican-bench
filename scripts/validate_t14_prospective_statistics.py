@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -11,6 +12,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PLAN = ROOT / "benchmark/evidence/advisory/t14/prospective-statistical-analysis-plan.json"
+DEFAULT_CANDIDATE = ROOT / "benchmark/fixtures/repair/candidate/manifest.json"
 
 
 def require(condition: object, message: str) -> None:
@@ -22,22 +24,57 @@ def synthetic_allocation() -> list[dict[str, Any]]:
     """Return the fixed synthetic design; it never reads candidate outcomes."""
     rows: list[dict[str, Any]] = []
     occurrences: Counter[int] = Counter()
-    for index in range(96):
-        family_number = index % 8
-        occurrence = occurrences[family_number]
-        occurrences[family_number] += 1
-        rows.append(
-            {
-                "synthetic_id": f"synthetic-{index + 1:03d}",
-                "scene_cluster": f"synthetic-scene-{index // 4 + 1:02d}",
-                "partition": "development" if index < 72 else "held-out",
-                "defect_family": f"synthetic-family-{family_number + 1:02d}",
-                "severity": "moderate" if occurrence % 2 == 0 else "severe",
-                "target-correction": "positive" if occurrence % 3 else "negative",
-                "no-new-defect": "negative" if occurrence % 3 == 1 else "positive",
-            }
-        )
+    for scene_number in range(24):
+        subset_start = 0 if scene_number % 2 == 0 else 4
+        subset_rotation = (scene_number // 2) % 4
+        families = [subset_start + (slot + subset_rotation) % 4 for slot in range(4)]
+        for slot, family_number in enumerate(families):
+            index = scene_number * 4 + slot
+            occurrence = occurrences[family_number]
+            occurrences[family_number] += 1
+            rows.append(
+                {
+                    "synthetic_id": f"synthetic-{index + 1:03d}",
+                    "scene_cluster": f"synthetic-scene-{scene_number + 1:02d}",
+                    "partition": "development" if index < 72 else "held-out",
+                    "defect_family": f"synthetic-family-{family_number + 1:02d}",
+                    "severity": "moderate" if slot < 2 else "severe",
+                    "target-correction": "positive" if occurrence % 3 else "negative",
+                    "no-new-defect": "negative" if occurrence % 3 == 1 else "positive",
+                }
+            )
     return rows
+
+
+def candidate_allocation(candidate: dict[str, Any]) -> list[dict[str, Any]]:
+    """Project real candidate design fields into the joint-allocation validator."""
+    partition_names = {
+        "proposed-development": "development",
+        "proposed-held-out": "held-out",
+    }
+    return [
+        {
+            "synthetic_id": str(row["repair_id"]),
+            "scene_cluster": str(row["scene_group_id"]),
+            "partition": partition_names[str(row["proposed_partition"])],
+            "defect_family": str(row["defect_family"]),
+            "severity": str(row["severity"]),
+        }
+        for row in candidate["episodes"]
+    ]
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def validate_bindings(plan: dict[str, Any], candidate_path: Path) -> None:
+    bindings = plan["bindings"]
+    require(
+        sha256(candidate_path) == bindings["candidate_manifest_sha256"], "candidate binding drift"
+    )
+    for relative, expected in bindings["implementation_source_sha256"].items():
+        require(sha256(ROOT / relative) == expected, f"implementation binding drift: {relative}")
 
 
 def validate(plan: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -69,6 +106,10 @@ def validate(plan: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]
     for group in scenes.values():
         partitions = {row["partition"] for row in group}
         require(len(partitions) == 1, "scene crosses partitions")
+        require(
+            Counter(row["severity"] for row in group) == {"moderate": 2, "severe": 2},
+            "scene severity allocation drift",
+        )
         scene_partitions[next(iter(partitions))] += 1
     require(scene_partitions == {"development": 18, "held-out": 6}, "cluster split drift")
 
@@ -90,7 +131,10 @@ def validate(plan: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]
     held_out = [row for row in rows if row["partition"] == "held-out"]
     minimum = plan["class_support"]["minimum_held_out_scene_clusters_per_class"]
     class_support: dict[str, dict[str, int]] = {}
+    available_endpoints = set(rows[0]) if rows else set()
     for endpoint in plan["class_support"]["binary_endpoints"]:
+        if endpoint not in available_endpoints:
+            continue
         support = {
             label: len({row["scene_cluster"] for row in held_out if row[endpoint] == label})
             for label in plan["class_support"]["required_classes"]
@@ -109,7 +153,7 @@ def validate(plan: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]
         "duplicate independence drift",
     )
     return {
-        "status": "valid-prospective-synthetic-only",
+        "status": "valid-prospective-allocation-not-frozen",
         "episodes": len(rows),
         "scene_clusters": len(scenes),
         "scene_cluster_split": dict(scene_partitions),
@@ -123,14 +167,19 @@ def validate(plan: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
+    parser.add_argument("--candidate", type=Path, default=DEFAULT_CANDIDATE)
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
-    report = validate(plan, synthetic_allocation())
+    candidate = json.loads(args.candidate.read_text(encoding="utf-8"))
+    validate_bindings(plan, args.candidate)
+    synthetic_report = validate(plan, synthetic_allocation())
+    candidate_report = validate(plan, candidate_allocation(candidate))
+    report = {"synthetic": synthetic_report, "candidate": candidate_report}
     if args.json:
         print(json.dumps(report, indent=2, sort_keys=True))
     else:
-        print("T14 prospective statistical plan valid: synthetic-only 24x4; 18/6 clusters")
+        print("T14 prospective statistical plan valid: real candidate and synthetic 24x4; 18/6")
     return 0
 
 

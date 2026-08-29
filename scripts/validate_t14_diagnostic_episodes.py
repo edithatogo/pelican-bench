@@ -9,6 +9,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from defusedxml import ElementTree as ET  # nosec B405
+
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "benchmark/fixtures/repair/diagnostic/manifest.json"
 BASE = MANIFEST.parent.resolve()
@@ -51,8 +53,27 @@ def main() -> int:
         and p.get("publication_status") == "not-published",
         "governance boundary drift",
     )
+    provenance = p.get("provenance", {})
+    require(
+        provenance.get("origin") == "project-original-deterministic-svg-generator"
+        and provenance.get("external_source_material") is False
+        and provenance.get("rights_status") == "project-original",
+        "diagnostic provenance boundary drift",
+    )
+    for path_key, hash_key in (
+        ("generator", "generator_source_sha256"),
+        ("candidate_generator", "candidate_generator_source_sha256"),
+    ):
+        source = ROOT / str(provenance.get(path_key, ""))
+        require(source.is_file(), f"missing provenance dependency: {path_key}")
+        require(
+            hashlib.sha256(source.read_bytes()).hexdigest() == provenance.get(hash_key),
+            f"provenance dependency drift: {path_key}",
+        )
     rows = p.get("episodes", [])
     require(len(rows) == p.get("episode_count") == 40, "need 40 diagnostics")
+    require(len({r.get("diagnostic_id") for r in rows}) == 40, "duplicate diagnostic ID")
+    require(len({r.get("artifact") for r in rows}) == 40, "duplicate diagnostic path")
     require(
         Counter(r.get("diagnostic_class") for r in rows) == dict.fromkeys(CLASSES, 8),
         "diagnostic class balance drift",
@@ -66,10 +87,24 @@ def main() -> int:
             {r["diagnostic_class"] for r in rows if r["defect_family"] == family} == CLASSES,
             f"missing diagnostic class: {family}",
         )
+    candidate = json.loads((ROOT / "benchmark/fixtures/repair/candidate/manifest.json").read_text())
+    candidate_bytes = {
+        digest
+        for row in candidate["episodes"]
+        for digest in (row["before_sha256"], row["after_sha256"])
+    }
+    candidate_renders = {
+        digest
+        for row in candidate["episodes"]
+        for digest in (row["before_render_sha256"], row["after_render_sha256"])
+    }
+    diagnostic_bytes: set[str] = set()
+    diagnostic_renders: set[str] = set()
     for r in rows:
         require(
             r.get("normative_eligible") is False
-            and r.get("status") == "diagnostic-development-only",
+            and r.get("status") == "diagnostic-development-only"
+            and r.get("project_original") is True,
             "diagnostic row became normative",
         )
         raw = resolve(Path(r["artifact"])).read_bytes()
@@ -88,6 +123,32 @@ def main() -> int:
             r.get("expected_validity") == (r.get("diagnostic_class") != "invalid"),
             "expected validity drift",
         )
+        roles = {
+            token
+            for element in ET.fromstring(svg).iter()
+            for token in element.attrib.get("data-role", "").split()
+        }
+        kind = str(r.get("diagnostic_class"))
+        require(f"diagnostic-{kind}" in roles, f"missing class predicate: {kind}")
+        if kind == "over-edit":
+            require("unrelated-over-edit" in roles, "over-edit lacks unrelated geometry")
+        elif kind == "introduced-defect":
+            require(not ({"eye", "wing"} <= roles), "introduced defect is absent")
+        elif kind == "invalid":
+            require("animal" not in roles and "frame" not in roles, "invalid artifact is semantic")
+        elif kind == "under-repair":
+            require(
+                "residual-defect" in roles,
+                "under-repair has no residual defect",
+            )
+        byte_hash = str(r["artifact_sha256"])
+        render_hash = str(r["artifact_render_sha256"])
+        require(byte_hash not in candidate_bytes, "diagnostic byte overlaps candidate")
+        require(render_hash not in candidate_renders, "diagnostic render overlaps candidate")
+        require(byte_hash not in diagnostic_bytes, "duplicate diagnostic bytes")
+        require(render_hash not in diagnostic_renders, "duplicate diagnostic render")
+        diagnostic_bytes.add(byte_hash)
+        diagnostic_renders.add(render_hash)
     print("T14 diagnostic package valid: 40 separate non-normative cases")
     return 0
 

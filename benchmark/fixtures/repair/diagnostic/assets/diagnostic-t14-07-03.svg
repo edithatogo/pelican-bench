@@ -14,4 +14,5 @@
 <path data-role="wing" d="M182 102 Q219 75 250 120 Q211 148 182 102 Z" fill="#a9cbd0" stroke="#283b42" stroke-width="5"/>
 <path data-role="foot pedal contact" d="M206 151 L214 192 L232 234" fill="none" stroke="#283b42" stroke-width="8"/>
 <path data-role="riding grip contact" d="M248 120 Q290 122 302 135" fill="none" stroke="#283b42" stroke-width="8"/>
+<circle data-role="diagnostic-introduced-defect" cx="78" cy="18" r="5" fill="#c2185b"/>
 </svg>

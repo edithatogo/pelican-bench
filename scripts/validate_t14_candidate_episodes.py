@@ -329,6 +329,19 @@ def main() -> int:
             len(moderate) == len(severe) == 1 and max(moderate) < min(severe),
             f"severity parameter ordering invalid: {family}",
         )
+        vehicles = Counter(
+            row.get("vehicle_family") for row in episodes if row.get("defect_family") == family
+        )
+        require(
+            vehicles
+            == {
+                "bicycle": 3,
+                "tricycle": 3,
+                "step-through-cycle": 3,
+                "cargo-cycle": 3,
+            },
+            f"defect family is confounded with vehicle: {family}",
+        )
     signatures = {}
     for group, rows in groups.items():
         reference = resolve_candidate_asset(Path(str(rows[0]["after_reference"]))).read_text()
@@ -348,6 +361,23 @@ def main() -> int:
     require(
         all(len(items) == 6 for items in vehicle_signatures.values()),
         "vehicle geometry is metadata-only",
+    )
+    held_out_rows = [
+        row for row in episodes if row.get("proposed_partition") == "proposed-held-out"
+    ]
+    require(
+        {row.get("vehicle_family") for row in held_out_rows}
+        == {"bicycle", "tricycle", "step-through-cycle", "cargo-cycle"},
+        "held-out vehicle coverage incomplete",
+    )
+    require(
+        {row.get("layout_template_id") for row in held_out_rows}
+        == {"level-wide", "rising-close", "falling-offset"},
+        "held-out layout coverage incomplete",
+    )
+    require(
+        {row.get("geometry_variant") for row in held_out_rows} == {0, 1},
+        "held-out geometry variant coverage incomplete",
     )
     print("T14 candidate package valid: 96 episodes; proposed 72/24 split across 18/6 groups")
     return 0

@@ -17,4 +17,5 @@
 <path data-role="foot pedal contact" d="M206 151 L214 192 L232 234" fill="none" stroke="#31505b" stroke-width="8"/>
 <path data-role="riding grip contact" d="M248 120 Q290 122 302 135" fill="none" stroke="#31505b" stroke-width="8"/>
 <rect data-role="obstruction" x="194" y="138" width="60" height="45" rx="8" fill="#6d7780"/>
+<circle data-role="diagnostic-under-repair residual-defect" cx="89" cy="18" r="5" fill="#c2185b"/>
 </svg>

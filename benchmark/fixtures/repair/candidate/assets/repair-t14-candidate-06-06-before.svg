@@ -14,6 +14,6 @@
 <circle data-role="eye" cx="284" cy="66" r="5" fill="#263238"/>
 <path data-role="gular pouch" d="M303 92 Q354 138 401 85 Q349 110 303 92 Z" fill="#f2aa72" stroke="#263238" stroke-width="4"/>
 <path data-role="wing" d="M182 102 Q219 75 250 120 Q211 148 182 102 Z" fill="#a9cbd0" stroke="#263238" stroke-width="5"/>
-<path data-role="foot pedal contact" d="M206 151 L214 192 L193 227" fill="none" stroke="#263238" stroke-width="8"/>
+<path data-role="foot pedal contact" d="M206 151 L214 192 L158 215" fill="none" stroke="#263238" stroke-width="8"/>
 <path data-role="riding grip contact" d="M248 120 Q290 122 302 135" fill="none" stroke="#263238" stroke-width="8"/>
 </svg>

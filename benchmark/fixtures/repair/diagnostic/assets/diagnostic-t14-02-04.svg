@@ -16,5 +16,5 @@
 <path data-role="wing" d="M169 115 Q206 88 237 133 Q198 161 169 115 Z" fill="#a9cbd0" stroke="#283b42" stroke-width="5"/>
 <path data-role="foot pedal contact" d="M193 164 L201 205 L219 247" fill="none" stroke="#283b42" stroke-width="8"/>
 <path data-role="riding grip contact" d="M235 133 Q277 135 298 148" fill="none" stroke="#283b42" stroke-width="8"/>
-<circle data-role="boundary-artifact" cx="18" cy="18" r="2" fill="#c2185b"/>
+<circle data-role="diagnostic-decision-boundary" cx="23" cy="18" r="2" fill="#c2185b"/>
 </svg>

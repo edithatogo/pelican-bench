@@ -25,3 +25,7 @@ def test_diagnostics_are_balanced_and_non_normative() -> None:
 def test_diagnostic_resolution_rejects_candidate_path() -> None:
     with pytest.raises(ValueError, match="prefix invalid"):
         MODULE.resolve(Path("benchmark/fixtures/repair/candidate/manifest.json"))
+
+
+def test_diagnostic_semantics_and_candidate_non_overlap() -> None:
+    assert MODULE.main() == 0

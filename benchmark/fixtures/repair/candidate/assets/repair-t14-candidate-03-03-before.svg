@@ -6,7 +6,7 @@
 <path data-role="frame" d="M110 250 L211 250 Q229 223 274 188 L312 250" fill="none" stroke="#e0693e" stroke-width="10"/>
 <path data-role="handlebar" d="M264 188 L292 145 L320 145" fill="none" stroke="#31505b" stroke-width="8"/>
 <circle data-role="pedal" cx="211" cy="250" r="13" fill="#e0693e" stroke="#31505b" stroke-width="5"/>
-<path data-role="frame-damaged" d="M160 192 L200 188 M222 188 L264 188" stroke="#e0693e" stroke-width="10"/>
+<path data-role="frame-damaged" d="M160 192 L182 188 M240 188 L264 188" stroke="#e0693e" stroke-width="10"/>
 <ellipse data-role="animal body pelican" cx="201" cy="128" rx="66" ry="49" fill="#f4e7a1" stroke="#31505b" stroke-width="6"/>
 <circle data-role="animal head" cx="261" cy="88" r="34" fill="#f4e7a1" stroke="#31505b" stroke-width="6"/>
 <path data-role="bill" d="M289 79 L391 96 L291 106 Z" fill="#e0693e" stroke="#31505b" stroke-width="5"/>

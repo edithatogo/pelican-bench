@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320">
 <rect width="480" height="320" fill="#ffffff"/>
 <path data-role="ground" d="M20 277 L460 279" stroke="#c8d4d8" stroke-width="5"/>
+<path data-role="component-damaged" d="M297 240 A48 48 0 0 1 321 216" fill="none" stroke="#31505b" stroke-width="9"/>
 <circle data-role="rear-wheel" cx="137" cy="240" r="48" fill="none" stroke="#31505b" stroke-width="9"/>
 <path data-role="frame" d="M137 240 L229 240 Q247 213 283 178 L321 240" fill="none" stroke="#e0693e" stroke-width="10"/>
 <path data-role="handlebar" d="M273 178 L301 135 L329 135" fill="none" stroke="#31505b" stroke-width="8"/>

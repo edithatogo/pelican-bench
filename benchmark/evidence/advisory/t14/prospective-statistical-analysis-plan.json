@@ -3,6 +3,15 @@
   "status": "prospective-advisory-not-frozen",
   "track_id": "T14",
   "purpose": "Synthetic-only preparation for a later steward-approved calibration freeze.",
+  "bindings": {
+    "method": "sha256-over-exact-file-bytes; plan excluded to avoid circularity",
+    "candidate_manifest_sha256": "f34e89a0ef03848c9b68fc3a2249e2fec3978bec938100ff35dfa85cfc891ca7",
+    "implementation_source_sha256": {
+      "scripts/analyze_t14_prospective_statistics.py": "45a44442ed3362a89a2ee0a7b86b2ed3bc44db03a0762fe7f0ce5828aacffa20",
+      "scripts/validate_t14_prospective_statistics.py": "9fd832389ce0b0d81c17b3fea40428d65dde14751be8ae8d907789d3ab860d63",
+      "src/pelicanbench/t14_statistics.py": "465948bd9666f56b51b861e7cc2e5bedbc60d37cf1d0ca91db8ca2bba9415e0a"
+    }
+  },
   "prohibitions": [
     "human-rating-substitution",
     "normative-sample-freeze",
@@ -43,14 +52,17 @@
     "maximum_invalid_or_omitted_fraction": 0.05
   },
   "analysis": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260829,
     "primary_uncertainty": "scene-cluster-bootstrap-stratified-by-partition",
     "sensitivity": [
       "leave-one-scene-cluster-out",
-      "exact-or-randomisation-inference-when-prespecified",
+      "randomisation-sensitivity: absolute Spearman of scene-cluster mean score and outcome; exchangeability unit scene-cluster; exact enumeration when cluster-count factorial <=100000, otherwise 10000 Monte Carlo permutations with seed 20260829 and plus-one p-value",
       "conservative-invalid-as-failure"
     ],
     "severity_effect_policy": "estimate-only-when-severity-is-crossed-with-every-defect-family",
     "held_out_policy": "open-once-after-development-model-and-thresholds-are-locked",
+    "degenerate_bootstrap_policy": "report requested, valid and one-class-or-nonfinite replicate counts over the requested denominator; any degenerate replicate makes the interval non-evaluable and fails closed",
     "duplicates": "estimate-test-retest-only-and-never-increase-independent-sample-size",
     "single_rater": "do-not-claim-inter-rater-agreement-or-independent-human-validation"
   },
