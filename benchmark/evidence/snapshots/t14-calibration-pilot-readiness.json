@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "study_id": "t14-human-calibration-pilot",
-  "repository_revision": "19e43a7",
+  "repository_revision": "8eb9eced059dc3bfda6b7a7999ea67ff3fe4611f",
   "status": "candidate-prepared-not-frozen",
   "authorization": "D039",
   "decision_maker": "benchmark-steward",
@@ -51,7 +51,7 @@
     "diagnostic_manifest": "benchmark/fixtures/repair/diagnostic/manifest.json",
     "diagnostic_manifest_sha256": "ae53d75ac351a00394222494eb7d8fa1779044138ddab2d26bdc70edd8a0a2e2",
     "prospective_analysis_plan": "benchmark/evidence/advisory/t14/prospective-statistical-analysis-plan.json",
-    "prospective_analysis_plan_sha256": "875978de0e60dd75e02dd94b056f822f4124a0e195d159fe072725d57efa7363",
+    "prospective_analysis_plan_sha256": "2890555deaf694acad8f7c17b04daa5c0296b73495f48b558441fdd186f9df02",
     "diagnostics_normative_eligible": false,
     "freeze_requires_fresh_steward_decision": true,
     "human_ratings_authorized": false,

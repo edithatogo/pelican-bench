@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "status": "observed-local-prefreeze-lock",
   "observed_at": "2026-08-29T00:22:51Z",
-  "repository_revision": "19e43a7",
+  "repository_revision": "8eb9ece",
   "canonical_render": {
     "method": "render_svg-v1",
     "canvas_px": 512,
