@@ -472,3 +472,13 @@ empirical calibration, independent custody, E3 evidence, or E4 reproduction.
 **Amendment rule:** changing any frozen commitment requires a new prospective version, new
 custody artifacts, new panel review, and a separate steward decision. Changes after outcome
 exposure additionally require sensitivity analysis or a fresh validation wave.
+
+## Test-only T14 repository delivery
+
+The autonomous repository-delivery goal permits committing, opening PRs, checking CI and
+merging ordinary repository work. Deliver synthetic storage/allocation helpers separately
+from interface assets, unreleased diagnostic results and controlled study material. Keep
+the helpers outside the shipped package, with no participant endpoint or asset reader.
+This implementation choice does not amend D044 or exercise scientific/publication gates.
+The user remains decision-maker rather than a required rater; agent advice remains synthetic
+and non-independent. See `docs/t14-synthetic-contract-tests.md` for scope and limitations.

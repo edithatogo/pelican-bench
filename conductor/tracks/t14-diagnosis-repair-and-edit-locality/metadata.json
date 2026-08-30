@@ -1,5 +1,5 @@
 {
-  "blocker": "D044 freezes the exact T14 bytes as procedural, non-independent E2 preparation. Ratings remain unauthorized. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, release, publication, and unblinding remain outstanding.",
+  "blocker": "D044 freezes the exact T14 bytes as procedural, non-independent E2 preparation. The user is not a required rater; synthetic advisory work cannot replace human or independent evidence. Test-only repository delivery does not authorize ratings, a new freeze or public interface exposure. Human ratings, empirical calibration, external scorer challenge, witnessed independent recovery, score promotion, attestation, release, publication, and unblinding remain outstanding.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "benchmark/fixtures/repair",
@@ -69,7 +69,12 @@
     "src/pelicanbench/t14_rating.py",
     "scripts/t14_frozen_steward_app.py",
     "tests/test_t14_rating.py",
-    "docs/t14-post-freeze-runbooks.md"
+    "docs/t14-post-freeze-runbooks.md",
+    "docs/t14-synthetic-contract-tests.md",
+    "tests/contract/t14_storage_fixture.py",
+    "tests/contract/test_t14_storage_fixture.py",
+    "tests/contract/t14_allocation_fixture.py",
+    "tests/contract/test_t14_allocation_fixture.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -94,5 +99,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-29T06:34:00Z"
+  "updated_at": "2026-08-30T06:47:35Z"
 }

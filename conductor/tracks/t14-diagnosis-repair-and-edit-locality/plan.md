@@ -2,16 +2,14 @@
 
 ## Decision and review protocol
 
-T14 has one human decision-maker: the benchmark steward (the user). Every
-human-dependent choice is prepared as a redacted, hash-bound decision packet and sent to
-a panel of separately run agents for independent analysis. The panel returns its findings,
-options, risks, and recommendation to the benchmark steward, who makes the decision and
-records the rationale. Under D041, steward action is deferred for the current work period:
-agents own repository preparation, intake checks, and draft analysis, while the
-steward-rating packet remains a later roadmap item. Agents may not make the final normative
-decision, approve a release, or represent synthetic agent ratings as human-judgement
-evidence. A decision remains pending until the steward's recorded response is attached to
-the packet.
+T14 retains the benchmark steward (the user) as decision-maker, not as a required rater.
+The user's later instruction removes personal ratings from the forward plan; historical
+decisions and evidence remain intact. Role-separated agents prepare options and synthetic
+advice, which is non-independent and non-normative. They cannot supply human ratings,
+make final normative decisions or approve release. Repository PR and merge authority does
+not authorize a new freeze, public interface exposure, participant collection, analysis,
+unblinding, promotion, attestation or publication. Exact scientific and disclosure decisions
+remain separately gated. Do not transfer historical sole-steward authority to participants.
 
 ## P0 Contract
 
@@ -104,6 +102,12 @@ the packet.
 
 **Phase state:** `partial`
 
+- [~] Deliver test-only synthetic storage and allocation contract experiments without
+  exposing the separately retained interface or diagnostic results. Evidence:
+  `docs/t14-synthetic-contract-tests.md`, `tests/contract/t14_storage_fixture.py`,
+  `tests/contract/test_t14_storage_fixture.py`, `tests/contract/t14_allocation_fixture.py`,
+  `tests/contract/test_t14_allocation_fixture.py`. Exact-head hosted validation is pending.
+
 - [x] Task: Meet stable performance, fuzzing, security and supply-chain budgets. Evidence: `docs/t14-hardening.md`, `src/pelicanbench/render.py`, `src/pelicanbench/repair.py`, `src/pelicanbench/fuzzing.py`, `scripts/harness.sh`; full harness (`HARNESS_OK`). Commit: `00dd5ce`.
 - [x] Task: Complete bridge, migration and deprecation policy. Evidence: `docs/t14-lifecycle.md`; `render-repair-v1` compatibility and bridge requirements. Commit: `dfc4b9c`.
 - [x] Task: Validate operational ownership, incident response and archival. Evidence: `docs/t14-incident-runbook.md`, `benchmark/evidence/snapshots/t14-operations.json`; commit: `b959cb4`.
@@ -111,7 +115,10 @@ the packet.
 
 ### Later roadmap
 
-- [ ] Reopen the steward-rating and decision packet after the agent panel has prepared and
-  validated the prespecified 72/24 sample. Only the benchmark steward may submit the
-  hash-bound human ratings and make the normative/release decision; agent outputs cannot
-  satisfy that gate.
+- [ ] Prepare a separately versioned participant workflow after prospective asset, protocol,
+  custody and consent decisions. The user is not a required rater. Historical sole-steward
+  rating authority does not transfer to participants, and D044 remains unchanged.
+- [!] Recruit or collect human ratings only after explicit operator, private-storage,
+  publication and collection approvals. Synthetic advisers cannot supply human evidence.
+- [!] Keep analysis, unblinding, promotion, attestation and release/publication subject to
+  separate steward decisions. Repository delivery does not exercise those authorities.
