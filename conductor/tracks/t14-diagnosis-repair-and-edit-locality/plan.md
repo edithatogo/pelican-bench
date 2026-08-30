@@ -115,7 +115,10 @@ remain separately gated. Do not transfer historical sole-steward authority to pa
 
 ### Later roadmap
 
-- [ ] Reopen the steward-rating and decision packet after the agent panel has prepared and
-  validated the prespecified 72/24 sample. Only the benchmark steward may submit the
-  hash-bound human ratings and make the normative/release decision; agent outputs cannot
-  satisfy that gate.
+- [ ] Prepare a separately versioned participant workflow after prospective asset, protocol,
+  custody and consent decisions. The user is not a required rater. Historical sole-steward
+  rating authority does not transfer to participants, and D044 remains unchanged.
+- [!] Recruit or collect human ratings only after explicit operator, private-storage,
+  publication and collection approvals. Synthetic advisers cannot supply human evidence.
+- [!] Keep analysis, unblinding, promotion, attestation and release/publication subject to
+  separate steward decisions. Repository delivery does not exercise those authorities.
