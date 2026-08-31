@@ -1,0 +1,51 @@
+{
+  "allowlist": [
+    "README.md",
+    "index.html",
+    "style.css"
+  ],
+  "authority_effect": {
+    "attestation": false,
+    "collection": false,
+    "consent": false,
+    "deployment": false,
+    "freeze": false,
+    "human_study_selection": false,
+    "promotion": false,
+    "publication": false,
+    "release": false,
+    "response_analysis": false,
+    "unblinding": false
+  },
+  "content_scope": "inactive instructions and non-study assets; no answers or study assignments",
+  "destination": null,
+  "files": [
+    {
+      "bytes": 2304,
+      "path": "README.md",
+      "sha256": "69ae00e09f682024537637fb35b0a2e69a4302fc5ac68bb853a9524a9eec5f8f"
+    },
+    {
+      "bytes": 7585,
+      "path": "index.html",
+      "sha256": "fc4831dc8d2a1d0c8a5ef4fe0f1aabf8d532dcf3325daa2423217c31c8417b52"
+    },
+    {
+      "bytes": 1170,
+      "path": "style.css",
+      "sha256": "f0bf4ab2059d3c549962bc5778c469ac428d1aa83dee4e13b760a9c9f7f844c9"
+    }
+  ],
+  "generator_sha256": "5671ff4b8bc6afb0d028087d24cc7b096196a2a69a1ba683d1e1d7cf089a5d32",
+  "limits": [
+    "Hashes identify reviewed bytes; they do not confer approval or establish safety.",
+    "The package remains inactive; no hosted destination or publication function exists.",
+    "Manifest stays outside the public package and is not itself on the upload allowlist.",
+    "No human usability, native zoom, screen-reader or hosted-delivery claim follows."
+  ],
+  "package_version": "t14-workflow-preview-v2",
+  "rights_basis": "project-original workflow text and non-study toy drawings",
+  "schema_version": "t14-inactive-workflow-preview-v2-manifest-v1",
+  "status": "local exact-package preparation; approval pending",
+  "total_bytes": 11059
+}
