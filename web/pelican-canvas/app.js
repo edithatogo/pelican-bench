@@ -6,7 +6,8 @@ const ALLOWED_ATTRIBUTES = new Set([
   'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height',
   'd', 'points', 'fill', 'stroke', 'stroke-width', 'transform', 'class', 'data-role', 'aria-label',
 ]);
-const LIMITS = Object.freeze({elements: 2000, action: 32768, value: 8192, text: 4096, id: 128});
+// String budgets count UTF-16 code units, not transport bytes or renderer work.
+const LIMITS = Object.freeze({elements: 2000, action: 32768, value: 8192, text: 4096, id: 128, state: 1048576});
 const canvas = document.querySelector('#canvas');
 const state = document.querySelector('#state');
 const errorMessage = document.createElement('p');
@@ -64,6 +65,10 @@ function sanitize(value, partial = false) {
 function commit(next, nextSteps) {
   // Construct detached nodes before mutating canvas, accepted map or step counter.
   const ordered = [...next.entries()].sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0);
+  // Per-action limits alone allow cumulative attribute updates to exhaust memory.
+  // Reject the aggregate snapshot before creating any new SVG nodes.
+  const snapshot = JSON.stringify({elements: Object.fromEntries(ordered), steps: nextSteps}, null, 2);
+  if (snapshot.length > LIMITS.state) throw new Error('state size limit exceeded');
   const nodes = ordered.map(([id, spec]) => {
     const node = document.createElementNS('http://www.w3.org/2000/svg', spec.tag);
     node.id = `pelican-element-${id}`;
@@ -71,7 +76,6 @@ function commit(next, nextSteps) {
     node.textContent = spec.text || '';
     return node;
   });
-  const snapshot = JSON.stringify({elements: Object.fromEntries(ordered), steps: nextSteps}, null, 2);
   canvas.replaceChildren(...nodes);
   elements = next;
   steps = nextSteps;

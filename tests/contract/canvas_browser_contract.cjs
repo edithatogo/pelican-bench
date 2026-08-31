@@ -29,7 +29,7 @@ function fixture() {
     const accepted = vm.runInContext('JSON.stringify({elements: [...elements], steps})', context);
     return JSON.stringify({text: nodes.state.textContent, canvas: nodes.canvas.children, accepted});
   }
-  return {nodes, context, send, snapshot, fail() { failCreate = true; }};
+  return {nodes, context, send, snapshot, fail(value = true) { failCreate = value; }};
 }
 const add = (id = 'wheel', attributes = {cx: 20, cy: 20, r: 10}) => ({type: 'add', id, element: {tag: 'circle', attributes}});
 const f = fixture();
@@ -92,4 +92,37 @@ const beforeLimit = bounded.snapshot();
 bounded.send(add('overflow'));
 assert.equal(bounded.snapshot(), beforeLimit);
 assert.match(bounded.nodes.state.previous.textContent, /element limit/);
+// Repeated valid actions must not grow the rendered/state-text payload without
+// an aggregate budget. Build an already-sanitized near-limit fixture directly.
+const aggregate = fixture();
+vm.runInContext(`
+  const budget = 1048576;
+  const entries = Array.from({length: 128}, (_, i) => ['a' + String(i).padStart(3, '0'),
+    {tag: 'circle', attributes: {'aria-label': 'x'.repeat(8192)}}]);
+  const size = value => JSON.stringify({elements: Object.fromEntries(value), steps: 128}, null, 2).length;
+  while (size(entries) > budget) entries.pop();
+  const spare = budget - size(entries);
+  entries[0][1].text = 'x'.repeat(spare - 18);
+  // Adjust the final field to land at the exact inclusive budget.
+  entries[0][1].text += 'x'.repeat(budget - size(entries));
+  if (entries[0][1].text.length > 4096) throw new Error('fixture text exceeds input limit');
+  commit(new Map(entries), 128);
+`, aggregate.context);
+assert.equal(aggregate.nodes.state.textContent.length, 1048576);
+for (const action of [add('overflow'), {type: 'update', id: 'a001', changes: {text: 'extra'}}]) {
+  const before = aggregate.snapshot();
+  const children = aggregate.nodes.canvas.children;
+  aggregate.fail(); // Oversize rejection must precede detached-node construction.
+  aggregate.send(action);
+  assert.equal(aggregate.snapshot(), before);
+  assert.equal(aggregate.nodes.canvas.children, children);
+  assert.match(aggregate.nodes.state.previous.textContent, /state size limit/);
+}
+aggregate.fail(false);
+aggregate.send({type: 'delete', id: 'a001'});
+assert.equal(JSON.parse(aggregate.nodes.state.textContent).steps, 129);
+assert.ok(aggregate.nodes.state.textContent.length < 1048576);
+assert.equal(aggregate.nodes.state.previous.textContent, '');
+aggregate.nodes.reset.events.click();
+assert.equal(JSON.parse(aggregate.nodes.state.textContent).steps, 0);
 console.log(`CANVAS_BROWSER_CONTRACT_OK: ${rejected.length} rejected actions; positive CRUD, reset, bounds and atomic render verified`);
