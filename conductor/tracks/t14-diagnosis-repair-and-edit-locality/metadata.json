@@ -74,7 +74,11 @@
     "tests/contract/t14_storage_fixture.py",
     "tests/contract/test_t14_storage_fixture.py",
     "tests/contract/t14_allocation_fixture.py",
-    "tests/contract/test_t14_allocation_fixture.py"
+    "tests/contract/test_t14_allocation_fixture.py",
+    "docs/code-only-delivery-20260831.md",
+    "benchmark/preparation/t14-workflow-preview-v2-manifest.json",
+    "scripts/build_t14_workflow_preview_bundle.py",
+    "tests/contract/test_t14_import_transport_fixture.py"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -99,5 +103,5 @@
   "title": "Diagnosis, repair and edit locality",
   "track_id": "T14",
   "type": "programme",
-  "updated_at": "2026-08-30T06:47:35Z"
+  "updated_at": "2026-08-31T00:00:00Z"
 }

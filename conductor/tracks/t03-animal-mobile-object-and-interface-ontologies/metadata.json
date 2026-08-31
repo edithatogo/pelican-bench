@@ -1,5 +1,5 @@
 {
-  "blocker": "Formal JSON-LD/SHACL/competency and namespace-governance contracts are E2, but normative SHACL execution, w3id registration, expert ontology review, and empirical annotation validation remain outstanding.",
+  "blocker": "JSON-LD, genuine execution of existing SHACL shapes, competency and namespace-governance contracts are E2. Registration of w3id, expert ontology review and empirical annotation validation remain outstanding; engine execution does not authorize normative release.",
   "created_at": "2026-08-01T00:00:00Z",
   "evidence": [
     "benchmark/ontologies",
@@ -10,7 +10,10 @@
     "benchmark/ontologies/interoperability-profile.json",
     "src/pelicanbench/interoperability.py",
     "docs/ontology-roadmap.md",
-    "tests/test_ecosystem_publication_verification.py"
+    "tests/test_ecosystem_publication_verification.py",
+    "scripts/validate_ontology_shacl.py",
+    "tests/contract/test_ontology_shacl_runner.py",
+    "docs/code-only-delivery-20260831.md"
   ],
   "evidence_definition": "fixture-verified",
   "evidence_level": "E2",
@@ -35,5 +38,5 @@
   "title": "Animal, mobile-object and interface ontologies",
   "track_id": "T03",
   "type": "programme",
-  "updated_at": "2026-08-01T00:00:00Z"
+  "updated_at": "2026-08-31T00:00:00Z"
 }

@@ -1,5 +1,15 @@
 # Decision log
 
+## Code-only GitHub delivery, 2026-08-31
+
+The user authorized a pull request, exact-head Actions verification and merge.
+A fresh branch from public main isolates reusable engineering from private study
+preparation. Only an inactive, non-study toy preview and closed synthetic imports
+accompany the code fixes. No private branch history, fresh candidate assets or
+allocation maps are pushed. HF hosting, collection, unblinding, normative promotion,
+attestation and release remain separate gates. Evidence:
+`docs/code-only-delivery-20260831.md`. No test budget or coverage threshold is relaxed.
+
 ## D001 — Pelican-on-a-bike is the heritage anchor, not the primary leaderboard
 
 **Options:** exact prompt only; weighted anchor; dynamic suite with anchor reported separately.

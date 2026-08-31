@@ -1,5 +1,14 @@
 # Implementation plan
 
+## Code-only engineering delivery, 2026-08-31
+
+- [x] Validate reusable canvas, longitudinal, explorer and ontology checks plus the
+  inactive toy preview/import boundary on a fresh public-main-based branch.
+  Exclude fresh study candidates, allocation maps and private preparation history.
+  Evidence: `docs/code-only-delivery-20260831.md`. Functional head: `08a8402`.
+  Hosted checks passed at `359fee7`. Fresh exact-head checks are required before
+  the user-authorized merge of any later closeout commit.
+
 ## Decision and review protocol
 
 T14 retains the benchmark steward (the user) as decision-maker, not as a required rater.

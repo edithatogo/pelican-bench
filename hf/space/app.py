@@ -1,25 +1,16 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import gradio as gr
 
 try:
-    from pelicanbench.scoring import score_svg
-    from pelicanbench.taskgen import heritage_task
+    from pelicanbench.explorer import evaluate
 except ImportError:
     import sys
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
-    from pelicanbench.scoring import score_svg
-    from pelicanbench.taskgen import heritage_task
-
-
-def evaluate(svg: str) -> tuple[str, str]:
-    card = score_svg(heritage_task(), svg, submission_id="interactive")
-    summary = f"Aggregate: {card.aggregate:.3f} | Critical success: {card.valid}"
-    return summary, json.dumps(card.model_dump(mode="json"), indent=2)
+    from pelicanbench.explorer import evaluate
 
 
 with gr.Blocks(title="PelicanBench Explorer") as demo:
