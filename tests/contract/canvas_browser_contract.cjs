@@ -42,6 +42,8 @@ assert.equal(f.nodes.canvas.children[0].id, 'pelican-element-wheel');
 assert.equal(JSON.parse(f.nodes.state.textContent).steps, 2);
 const rejected = [
   null, [], 2, '{', {type: 'undo'}, {type: '__proto__'}, add(), add(''), add('x'.repeat(129)),
+  {type: ['add'], id: 'wheel'}, {type: ['update'], id: 'wheel'}, {type: ['delete'], id: 'wheel'},
+  {type: {}, id: 'wheel'}, {type: null, id: 'wheel'}, {type: 1, id: 'wheel'}, {type: true, id: 'wheel'},
   add('x y'), add('__proto__'), {...add('other'), unexpected: true},
   {type: 'delete', id: 'missing'}, {type: 'update', id: 'missing', changes: {}},
   {type: 'add', id: 'x', element: null}, {type: 'add', id: 'x', element: {tag: 'circle', attributes: []}},

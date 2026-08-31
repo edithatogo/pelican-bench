@@ -81,7 +81,7 @@ function commit(next, nextSteps) {
 function apply(action) {
   object(action);
   const allowed = {add: ['type', 'id', 'element'], update: ['type', 'id', 'changes'], delete: ['type', 'id']};
-  if (!Object.hasOwn(allowed, action.type)) throw new Error('unsupported action');
+  if (typeof action.type !== 'string' || !Object.hasOwn(allowed, action.type)) throw new Error('unsupported action');
   fields(action, allowed[action.type]);
   const id = identifier(action.id);
   const next = new Map(elements);
