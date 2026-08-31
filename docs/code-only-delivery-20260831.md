@@ -44,7 +44,20 @@ Focused review covers source isolation, dependencies and fail-closed behavior.
 Earlier full-local preparation runs and their failures remain retained locally;
 they are not presented as successful tests of this delivery branch. Previous
 timing failures are not waived: budgets, benchmark seeds and coverage thresholds
-remain unchanged. Full validation and exact-head hosted checks are pending.
+remain unchanged. On `359fee7b058e68ac944fffb13c08b370e3ac0338`, all applicable
+PR checks passed, including patch coverage, renderer bridge and the full Python
+harness in [CI run 33384047498](https://github.com/edithatogo/pelican-bench/actions/runs/33384047498).
+The schedule/manual-only full mutation job was intentionally skipped, not executed.
+The local main suite passed 650 tests with three explicit optional-dependency skips
+and 90.13% coverage; both local fuzz lanes passed unchanged budgets. Later local
+harness lanes were still running when this record was prepared, so this is not a
+claim of local `HARNESS_OK`. Any subsequent commit requires fresh hosted checks
+before merge.
+
+The hosted genuine-SHACL receipt validates seven ontology exports, 76 concepts,
+22 relations and 1,621 triples; all six negative fixtures were rejected. The
+unchanged shape hash is
+`6c68cfa5b94022c733d89ad4a5ebdbc3343cf8c7afcbe4e5f6125d9cbab51054`.
 
 SHACL evidence remains limited to existing shape semantics: identifiers and feature
 tiers. No expert agreement, namespace registration or independent reproduction is

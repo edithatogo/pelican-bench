@@ -2,11 +2,12 @@
 
 ## Code-only engineering delivery, 2026-08-31
 
-- [~] Validate reusable canvas, longitudinal, explorer and ontology checks plus the
+- [x] Validate reusable canvas, longitudinal, explorer and ontology checks plus the
   inactive toy preview/import boundary on a fresh public-main-based branch.
   Exclude fresh study candidates, allocation maps and private preparation history.
   Evidence: `docs/code-only-delivery-20260831.md`. Functional head: `08a8402`.
-  Exact-head GitHub checks are required before the user-authorized merge.
+  Hosted checks passed at `359fee7`. Fresh exact-head checks are required before
+  the user-authorized merge of any later closeout commit.
 
 ## Decision and review protocol
 
