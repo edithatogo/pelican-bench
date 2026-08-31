@@ -39,18 +39,19 @@ def metric_trends(observations: Iterable[HistoricalObservation]) -> list[Trend]:
             metrics[key].append(value)
     output: list[Trend] = []
     for metric, series in sorted(metrics.items()):
+        series_mean = mean(series)
         if len(series) < 2:
             slope = 0.0
         else:
             x_mean = (len(series) - 1) / 2
             denominator = sum((index - x_mean) ** 2 for index in range(len(series)))
             slope = (
-                sum((index - x_mean) * (value - mean(series)) for index, value in enumerate(series))
+                sum((index - x_mean) * (value - series_mean) for index, value in enumerate(series))
                 / denominator
                 if denominator
                 else 0.0
             )
-        output.append(Trend(metric, len(series), series[0], series[-1], slope, mean(series)))
+        output.append(Trend(metric, len(series), series[0], series[-1], slope, series_mean))
     return output
 
 
