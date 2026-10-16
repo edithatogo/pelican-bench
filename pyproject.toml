@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.27"]
+requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
 [project]
@@ -7,7 +7,7 @@ name = "pelicanbench"
 version = "0.4.0a1"
 description = "A longitudinal, compositional and agentic visual-generation benchmark."
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = "==3.15.0"
 license = {text = "Apache-2.0"}
 authors = [{name = "Dylan Mordaunt"}]
 keywords = ["benchmark", "multimodal", "svg", "agentic-drawing", "evaluation"]
@@ -19,29 +19,29 @@ classifiers = [
 ]
 dependencies = [
   "cairosvg>=2.9",
-  "defusedxml>=0.7.1",
-  "jsonschema>=4.26",
-  "numpy>=2.5",
-  "pillow>=12.3",
-  "pydantic>=2.10",
-  "typer>=0.27",
+  "defusedxml==0.7.1",
+  "jsonschema==4.26.0",
+  "numpy==2.5.2",
+  "pillow==12.3.0",
+  "pydantic==2.13.4",
+  "typer==0.27.1",
 ]
 
 [project.optional-dependencies]
-analysis = ["pandas>=3.0", "scipy>=1.18", "statsmodels>=0.14"]
-hub = ["datasets>=5.0", "huggingface-hub>=1.28", "gradio>=6.25"]
+analysis = ["pandas==3.0.5", "scipy==1.18.1", "statsmodels==0.14.6"]
+hub = ["datasets==5.0.1", "huggingface-hub==1.28.0", "gradio==6.25.0"]
 image = []
 dev = [
   "coverage[toml]>=7.15",
   "hypothesis>=6.165",
-  "basedpyright>=1.39",
+  "basedpyright==1.39.10",
   "pytest>=9.1",
   "pytest-cov>=7.1",
   "pytest-randomly>=3.16",
   "pytest-timeout>=2.3",
   "pytest-xdist>=3.6",
   "ruff>=0.16",
-  "ty>=0.0.74",
+  "ty==0.0.74",
 ]
 mutation = [
   "mutmut>=3.7",
