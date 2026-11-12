@@ -5,7 +5,7 @@ Control state is deliberately outside response snapshots. Its loss must fail clo
 """
 
 import sqlite3
-from collections.abc import Iterator
+from collections.abc import Generator
 from contextlib import closing, contextmanager
 from pathlib import Path
 from uuid import uuid4
@@ -53,7 +53,7 @@ class SyntheticStore:
             """)
 
     @contextmanager
-    def connect(self) -> Iterator[sqlite3.Connection]:
+    def connect(self) -> Generator[sqlite3.Connection, None, None]:
         """Never recreate a missing database. Always close even on rollback or failure."""
         with closing(sqlite3.connect(self.path.as_uri() + "?mode=rw", uri=True, timeout=0.2)) as db:
             db.execute("ATTACH DATABASE ? AS control", (self.control.as_uri() + "?mode=rw",))
