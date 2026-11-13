@@ -53,7 +53,7 @@ class SyntheticStore:
             """)
 
     @contextmanager
-    def connect(self) -> Generator[sqlite3.Connection, None, None]:
+    def connect(self) -> Generator[sqlite3.Connection]:
         """Never recreate a missing database. Always close even on rollback or failure."""
         with closing(sqlite3.connect(self.path.as_uri() + "?mode=rw", uri=True, timeout=0.2)) as db:
             db.execute("ATTACH DATABASE ? AS control", (self.control.as_uri() + "?mode=rw",))
