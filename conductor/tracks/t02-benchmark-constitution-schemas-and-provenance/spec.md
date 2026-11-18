@@ -59,3 +59,12 @@ Shared schema and provenance contracts in T02; governance and workflow in T00; r
 ## Out of scope
 
 Unreviewed production claims, hidden paid execution and silent changes to public benchmark meaning.
+
+## Serde applicability audit — 18 November 2026
+
+`pelican-core` currently exposes native benchmark structures without a Serde dependency; `pelican-svg` depends on the core. Existing schemas, SVG, provenance and benchmark evaluation do not imply a need for a new Rust serialization framework. **No Serde adoption at present.** Serde cannot replace SVG encoding, human-judged evaluation, statistical scoring or provenance verification.
+
+- [ ] At a real Rust benchmark-runner/API input/output boundary, first pin an independently consumed, versioned DTO and check if the existing representation is sufficient.
+- [ ] If a concrete Rust consumer requires JSON, compare Serde-derived DTOs behind a separate optional adapter with the current format and avoid adding Serde to the minimal scoring core.
+- [ ] Validate malformed/oversize inputs, schema versions, exact IDs and content hashes, SVG/source lineage and scorer claims with independent corpus tests. A JSON round trip is not an assessment of drawing or scientific scoring quality.
+- [ ] Record a no-go without creating a new dependency if no consumer exists; no evidence or prior track completion changes from this note.
