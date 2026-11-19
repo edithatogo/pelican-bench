@@ -1,12 +1,12 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.14"
 resolution-markers = [
     "python_full_version >= '3.15' and sys_platform == 'win32'",
-    "python_full_version < '3.15' and sys_platform == 'win32'",
     "python_full_version >= '3.15' and sys_platform == 'emscripten'",
-    "python_full_version < '3.15' and sys_platform == 'emscripten'",
     "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version < '3.15' and sys_platform == 'win32'",
+    "python_full_version < '3.15' and sys_platform == 'emscripten'",
     "python_full_version < '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 
@@ -1286,24 +1286,24 @@ mutation = [
 requires-dist = [
     { name = "basedpyright", marker = "extra == 'dev'", specifier = ">=1.39" },
     { name = "cairosvg", specifier = ">=2.9" },
-    { name = "coverage", extras = ["toml"], marker = "extra == 'dev'", specifier = ">=7.15" },
+    { name = "coverage", extras = ["toml"], marker = "extra == 'dev'", specifier = "==7.15.4" },
     { name = "datasets", marker = "extra == 'hub'", specifier = ">=5.0" },
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "gradio", marker = "extra == 'hub'", specifier = ">=6.25" },
     { name = "huggingface-hub", marker = "extra == 'hub'", specifier = ">=1.28" },
-    { name = "hypothesis", marker = "extra == 'dev'", specifier = ">=6.165" },
+    { name = "hypothesis", marker = "extra == 'dev'", specifier = "==6.165.10" },
     { name = "jsonschema", specifier = ">=4.26" },
-    { name = "mutmut", marker = "extra == 'mutation'", specifier = ">=3.7" },
+    { name = "mutmut", marker = "extra == 'mutation'", specifier = "==3.7.0" },
     { name = "numpy", specifier = ">=2.5" },
     { name = "pandas", marker = "extra == 'analysis'", specifier = ">=3.0" },
     { name = "pillow", specifier = ">=12.3" },
     { name = "pydantic", specifier = ">=2.10" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.1" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=7.1" },
-    { name = "pytest-randomly", marker = "extra == 'dev'", specifier = ">=3.16" },
-    { name = "pytest-timeout", marker = "extra == 'dev'", specifier = ">=2.3" },
-    { name = "pytest-xdist", marker = "extra == 'dev'", specifier = ">=3.6" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.16" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = "==9.1.1" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.1.0" },
+    { name = "pytest-randomly", marker = "extra == 'dev'", specifier = "==4.1.0" },
+    { name = "pytest-timeout", marker = "extra == 'dev'", specifier = "==2.4.0" },
+    { name = "pytest-xdist", marker = "extra == 'dev'", specifier = "==3.8.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = "==0.16.4" },
     { name = "scipy", marker = "extra == 'analysis'", specifier = ">=1.18" },
     { name = "statsmodels", marker = "extra == 'analysis'", specifier = ">=0.14" },
     { name = "ty", marker = "extra == 'dev'", specifier = ">=0.0.74" },
